@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <declare-styleable name="RippleView">
+        <attr name="rippleColor" format="color" />
+        <attr name="alphaFactor" format="float" />
+        <attr name="hover" format="boolean" />
+    </declare-styleable>
+
+    <!-- 自定义ToggleButton -->
+    <declare-styleable name="ToggleButton">
+        <attr name="borderWidth" format="dimension" />
+        <attr name="offBorderColor" format="reference|color" />
+        <attr name="offColor" format="reference|color" />
+        <attr name="onColor" format="reference|color" />
+        <attr name="spotColor" format="reference|color" />
+        <attr name="animate" format="reference|boolean" />
+    </declare-styleable>
+
+
+	<declare-styleable name="CircularImageView">
+        <attr name="border" format="boolean"></attr>
+        <attr name="border_width" format="dimension"></attr>
+        <attr name="border_color" format="color"></attr>
+        <attr name="shadow" format="boolean"></attr>
+    </declare-styleable>
+   
+	
+    <declare-styleable name="Theme">
+        <attr name="circularImageViewStyle" format="reference"></attr>
+    </declare-styleable>
+    
+    
+    
+    <declare-styleable name="TempImageView">
+        <attr name="animat_id" format="integer" />
+    </declare-styleable>
+    
+    
+    <declare-styleable name="FocusImageView">
+        <attr name="focus_focusing_id" format="integer" />
+        <attr name="focus_success_id" format="integer" />
+        <attr name="focus_fail_id" format="integer" />
+    </declare-styleable>
+    
+    
+	
+</resources>

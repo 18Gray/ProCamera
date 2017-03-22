@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/common_title_bg"
+     >
+     
+    
+    <LinearLayout 
+        android:id="@+id/ll_normal_popup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10dp"
+        >
+        
+        <ImageView 
+            android:id="@+id/iv_normal_popupwindow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/normal"
+            />
+        
+        <TextView 
+            android:id="@+id/tv_normal_popupwindow"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:gravity="center"
+	        android:layout_marginLeft="5dp"
+	        android:text="普通模式"
+	        android:textSize="16sp"
+	        android:textColor="@color/white_deep"
+	        />
+        
+    </LinearLayout>
+    
+    
+    
+    <LinearLayout 
+        android:id="@+id/ll_film_popup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10dp"
+        >
+        
+        <ImageView 
+            android:id="@+id/iv_film_popupwindow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/film_n"
+            />
+        
+        <TextView 
+            android:id="@+id/tv_film_popupwindow"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:gravity="center"
+	        android:layout_marginLeft="5dp"
+	        android:text="大片模式"
+	        android:textSize="16sp"
+	        android:textColor="@color/blue_light"
+	        />
+        
+        
+    </LinearLayout>
+    
+
+</LinearLayout>

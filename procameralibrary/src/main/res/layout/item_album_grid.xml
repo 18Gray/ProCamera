@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="86dip"
+    android:background="@android:color/transparent" >
+
+    <com.linj.album.view.FilterImageView
+        android:id="@+id/imgThumbnail"
+        android:layout_width="fill_parent"
+        android:layout_height="86dip"
+        android:adjustViewBounds="true"
+        android:background="@null"
+        android:scaleType="centerCrop" />
+
+    <ImageView
+        android:id="@+id/videoicon"
+        android:layout_width="40dip"
+        android:layout_height="40dip"
+        android:layout_gravity="center"
+        android:scaleType="fitXY"
+        android:src="@drawable/btn_play_vedio" />
+
+    <CheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="right"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="5dip"
+        android:background="@drawable/picture_setting_album_checkbox"
+        android:button="@null"
+        android:checked="false"
+        android:focusable="false"
+        android:visibility="gone" />
+
+</FrameLayout>

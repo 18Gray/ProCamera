@@ -1,0 +1,19 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical" >
+
+    <!-- 显示预览图形 -->
+
+    <com.eighteengray.procameralibrary.camera.CameraContainer
+        android:id="@+id/container_videorecord"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <include
+        android:id="@+id/camera_bottom_bar"
+         layout="@layout/videorecord_bottom_bar" />
+
+</RelativeLayout>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <com.linj.video.view.VideoPlayerView
+        android:id="@+id/videoPlayerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:id="@+id/llVideoDetailPlayerBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@color/video_playter_bg"
+        android:minHeight="40dip"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/btnVideoPlayOrPause"
+            android:layout_width="40dip"
+            android:layout_height="fill_parent"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:src="@drawable/video_detail_player_start" />
+
+        <RelativeLayout
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1.0" >
+
+            <TextView
+                android:id="@+id/tvVideoPlayTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:text="00:00"
+                android:textColor="@android:color/white"
+                android:textSize="13dip" />
+
+            <TextView
+                android:id="@+id/tvVideoPlayRemainTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="-00:00"
+                android:textColor="@android:color/white"
+                android:textSize="13dip" />
+
+            <SeekBar
+                android:id="@+id/sbVideoDetailPlayer"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dip"
+                android:layout_marginRight="3dip"
+                android:layout_toLeftOf="@id/tvVideoPlayRemainTime"
+                android:layout_toRightOf="@id/tvVideoPlayTime"
+                android:maxHeight="3dip"
+                android:minHeight="3dip"
+                android:progressDrawable="@drawable/progressbar_bg"
+                android:thumb="@drawable/progressbar_thumb_record_mix" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

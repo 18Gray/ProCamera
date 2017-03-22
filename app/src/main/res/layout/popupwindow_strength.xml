@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="110dp"
+    android:orientation="vertical" >
+
+    <!-- SeekBar -->
+
+    <SeekBar
+        android:id="@+id/seekBarSaturation"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:max="255"
+        android:progress="127"
+        android:progressDrawable="@drawable/progress_holo_light"
+        android:thumb="@drawable/detail_icon_schedule_ball" >
+    </SeekBar>
+
+    <SeekBar
+        android:id="@+id/seekBarDuibidu"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:max="255"
+        android:progress="127"
+        android:progressDrawable="@drawable/progress_holo_light"
+        android:thumb="@drawable/detail_icon_schedule_ball"
+        android:visibility="gone" >
+    </SeekBar>
+
+    <SeekBar
+        android:id="@+id/seekBarLight"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:max="255"
+        android:progress="127"
+        android:progressDrawable="@drawable/progress_holo_light"
+        android:thumb="@drawable/detail_icon_schedule_ball"
+        android:visibility="gone" >
+    </SeekBar>
+
+    <!-- 项目 -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+         >
+
+        <!-- 饱和度 -->
+        <LinearLayout
+            android:id="@+id/ll_baohedu_strength"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/baohedu" />
+
+            <TextView
+                android:id="@+id/tv_baohedu_strength"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginLeft="5dp"
+                android:text="饱和度"
+                android:textColor="@color/white_deep"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        
+        <View 
+            android:layout_width="1dp"
+            android:layout_height="25dp"
+            android:background="@color/white_deep"
+            />
+        
+        <!-- 对比度 -->
+        <LinearLayout
+            android:id="@+id/ll_duibidu_strength"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/duibidu" />
+            
+            <TextView
+                android:id="@+id/tv_duibidu_strength"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:gravity="center"
+                android:text="对比度"
+                android:textColor="@color/white_deep"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        
+        <View 
+            android:layout_width="1dp"
+            android:layout_height="25dp"
+            android:background="@color/white_deep"
+            />
+        
+        <!-- 亮度 -->
+        <LinearLayout
+            android:id="@+id/ll_liangdu_strength"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/liangdu" />
+            
+            
+            <TextView
+                android:id="@+id/tv_liangdu_strength"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:gravity="center"
+                android:text="亮	 度"
+                android:textColor="@color/white_deep"
+                android:textSize="14sp" />
+            
+        </LinearLayout>
+        
+    </LinearLayout>
+
+</LinearLayout>
