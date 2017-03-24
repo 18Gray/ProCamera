@@ -1,4 +1,4 @@
-package com.eighteengray.procamera.activity;
+package com.eighteengray.procamera;
 
 import android.Manifest;
 import android.app.Activity;
@@ -13,7 +13,8 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import com.eighteengray.procamera.R;
+
+import com.eighteengray.procamera.activity.AlbumActivity;
 import com.eighteengray.procamera.fragment.ConfirmationDialogFragment;
 import com.eighteengray.procamera.fragment.ErrorDialogFragment;
 import com.eighteengray.procameralibrary.camera.Camera2TextureView;

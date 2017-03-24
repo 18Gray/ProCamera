@@ -21,4 +21,9 @@
         <item name="android:background">@color/primary</item>
     </style>
 
+    <style  name="imageViewBtn">
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">30dp</item>
+    </style>
+
 </resources>
