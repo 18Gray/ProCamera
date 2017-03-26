@@ -100,6 +100,16 @@
             android:layout_centerInParent="true"
         />
 
+        <!--Extra-->
+        <ImageView
+            android:id="@+id/iv_extra_camera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="20dp"
+            android:src="@mipmap/ic_filter_b_and_w_white_48dp"
+        />
+
 
         <!--gpufilter-->
         <ImageView
@@ -143,46 +153,43 @@
 
 
     <!-- 上部菜单 -->
-    <LinearLayout
-        android:id="@+id/ll_topmenu"
+    <RelativeLayout
+        android:id="@+id/rl_topmenu"
         style="@style/topMenu"
         android:layout_alignParentTop="true"
         android:orientation="horizontal"
-        android:padding="10dp"
         >
-
-        <!--闪光灯-->
-        <ImageView
-            android:id="@+id/iv_flash_camera"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@mipmap/ic_flash_auto_white_48dp"
-        />
-
 
         <!--GPU滤镜已选效果-->
         <TextView
             android:id="@+id/tv_mode_gpufileter"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:gravity="center"
+            android:layout_centerInParent="true"
             android:text="mild"
             android:textColor="@color/white_deep"
             android:textSize="26sp"
         />
 
+        <!--闪光灯-->
+        <ImageView
+            android:id="@+id/iv_flash_camera"
+            style="@style/imageViewBtn"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="30dp"
+            android:src="@mipmap/ic_flash_auto_white_48dp"
+        />
 
         <!--前后摄像头切换-->
         <ImageView
             android:id="@+id/iv_switch_camera"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            style="@style/imageViewBtn"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp"
             android:src="@mipmap/ic_switch_camera_white_48dp"
         />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>
