@@ -36,7 +36,6 @@ import static com.eighteengray.procamera.fragment.ConfirmationDialogFragment.REQ
 public class MainActivity extends Activity implements ActivityCompat.OnRequestPermissionsResultCallback
 {
 	private static final String FRAGMENT_DIALOG = "dialog";
-
 	//上部
 	@BindView(R.id.iv_flash_camera)
 	ImageView iv_flash_camera;
