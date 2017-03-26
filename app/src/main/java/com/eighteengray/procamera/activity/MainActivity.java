@@ -8,6 +8,8 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -16,8 +18,14 @@ import android.widget.TextView;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.fragment.ConfirmationDialogFragment;
 import com.eighteengray.procamera.fragment.ErrorDialogFragment;
+import com.eighteengray.procamera.widget.baserecycler.BaseRecyclerAdapter;
+import com.eighteengray.procamera.widget.baserecycler.BaseRecyclerViewHolder;
 import com.eighteengray.procameralibrary.camera.Camera2TextureView;
 import com.eighteengray.procameralibrary.camera.IRequestPermission;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -44,6 +52,8 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
 	//中下部
 	@BindView(R.id.rl_middle_bottom_menu)
 	RelativeLayout rl_middle_bottom_menu;
+	@BindView(R.id.recyclerview_mode)
+	RecyclerView recyclerview_mode;
 
 	//下部
 	@BindView(R.id.iv_album_camera)
@@ -67,7 +77,33 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
 		
 		setContentView(R.layout.activity_camera);
+		initView();
 		ButterKnife.bind(this);
+	}
+
+
+	private void initView()
+	{
+		//RecyclerView的三种模式，对应三种UI，三种行为及其对应的presenter，lib中提供底层实现方法，相当于model层。
+		LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
+		layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+		recyclerview_mode = (RecyclerView) findViewById(R.id.recyclerview_mode);
+		recyclerview_mode.setLayoutManager(layoutManager);
+		BaseRecyclerAdapter<String> adapter = new BaseRecyclerAdapter<String>(R.layout.item_recycler_main)
+		{
+			@Override
+			public void setData2ViewR(BaseRecyclerViewHolder baseRecyclerViewHolder, String item)
+			{
+				TextView textView = baseRecyclerViewHolder.getViewById(R.id.tv_item_recycler);
+				textView.setText(item);
+			}
+		};
+		recyclerview_mode.setAdapter(adapter);
+		List<String> list = new ArrayList<>();
+		list.add("视频");
+		list.add("照片");
+		list.add("全景");
+		adapter.setData(list);
 	}
 
 
@@ -138,7 +174,6 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
 	{
 		switch (view.getId())
 		{
-
 			case R.id.iv_album_camera:
 				Intent intent1 = new Intent(MainActivity.this, AlbumActivity.class);
 				startActivity(intent1);

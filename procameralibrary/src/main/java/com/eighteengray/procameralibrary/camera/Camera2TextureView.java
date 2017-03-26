@@ -87,7 +87,6 @@ public class Camera2TextureView extends TextureView
     private static final int MAX_PREVIEW_WIDTH = 1920;
     private static final int MAX_PREVIEW_HEIGHT = 1080;
 
-
     private Context context;
     private WindowManager windowManager;
     private HandlerThread mBackgroundThread;
@@ -253,7 +252,6 @@ public class Camera2TextureView extends TextureView
     };
 
     private IRequestPermission iRequestPermission;
-
 
 
 
