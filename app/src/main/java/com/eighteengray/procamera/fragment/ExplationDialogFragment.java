@@ -1,6 +1,5 @@
 package com.eighteengray.procamera.fragment;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -13,15 +12,28 @@ import com.eighteengray.procamera.R;
 
 
 
-
-public class ConfirmationDialogFragment extends DialogFragment
+public class ExplationDialogFragment extends DialogFragment
 {
-    public static final int REQUEST_CAMERA_PERMISSION = 1;
+    private static final String PERMISSION = "permission";
+    private static final String REQUESTCODE = "requestCode";
+
+    public static ExplationDialogFragment newInstance(String permission, int requestCode)
+    {
+        ExplationDialogFragment dialog = new ExplationDialogFragment();
+        Bundle args = new Bundle();
+        args.putString(PERMISSION, permission);
+        args.putInt(REQUESTCODE, requestCode);
+        dialog.setArguments(args);
+        return dialog;
+    }
+
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
         final Fragment parent = getParentFragment();
+        final String permission = getArguments().getString(PERMISSION);
+        final int requestCode = getArguments().getInt(REQUESTCODE);
         return new AlertDialog.Builder(getActivity())
                 .setMessage(R.string.pgcommon_share)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener()
@@ -30,8 +42,8 @@ public class ConfirmationDialogFragment extends DialogFragment
                     public void onClick(DialogInterface dialog, int which)
                     {
                         FragmentCompat.requestPermissions(parent,
-                                new String[]{Manifest.permission.CAMERA},
-                                REQUEST_CAMERA_PERMISSION);
+                                new String[]{permission},
+                                requestCode);
                     }
                 })
                 .setNegativeButton(android.R.string.cancel,

@@ -6,6 +6,6 @@ package com.eighteengray.procameralibrary.camera;
 
 public interface IRequestPermission
 {
-    public void requestPermissionSuccess();
-    public void requestPermissionFail();
+    public void requestPermission(String permission, int requestCode);
+
 }

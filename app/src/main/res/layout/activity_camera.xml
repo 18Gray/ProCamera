@@ -126,17 +126,27 @@
 
     <!--拍照的TextureView-->
     <com.eighteengray.procameralibrary.camera.Camera2TextureView
-        android:id="@+id/texture"
+        android:id="@+id/cameraTextureView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/rl_middle_bottom_menu"
+
+    />
+
+    <!--录像的TextureView-->
+    <com.eighteengray.procameralibrary.camera.RecordTextureView
+        android:id="@+id/recordTextureView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/rl_middle_bottom_menu"
+        android:visibility="gone"
     />
 
     <!--实时直方图-->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/texture"
+        android:layout_alignBottom="@id/recordTextureView"
         android:layout_centerHorizontal="true"
     >
 
