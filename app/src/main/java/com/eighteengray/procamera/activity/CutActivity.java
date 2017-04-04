@@ -22,7 +22,7 @@ import com.eighteengray.procamera.common.Constants;
 import com.eighteengray.procamera.widget.CropImageView;
 
 
-public class CutActivity extends Activity implements OnClickListener
+public class CutActivity extends BaseActivity implements OnClickListener
 {
 	ImageView iv_finish_cut;
 	Button button_next_gallery;

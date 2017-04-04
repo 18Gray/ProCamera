@@ -1,4 +1,4 @@
-package com.eighteengray.procamera.fragment;
+package com.eighteengray.procamera.widget.dialogfragment;
 
 import android.app.Activity;
 import android.app.AlertDialog;

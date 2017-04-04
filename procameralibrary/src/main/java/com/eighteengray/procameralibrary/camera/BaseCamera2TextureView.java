@@ -62,7 +62,6 @@ public abstract class BaseCamera2TextureView extends TextureView
     public Semaphore mCameraOpenCloseLock = new Semaphore(1);
     public boolean mFlashSupported;
     public int mSensorOrientation;
-    public File mFile;
 
     public IRequestPermission iRequestPermission;
     public static final int REQUEST_CAMERA_PERMISSION = 1;
@@ -74,7 +73,6 @@ public abstract class BaseCamera2TextureView extends TextureView
     protected CaptureRequest.Builder mPreviewRequestBuilder;
     protected CaptureRequest mPreviewRequest;
     protected CameraCaptureSession mCaptureSession;
-    protected ImageReader mImageReader;
     protected Surface surface;
 
     //监听，TextureView好了之后，打开相机
@@ -114,7 +112,7 @@ public abstract class BaseCamera2TextureView extends TextureView
             mCameraOpenCloseLock.release();
             mCameraDevice = cameraDevice;
             createCameraPreviewSession();
-            configureCamera(getWidth(), getHeight());
+            configureTransform(getWidth(), getHeight());
         }
 
         @Override
@@ -135,42 +133,11 @@ public abstract class BaseCamera2TextureView extends TextureView
 
     };
 
-    //监听，进入预览状态，预览配置成功后获取预览数据
-    protected CameraCaptureSession.StateCallback captureSessionStateCallback = new CameraCaptureSession.StateCallback()
-    {
-        @Override
-        public void onConfigured(@NonNull CameraCaptureSession cameraCaptureSession)
-        {
-            // The camera is already closed
-            if (null == mCameraDevice)
-            {
-                return;
-            }
-
-            // When the session is ready, we start displaying the preview.
-            mCaptureSession = cameraCaptureSession;
-            createPreviewRequest();
-        }
-
-        @Override
-        public void onConfigureFailed(@NonNull CameraCaptureSession cameraCaptureSession)
-        {
-
-        }
-    };
-
-    //监听，获取到数据做处理
-    protected final ImageReader.OnImageAvailableListener mOnImageAvailableListener = new ImageReader.OnImageAvailableListener()
-    {
-        @Override
-        public void onImageAvailable(ImageReader reader)
-        {
-            mBackgroundHandler.post(new ImageSaver(reader.acquireNextImage(), mFile));
-        }
-
-    };
 
 
+    //******************************************************************************************
+    //  初始化方法
+    //********************************************************************************************
 
     public BaseCamera2TextureView(Context context)
     {
@@ -194,10 +161,9 @@ public abstract class BaseCamera2TextureView extends TextureView
     {
         this.context = c;
         windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        mFile = new File(context.getExternalFilesDir(null), "pic.jpg");
     }
 
-    public void setAspectRatio(int width, int height)
+    protected void setAspectRatio(int width, int height)
     {
         if (width < 0 || height < 0)
         {
@@ -258,8 +224,15 @@ public abstract class BaseCamera2TextureView extends TextureView
         stopBackgroundThread();
     }
 
+    public void setFlashMode(int mode)
+    {
 
+    }
 
+    public void switchCamera(boolean isFront)
+    {
+
+    }
 
 
     //******************************************************************************************
@@ -276,15 +249,18 @@ public abstract class BaseCamera2TextureView extends TextureView
 
     private void stopBackgroundThread()
     {
-        mBackgroundThread.quitSafely();
-        try
+        if(mBackgroundHandler != null)
         {
-            mBackgroundThread.join();
-            mBackgroundThread = null;
-            mBackgroundHandler = null;
-        } catch (InterruptedException e)
-        {
-            e.printStackTrace();
+            mBackgroundThread.quitSafely();
+            try
+            {
+                mBackgroundThread.join();
+                mBackgroundThread = null;
+                mBackgroundHandler = null;
+            } catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -329,11 +305,6 @@ public abstract class BaseCamera2TextureView extends TextureView
                 mCameraDevice.close();
                 mCameraDevice = null;
             }
-            if (null != mImageReader)
-            {
-                mImageReader.close();
-                mImageReader = null;
-            }
         } catch (InterruptedException e)
         {
             throw new RuntimeException("Interrupted while trying to lock camera closing.", e);
@@ -355,25 +326,6 @@ public abstract class BaseCamera2TextureView extends TextureView
     }
 
 
-    protected void createCameraPreviewSession()
-    {
-        try
-        {
-//            closePreviewSession();
-            SurfaceTexture texture = getSurfaceTexture();
-            assert texture != null;
-            // We configure the size of default buffer to be the size of camera preview we want.
-            texture.setDefaultBufferSize(mPreviewSize.getWidth(), mPreviewSize.getHeight());
-            // This is the output Surface we need to start preview.
-            surface = new Surface(texture);
-
-            mCameraDevice.createCaptureSession(Arrays.asList(surface, mImageReader.getSurface()), captureSessionStateCallback, mBackgroundHandler);
-        } catch (CameraAccessException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
     protected void closePreviewSession()
     {
         if (mCaptureSession != null)
@@ -384,86 +336,12 @@ public abstract class BaseCamera2TextureView extends TextureView
     }
 
 
-    protected void createPreviewRequest()
-    {
-        try
-        {
-            // 创建预览请求
-            mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
-            mPreviewRequestBuilder.addTarget(surface);
-
-            // Auto focus should be continuous for camera preview.
-            mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
-            // Flash is automatically enabled when necessary.
-            setAutoFlash(mPreviewRequestBuilder);
-
-            // Finally, we start displaying the camera preview.
-            mPreviewRequest = mPreviewRequestBuilder.build();
-            mCaptureSession.setRepeatingRequest(mPreviewRequest, null, mBackgroundHandler);  //到此预览完成，下面会响应拍照或录像点击事件
-        } catch (CameraAccessException e)
-        {
-            e.printStackTrace();
-        }
-
-    }
-
 
     private void setAutoFlash(CaptureRequest.Builder requestBuilder)
     {
         if (mFlashSupported)
         {
             requestBuilder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH);
-        }
-    }
-
-
-
-    private static class ImageSaver implements Runnable
-    {
-
-        /**
-         * The JPEG image
-         */
-        private final Image mImage;
-        /**
-         * The file we save the image into.
-         */
-        private final File mFile;
-
-        public ImageSaver(Image image, File file)
-        {
-            mImage = image;
-            mFile = file;
-        }
-
-        @Override
-        public void run()
-        {
-            ByteBuffer buffer = mImage.getPlanes()[0].getBuffer();
-            byte[] bytes = new byte[buffer.remaining()];
-            buffer.get(bytes);
-            FileOutputStream output = null;
-            try
-            {
-                output = new FileOutputStream(mFile);
-                output.write(bytes);
-            } catch (IOException e)
-            {
-                e.printStackTrace();
-            } finally
-            {
-                mImage.close();
-                if (null != output)
-                {
-                    try
-                    {
-                        output.close();
-                    } catch (IOException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-            }
         }
     }
 
@@ -481,10 +359,9 @@ public abstract class BaseCamera2TextureView extends TextureView
     }
 
 
-
-
     //abstract方法
     public abstract void checkPermission();
     public abstract void configureCamera(int width, int height);
     public abstract void configureTransform(int width, int height);
+    public abstract void createCameraPreviewSession();
 }
