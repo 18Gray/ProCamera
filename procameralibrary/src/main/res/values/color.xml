@@ -136,7 +136,7 @@
     <color name="task_status_off_line">#ffa7a7a7</color>
     <color name="task_status_out_of_date">#ffa7a7a7</color>
     <color name="black">#ff000000</color>
-    <color name="white">#ffffffff</color>
+
     <color name="deep_gray">#ff707070</color>
     <color name="gray">#ffcacaca</color>
     <color name="loading_page_bg">#fff1c328</color>

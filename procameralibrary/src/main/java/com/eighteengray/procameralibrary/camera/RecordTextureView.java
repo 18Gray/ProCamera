@@ -98,18 +98,36 @@ public class RecordTextureView extends BaseCamera2TextureView
         INVERSE_ORIENTATIONS.append(Surface.ROTATION_270, 0);
     }
 
+
+
     CameraCaptureSession.StateCallback recordSessionStateCallback = new CameraCaptureSession.StateCallback()
     {
         @Override
         public void onConfigured(@NonNull CameraCaptureSession cameraCaptureSession)
         {
             mCaptureSession = cameraCaptureSession;
-            createPreviewRequest();
+            buildPreviewRequest();
+        }
+
+        @Override
+        public void onConfigureFailed(@NonNull CameraCaptureSession cameraCaptureSession)
+        {
+        }
+    };
+
+    CameraCaptureSession.StateCallback recordSessionStateCallbackResult = new CameraCaptureSession.StateCallback()
+    {
+        @Override
+        public void onConfigured(@NonNull CameraCaptureSession cameraCaptureSession)
+        {
+            mCaptureSession = cameraCaptureSession;
+            buildPreviewRequest();
             mMainHandlelr.post(new Runnable()
             {
                 @Override
                 public void run()
                 {
+                    mIsRecordingVideo = true;
                     Toast.makeText(context, "start record", Toast.LENGTH_SHORT).show();
                     mMediaRecorder.start();
                 }
@@ -119,6 +137,14 @@ public class RecordTextureView extends BaseCamera2TextureView
         @Override
         public void onConfigureFailed(@NonNull CameraCaptureSession cameraCaptureSession)
         {
+            mMainHandlelr.post(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    Toast.makeText(context, "record error", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     };
 
@@ -152,29 +178,7 @@ public class RecordTextureView extends BaseCamera2TextureView
         }
         closePreviewSession();
         configureMediaRecorder();
-
-    }
-
-
-    private void createRecordVideoRequest()
-    {
-        try
-        {
-            List<Surface> surfaces = new ArrayList<>();
-            surfaces.add(surface);
-
-            mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD);
-            mPreviewRequestBuilder.addTarget(surface);
-
-            mRecorderSurface = mMediaRecorder.getSurface();
-            surfaces.add(mRecorderSurface);
-            mPreviewRequestBuilder.addTarget(mRecorderSurface);
-
-            mCameraDevice.createCaptureSession(surfaces, recordSessionStateCallback , mBackgroundHandler);
-        } catch (CameraAccessException e)
-        {
-            e.printStackTrace();
-        }
+        buildRecordVideoRequest();
     }
 
 
@@ -183,10 +187,20 @@ public class RecordTextureView extends BaseCamera2TextureView
         // UI
         mIsRecordingVideo = false;
         // Stop recording
-        mMediaRecorder.stop();
-        mMediaRecorder.reset();
-
-        mNextVideoAbsolutePath = null;
+        if(mMediaRecorder != null)
+        {
+            mMediaRecorder.stop();
+            mMediaRecorder.reset();
+        }
+        mMainHandlelr.post(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                Toast.makeText(context, "Video saved: " + mNextVideoAbsolutePath,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
         mNextVideoAbsolutePath = null;
         createCameraPreviewSession();
     }
@@ -252,6 +266,104 @@ public class RecordTextureView extends BaseCamera2TextureView
     }
 
 
+    @Override
+    public void createCameraPreviewSession()
+    {
+        try
+        {
+            closePreviewSession();
+            SurfaceTexture texture = getSurfaceTexture();
+            assert texture != null;
+            texture.setDefaultBufferSize(mPreviewSize.getWidth(), mPreviewSize.getHeight());
+
+            surface = new Surface(texture);
+
+            mCameraDevice.createCaptureSession(Arrays.asList(surface), recordSessionStateCallback, mBackgroundHandler);
+        } catch (CameraAccessException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void buildPreviewRequest()
+    {
+        try
+        {
+            // 创建预览请求
+            mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+            mPreviewRequestBuilder.addTarget(surface);
+            mPreviewRequestBuilder.set(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_MODE_AUTO);
+
+            mPreviewRequest = mPreviewRequestBuilder.build();
+            mCaptureSession.setRepeatingRequest(mPreviewRequest, null, mBackgroundHandler);  //到此预览完成，下面会响应拍照或录像点击事件
+        } catch (CameraAccessException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private void configureMediaRecorder()
+    {
+        mMediaRecorder = new MediaRecorder();
+        mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE);
+        mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+        if (mNextVideoAbsolutePath == null || mNextVideoAbsolutePath.isEmpty())
+        {
+            mNextVideoAbsolutePath = getVideoFilePath(context);
+        }
+        mMediaRecorder.setOutputFile(mNextVideoAbsolutePath);
+        mMediaRecorder.setVideoEncodingBitRate(10000000);
+        mMediaRecorder.setVideoFrameRate(30);
+        mMediaRecorder.setVideoSize(mVideoSize.getWidth(), mVideoSize.getHeight());
+        mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
+        mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+        int rotation = windowManager.getDefaultDisplay().getRotation();
+        switch (mSensorOrientation)
+        {
+            case SENSOR_ORIENTATION_DEFAULT_DEGREES:
+                mMediaRecorder.setOrientationHint(DEFAULT_ORIENTATIONS.get(rotation));
+                break;
+            case SENSOR_ORIENTATION_INVERSE_DEGREES:
+                mMediaRecorder.setOrientationHint(INVERSE_ORIENTATIONS.get(rotation));
+                break;
+        }
+        try
+        {
+            mMediaRecorder.prepare();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private void buildRecordVideoRequest()
+    {
+        try
+        {
+            SurfaceTexture texture = getSurfaceTexture();
+            assert texture != null;
+            texture.setDefaultBufferSize(mPreviewSize.getWidth(), mPreviewSize.getHeight());
+
+            List<Surface> surfaces = new ArrayList<>();
+            surface = new Surface(texture);
+            surfaces.add(surface);
+
+            mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD);
+            mPreviewRequestBuilder.addTarget(surface);
+
+            mRecorderSurface = mMediaRecorder.getSurface();
+            surfaces.add(mRecorderSurface);
+            mPreviewRequestBuilder.addTarget(mRecorderSurface);
+
+            mCameraDevice.createCaptureSession(surfaces, recordSessionStateCallbackResult , mBackgroundHandler);
+        } catch (CameraAccessException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
 
     private static Size chooseVideoSize(Size[] choices)
     {
@@ -291,49 +403,12 @@ public class RecordTextureView extends BaseCamera2TextureView
         }
     }
 
-    private void configureMediaRecorder()
-    {
-        mMediaRecorder = new MediaRecorder();
-        mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE);
-        mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-        if (mNextVideoAbsolutePath == null || mNextVideoAbsolutePath.isEmpty())
-        {
-            mNextVideoAbsolutePath = getVideoFilePath(context);
-        }
-        mMediaRecorder.setOutputFile(mNextVideoAbsolutePath);
-        mMediaRecorder.setVideoEncodingBitRate(10000000);
-        mMediaRecorder.setVideoFrameRate(30);
-        mMediaRecorder.setVideoSize(mVideoSize.getWidth(), mVideoSize.getHeight());
-        mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
-        mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
-        int rotation = windowManager.getDefaultDisplay().getRotation();
-        switch (mSensorOrientation)
-        {
-            case SENSOR_ORIENTATION_DEFAULT_DEGREES:
-                mMediaRecorder.setOrientationHint(DEFAULT_ORIENTATIONS.get(rotation));
-                break;
-            case SENSOR_ORIENTATION_INVERSE_DEGREES:
-                mMediaRecorder.setOrientationHint(INVERSE_ORIENTATIONS.get(rotation));
-                break;
-        }
-        try
-        {
-            mMediaRecorder.prepare();
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
 
     private String getVideoFilePath(Context context)
     {
         return context.getExternalFilesDir(null).getAbsolutePath() + "/"
                 + System.currentTimeMillis() + ".mp4";
     }
-
-
 
 
 }

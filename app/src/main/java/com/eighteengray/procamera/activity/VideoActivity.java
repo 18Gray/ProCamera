@@ -22,7 +22,7 @@ import com.eighteengray.procamera.R;
  * 录像界面功能：关闭界面，切换摄像头；对Camera的滤镜功能；录像，记录录像时间；找到录像文件列表，点击可以查看。
  * @author lawliet
  */
-public class VideoActivity extends Activity implements OnClickListener
+public class VideoActivity extends BaseActivity implements OnClickListener
 {
 	public final static String TAG = "CameraAty";
 	private boolean mIsRecordMode = false;

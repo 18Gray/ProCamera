@@ -21,6 +21,16 @@
             android:src="@drawable/btn_shutter_camera"
         />
 
+        <ImageView
+            android:id="@+id/iv_shutter_record"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:layout_margin="10dp"
+            android:src="@drawable/btn_shutter_record"
+            android:visibility="gone"
+            />
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -108,6 +118,7 @@
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="20dp"
             android:src="@mipmap/ic_filter_b_and_w_white_48dp"
+            android:visibility="gone"
         />
 
 
@@ -125,28 +136,36 @@
 
 
     <!--拍照的TextureView-->
-    <com.eighteengray.procameralibrary.camera.Camera2TextureView
-        android:id="@+id/cameraTextureView"
+    <RelativeLayout
+        android:id="@+id/rl_textureView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/rl_middle_bottom_menu"
+        >
 
-    />
+        <com.eighteengray.procameralibrary.camera.Camera2TextureView
+            android:id="@+id/cameraTextureView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
 
-    <!--录像的TextureView-->
-    <com.eighteengray.procameralibrary.camera.RecordTextureView
-        android:id="@+id/recordTextureView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/rl_middle_bottom_menu"
-        android:visibility="gone"
-    />
+        <!--录像的TextureView-->
+        <com.eighteengray.procameralibrary.camera.RecordTextureView
+            android:id="@+id/recordTextureView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            />
+
+    </RelativeLayout>
+
 
     <!--实时直方图-->
     <LinearLayout
+        android:id="@+id/ll_histogram"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/recordTextureView"
+        android:layout_alignBottom="@id/rl_textureView"
         android:layout_centerHorizontal="true"
     >
 

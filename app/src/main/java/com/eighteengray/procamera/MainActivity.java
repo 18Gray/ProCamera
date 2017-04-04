@@ -12,26 +12,35 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.eighteengray.procamera.activity.AlbumActivity;
-import com.eighteengray.procamera.fragment.ExplationDialogFragment;
-import com.eighteengray.procamera.fragment.ErrorDialogFragment;
+import com.eighteengray.procamera.activity.GpuFilterActivity;
+import com.eighteengray.procamera.activity.SettingActivity;
+import com.eighteengray.procamera.common.Constants;
+import com.eighteengray.procamera.widget.dialogfragment.ExplationDialogFragment;
+import com.eighteengray.procamera.widget.dialogfragment.ErrorDialogFragment;
 import com.eighteengray.procamera.widget.baserecycler.BaseRecyclerAdapter;
 import com.eighteengray.procamera.widget.baserecycler.BaseRecyclerViewHolder;
+import com.eighteengray.procamera.widget.dialogfragment.SetDelayTimeDialogFragment;
+import com.eighteengray.procamera.widget.dialogfragment.SetRatioDialogFragment;
 import com.eighteengray.procameralibrary.camera.Camera2TextureView;
 import com.eighteengray.procameralibrary.camera.IRequestPermission;
 import com.eighteengray.procameralibrary.camera.RecordTextureView;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
 import static com.eighteengray.procameralibrary.camera.BaseCamera2TextureView.REQUEST_CAMERA_PERMISSION;
 import static com.eighteengray.procameralibrary.camera.BaseCamera2TextureView.REQUEST_RECORD_PERMISSION;
 import static com.eighteengray.procameralibrary.camera.BaseCamera2TextureView.REQUEST_WRITESTORAGE_PERMISSION;
-
-
 
 
 public class MainActivity extends Activity implements ActivityCompat.OnRequestPermissionsResultCallback
@@ -44,11 +53,13 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
     @BindView(R.id.iv_switch_camera)
     ImageView iv_switch_camera;
 
-    //中部相机拍照区域
+    //中部相机拍照录像区域
     @BindView(R.id.cameraTextureView)
     public Camera2TextureView cameraTextureView;
     @BindView(R.id.recordTextureView)
     public RecordTextureView recordTextureView;
+    @BindView(R.id.ll_histogram)
+    LinearLayout ll_histogram;
 
     //中下部
     @BindView(R.id.rl_middle_bottom_menu)
@@ -67,11 +78,15 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
     ImageView iv_ratio_camera;
     @BindView(R.id.iv_shutter_camera)
     ImageView iv_shutter_camera;
+    @BindView(R.id.iv_shutter_record)
+    ImageView iv_shutter_record;
     @BindView(R.id.iv_delay_shutter)
     ImageView iv_delay_shutter;
     @BindView(R.id.iv_setting_camera)
     ImageView iv_setting_camera;
 
+    boolean isRecording = false;
+    boolean isFront = false;
 
 
     @Override
@@ -98,73 +113,96 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
         BaseRecyclerAdapter<String> adapter = new BaseRecyclerAdapter<String>(R.layout.item_recycler_main)
         {
             @Override
-            public void setData2ViewR(BaseRecyclerViewHolder baseRecyclerViewHolder, String item)
+            public void setData2ViewR(BaseRecyclerViewHolder baseRecyclerViewHolder, final String item)
             {
                 TextView textView = baseRecyclerViewHolder.getViewById(R.id.tv_item_recycler);
                 textView.setText(item);
+                textView.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View view)
+                    {
+                        if (item.equals("照片"))
+                        {
+                            updateCameraView();
+                        } else if (item.equals("视频"))
+                        {
+                            updateRecordView();
+                        }
+                    }
+                });
             }
         };
         recyclerview_mode.setAdapter(adapter);
         List<String> list = new ArrayList<>();
-        list.add("视频");
         list.add("照片");
-        list.add("全景");
+        list.add("视频");
         adapter.setData(list);
     }
 
 
-    @Override
-    public void onPause()
-    {
-        cameraTextureView.closeCamera();
-        recordTextureView.closeCamera();
-        super.onPause();
-    }
-
-
     @OnClick({R.id.iv_flash_camera, R.id.iv_switch_camera,
-             R.id.iv_extra_camera, R.id.iv_gpufilter_camera,
+            R.id.iv_extra_camera, R.id.iv_gpufilter_camera,
             R.id.iv_album_camera, R.id.iv_ratio_camera, R.id.iv_shutter_camera, R.id.iv_delay_shutter, R.id.iv_setting_camera})
     public void onClick(View view)
     {
         switch (view.getId())
         {
             case R.id.iv_flash_camera:
-
+                cameraTextureView.setFlashMode(0);
+                recordTextureView.setFlashMode(1);
                 break;
 
             case R.id.iv_switch_camera:
-
-                break;
-
-            case R.id.iv_extra_camera:
-                recordTextureView.startRecordVideo();
+                if(isFront)
+                {
+                    cameraTextureView.switchCamera(true);
+                    recordTextureView.switchCamera(true);
+                }
+                else
+                {
+                    cameraTextureView.switchCamera(false);
+                    recordTextureView.switchCamera(false);
+                }
                 break;
 
             case R.id.iv_gpufilter_camera:
-                recordTextureView.stopRecordVideo();
-                break;
-
-            case R.id.iv_album_camera:
-                Intent intent1 = new Intent(MainActivity.this, AlbumActivity.class);
+                Intent intent1 = new Intent(MainActivity.this, GpuFilterActivity.class);
                 startActivity(intent1);
                 break;
 
+            case R.id.iv_album_camera:
+                Intent intent2 = new Intent(MainActivity.this, AlbumActivity.class);
+                startActivity(intent2);
+                break;
+
             case R.id.iv_ratio_camera:
-                rl_middle_bottom_menu.setVisibility(View.VISIBLE);
+                SetRatioDialogFragment.newInstance("SetRatio", Constants.REQUESTCODE_RATIO).show(getFragmentManager(), "SetRatio");
                 break;
 
             case R.id.iv_shutter_camera:
                 cameraTextureView.takePicture();
                 break;
 
-            case R.id.iv_delay_shutter:
+            case R.id.iv_shutter_record:
+                if(!isRecording)
+                {
+                    recordTextureView.startRecordVideo();
+                    Toast.makeText(MainActivity.this, "正在录制", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    recordTextureView.stopRecordVideo();
+                    Toast.makeText(MainActivity.this, "录制结束", Toast.LENGTH_SHORT).show();
+                }
+                break;
 
+            case R.id.iv_delay_shutter:
+                SetDelayTimeDialogFragment.newInstance("SetDelay", Constants.REQUESTCODE_DELAYTIME).show(getFragmentManager(), "SetDelay");
                 break;
 
             case R.id.iv_setting_camera:
-                Intent intent2 = new Intent(MainActivity.this, AlbumActivity.class);
-                startActivity(intent2);
+                Intent intent3 = new Intent(MainActivity.this, SettingActivity.class);
+                startActivity(intent3);
                 break;
         }
     }
@@ -175,7 +213,7 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
     public void onResume()
     {
         super.onResume();
-        if(cameraTextureView.getVisibility() == View.VISIBLE)
+        if (cameraTextureView.getVisibility() == View.VISIBLE)
         {
             cameraTextureView.setIRequestPermission(new IRequestPermission()
             {
@@ -193,8 +231,7 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
                 }
             });
             cameraTextureView.openCamera();
-        }
-        else if(recordTextureView.getVisibility() == View.VISIBLE)
+        } else if (recordTextureView.getVisibility() == View.VISIBLE)
         {
             recordTextureView.setIRequestPermission(new IRequestPermission()
             {
@@ -231,19 +268,47 @@ public class MainActivity extends Activity implements ActivityCompat.OnRequestPe
             {
                 ErrorDialogFragment.newInstance(getString(R.string.album_message)).show(getFragmentManager(), permissions[1]);
             }
-        }
-        else if (requestCode == REQUEST_RECORD_PERMISSION)
+        } else if (requestCode == REQUEST_RECORD_PERMISSION)
         {
             if (grantResults.length != 1 || grantResults[0] != PackageManager.PERMISSION_GRANTED)
             {
                 ErrorDialogFragment.newInstance(getString(R.string.album_message)).show(getFragmentManager(), permissions[2]);
             }
-        }
-        else
+        } else
         {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 
+
+    @Override
+    public void onPause()
+    {
+        cameraTextureView.closeCamera();
+        recordTextureView.closeCamera();
+        super.onPause();
+    }
+
+
+    private void updateCameraView()
+    {
+        cameraTextureView.setVisibility(View.VISIBLE);
+        recordTextureView.setVisibility(View.GONE);
+
+        ll_histogram.setVisibility(View.VISIBLE);
+        iv_shutter_camera.setVisibility(View.VISIBLE);
+        iv_shutter_record.setVisibility(View.GONE);
+    }
+
+
+    private void updateRecordView()
+    {
+        cameraTextureView.setVisibility(View.GONE);
+        recordTextureView.setVisibility(View.VISIBLE);
+
+        ll_histogram.setVisibility(View.GONE);
+        iv_shutter_camera.setVisibility(View.GONE);
+        iv_shutter_record.setVisibility(View.VISIBLE);
+    }
 
 }

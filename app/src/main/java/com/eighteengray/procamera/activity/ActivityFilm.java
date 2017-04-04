@@ -105,7 +105,7 @@ import butterknife.ButterKnife;
  * 存mode和ArrayList<SaveImage>。先getIntent，如果为null，则给一个值。
  */
 
-public class ActivityFilm extends Activity implements OnClickListener, OnSeekBarChangeListener, OnItemSelectedListener {
+public class ActivityFilm extends BaseActivity implements OnClickListener, OnSeekBarChangeListener, OnItemSelectedListener {
     //上部
     ImageView iv_finish_gallery;
     Button button_next_gallery;
@@ -268,16 +268,6 @@ public class ActivityFilm extends Activity implements OnClickListener, OnSeekBar
                     if (currentShowBitmap != null) {
                         showBackgroundByMode(currentShowBitmap);
                     }
-                    break;
-
-
-                case Constants.SAVERESULTIMAGES:
-                    closeDialog();
-
-                    Intent intent2 = new Intent(ActivityFilm.this, PostArticleActivity.class);
-                    intent2.putExtra("toPostList", toPostList);
-                    startActivity(intent2);
-                    finish();
                     break;
 
 
@@ -470,12 +460,6 @@ public class ActivityFilm extends Activity implements OnClickListener, OnSeekBar
                     isSubtitled = true;
                 }
                 break;
-
-            case R.id.tv_subtitletext_film:
-                Intent intent2 = new Intent(ActivityFilm.this, SubtitleActivity.class);
-                startActivityForResult(intent2, Constants.SUBTITLE);
-                break;
-
 
             //印记
             case R.id.rl_yinji_film:

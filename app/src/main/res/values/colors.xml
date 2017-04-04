@@ -11,4 +11,10 @@
     <color name="secondary_text">#DCDCDC</color>
 
     <color name="divider">#7C7C7C</color>
+
+
+    <!--首页面-->
+    <color name="white">#ffffff</color>
+    <color name="white_transparent">#00ffffff</color>
+
 </resources>

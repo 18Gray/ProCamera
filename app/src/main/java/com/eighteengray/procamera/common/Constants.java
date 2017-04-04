@@ -16,11 +16,7 @@ public class Constants
 	public static final int CUT_FILM = 101;
 	public static final int SUBTITLE = 102;
 	
-	public static final int CAMERA = 103;
-	public static final int GALLERY = 104;
-	
-	
-	
+
 	//Handler
 	public static final int SAVEIMAGE = 105;
 	public static final int IMAGEPROCESS = 106;
@@ -35,6 +31,10 @@ public class Constants
 	
 	//intent putExtra
 	public static final String INTENT_SELECTED_PICTURE = "intent_selected_picture";
-	
+
+
+	//RequestCode
+	public static final int REQUESTCODE_RATIO = 10001;
+	public static final int REQUESTCODE_DELAYTIME = 10002;
 	
 }

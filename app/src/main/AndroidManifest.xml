@@ -45,43 +45,23 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".activity.GpuFilterActivity"/>
 
         <activity
-            android:name=".activity.AlbumActivity"
-            android:theme="@style/AppTheme"
-            />
+            android:name=".activity.AlbumActivity" />
 
-        <activity android:name=".activity.SettingActivity"
-                  android:theme="@style/AppTheme"
-            />
+        <activity android:name=".activity.SettingActivity" />
 
 
         <activity
-            android:name=".activity.ActivityFilm"
-            android:theme="@style/AppTheme"
-            />
+            android:name=".activity.ActivityFilm"  />
 
         <activity
-            android:name=".activity.CutActivity"
-            android:theme="@style/AppTheme"
-            />
+            android:name=".activity.CutActivity"  />
 
 
         <activity
-            android:name=".activity.SubtitleActivity"
-            android:theme="@style/AppTheme"
-            />
-
-        <activity
-            android:name=".activity.PostArticleActivity"
-            android:theme="@style/AppTheme"
-            />
-
-
-        <activity
-            android:name=".activity.VideoActivity"
-            android:theme="@style/AppTheme"
-            />
+            android:name=".activity.VideoActivity"  />
 
 
     </application>

@@ -33,6 +33,7 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.media.Image;
 import android.media.ImageReader;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -40,9 +41,18 @@ import android.util.AttributeSet;
 import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.Surface;
+
+import com.eighteengray.commonutillibrary.FileUtils;
+import com.eighteengray.commonutillibrary.SDCardUtils;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -67,6 +77,31 @@ public class Camera2TextureView extends BaseCamera2TextureView
         ORIENTATIONS.append(Surface.ROTATION_270, 180);
     }
 
+
+    //监听，进入预览状态，预览配置成功后获取预览数据
+    protected CameraCaptureSession.StateCallback captureSessionStateCallback = new CameraCaptureSession.StateCallback()
+    {
+        @Override
+        public void onConfigured(@NonNull CameraCaptureSession cameraCaptureSession)
+        {
+            // The camera is already closed
+            if (null == mCameraDevice)
+            {
+                return;
+            }
+
+            // When the session is ready, we start displaying the preview.
+            mCaptureSession = cameraCaptureSession;
+            buildPreviewRequest();
+        }
+
+        @Override
+        public void onConfigureFailed(@NonNull CameraCaptureSession cameraCaptureSession)
+        {
+
+        }
+    };
+
     //监听，获取预览数据并显示
     CameraCaptureSession.CaptureCallback captureSessionCaptureCallback = new CameraCaptureSession.CaptureCallback()
     {
@@ -85,7 +120,7 @@ public class Camera2TextureView extends BaseCamera2TextureView
                     Integer afState = result.get(CaptureResult.CONTROL_AF_STATE);
                     if (afState == null)
                     {
-                        createCapturePictureRequest();
+                        buildCapturePictureRequest();
                     }
                     else if (CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED == afState || CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED == afState)
                     {
@@ -93,10 +128,10 @@ public class Camera2TextureView extends BaseCamera2TextureView
                         if (aeState == null || aeState == CaptureResult.CONTROL_AE_STATE_CONVERGED)
                         {
                             mState = STATE_PICTURE_TAKEN;
-                            createCapturePictureRequest();
+                            buildCapturePictureRequest();
                         } else
                         {
-                            createPrecaptureSequenceRequest();
+                            buildPrecaptureSequenceRequest();
                         }
                     }
                     break;
@@ -119,7 +154,7 @@ public class Camera2TextureView extends BaseCamera2TextureView
                     if (aeState == null || aeState != CaptureResult.CONTROL_AE_STATE_PRECAPTURE)
                     {
                         mState = STATE_PICTURE_TAKEN;
-                        createCapturePictureRequest();
+                        buildCapturePictureRequest();
                     }
                     break;
                 }
@@ -141,6 +176,31 @@ public class Camera2TextureView extends BaseCamera2TextureView
         {
             process(result);
         }
+    };
+
+
+    CameraCaptureSession.CaptureCallback captureSessionCaptureCallbackResult = new CameraCaptureSession.CaptureCallback()
+    {
+        @Override
+        public void onCaptureCompleted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull TotalCaptureResult result)
+        {
+            endTakPictureReal();
+        }
+    };
+
+    //监听，获取到数据做处理
+    protected ImageReader mImageReader;
+    protected final ImageReader.OnImageAvailableListener mOnImageAvailableListener = new ImageReader.OnImageAvailableListener()
+    {
+        @Override
+        public void onImageAvailable(ImageReader reader)
+        {
+            Image image = reader.acquireLatestImage();
+            String path = SDCardUtils.getSDCardPath();
+            File file = new File(path, "pic.jpg");
+            mBackgroundHandler.post(new ImageSaver(image, file));
+        }
+
     };
 
 
@@ -166,13 +226,10 @@ public class Camera2TextureView extends BaseCamera2TextureView
     //  public 方法，供外部调用
     //********************************************************************************************
 
-
     public void takePicture()
     {
-        createCaptureRequest();
+        takePictureReal();
     }
-
-
 
 
     //******************************************************************************************
@@ -199,7 +256,7 @@ public class Camera2TextureView extends BaseCamera2TextureView
                 {
                     continue;
                 }
-                Size largest = Collections.max(Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)), new BaseCamera2TextureView.CompareSizesByArea());
+                Size largest = Collections.max(Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)), new CompareSizesByArea());
                 mImageReader = ImageReader.newInstance(largest.getWidth(), largest.getHeight(), ImageFormat.JPEG, /*maxImages*/2);
                 mImageReader.setOnImageAvailableListener(mOnImageAvailableListener, mBackgroundHandler);
 
@@ -331,41 +388,48 @@ public class Camera2TextureView extends BaseCamera2TextureView
         }
     }
 
-
-
-
-    private void createCaptureRequest()
+    @Override
+    public void createCameraPreviewSession()
     {
         try
         {
-            // This is how to tell the camera to lock focus.
-            mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START);
-            mState = STATE_WAITING_LOCK;
-            mCaptureSession.capture(mPreviewRequestBuilder.build(), captureSessionCaptureCallback, mBackgroundHandler);
+            SurfaceTexture texture = getSurfaceTexture();
+            assert texture != null;
+            texture.setDefaultBufferSize(mPreviewSize.getWidth(), mPreviewSize.getHeight());
+            surface = new Surface(texture);
+
+            mCameraDevice.createCaptureSession(Arrays.asList(surface, mImageReader.getSurface()), captureSessionStateCallback, null);
         } catch (CameraAccessException e)
         {
             e.printStackTrace();
         }
     }
 
-    private void endCaptureRequest()
+
+    private void buildPreviewRequest()
     {
         try
         {
-            // Reset the auto-focus trigger
-            mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
+            // 创建预览请求
+            mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+            mPreviewRequestBuilder.addTarget(surface);
+
+            // Auto focus should be continuous for camera preview.
+            mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
+            // Flash is automatically enabled when necessary.
             setAutoFlash(mPreviewRequestBuilder);
-            mCaptureSession.capture(mPreviewRequestBuilder.build(), captureSessionCaptureCallback, mBackgroundHandler);
-            // After this, the camera will go back to the normal state of preview.
-            mState = STATE_PREVIEW;
-            mCaptureSession.setRepeatingRequest(mPreviewRequest, captureSessionCaptureCallback, mBackgroundHandler);
+
+            // Finally, we start displaying the camera preview.
+            mPreviewRequest = mPreviewRequestBuilder.build();
+            mCaptureSession.setRepeatingRequest(mPreviewRequest, captureSessionCaptureCallback, mBackgroundHandler);  //到此预览完成，下面会响应拍照或录像点击事件
         } catch (CameraAccessException e)
         {
             e.printStackTrace();
         }
     }
 
-    private void createCapturePictureRequest()
+
+    private void buildCapturePictureRequest()
     {
         try
         {
@@ -375,27 +439,19 @@ public class Camera2TextureView extends BaseCamera2TextureView
 
             // Use the same AE and AF modes as the preview.
             mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
+            setAutoFlash(mPreviewRequestBuilder);
             int rotation = windowManager.getDefaultDisplay().getRotation();
             mPreviewRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, getOrientation(rotation));
-            setAutoFlash(mPreviewRequestBuilder);
 
-            CameraCaptureSession.CaptureCallback CaptureCallback = new CameraCaptureSession.CaptureCallback()
-            {
-                @Override
-                public void onCaptureCompleted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull TotalCaptureResult result)
-                {
-                    endCaptureRequest();
-                }
-            };
             mCaptureSession.stopRepeating();
-            mCaptureSession.capture(mPreviewRequestBuilder.build(), CaptureCallback, null);
+            mCaptureSession.capture(mPreviewRequestBuilder.build(), captureSessionCaptureCallbackResult, null);
         } catch (CameraAccessException e)
         {
             e.printStackTrace();
         }
     }
 
-    private void createPrecaptureSequenceRequest()
+    private void buildPrecaptureSequenceRequest()
     {
         try
         {
@@ -410,7 +466,6 @@ public class Camera2TextureView extends BaseCamera2TextureView
             e.printStackTrace();
         }
     }
-
 
 
     private void setAutoFlash(CaptureRequest.Builder requestBuilder)
@@ -464,6 +519,88 @@ public class Camera2TextureView extends BaseCamera2TextureView
     private int getOrientation(int rotation)
     {
         return (ORIENTATIONS.get(rotation) + mSensorOrientation + 270) % 360;
+    }
+
+
+    private void takePictureReal()
+    {
+        try
+        {
+            // This is how to tell the camera to lock focus.
+            mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START);
+            mState = STATE_WAITING_LOCK;
+            mCaptureSession.capture(mPreviewRequestBuilder.build(), captureSessionCaptureCallback, mBackgroundHandler);
+        } catch (CameraAccessException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void endTakPictureReal()
+    {
+        try
+        {
+            // Reset the auto-focus trigger
+            mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
+            setAutoFlash(mPreviewRequestBuilder);
+            mCaptureSession.capture(mPreviewRequestBuilder.build(), captureSessionCaptureCallback, mBackgroundHandler);
+            // After this, the camera will go back to the normal state of preview.
+            mState = STATE_PREVIEW;
+            mCaptureSession.setRepeatingRequest(mPreviewRequest, captureSessionCaptureCallback, mBackgroundHandler);
+        } catch (CameraAccessException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private static class ImageSaver implements Runnable
+    {
+        /**
+         * The JPEG image
+         */
+        private final Image mImage;
+        /**
+         * The file we save the image into.
+         */
+        private final File mFile;
+
+        public ImageSaver(Image image, File file)
+        {
+            mImage = image;
+            mFile = file;
+        }
+
+        @Override
+        public void run()
+        {
+            ByteBuffer buffer = mImage.getPlanes()[0].getBuffer();
+            byte[] bytes = new byte[buffer.remaining()];
+            buffer.get(bytes);
+            FileOutputStream output = null;
+            try
+            {
+                output = new FileOutputStream(mFile);
+                output.write(bytes);
+                output.flush();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            } finally
+            {
+                mImage.close();
+                if (null != output)
+                {
+                    try
+                    {
+                        output.close();
+                    } catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
     }
 
 }
