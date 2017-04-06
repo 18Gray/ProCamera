@@ -9,7 +9,7 @@ import android.os.Bundle;
 
 
 
-public class ErrorDialogFragment extends DialogFragment
+public class ErrorDialogFragment extends android.support.v4.app.DialogFragment
 {
     private static final String ARG_MESSAGE = "message";
 

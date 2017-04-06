@@ -29,7 +29,7 @@
             android:layout_margin="10dp"
             android:src="@drawable/btn_shutter_record"
             android:visibility="gone"
-            />
+        />
 
 
         <LinearLayout
@@ -135,29 +135,13 @@
     </RelativeLayout>
 
 
-    <!--拍照的TextureView-->
-    <RelativeLayout
-        android:id="@+id/rl_textureView"
+    <!--TextureView的ViewPager-->
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_textureview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/rl_middle_bottom_menu"
-        >
-
-        <com.eighteengray.procameralibrary.camera.Camera2TextureView
-            android:id="@+id/cameraTextureView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
-
-        <!--录像的TextureView-->
-        <com.eighteengray.procameralibrary.camera.RecordTextureView
-            android:id="@+id/recordTextureView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"
-            />
-
-    </RelativeLayout>
+    />
 
 
     <!--实时直方图-->
@@ -165,7 +149,7 @@
         android:id="@+id/ll_histogram"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/rl_textureView"
+        android:layout_alignBottom="@id/vp_textureview"
         android:layout_centerHorizontal="true"
     >
 
@@ -185,17 +169,17 @@
     <RelativeLayout
         android:id="@+id/rl_topmenu"
         style="@style/topMenu"
-        android:layout_alignParentTop="true"
+        android:layout_alignTop="@id/vp_textureview"
         android:orientation="horizontal"
-        >
+    >
 
         <!--GPU滤镜已选效果-->
         <TextView
             android:id="@+id/tv_mode_gpufileter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_centerInParent="true"
+            android:gravity="center"
             android:text="mild"
             android:textColor="@color/white_deep"
             android:textSize="26sp"

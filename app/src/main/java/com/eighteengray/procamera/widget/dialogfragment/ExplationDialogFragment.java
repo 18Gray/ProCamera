@@ -3,25 +3,24 @@ package com.eighteengray.procamera.widget.dialogfragment;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
-import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v13.app.FragmentCompat;
-import com.eighteengray.procamera.R;
-
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 
 
 public class ExplationDialogFragment extends DialogFragment
 {
-    private static final String PERMISSION = "permission";
+    private static final String PERMISSIONS = "permissions";
     private static final String REQUESTCODE = "requestCode";
 
-    public static ExplationDialogFragment newInstance(String permission, int requestCode)
+
+    public static ExplationDialogFragment newInstance(String[] permissions, int requestCode)
     {
         ExplationDialogFragment dialog = new ExplationDialogFragment();
         Bundle args = new Bundle();
-        args.putString(PERMISSION, permission);
+        args.putStringArray(PERMISSIONS, permissions);
         args.putInt(REQUESTCODE, requestCode);
         dialog.setArguments(args);
         return dialog;
@@ -32,18 +31,16 @@ public class ExplationDialogFragment extends DialogFragment
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
         final Fragment parent = getParentFragment();
-        final String permission = getArguments().getString(PERMISSION);
+        final String[] permissions = getArguments().getStringArray(PERMISSIONS);
         final int requestCode = getArguments().getInt(REQUESTCODE);
         return new AlertDialog.Builder(getActivity())
-                .setMessage(R.string.pgcommon_share)
+                .setMessage("请求权限")
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener()
                 {
                     @Override
                     public void onClick(DialogInterface dialog, int which)
                     {
-                        FragmentCompat.requestPermissions(parent,
-                                new String[]{permission},
-                                requestCode);
+                        ActivityCompat.requestPermissions(parent.getActivity(), permissions, requestCode);
                     }
                 })
                 .setNegativeButton(android.R.string.cancel,

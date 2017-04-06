@@ -17,56 +17,32 @@
 package com.eighteengray.procameralibrary.camera;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.graphics.ImageFormat;
 import android.graphics.Matrix;
-import android.graphics.Point;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
-import android.hardware.camera2.CameraManager;
-import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
-import android.hardware.camera2.CaptureResult;
-import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
-import android.media.Image;
-import android.media.ImageReader;
 import android.media.MediaRecorder;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.Surface;
-import android.view.TextureView;
-import android.view.WindowManager;
 import android.widget.Toast;
-
-import com.eighteengray.procameralibrary.R;
-
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.Semaphore;
-import java.util.concurrent.TimeUnit;
-
 import static com.eighteengray.procameralibrary.album.ThumbnaiImageView.TAG;
+
 
 
 public class RecordTextureView extends BaseCamera2TextureView
@@ -81,6 +57,8 @@ public class RecordTextureView extends BaseCamera2TextureView
     private static final int SENSOR_ORIENTATION_INVERSE_DEGREES = 270;
     private static final SparseIntArray DEFAULT_ORIENTATIONS = new SparseIntArray();
     private static final SparseIntArray INVERSE_ORIENTATIONS = new SparseIntArray();
+
+
 
     static
     {
@@ -97,7 +75,6 @@ public class RecordTextureView extends BaseCamera2TextureView
         INVERSE_ORIENTATIONS.append(Surface.ROTATION_180, 90);
         INVERSE_ORIENTATIONS.append(Surface.ROTATION_270, 0);
     }
-
 
 
     CameraCaptureSession.StateCallback recordSessionStateCallback = new CameraCaptureSession.StateCallback()
@@ -210,12 +187,6 @@ public class RecordTextureView extends BaseCamera2TextureView
     //******************************************************************************************
     //  private 方法，内部调用
     //********************************************************************************************
-    @Override
-    public void checkPermission()
-    {
-        checkPermissionReal(Manifest.permission.WRITE_EXTERNAL_STORAGE, REQUEST_WRITESTORAGE_PERMISSION);
-        checkPermissionReal(Manifest.permission.RECORD_AUDIO, REQUEST_RECORD_PERMISSION);
-    }
 
     @Override
     public void configureCamera(int width, int height)
@@ -247,7 +218,7 @@ public class RecordTextureView extends BaseCamera2TextureView
     public void configureTransform(int width, int height)
     {
         int rotation = windowManager.getDefaultDisplay().getRotation();
-        Matrix matrix = new Matrix();
+        final Matrix matrix = new Matrix();
         RectF viewRect = new RectF(0, 0, width, height);
         RectF bufferRect = new RectF(0, 0, mPreviewSize.getHeight(), mPreviewSize.getWidth());
         float centerX = viewRect.centerX();
@@ -262,7 +233,18 @@ public class RecordTextureView extends BaseCamera2TextureView
             matrix.postScale(scale, scale, centerX, centerY);
             matrix.postRotate(90 * (rotation - 2), centerX, centerY);
         }
-        setTransform(matrix);
+        if(mMainHandlelr != null)
+        {
+            mMainHandlelr.post(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    setTransform(matrix);
+                }
+            });
+        }
+
     }
 
 
@@ -284,6 +266,33 @@ public class RecordTextureView extends BaseCamera2TextureView
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void closeCameraReal()
+    {
+        try
+        {
+            mCameraOpenCloseLock.acquire();
+            closePreviewSession();
+            if (null != mCameraDevice)
+            {
+                mCameraDevice.close();
+                mCameraDevice = null;
+            }
+            if (null != mMediaRecorder)
+            {
+                mMediaRecorder.release();
+                mMediaRecorder = null;
+            }
+        } catch (InterruptedException e)
+        {
+            throw new RuntimeException("Interrupted while trying to lock camera closing.");
+        } finally
+        {
+            mCameraOpenCloseLock.release();
+        }
+    }
+
 
 
     private void buildPreviewRequest()

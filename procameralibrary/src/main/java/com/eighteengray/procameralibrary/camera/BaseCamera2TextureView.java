@@ -17,29 +17,21 @@
 package com.eighteengray.procameralibrary.camera;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CaptureRequest;
-import android.media.Image;
-import android.media.ImageReader;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.WindowManager;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
@@ -63,10 +55,6 @@ public abstract class BaseCamera2TextureView extends TextureView
     public boolean mFlashSupported;
     public int mSensorOrientation;
 
-    public IRequestPermission iRequestPermission;
-    public static final int REQUEST_CAMERA_PERMISSION = 1;
-    public static final int REQUEST_RECORD_PERMISSION = 2;
-    public static final int REQUEST_WRITESTORAGE_PERMISSION = 3;
 
     protected CameraManager manager;
     protected CameraDevice mCameraDevice;
@@ -200,12 +188,6 @@ public abstract class BaseCamera2TextureView extends TextureView
     //  public 方法，供外部调用
     //********************************************************************************************
 
-    public void setIRequestPermission(IRequestPermission iRequestPermission)
-    {
-        this.iRequestPermission = iRequestPermission;
-    }
-
-
     public void openCamera()
     {
         startBackgroundThread();
@@ -224,15 +206,6 @@ public abstract class BaseCamera2TextureView extends TextureView
         stopBackgroundThread();
     }
 
-    public void setFlashMode(int mode)
-    {
-
-    }
-
-    public void switchCamera(boolean isFront)
-    {
-
-    }
 
 
     //******************************************************************************************
@@ -268,8 +241,6 @@ public abstract class BaseCamera2TextureView extends TextureView
     //打开相机，预览
     private void openCameraReal(int width, int height)
     {
-        checkPermission();
-
         manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
         configureCamera(width, height);
         configureTransform(width, height);
@@ -280,7 +251,9 @@ public abstract class BaseCamera2TextureView extends TextureView
             {
                 throw new RuntimeException("Time out waiting to lock camera opening.");
             }
+            Log.d("CameraRecordFragment", "openCameraStart");
             manager.openCamera(mCameraId, deviceStateCallback, mBackgroundHandler);
+            Log.d("CameraRecordFragment", "openCameraEnd");
         } catch (CameraAccessException e)
         {
             e.printStackTrace();
@@ -290,39 +263,10 @@ public abstract class BaseCamera2TextureView extends TextureView
         }
     }
 
-    private void closeCameraReal()
-    {
-        try
-        {
-            mCameraOpenCloseLock.acquire();
-            if (null != mCaptureSession)
-            {
-                mCaptureSession.close();
-                mCaptureSession = null;
-            }
-            if (null != mCameraDevice)
-            {
-                mCameraDevice.close();
-                mCameraDevice = null;
-            }
-        } catch (InterruptedException e)
-        {
-            throw new RuntimeException("Interrupted while trying to lock camera closing.", e);
-        } finally
-        {
-            mCameraOpenCloseLock.release();
-        }
-    }
 
-    protected void checkPermissionReal(String permission, int requestCode)
+    private void checkPermission()
     {
-        if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED)
-        {
-            if (iRequestPermission != null)
-            {
-                iRequestPermission.requestPermission(permission, requestCode);
-            }
-        }
+
     }
 
 
@@ -335,15 +279,6 @@ public abstract class BaseCamera2TextureView extends TextureView
         }
     }
 
-
-
-    private void setAutoFlash(CaptureRequest.Builder requestBuilder)
-    {
-        if (mFlashSupported)
-        {
-            requestBuilder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH);
-        }
-    }
 
 
     static class CompareSizesByArea implements Comparator<Size>
@@ -360,8 +295,8 @@ public abstract class BaseCamera2TextureView extends TextureView
 
 
     //abstract方法
-    public abstract void checkPermission();
     public abstract void configureCamera(int width, int height);
     public abstract void configureTransform(int width, int height);
     public abstract void createCameraPreviewSession();
+    public abstract void closeCameraReal();
 }

@@ -13,7 +13,8 @@ public class Constants
 	
 	
 	//startActivityForResult
-	public static final int CUT_FILM = 101;
+	public static final int GPUFILTER = 101;
+	public static final int CUT_FILM = 103;
 	public static final int SUBTITLE = 102;
 	
 

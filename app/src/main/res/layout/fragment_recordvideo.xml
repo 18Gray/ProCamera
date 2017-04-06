@@ -4,10 +4,9 @@
     android:layout_height="match_parent"
 >
 
-    <com.eighteengray.procameralibrary.camera.Camera2TextureView
-        android:id="@+id/cameraTextureView"
+    <com.eighteengray.procameralibrary.camera.RecordTextureView
+        android:id="@+id/recordTextureView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-
 
 </RelativeLayout>

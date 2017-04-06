@@ -36,15 +36,12 @@ import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.Surface;
-
-import com.eighteengray.commonutillibrary.FileUtils;
+import android.widget.Toast;
 import com.eighteengray.commonutillibrary.SDCardUtils;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -52,8 +49,8 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
+
 
 
 public class Camera2TextureView extends BaseCamera2TextureView
@@ -66,7 +63,6 @@ public class Camera2TextureView extends BaseCamera2TextureView
     private static final int STATE_PICTURE_TAKEN = 4;
     private static final int MAX_PREVIEW_WIDTH = 1920;
     private static final int MAX_PREVIEW_HEIGHT = 1080;
-
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
 
     static
@@ -184,12 +180,21 @@ public class Camera2TextureView extends BaseCamera2TextureView
         @Override
         public void onCaptureCompleted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull TotalCaptureResult result)
         {
+            mMainHandlelr.post(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    Toast.makeText(context, imagePath, Toast.LENGTH_LONG).show();
+                }
+            });
             endTakPictureReal();
         }
     };
 
     //监听，获取到数据做处理
     protected ImageReader mImageReader;
+    String imagePath;
     protected final ImageReader.OnImageAvailableListener mOnImageAvailableListener = new ImageReader.OnImageAvailableListener()
     {
         @Override
@@ -198,6 +203,7 @@ public class Camera2TextureView extends BaseCamera2TextureView
             Image image = reader.acquireLatestImage();
             String path = SDCardUtils.getSDCardPath();
             File file = new File(path, "pic.jpg");
+            imagePath = file.getAbsolutePath();
             mBackgroundHandler.post(new ImageSaver(image, file));
         }
 
@@ -235,12 +241,6 @@ public class Camera2TextureView extends BaseCamera2TextureView
     //******************************************************************************************
     //  private 方法，内部调用
     //********************************************************************************************
-    @Override
-    public void checkPermission()
-    {
-        checkPermissionReal(Manifest.permission.CAMERA, REQUEST_CAMERA_PERMISSION);
-    }
-
     @Override
     public void configureCamera(int width, int height)
     {
@@ -350,6 +350,9 @@ public class Camera2TextureView extends BaseCamera2TextureView
         } catch (CameraAccessException e)
         {
             e.printStackTrace();
+        } catch (NullPointerException e)
+        {
+            e.printStackTrace();
         }
     }
 
@@ -402,6 +405,31 @@ public class Camera2TextureView extends BaseCamera2TextureView
         } catch (CameraAccessException e)
         {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void closeCameraReal()
+    {
+        try
+        {
+            mCameraOpenCloseLock.acquire();
+            if (null != mCaptureSession)
+            {
+                mCaptureSession.close();
+                mCaptureSession = null;
+            }
+            if (null != mCameraDevice)
+            {
+                mCameraDevice.close();
+                mCameraDevice = null;
+            }
+        } catch (InterruptedException e)
+        {
+            throw new RuntimeException("Interrupted while trying to lock camera closing.", e);
+        } finally
+        {
+            mCameraOpenCloseLock.release();
         }
     }
 
@@ -553,6 +581,7 @@ public class Camera2TextureView extends BaseCamera2TextureView
             e.printStackTrace();
         }
     }
+
 
     private static class ImageSaver implements Runnable
     {
