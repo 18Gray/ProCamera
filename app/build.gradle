@@ -31,13 +31,11 @@ dependencies {
     compile project(':procameralibrary')
     compile project(':imageprocesslibrary')
     compile project(':commonutillibrary')
-
     compile "com.android.support:support-v4:$rootProject.ext.supportLibraryVersion"
     compile "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
     compile "com.android.support:support-v13:$rootProject.ext.supportLibraryVersion"
     compile "com.android.support:cardview-v7:$rootProject.ext.supportLibraryVersion"
     compile "com.android.support:recyclerview-v7:$rootProject.ext.supportLibraryVersion"
-
     compile "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
     compile "com.squareup.retrofit2:adapter-rxjava:$rootProject.ext.retrofitVersion"
     compile "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofitVersion"
@@ -47,11 +45,10 @@ dependencies {
     compile "com.facebook.fresco:fresco:$rootProject.ext.frescoVersion"
     compile "com.jakewharton:butterknife:$rootProject.ext.butterknifeVersion"
     apt "com.jakewharton:butterknife-compiler:$rootProject.ext.butterknifeVersion"
-
-
     androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.ext.espressoVersion", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    testCompile "junit:junit:$rootProject.ext.junitVersion"
-
+    debugCompile "com.squareup.leakcanary:leakcanary-android:$rootProject.ext.leakcanary"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.ext.leakcanary"
+    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.ext.leakcanary"
 }

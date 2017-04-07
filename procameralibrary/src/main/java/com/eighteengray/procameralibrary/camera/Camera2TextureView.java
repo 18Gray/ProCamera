@@ -242,111 +242,96 @@ public class Camera2TextureView extends BaseCamera2TextureView
     //  private 方法，内部调用
     //********************************************************************************************
     @Override
-    public void configureCamera(int width, int height)
+    public void configureCamera(int width, int height, int cameraNum)
     {
         try
         {
-            for (String cameraId : manager.getCameraIdList())
+            mCameraId = manager.getCameraIdList()[cameraNum];
+            CameraCharacteristics characteristics = manager.getCameraCharacteristics(mCameraId);
+
+            //设置拍照的图像大小
+            StreamConfigurationMap map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+            Size largest = Collections.max(Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)), new CompareSizesByArea());
+            mImageReader = ImageReader.newInstance(largest.getWidth(), largest.getHeight(), ImageFormat.JPEG, /*maxImages*/2);
+            mImageReader.setOnImageAvailableListener(mOnImageAvailableListener, mBackgroundHandler);
+
+            //如果相机旋转了，要交换横竖尺寸
+            int displayRotation = windowManager.getDefaultDisplay().getRotation();
+            mSensorOrientation = characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
+            boolean swappedDimensions = false;
+            switch (displayRotation)
             {
-                CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraId);
-
-                //设置拍照的图像大小
-                StreamConfigurationMap map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
-                if (map == null)
-                {
-                    continue;
-                }
-                Size largest = Collections.max(Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)), new CompareSizesByArea());
-                mImageReader = ImageReader.newInstance(largest.getWidth(), largest.getHeight(), ImageFormat.JPEG, /*maxImages*/2);
-                mImageReader.setOnImageAvailableListener(mOnImageAvailableListener, mBackgroundHandler);
-
-                //设置使用后置摄像头
-                Integer facing = characteristics.get(CameraCharacteristics.LENS_FACING);
-                if (facing != null && facing == CameraCharacteristics.LENS_FACING_FRONT)
-                {
-                    continue;
-                }
-
-                //如果相机旋转了，要交换横竖尺寸
-                int displayRotation = windowManager.getDefaultDisplay().getRotation();
-                mSensorOrientation = characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
-                boolean swappedDimensions = false;
-                switch (displayRotation)
-                {
-                    case Surface.ROTATION_0:
-                    case Surface.ROTATION_180:
-                        if (mSensorOrientation == 90 || mSensorOrientation == 270)
-                        {
-                            swappedDimensions = true;
-                        }
-                        break;
-                    case Surface.ROTATION_90:
-                    case Surface.ROTATION_270:
-                        if (mSensorOrientation == 0 || mSensorOrientation == 180)
-                        {
-                            swappedDimensions = true;
-                        }
-                        break;
-                    default:
-                        break;
-                }
-                Point displaySize = new Point();
-                windowManager.getDefaultDisplay().getSize(displaySize);
-                int rotatedPreviewWidth = width;
-                int rotatedPreviewHeight = height;
-                int maxPreviewWidth = displaySize.x;
-                int maxPreviewHeight = displaySize.y;
-                if (swappedDimensions)
-                {
-                    rotatedPreviewWidth = height;
-                    rotatedPreviewHeight = width;
-                    maxPreviewWidth = displaySize.y;
-                    maxPreviewHeight = displaySize.x;
-                }
-                if (maxPreviewWidth > MAX_PREVIEW_WIDTH)
-                {
-                    maxPreviewWidth = MAX_PREVIEW_WIDTH;
-                }
-                if (maxPreviewHeight > MAX_PREVIEW_HEIGHT)
-                {
-                    maxPreviewHeight = MAX_PREVIEW_HEIGHT;
-                }
-
-                //设置预览尺寸，这里调节TextureView到指定的宽高，不再做比例适配
-                mPreviewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class),
-                        rotatedPreviewWidth, rotatedPreviewHeight, maxPreviewWidth,
-                        maxPreviewHeight, largest);
-                mPreviewSize = new Size(width, height);
-                int orientation = getResources().getConfiguration().orientation;
-                if (orientation == Configuration.ORIENTATION_LANDSCAPE)
-                {
-                    mMainHandlelr.post(new Runnable()
+                case Surface.ROTATION_0:
+                case Surface.ROTATION_180:
+                    if (mSensorOrientation == 90 || mSensorOrientation == 270)
                     {
-                        @Override
-                        public void run()
-                        {
-                            setAspectRatio(mPreviewSize.getHeight(), mPreviewSize.getWidth());
-                        }
-                    });
-                } else
-                {
-                    mMainHandlelr.post(new Runnable()
+                        swappedDimensions = true;
+                    }
+                    break;
+                case Surface.ROTATION_90:
+                case Surface.ROTATION_270:
+                    if (mSensorOrientation == 0 || mSensorOrientation == 180)
                     {
-                        @Override
-                        public void run()
-                        {
-                            setAspectRatio(mPreviewSize.getWidth(), mPreviewSize.getHeight());
-                        }
-                    });
-                }
-
-                // 检查是否支持闪关灯
-                Boolean available = characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
-                mFlashSupported = available == null ? false : available;
-
-                mCameraId = cameraId;
-                return;
+                        swappedDimensions = true;
+                    }
+                    break;
+                default:
+                    break;
             }
+            Point displaySize = new Point();
+            windowManager.getDefaultDisplay().getSize(displaySize);
+            int rotatedPreviewWidth = width;
+            int rotatedPreviewHeight = height;
+            int maxPreviewWidth = displaySize.x;
+            int maxPreviewHeight = displaySize.y;
+            if (swappedDimensions)
+            {
+                rotatedPreviewWidth = height;
+                rotatedPreviewHeight = width;
+                maxPreviewWidth = displaySize.y;
+                maxPreviewHeight = displaySize.x;
+            }
+            if (maxPreviewWidth > MAX_PREVIEW_WIDTH)
+            {
+                maxPreviewWidth = MAX_PREVIEW_WIDTH;
+            }
+            if (maxPreviewHeight > MAX_PREVIEW_HEIGHT)
+            {
+                maxPreviewHeight = MAX_PREVIEW_HEIGHT;
+            }
+
+            //设置预览尺寸，这里调节TextureView到指定的宽高，不再做比例适配
+            mPreviewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class),
+                    rotatedPreviewWidth, rotatedPreviewHeight, maxPreviewWidth,
+                    maxPreviewHeight, largest);
+            mPreviewSize = new Size(width, height);
+            int orientation = getResources().getConfiguration().orientation;
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE)
+            {
+                mMainHandlelr.post(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        setAspectRatio(mPreviewSize.getHeight(), mPreviewSize.getWidth());
+                    }
+                });
+            } else
+            {
+                mMainHandlelr.post(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        setAspectRatio(mPreviewSize.getWidth(), mPreviewSize.getHeight());
+                    }
+                });
+            }
+
+            // 检查是否支持闪关灯
+            Boolean available = characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
+            mFlashSupported = available == null ? false : available;
+            return;
         } catch (CameraAccessException e)
         {
             e.printStackTrace();

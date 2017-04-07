@@ -7,7 +7,7 @@ package com.eighteengray.procamera.fragment;
 public interface ICameraView
 {
     public void setFlashMode(int mode);
-    public void switchCamera(boolean isFront);
+    public void switchCamera(int cameraNum);
 
     public void setGpuFilter();
     public void setRatio();

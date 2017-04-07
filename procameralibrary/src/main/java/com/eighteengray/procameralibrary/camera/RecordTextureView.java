@@ -189,11 +189,11 @@ public class RecordTextureView extends BaseCamera2TextureView
     //********************************************************************************************
 
     @Override
-    public void configureCamera(int width, int height)
+    public void configureCamera(int width, int height, int cameraNum)
     {
         try
         {
-            mCameraId = manager.getCameraIdList()[0];
+            mCameraId = manager.getCameraIdList()[cameraNum];
             CameraCharacteristics characteristics = manager.getCameraCharacteristics(mCameraId);
             StreamConfigurationMap map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
             mSensorOrientation = characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);

@@ -12,9 +12,21 @@ import static com.eighteengray.procamera.R.id.cameraTextureView;
 
 
 
-public class Camera2Fragment extends BaseCameraFragment implements FragmentCompat.OnRequestPermissionsResultCallback, ICameraView
+public class Camera2Fragment extends BaseCameraFragment implements ICameraView
 {
+    boolean isCameraOpen = false;
     Camera2TextureView camera2TextureView;
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser)
+    {
+        super.setUserVisibleHint(isVisibleToUser);
+        isCameraOpen = isVisibleToUser;
+        if(camera2TextureView != null && isCameraOpen)
+        {
+            camera2TextureView.openCamera();
+        }
+    }
 
 
     @Override
@@ -34,15 +46,20 @@ public class Camera2Fragment extends BaseCameraFragment implements FragmentCompa
     public void onResume()
     {
         super.onResume();
-        Log.d("CameraRecordFragment", "Camera2FragmentOnResumeStart");
-        camera2TextureView.openCamera();
-        Log.d("CameraRecordFragment", "Camera2FragmentOnResumeEnd");
+        if(isCameraOpen)
+        {
+            camera2TextureView.openCamera();
+        }
     }
 
     @Override
     public void onPause()
     {
-        camera2TextureView.closeCamera();
+        isCameraOpen = false;
+        if(camera2TextureView != null)
+        {
+            camera2TextureView.closeCamera();
+        }
         super.onPause();
     }
 
@@ -57,9 +74,9 @@ public class Camera2Fragment extends BaseCameraFragment implements FragmentCompa
     }
 
     @Override
-    public void switchCamera(boolean isFront)
+    public void switchCamera(int cameraNum)
     {
-
+        camera2TextureView.reopenCamera(cameraNum);
     }
 
     @Override
@@ -77,7 +94,7 @@ public class Camera2Fragment extends BaseCameraFragment implements FragmentCompa
     @Override
     public void takePicture()
     {
-
+        camera2TextureView.takePicture();
     }
 
     @Override

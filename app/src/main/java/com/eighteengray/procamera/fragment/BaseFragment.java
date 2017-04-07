@@ -1,18 +1,16 @@
 package com.eighteengray.procamera.fragment;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 
 
 public abstract class BaseFragment extends Fragment
@@ -38,11 +36,10 @@ public abstract class BaseFragment extends Fragment
      */
     protected boolean mIsPrepare;
 
-
     @Override
-    public void onAttach(Context context)
+    public void onAttach(Activity activity)
     {
-        super.onAttach(context);
+        super.onAttach(activity);
         mActivity = getActivity();
     }
 

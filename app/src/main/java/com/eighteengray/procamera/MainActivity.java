@@ -1,9 +1,10 @@
 package com.eighteengray.procamera;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Debug;
+import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -25,17 +26,13 @@ import com.eighteengray.procamera.fragment.Camera2Fragment;
 import com.eighteengray.procamera.fragment.RecordVideoFragment;
 import com.eighteengray.procamera.widget.baserecycler.BaseRecyclerAdapter;
 import com.eighteengray.procamera.widget.baserecycler.BaseRecyclerViewHolder;
-import com.eighteengray.procamera.widget.dialogfragment.SetDelayTimeDialogFragment;
-import com.eighteengray.procamera.widget.dialogfragment.SetRatioDialogFragment;
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import static com.eighteengray.procamera.R.id.cameraTextureView;
-import static com.eighteengray.procamera.R.id.ll_histogram;
-import static com.eighteengray.procamera.R.id.recordTextureView;
 
+import static com.eighteengray.procamera.R.id.tv_item_recycler;
 
 
 public class MainActivity extends FragmentActivity
@@ -67,6 +64,7 @@ public class MainActivity extends FragmentActivity
     ImageView iv_extra_camera;
     @BindView(R.id.recyclerview_mode)
     RecyclerView recyclerview_mode;
+    BaseRecyclerAdapter<String> recyclerAdapter;
     @BindView(R.id.iv_gpufilter_camera)
     ImageView iv_gpufilter_camera;
 
@@ -84,19 +82,34 @@ public class MainActivity extends FragmentActivity
     @BindView(R.id.iv_setting_camera)
     ImageView iv_setting_camera;
 
-    boolean isRecording = false;
-    boolean isFront = false;
+    boolean isRecording = true;
+
+    //前后摄像头切换
+    int cameraNum = 0;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        Debug.startMethodTracing("ProCamera");
         //去掉status bar
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
 
         setContentView(R.layout.activity_camera);
+
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                .detectAll()//开启所有的detectXX系列方法
+                .penaltyDialog()//弹出违规提示框
+                .penaltyLog()//在Logcat中打印违规日志
+                .build());
+
+        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                .detectActivityLeaks()//检测Activity泄露
+                .penaltyLog()//在Logcat中打印违规日志
+                .build());
+
         initView();
         ButterKnife.bind(this);
     }
@@ -124,19 +137,44 @@ public class MainActivity extends FragmentActivity
         };
         vp_textureview = (ViewPager) findViewById(R.id.vp_textureview);
         vp_textureview.setAdapter(fragmentPagerAdapter);
+        vp_textureview.setCurrentItem(0);
+        vp_textureview.setOnPageChangeListener(new ViewPager.OnPageChangeListener()
+        {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+            {
+
+            }
+
+            @Override
+            public void onPageSelected(int position)
+            {
+                updateView(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state)
+            {
+
+            }
+        });
 
         //RecyclerView的三种模式，对应三种UI，三种行为及其对应的presenter，lib中提供底层实现方法，相当于model层。
         LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerview_mode = (RecyclerView) findViewById(R.id.recyclerview_mode);
         recyclerview_mode.setLayoutManager(layoutManager);
-        BaseRecyclerAdapter<String> adapter = new BaseRecyclerAdapter<String>(R.layout.item_recycler_main)
+        recyclerAdapter = new BaseRecyclerAdapter<String>(R.layout.item_recycler_main)
         {
             @Override
-            public void setData2ViewR(BaseRecyclerViewHolder baseRecyclerViewHolder, final String item)
+            public void setData2ViewR(BaseRecyclerViewHolder baseRecyclerViewHolder, final String item, int position)
             {
-                TextView textView = baseRecyclerViewHolder.getViewById(R.id.tv_item_recycler);
+                TextView textView = baseRecyclerViewHolder.getViewById(tv_item_recycler);
                 textView.setText(item);
+                if(position == 0)
+                {
+                    textView.setTextColor(getResources().getColor(R.color.yellow_deep));
+                }
                 textView.setOnClickListener(new View.OnClickListener()
                 {
                     @Override
@@ -144,26 +182,26 @@ public class MainActivity extends FragmentActivity
                     {
                         if (item.equals("照片"))
                         {
-                            updateCameraView();
+                            updateView(0);
                         } else if (item.equals("视频"))
                         {
-                            updateRecordView();
+                            updateView(1);
                         }
                     }
                 });
             }
         };
-        recyclerview_mode.setAdapter(adapter);
+        recyclerview_mode.setAdapter(recyclerAdapter);
         List<String> list = new ArrayList<>();
         list.add("照片");
         list.add("视频");
-        adapter.setData(list);
+        recyclerAdapter.setData(list);
     }
 
 
     @OnClick({R.id.iv_flash_camera, R.id.iv_switch_camera,
             R.id.iv_extra_camera, R.id.iv_gpufilter_camera,
-            R.id.iv_album_camera, R.id.iv_ratio_camera, R.id.iv_shutter_camera, R.id.iv_delay_shutter, R.id.iv_setting_camera})
+            R.id.iv_album_camera, R.id.iv_ratio_camera, R.id.iv_shutter_camera, R.id.iv_shutter_record, R.id.iv_delay_shutter, R.id.iv_setting_camera})
     public void onClick(View view)
     {
         switch (view.getId())
@@ -174,16 +212,16 @@ public class MainActivity extends FragmentActivity
                 break;
 
             case R.id.iv_switch_camera:
-                if(isFront)
+                if(cameraNum == 0)
                 {
-                    camera2Fragment.switchCamera(true);
-                    recordVideoFragment.switchCamera(true);
+                    cameraNum = 1;
                 }
                 else
                 {
-                    camera2Fragment.switchCamera(false);
-                    recordVideoFragment.switchCamera(false);
+                    cameraNum = 0;
                 }
+                camera2Fragment.switchCamera(cameraNum);
+                recordVideoFragment.switchCamera(cameraNum);
                 break;
 
             case R.id.iv_gpufilter_camera:
@@ -202,18 +240,21 @@ public class MainActivity extends FragmentActivity
                 break;
 
             case R.id.iv_shutter_camera:
+                Toast.makeText(MainActivity.this, "拍照", Toast.LENGTH_SHORT).show();
                 camera2Fragment.takePicture();
                 break;
 
             case R.id.iv_shutter_record:
-                if(!isRecording)
+                if(isRecording)
                 {
-                    recordVideoFragment.startRecordVideo();
+                    isRecording = false;
                     Toast.makeText(MainActivity.this, "正在录制", Toast.LENGTH_SHORT).show();
+                    recordVideoFragment.startRecordVideo();
                 }
                 else {
-                    recordVideoFragment.stopRecordVideo();
+                    isRecording = true;
                     Toast.makeText(MainActivity.this, "录制结束", Toast.LENGTH_SHORT).show();
+                    recordVideoFragment.stopRecordVideo();
                 }
                 break;
 
@@ -230,22 +271,44 @@ public class MainActivity extends FragmentActivity
 
 
 
-    private void updateCameraView()
+    private void updateView(int position)
     {
+        vp_textureview.setCurrentItem(position);
+        updateRecyclerTextView(position);
 
-        ll_histogram.setVisibility(View.VISIBLE);
-        iv_shutter_camera.setVisibility(View.VISIBLE);
-        iv_shutter_record.setVisibility(View.GONE);
+        if(position == 0)
+        {
+            ll_histogram.setVisibility(View.VISIBLE);
+            iv_shutter_camera.setVisibility(View.VISIBLE);
+            iv_shutter_record.setVisibility(View.GONE);
+        }
+        else if(position == 1)
+        {
+            ll_histogram.setVisibility(View.GONE);
+            iv_shutter_camera.setVisibility(View.GONE);
+            iv_shutter_record.setVisibility(View.VISIBLE);
+        }
+
     }
 
 
-    private void updateRecordView()
+    private void updateRecyclerTextView(int selectPosition)
     {
-
-        ll_histogram.setVisibility(View.GONE);
-        iv_shutter_camera.setVisibility(View.GONE);
-        iv_shutter_record.setVisibility(View.VISIBLE);
+        for(int i=0;i<recyclerAdapter.getItemCount();i++)
+        {
+            BaseRecyclerViewHolder baseRecyclerViewHolder = (BaseRecyclerViewHolder) recyclerview_mode.findViewHolderForPosition(i);
+            TextView textView = baseRecyclerViewHolder.getViewById(R.id.tv_item_recycler);
+            if(i == selectPosition)
+            {
+                textView.setTextColor(getResources().getColor(R.color.yellow_deep));
+            }
+            else
+            {
+                textView.setTextColor(getResources().getColor(R.color.white_deep));
+            }
+        }
     }
+
 
 
     //点击事件和回接逐渐用RxAndroid替代。
@@ -261,4 +324,11 @@ public class MainActivity extends FragmentActivity
         }
     }
 
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        Debug.stopMethodTracing();
+    }
 }

@@ -69,7 +69,7 @@ public abstract class BaseCamera2TextureView extends TextureView
         @Override
         public void onSurfaceTextureAvailable(SurfaceTexture texture, int width, int height)
         {
-            openCameraReal(width, height);
+            openCameraReal(width, height, 0);
         }
 
         @Override
@@ -193,7 +193,7 @@ public abstract class BaseCamera2TextureView extends TextureView
         startBackgroundThread();
         if (isAvailable())
         {
-            openCameraReal(getWidth(), getHeight());
+            openCameraReal(getWidth(), getHeight(), 0);
         } else
         {
             setSurfaceTextureListener(mSurfaceTextureListener);
@@ -206,6 +206,11 @@ public abstract class BaseCamera2TextureView extends TextureView
         stopBackgroundThread();
     }
 
+    public void reopenCamera(int cameraNum)
+    {
+        closeCamera();
+        openCameraReal(getWidth(), getHeight(), cameraNum);
+    }
 
 
     //******************************************************************************************
@@ -239,10 +244,11 @@ public abstract class BaseCamera2TextureView extends TextureView
 
 
     //打开相机，预览
-    private void openCameraReal(int width, int height)
+    private void openCameraReal(int width, int height, int cameraNum)
     {
+        checkPermission();
         manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
-        configureCamera(width, height);
+        configureCamera(width, height, cameraNum);
         configureTransform(width, height);
 
         try
@@ -295,7 +301,7 @@ public abstract class BaseCamera2TextureView extends TextureView
 
 
     //abstract方法
-    public abstract void configureCamera(int width, int height);
+    public abstract void configureCamera(int width, int height, int cameraNum);
     public abstract void configureTransform(int width, int height);
     public abstract void createCameraPreviewSession();
     public abstract void closeCameraReal();

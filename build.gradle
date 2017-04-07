@@ -36,6 +36,7 @@ ext {
     rxandroidVersion = '1.2.1'
     frescoVersion = '1.1.0'
     butterknifeVersion = '8.4.0'
+    leakcanary = '1.5'
 
     // Test dependencies
     espressoVersion = '2.2.2'

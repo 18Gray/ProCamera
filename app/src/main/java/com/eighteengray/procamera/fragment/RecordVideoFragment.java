@@ -14,10 +14,21 @@ import com.eighteengray.procameralibrary.camera.RecordTextureView;
 
 
 
-public class RecordVideoFragment extends BaseCameraFragment implements FragmentCompat.OnRequestPermissionsResultCallback, IRecordView
+public class RecordVideoFragment extends BaseCameraFragment implements IRecordView
 {
+    boolean isRecordCameraOpen = false;
     RecordTextureView recordTextureView;
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser)
+    {
+        super.setUserVisibleHint(isVisibleToUser);
+        isRecordCameraOpen = isVisibleToUser;
+        if(recordTextureView != null && isRecordCameraOpen)
+        {
+            recordTextureView.openCamera();
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -35,43 +46,23 @@ public class RecordVideoFragment extends BaseCameraFragment implements FragmentC
     public void onResume()
     {
         super.onResume();
-        Log.d("CameraRecordFragment", "RecordFragmentOnResumeStart");
-        recordTextureView.openCamera();
-        Log.d("CameraRecordFragment", "RecordFragmentOnResumeEnd");
+        if(isRecordCameraOpen)
+        {
+            recordTextureView.openCamera();
+        }
     }
 
     @Override
     public void onPause()
     {
-        recordTextureView.closeCamera();
+        isRecordCameraOpen =false;
+        if(recordTextureView != null)
+        {
+            recordTextureView.closeCamera();
+        }
         super.onPause();
     }
 
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
-    {
-        if (requestCode == REQUEST_PERMISSIONS)
-        {
-            if (grantResults.length == permissions.length)
-            {
-                for (int result : grantResults)
-                {
-                    if (result != PackageManager.PERMISSION_GRANTED)
-                    {
-                        ErrorDialogFragment.newInstance(getString(R.string.album_message)).show(getFragmentManager(), "error");
-                        break;
-                    }
-                }
-            } else
-            {
-                ErrorDialogFragment.newInstance(getString(R.string.album_message)).show(getFragmentManager(), "error");
-            }
-        } else
-        {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-    }
 
 
 
@@ -83,9 +74,9 @@ public class RecordVideoFragment extends BaseCameraFragment implements FragmentC
     }
 
     @Override
-    public void switchCamera(boolean isFront)
+    public void switchCamera(int cameraNum)
     {
-
+        recordTextureView.reopenCamera(cameraNum);
     }
 
     @Override
@@ -111,4 +102,5 @@ public class RecordVideoFragment extends BaseCameraFragment implements FragmentC
     {
         recordTextureView.stopRecordVideo();
     }
+
 }

@@ -45,7 +45,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
     @Override
     public void onBindViewHolder(BaseRecyclerViewHolder holder, int position)
     {
-        setData2ViewR(holder, mDatas.get(position));
+        setData2ViewR(holder, mDatas.get(position), position);
     }
 
 
@@ -55,6 +55,6 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
         notifyDataSetChanged();
     }
 
-    public abstract void setData2ViewR(BaseRecyclerViewHolder baseRecyclerViewHolder, T item);
+    public abstract void setData2ViewR(BaseRecyclerViewHolder baseRecyclerViewHolder, T item, int position);
 
 }

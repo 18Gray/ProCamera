@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.widget.dialogfragment.ErrorDialogFragment;
 import com.eighteengray.procamera.widget.dialogfragment.ExplationDialogFragment;
@@ -28,13 +27,13 @@ public class BaseCameraFragment extends Fragment
     public void onResume()
     {
         super.onResume();
-        Log.d("CameraRecordFragment", "BaseFragmentOnResumeStart");
-        checkPermission(PERMISSIONS, REQUEST_PERMISSIONS);
-        Log.d("CameraRecordFragment", "BaseFragmentOnResumeEnd");
+//        Log.d("CameraRecordFragment", "BaseFragmentOnResumeStart");
+//        checkPermission(PERMISSIONS, REQUEST_PERMISSIONS);
+//        Log.d("CameraRecordFragment", "BaseFragmentOnResumeEnd");
     }
 
 
-    protected void checkPermission(String[] permissions, int requestCode)
+    /*protected void checkPermission(String[] permissions, int requestCode)
     {
         if(!hasPermissionsGranted(permissions))
         {
@@ -101,9 +100,9 @@ public class BaseCameraFragment extends Fragment
         {
             Log.d("CameraRecordFragment", "onRequestPermissionsResultStart");
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-            Log.d("CameraRecordFragment", "onRequestPermissionsResultEnd");
+            Log.d("CameraRecordFragment", "onRequestPermissionsResult");
         }
-    }
+    }*/
 
 
 }

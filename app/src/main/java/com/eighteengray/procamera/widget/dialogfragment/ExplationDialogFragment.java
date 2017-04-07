@@ -40,7 +40,7 @@ public class ExplationDialogFragment extends DialogFragment
                     @Override
                     public void onClick(DialogInterface dialog, int which)
                     {
-                        ActivityCompat.requestPermissions(parent.getActivity(), permissions, requestCode);
+//                        ActivityCompat.requestPermissions(parent.getActivity(), permissions, requestCode);
                     }
                 })
                 .setNegativeButton(android.R.string.cancel,
