@@ -1,8 +1,6 @@
 package com.eighteengray.procamera.fragment;
 
 import android.os.Bundle;
-import android.support.v13.app.FragmentCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,12 +20,18 @@ public class Camera2Fragment extends BaseCameraFragment implements ICameraView
     {
         super.setUserVisibleHint(isVisibleToUser);
         isCameraOpen = isVisibleToUser;
-        if(camera2TextureView != null && isCameraOpen)
+        if(camera2TextureView != null)
         {
-            camera2TextureView.openCamera();
+            if(isCameraOpen)
+            {
+                camera2TextureView.openCamera();
+            }
+            else
+            {
+                camera2TextureView.closeCamera();
+            }
         }
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -41,15 +45,11 @@ public class Camera2Fragment extends BaseCameraFragment implements ICameraView
         camera2TextureView = (Camera2TextureView) view.findViewById(cameraTextureView);
     }
 
-
     @Override
     public void onResume()
     {
         super.onResume();
-        if(isCameraOpen)
-        {
-            camera2TextureView.openCamera();
-        }
+        camera2TextureView.openCamera();
     }
 
     @Override
@@ -62,7 +62,6 @@ public class Camera2Fragment extends BaseCameraFragment implements ICameraView
         }
         super.onPause();
     }
-
 
 
 

@@ -136,12 +136,19 @@
 
 
     <!--TextureView的ViewPager-->
-    <android.support.v4.view.ViewPager
+    <!--<android.support.v4.view.ViewPager
         android:id="@+id/vp_textureview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/rl_middle_bottom_menu"
-    />
+    />-->
+
+    <RelativeLayout
+        android:id="@+id/rl_camera_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/rl_middle_bottom_menu"
+        />
 
 
     <!--实时直方图-->
@@ -149,7 +156,7 @@
         android:id="@+id/ll_histogram"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/vp_textureview"
+        android:layout_alignBottom="@id/rl_camera_container"
         android:layout_centerHorizontal="true"
     >
 
@@ -169,7 +176,7 @@
     <RelativeLayout
         android:id="@+id/rl_topmenu"
         style="@style/topMenu"
-        android:layout_alignTop="@id/vp_textureview"
+        android:layout_alignTop="@id/rl_camera_container"
         android:orientation="horizontal"
     >
 

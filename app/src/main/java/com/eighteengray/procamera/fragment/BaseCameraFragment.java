@@ -2,14 +2,7 @@ package com.eighteengray.procamera.fragment;
 
 
 import android.Manifest;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.util.Log;
-import com.eighteengray.procamera.R;
-import com.eighteengray.procamera.widget.dialogfragment.ErrorDialogFragment;
-import com.eighteengray.procamera.widget.dialogfragment.ExplationDialogFragment;
 
 
 

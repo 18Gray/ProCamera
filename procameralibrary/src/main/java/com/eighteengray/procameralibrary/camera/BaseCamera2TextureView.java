@@ -1,25 +1,10 @@
-/*
- * Copyright 2014 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.eighteengray.procameralibrary.camera;
 
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
+import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CaptureRequest;
@@ -52,14 +37,10 @@ public abstract class BaseCamera2TextureView extends TextureView
     public String mCameraId;
     public Size mPreviewSize;
     public Semaphore mCameraOpenCloseLock = new Semaphore(1);
-    public boolean mFlashSupported;
     public int mSensorOrientation;
-
 
     protected CameraManager manager;
     protected CameraDevice mCameraDevice;
-    protected CaptureRequest.Builder mPreviewRequestBuilder;
-    protected CaptureRequest mPreviewRequest;
     protected CameraCaptureSession mCaptureSession;
     protected Surface surface;
 
@@ -87,36 +68,6 @@ public abstract class BaseCamera2TextureView extends TextureView
         @Override
         public void onSurfaceTextureUpdated(SurfaceTexture texture)
         {
-        }
-
-    };
-
-    //监听，相机打开好后，进入预览
-    protected final CameraDevice.StateCallback deviceStateCallback = new CameraDevice.StateCallback()
-    {
-        @Override
-        public void onOpened(@NonNull CameraDevice cameraDevice)
-        {
-            mCameraOpenCloseLock.release();
-            mCameraDevice = cameraDevice;
-            createCameraPreviewSession();
-            configureTransform(getWidth(), getHeight());
-        }
-
-        @Override
-        public void onDisconnected(@NonNull CameraDevice cameraDevice)
-        {
-            mCameraOpenCloseLock.release();
-            cameraDevice.close();
-            mCameraDevice = null;
-        }
-
-        @Override
-        public void onError(@NonNull CameraDevice cameraDevice, int error)
-        {
-            mCameraOpenCloseLock.release();
-            cameraDevice.close();
-            mCameraDevice = null;
         }
 
     };
@@ -149,6 +100,7 @@ public abstract class BaseCamera2TextureView extends TextureView
     {
         this.context = c;
         windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
     }
 
     protected void setAspectRatio(int width, int height)
@@ -244,22 +196,37 @@ public abstract class BaseCamera2TextureView extends TextureView
 
 
     //打开相机，预览
-    private void openCameraReal(int width, int height, int cameraNum)
+    private void openCameraReal(int width, int height, final int cameraNum)
     {
-        checkPermission();
-        manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
         configureCamera(width, height, cameraNum);
         configureTransform(width, height);
 
+       /* CameraManager.AvailabilityCallback availabilityCallback = new CameraManager.AvailabilityCallback()
+        {
+            @Override
+            public void onCameraAvailable(String cameraId)
+            {
+                super.onCameraAvailable(cameraId);
+                if(cameraId.equals(mCameraId))
+                {
+
+                }
+            }
+
+            @Override
+            public void onCameraUnavailable(String cameraId)
+            {
+                super.onCameraUnavailable(cameraId);
+            }
+        };
+        manager.registerAvailabilityCallback(availabilityCallback, mBackgroundHandler);*/
         try
         {
             if (!mCameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS))
             {
                 throw new RuntimeException("Time out waiting to lock camera opening.");
             }
-            Log.d("CameraRecordFragment", "openCameraStart");
             manager.openCamera(mCameraId, deviceStateCallback, mBackgroundHandler);
-            Log.d("CameraRecordFragment", "openCameraEnd");
         } catch (CameraAccessException e)
         {
             e.printStackTrace();
@@ -269,12 +236,42 @@ public abstract class BaseCamera2TextureView extends TextureView
         }
     }
 
-
-    private void checkPermission()
+    //监听，相机打开好后，进入预览
+    protected final CameraDevice.StateCallback deviceStateCallback = new CameraDevice.StateCallback()
     {
+        @Override
+        public void onOpened(@NonNull CameraDevice cameraDevice)
+        {
+            mCameraOpenCloseLock.release();
+            mCameraDevice = cameraDevice;
+            createCameraPreviewSession();
+        }
 
+        @Override
+        public void onDisconnected(@NonNull CameraDevice cameraDevice)
+        {
+            mCameraOpenCloseLock.release();
+            cameraDevice.close();
+            mCameraDevice = null;
+        }
+
+        @Override
+        public void onError(@NonNull CameraDevice cameraDevice, int error)
+        {
+            mCameraOpenCloseLock.release();
+            cameraDevice.close();
+            mCameraDevice = null;
+        }
+
+    };
+
+    protected void initSurface()
+    {
+        SurfaceTexture texture = getSurfaceTexture();
+        assert texture != null;
+        texture.setDefaultBufferSize(mPreviewSize.getWidth(), mPreviewSize.getHeight());
+        surface = new Surface(texture);
     }
-
 
     protected void closePreviewSession()
     {
@@ -285,19 +282,6 @@ public abstract class BaseCamera2TextureView extends TextureView
         }
     }
 
-
-
-    static class CompareSizesByArea implements Comparator<Size>
-    {
-        @Override
-        public int compare(Size lhs, Size rhs)
-        {
-            // We cast here to ensure the multiplications won't overflow
-            return Long.signum((long) lhs.getWidth() * lhs.getHeight() -
-                    (long) rhs.getWidth() * rhs.getHeight());
-        }
-
-    }
 
 
     //abstract方法

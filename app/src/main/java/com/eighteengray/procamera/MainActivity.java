@@ -7,7 +7,9 @@ import android.os.Debug;
 import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,7 +33,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
 import static com.eighteengray.procamera.R.id.tv_item_recycler;
 
 
@@ -46,13 +47,15 @@ public class MainActivity extends FragmentActivity
     ImageView iv_switch_camera;
 
     //中部相机拍照录像区域
-    @BindView(R.id.vp_textureview)
+    /*@BindView(R.id.vp_textureview)
     public ViewPager vp_textureview;
     FragmentPagerAdapter fragmentPagerAdapter;
-    List<Fragment> fragments = new ArrayList<>();
+    List<Fragment> fragments = new ArrayList<>();*/
     Camera2Fragment camera2Fragment;
     RecordVideoFragment recordVideoFragment;
     int currentPage = 0;
+    @BindView(R.id.rl_camera_container)
+    RelativeLayout rl_camera_container;
 
     @BindView(R.id.ll_histogram)
     LinearLayout ll_histogram;
@@ -119,7 +122,8 @@ public class MainActivity extends FragmentActivity
     {
         camera2Fragment = new Camera2Fragment();
         recordVideoFragment = new RecordVideoFragment();
-        fragments.add(camera2Fragment);
+        replaceFragment(camera2Fragment);
+        /*fragments.add(camera2Fragment);
         fragments.add(recordVideoFragment);
         fragmentPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager())
         {
@@ -135,7 +139,8 @@ public class MainActivity extends FragmentActivity
                 return fragments.size();
             }
         };
-        vp_textureview = (ViewPager) findViewById(R.id.vp_textureview);
+        vp_textureview = (ViewPager) findViewById(vp_textureview);
+        vp_textureview.setOffscreenPageLimit(0);
         vp_textureview.setAdapter(fragmentPagerAdapter);
         vp_textureview.setCurrentItem(0);
         vp_textureview.setOnPageChangeListener(new ViewPager.OnPageChangeListener()
@@ -157,7 +162,8 @@ public class MainActivity extends FragmentActivity
             {
 
             }
-        });
+        });*/
+
 
         //RecyclerView的三种模式，对应三种UI，三种行为及其对应的presenter，lib中提供底层实现方法，相当于model层。
         LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
@@ -183,9 +189,11 @@ public class MainActivity extends FragmentActivity
                         if (item.equals("照片"))
                         {
                             updateView(0);
+                            replaceFragment(camera2Fragment);
                         } else if (item.equals("视频"))
                         {
                             updateView(1);
+                            replaceFragment(recordVideoFragment);
                         }
                     }
                 });
@@ -273,7 +281,7 @@ public class MainActivity extends FragmentActivity
 
     private void updateView(int position)
     {
-        vp_textureview.setCurrentItem(position);
+//        vp_textureview.setCurrentItem(position);
         updateRecyclerTextView(position);
 
         if(position == 0)
@@ -310,6 +318,14 @@ public class MainActivity extends FragmentActivity
     }
 
 
+    private void replaceFragment(Fragment fragment)
+    {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.rl_camera_container, fragment);
+        fragmentTransaction.commit();
+    }
+
 
     //点击事件和回接逐渐用RxAndroid替代。
     @Override
@@ -331,4 +347,5 @@ public class MainActivity extends FragmentActivity
         super.onDestroy();
         Debug.stopMethodTracing();
     }
+
 }
