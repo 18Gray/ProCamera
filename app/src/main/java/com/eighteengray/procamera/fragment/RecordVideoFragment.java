@@ -1,15 +1,10 @@
 package com.eighteengray.procamera.fragment;
 
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v13.app.FragmentCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.eighteengray.procamera.R;
-import com.eighteengray.procamera.widget.dialogfragment.ErrorDialogFragment;
 import com.eighteengray.procameralibrary.camera.RecordTextureView;
 
 
@@ -24,9 +19,16 @@ public class RecordVideoFragment extends BaseCameraFragment implements IRecordVi
     {
         super.setUserVisibleHint(isVisibleToUser);
         isRecordCameraOpen = isVisibleToUser;
-        if(recordTextureView != null && isRecordCameraOpen)
+        if(recordTextureView != null)
         {
-            recordTextureView.openCamera();
+            if(isRecordCameraOpen)
+            {
+                recordTextureView.openCamera();
+            }
+            else
+            {
+                recordTextureView.closeCamera();
+            }
         }
     }
 
@@ -46,10 +48,7 @@ public class RecordVideoFragment extends BaseCameraFragment implements IRecordVi
     public void onResume()
     {
         super.onResume();
-        if(isRecordCameraOpen)
-        {
-            recordTextureView.openCamera();
-        }
+        recordTextureView.openCamera();
     }
 
     @Override
