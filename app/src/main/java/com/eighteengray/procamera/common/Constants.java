@@ -34,8 +34,5 @@ public class Constants
 	public static final String INTENT_SELECTED_PICTURE = "intent_selected_picture";
 
 
-	//RequestCode
-	public static final int REQUESTCODE_RATIO = 10001;
-	public static final int REQUESTCODE_DELAYTIME = 10002;
-	
+
 }

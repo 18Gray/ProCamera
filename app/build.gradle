@@ -42,6 +42,7 @@ dependencies {
     compile "com.google.code.gson:gson:$rootProject.ext.gsonVersion"
     compile "io.reactivex:rxjava:$rootProject.ext.rxjavaVersion"
     compile "io.reactivex:rxandroid:$rootProject.ext.rxandroidVersion"
+    compile 'org.greenrobot:eventbus:3.0.0'
     compile "com.facebook.fresco:fresco:$rootProject.ext.frescoVersion"
     compile "com.jakewharton:butterknife:$rootProject.ext.butterknifeVersion"
     apt "com.jakewharton:butterknife-compiler:$rootProject.ext.butterknifeVersion"

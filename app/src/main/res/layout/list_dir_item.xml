@@ -16,7 +16,7 @@
         android:paddingRight="12dp"
         android:paddingTop="9dp"
         android:scaleType="fitXY"
-        android:src="@drawable/ic_launcher" />
+        android:src="@mipmap/ic_launcher" />
 
     <LinearLayout
         android:layout_width="wrap_content"

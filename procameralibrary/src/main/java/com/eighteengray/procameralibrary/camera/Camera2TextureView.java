@@ -36,6 +36,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static android.R.attr.orientation;
 
 
 public class Camera2TextureView extends BaseCamera2TextureView
@@ -98,29 +99,16 @@ public class Camera2TextureView extends BaseCamera2TextureView
             Size largest = Collections.max(Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)), new CompareSizesByArea());
             initImageReader(largest);
             mPreviewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class), width, height, largest);
+            mPreviewSize = new Size(getWidth(), getHeight());
 
             //如果屏幕旋转需要调整
             int orientation = getResources().getConfiguration().orientation;
             if (orientation == Configuration.ORIENTATION_LANDSCAPE)
             {
-                mMainHandlelr.post(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        setAspectRatio(mPreviewSize.getWidth(), mPreviewSize.getHeight());
-                    }
-                });
+                setAspectRatio(mPreviewSize.getHeight(), mPreviewSize.getWidth());
             } else
             {
-                mMainHandlelr.post(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        setAspectRatio(mPreviewSize.getHeight(), mPreviewSize.getWidth());
-                    }
-                });
+                setAspectRatio(mPreviewSize.getWidth(), mPreviewSize.getHeight());
             }
         } catch (CameraAccessException e)
         {

@@ -201,25 +201,6 @@ public abstract class BaseCamera2TextureView extends TextureView
         configureCamera(width, height, cameraNum);
         configureTransform(width, height);
 
-       /* CameraManager.AvailabilityCallback availabilityCallback = new CameraManager.AvailabilityCallback()
-        {
-            @Override
-            public void onCameraAvailable(String cameraId)
-            {
-                super.onCameraAvailable(cameraId);
-                if(cameraId.equals(mCameraId))
-                {
-
-                }
-            }
-
-            @Override
-            public void onCameraUnavailable(String cameraId)
-            {
-                super.onCameraUnavailable(cameraId);
-            }
-        };
-        manager.registerAvailabilityCallback(availabilityCallback, mBackgroundHandler);*/
         try
         {
             if (!mCameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS))

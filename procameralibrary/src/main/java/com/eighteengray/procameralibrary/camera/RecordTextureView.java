@@ -126,30 +126,16 @@ public class RecordTextureView extends BaseCamera2TextureView
             mSensorOrientation = characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
             mVideoSize = chooseVideoSize(map.getOutputSizes(MediaRecorder.class));
             mPreviewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class), width, height, mVideoSize);
+            mPreviewSize = new Size(getWidth(), getHeight());
 
             //如果屏幕旋转需要调整
             int orientation = getResources().getConfiguration().orientation;
             if (orientation == Configuration.ORIENTATION_LANDSCAPE)
             {
-                mMainHandlelr.post(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        setAspectRatio(mPreviewSize.getWidth(), mPreviewSize.getHeight());
-                    }
-                });
+                setAspectRatio(mPreviewSize.getHeight(), mPreviewSize.getWidth());
             } else
             {
-                mMainHandlelr.post(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        setAspectRatio(mPreviewSize.getHeight(), mPreviewSize.getWidth());
-                    }
-                });
-
+                setAspectRatio(mPreviewSize.getWidth(), mPreviewSize.getHeight());
             }
 
         } catch (CameraAccessException e)
