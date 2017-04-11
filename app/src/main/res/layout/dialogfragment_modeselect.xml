@@ -1,28 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    >
 
-    <TextView
-        android:id="@+id/tv_camera_mode"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/ll_camera_modeselect"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:gravity="center"
-        android:text="Camera"
-        android:textSize="26sp"
-    />
+        android:layout_weight="1"
+        android:orientation="vertical"
+        >
+
+        <ImageView
+            style="@style/imageViewBtn"
+            android:src="@mipmap/camera_white_24dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="10dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Camera"
+            android:textSize="18sp"
+            android:textColor="@color/text"
+            />
+
+    </LinearLayout>
 
 
-    <TextView
-        android:id="@+id/tv_record_mode"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/ll_video_modeselect"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:gravity="center"
-        android:text="Record"
-        android:textSize="26sp"
-    />
+        android:layout_weight="1"
+        android:orientation="vertical"
+        >
+
+        <ImageView
+            style="@style/imageViewBtn"
+            android:src="@mipmap/videorecord_white_24dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="10dp"
+            />
+
+        <TextView
+            android:id="@+id/tv_record_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Video"
+            android:textSize="18sp"
+            android:textColor="@color/text"
+            />
+
+
+    </LinearLayout>
+
 
 </LinearLayout>

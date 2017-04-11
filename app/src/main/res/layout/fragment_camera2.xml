@@ -14,14 +14,13 @@
         <!--拍照按钮-->
         <ImageView
             android:id="@+id/iv_shutter_camera"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_centerInParent="true"
-            android:layout_margin="10dp"
             android:src="@drawable/btn_shutter_camera"
         />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -32,27 +31,26 @@
             <!--进入相册-->
             <ImageView
                 android:id="@+id/iv_album_camera"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                style="@style/imageViewBtn"
+                android:layout_marginLeft="30dp"
                 android:scaleType="center"
-                android:src="@mipmap/ic_photo_album_white_48dp"
+                android:src="@mipmap/album_white_24dp"
             />
 
             <!--比例调节-->
             <ImageView
                 android:id="@+id/iv_ratio_camera"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                style="@style/imageViewBtn"
                 android:scaleType="center"
-                android:src="@mipmap/ic_image_aspect_ratio_white_48dp"
+                android:layout_marginLeft="30dp"
+                android:layout_toRightOf="@id/iv_album_camera"
+                android:src="@mipmap/ratio_white_24dp"
             />
 
-        </LinearLayout>
+        </RelativeLayout>
 
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -60,25 +58,28 @@
             android:orientation="horizontal"
         >
 
-            <!--延时-->
-            <ImageView
-                android:id="@+id/iv_delay_shutter"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@mipmap/ic_av_timer_white_48dp"
-            />
-
             <!--设置-->
             <ImageView
                 android:id="@+id/iv_setting_camera"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@mipmap/ic_settings_applications_white_48dp"
+                style="@style/imageViewBtn"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="30dp"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/settings_white_24dp"
+                />
+
+            <!--延时-->
+            <ImageView
+                android:id="@+id/iv_delay_shutter"
+                style="@style/imageViewBtn"
+                android:layout_toLeftOf="@id/iv_setting_camera"
+                android:layout_marginRight="30dp"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/delay_white_24dp"
             />
 
-        </LinearLayout>
+
+        </RelativeLayout>
 
     </RelativeLayout>
 
@@ -88,6 +89,8 @@
         android:id="@+id/rl_middle_bottom_menu"
         style="@style/bottomMenu"
         android:layout_above="@id/rl_bottommenu"
+        android:paddingBottom="6dp"
+        android:paddingTop="6dp"
     >
 
         <!--模式切换-->
@@ -98,30 +101,29 @@
             android:layout_centerInParent="true"
             android:text="模式选择"
             android:textColor="@color/text"
+            android:textSize="14sp"
         />
 
         <!--HDR-->
-        <TextView
-            android:id="@+id/tv_hdr_camera"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/iv_hdr_camera"
+            style="@style/imageViewBtn"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="30dp"
             android:gravity="center"
             android:layout_centerVertical="true"
-            android:text="HDR"
-            android:textColor="@color/text"
-            android:textSize="14sp"
+            android:src="@mipmap/hdr_on_white_24dp"
         />
 
         <!--gpufilter-->
         <ImageView
             android:id="@+id/iv_gpufilter_camera"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
-            android:src="@mipmap/ic_filter_b_and_w_white_48dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="30dp"
+            android:src="@mipmap/gpu_filter_white"
         />
 
     </RelativeLayout>
@@ -142,19 +144,10 @@
         style="@style/topMenu"
         android:layout_alignTop="@id/cameraTextureView"
         android:orientation="horizontal"
+        android:layout_marginTop="10dp"
     >
 
         <!--GPU滤镜已选效果-->
-        <TextView
-            android:id="@+id/tv_mode_gpufileter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:text="mild"
-            android:textColor="@color/white_deep"
-            android:textSize="26sp"
-        />
 
         <!--闪光灯-->
         <ImageView
@@ -162,7 +155,7 @@
             style="@style/imageViewBtn"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="30dp"
-            android:src="@mipmap/ic_flash_auto_white_48dp"
+            android:src="@mipmap/flash_auto_white_24dp"
         />
 
         <!--前后摄像头切换-->
@@ -171,8 +164,19 @@
             style="@style/imageViewBtn"
             android:layout_alignParentRight="true"
             android:layout_marginRight="30dp"
-            android:src="@mipmap/ic_switch_camera_white_48dp"
+            android:src="@mipmap/switch_camera_white_24dp"
         />
+
+        <TextView
+            android:id="@+id/tv_mode_gpufileter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="mild"
+            android:textColor="@color/white_deep"
+            android:textSize="14sp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"/>
 
     </RelativeLayout>
 

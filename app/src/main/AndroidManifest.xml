@@ -60,9 +60,6 @@
             android:name=".activity.CutActivity"  />
 
 
-        <activity
-            android:name=".activity.VideoActivity"  />
-
 
     </application>
 
