@@ -53,7 +53,7 @@ public class BaseActivity extends Activity
         View view = getLayoutInflater().inflate(R.layout.activity_toolbar, mDectorView);
         mToolBar = (Toolbar) view.findViewById(R.id.toolbar);
         mToolBar.setTitleTextColor(Color.parseColor("#ff00ff"));
-        mToolBar.setNavigationIcon(R.mipmap.ic_menu_white_48dp);
+        mToolBar.setNavigationIcon(R.mipmap.label_procamera);
     }
 
     @Override

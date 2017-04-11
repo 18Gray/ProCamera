@@ -45,8 +45,8 @@ public class Camera2Fragment extends BaseCameraFragment implements ICameraView
     //中下部
     @BindView(R.id.rl_middle_bottom_menu)
     RelativeLayout rl_middle_bottom_menu;
-    @BindView(R.id.tv_hdr_camera)
-    TextView tv_hdr_camera;
+    @BindView(R.id.iv_hdr_camera)
+    ImageView iv_hdr_camera;
     @BindView(R.id.tv_mode_select)
     TextView tv_mode_select;
     @BindView(R.id.iv_gpufilter_camera)
@@ -94,7 +94,7 @@ public class Camera2Fragment extends BaseCameraFragment implements ICameraView
 
     @OnClick({R.id.iv_flash_camera, R.id.iv_switch_camera,
         R.id.cameraTextureView,
-        R.id.tv_hdr_camera, R.id.tv_mode_select, R.id.iv_gpufilter_camera,
+        R.id.iv_hdr_camera, R.id.tv_mode_select, R.id.iv_gpufilter_camera,
         R.id.iv_album_camera, R.id.iv_ratio_camera, R.id.iv_shutter_camera, R.id.iv_delay_shutter, R.id.iv_setting_camera})
     public void click(View view)
     {
@@ -112,7 +112,7 @@ public class Camera2Fragment extends BaseCameraFragment implements ICameraView
 
                 break;
 
-            case R.id.tv_hdr_camera:
+            case R.id.iv_hdr_camera:
 
                 break;
 
