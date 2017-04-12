@@ -357,4 +357,17 @@ public class Camera2TextureView extends BaseCamera2TextureView
     }
 
 
+
+    //点击事件的处理方法
+    public void setFlashMode(int flashMode)
+    {
+        try
+        {
+            mCaptureSession.setRepeatingRequest(CaptureRequestFactory.createPreviewRequest(mCameraDevice, surface), captureSessionCaptureCallback, mBackgroundHandler);
+        } catch (CameraAccessException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
 }

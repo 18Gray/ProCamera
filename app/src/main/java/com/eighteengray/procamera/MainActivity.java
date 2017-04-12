@@ -1,25 +1,21 @@
 package com.eighteengray.procamera;
 
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Debug;
-import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.WindowManager;
-
 import com.eighteengray.procamera.DataEvent.ModeSelectEvent;
+import com.eighteengray.procamera.common.Constants;
 import com.eighteengray.procamera.fragment.Camera2Fragment;
 import com.eighteengray.procamera.fragment.RecordVideoFragment;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import rx.Subscriber;
 
 
 public class MainActivity extends FragmentActivity
@@ -69,27 +65,28 @@ public class MainActivity extends FragmentActivity
     }
 
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onModeSwitch(ModeSelectEvent modeSelectEvent)
-    {
-        switch (modeSelectEvent.getMode())
-        {
-            case ModeSelectEvent.MODE_CAMERA:
-                replaceFragment(camera2Fragment);
-                break;
-
-            case ModeSelectEvent.MODE_RECORD:
-                replaceFragment(recordVideoFragment);
-                break;
-        }
-    }
-
     @Override
     protected void onDestroy()
     {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
         Debug.stopMethodTracing();
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onModeSwitch(ModeSelectEvent modeSelectEvent)
+    {
+        switch (modeSelectEvent.getMode())
+        {
+            case Constants.MODE_CAMERA:
+                replaceFragment(camera2Fragment);
+                break;
+
+            case Constants.MODE_RECORD:
+                replaceFragment(recordVideoFragment);
+                break;
+        }
     }
 
 }

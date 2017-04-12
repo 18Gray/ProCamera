@@ -51,4 +51,35 @@ public class CaptureRequestFactory
         return recordBuilder.build();
     }
 
+
+    //点击事件对应的处理方法
+    public static CaptureRequest createFlashRequest(CameraDevice cameraDevice, Surface surface, int flashMode) throws CameraAccessException
+    {
+        CaptureRequest.Builder previewBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+        previewBuilder.addTarget(surface);
+        previewBuilder.set(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_MODE_AUTO);
+        switch (flashMode)
+        {
+            case Constants.FLASH_AUTO:
+                previewBuilder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON_AUTO_FLASH);
+                break;
+
+            case Constants.FLASH_ON:
+                previewBuilder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON_ALWAYS_FLASH);
+                break;
+
+            case Constants.FLASH_OFF:
+                previewBuilder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON);
+                previewBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_OFF);
+                break;
+
+            case Constants.FLASH_FLARE:
+                previewBuilder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON);
+                previewBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_TORCH);
+                break;
+        }
+        return previewBuilder.build();
+    }
+
+
 }

@@ -1,9 +1,11 @@
 package com.eighteengray.commonutillibrary;
 
+import android.graphics.PointF;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.MotionEvent;
 import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +64,26 @@ public class ViewUtils
     }
 
 
+    //获取两指之间的距离
+    public static float getDistance(MotionEvent event)
+    {
+        float x = event.getX(1) - event.getX(0);
+        float y = event.getY(1) - event.getY(0);
+        float distance = (float) Math.sqrt(x * x + y * y);//两点间的距离
+        return distance;
+    }
 
+    //取两指的中心点坐标
+    public static PointF getMid(MotionEvent event)
+    {
+        float midX = (event.getX(1) + event.getX(0)) / 2;
+        float midY = (event.getY(1) + event.getY(0)) / 2;
+        return new PointF(midX, midY);
+    }
+
+
+
+    //Fragment的工具
     public static void addFragment(FragmentActivity activity, int containerViewId, Fragment fragment)
     {
         if (activity != null)
@@ -71,7 +92,6 @@ public class ViewUtils
             FragmentTransaction ft = fm.beginTransaction();
             ft.add(containerViewId, fragment);
             ft.commitAllowingStateLoss();
-
         }
     }
 

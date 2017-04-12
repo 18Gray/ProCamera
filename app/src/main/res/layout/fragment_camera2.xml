@@ -32,7 +32,7 @@
             <ImageView
                 android:id="@+id/iv_album_camera"
                 style="@style/imageViewBtn"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="40dp"
                 android:scaleType="center"
                 android:src="@mipmap/album_white_24dp"
             />
@@ -42,7 +42,7 @@
                 android:id="@+id/iv_ratio_camera"
                 style="@style/imageViewBtn"
                 android:scaleType="center"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="40dp"
                 android:layout_toRightOf="@id/iv_album_camera"
                 android:src="@mipmap/ratio_white_24dp"
             />
@@ -63,7 +63,7 @@
                 android:id="@+id/iv_setting_camera"
                 style="@style/imageViewBtn"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="30dp"
+                android:layout_marginRight="40dp"
                 android:layout_centerVertical="true"
                 android:src="@mipmap/settings_white_24dp"
                 />
@@ -73,11 +73,21 @@
                 android:id="@+id/iv_delay_shutter"
                 style="@style/imageViewBtn"
                 android:layout_toLeftOf="@id/iv_setting_camera"
-                android:layout_marginRight="30dp"
+                android:layout_marginRight="40dp"
                 android:layout_centerVertical="true"
                 android:src="@mipmap/delay_white_24dp"
             />
 
+            <!--延时时间秒数-->
+            <TextView
+                android:id="@+id/tv_delay_second"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@id/iv_delay_shutter"
+                android:text="0"
+                android:textColor="@color/text"
+                android:textSize="10sp"
+            />
 
         </RelativeLayout>
 

@@ -1,6 +1,8 @@
 package com.eighteengray.procamera.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,17 +10,27 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.eighteengray.procamera.DataEvent.CameraConfigure;
 import com.eighteengray.procamera.R;
+import com.eighteengray.procamera.activity.AlbumActivity;
+import com.eighteengray.procamera.activity.SettingActivity;
+import com.eighteengray.procamera.common.Constants;
 import com.eighteengray.procamera.widget.dialogfragment.ModeSelectDialogFragment;
-import com.eighteengray.procameralibrary.camera.Camera2TextureView;
+import com.eighteengray.procamera.widget.dialogfragment.PopupWindowFactory;
 import com.eighteengray.procameralibrary.camera.RecordTextureView;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.eighteengray.procamera.R.id.cameraTextureView;
+import static com.eighteengray.procamera.R.id.tv_mode_gpufileter;
 
-public class RecordVideoFragment extends BaseCameraFragment implements IRecordView
+
+public class RecordVideoFragment extends BaseCameraFragment
 {
     View view;
 
@@ -46,6 +58,7 @@ public class RecordVideoFragment extends BaseCameraFragment implements IRecordVi
     @BindView(R.id.iv_setting_camera)
     ImageView iv_setting_camera;
 
+    private boolean isRecording = false;
 
 
     @Override
@@ -53,6 +66,7 @@ public class RecordVideoFragment extends BaseCameraFragment implements IRecordVi
     {
         view = inflater.inflate(R.layout.fragment_recordvideo, container, false);
         ButterKnife.bind(this, view);
+        EventBus.getDefault().register(this);
         return view;
     }
 
@@ -67,10 +81,11 @@ public class RecordVideoFragment extends BaseCameraFragment implements IRecordVi
     @Override
     public void onPause()
     {
-        if(recordTextureView != null)
+        if (recordTextureView != null)
         {
             recordTextureView.closeCamera();
         }
+        EventBus.getDefault().unregister(this);
         super.onPause();
     }
 
@@ -82,12 +97,14 @@ public class RecordVideoFragment extends BaseCameraFragment implements IRecordVi
     {
         switch (view.getId())
         {
-            case R.id.iv_flash_camera:
-
+            case R.id.iv_flash_camera: //闪光灯
+                int[] location1 = new int[2];
+                iv_flash_camera.getLocationOnScreen(location1);
+                PopupWindowFactory.createFlashPopupWindow(getActivity()).showAtLocation(iv_flash_camera, Gravity.NO_GRAVITY, location1[0] + iv_flash_camera.getWidth(), location1[1] - iv_flash_camera.getHeight());
                 break;
 
             case R.id.iv_switch_camera:
-
+                recordTextureView.switchCamera();
                 break;
 
             case R.id.recordTextureView:
@@ -100,54 +117,36 @@ public class RecordVideoFragment extends BaseCameraFragment implements IRecordVi
                 break;
 
             case R.id.iv_album_camera:
-
+                Intent intent_album = new Intent(getActivity(), AlbumActivity.class);
+                startActivity(intent_album);
                 break;
 
             case R.id.iv_shutter_camera:
-
+                if (!isRecording)
+                {
+                    isRecording = true;
+                    recordTextureView.startRecordVideo();
+                } else if (isRecording)
+                {
+                    isRecording = false;
+                    recordTextureView.stopRecordVideo();
+                }
                 break;
 
             case R.id.iv_setting_camera:
-
+                Intent intent_setting = new Intent(getActivity(), SettingActivity.class);
+                startActivity(intent_setting);
                 break;
         }
     }
 
 
-    @Override
-    public void setFlashMode(int mode)
+    //EventBus接收相机配置的参数
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onFlashSelect(CameraConfigure.Flash flash)
     {
-
+        recordTextureView.setFlashMode(flash.getFlash());
     }
 
-    @Override
-    public void switchCamera(int cameraNum)
-    {
-        recordTextureView.reopenCamera(cameraNum);
-    }
-
-    @Override
-    public void setGpuFilter()
-    {
-
-    }
-
-    @Override
-    public void setRatio()
-    {
-
-    }
-
-    @Override
-    public void startRecordVideo()
-    {
-        recordTextureView.startRecordVideo();
-    }
-
-    @Override
-    public void stopRecordVideo()
-    {
-        recordTextureView.stopRecordVideo();
-    }
 
 }

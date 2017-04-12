@@ -13,6 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.eighteengray.procamera.DataEvent.ModeSelectEvent;
 import com.eighteengray.procamera.R;
+import com.eighteengray.procamera.common.Constants;
+
 import org.greenrobot.eventbus.EventBus;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,14 +53,14 @@ public class ModeSelectDialogFragment extends DialogFragment
         {
             case R.id.ll_camera_modeselect:
                 ModeSelectEvent modeSelectEvent1 = new ModeSelectEvent();
-                modeSelectEvent1.setMode(ModeSelectEvent.MODE_CAMERA);
+                modeSelectEvent1.setMode(Constants.MODE_CAMERA);
                 EventBus.getDefault().post(modeSelectEvent1);
                 dismiss();
                 break;
 
             case R.id.ll_video_modeselect:
                 ModeSelectEvent modeSelectEvent2 = new ModeSelectEvent();
-                modeSelectEvent2.setMode(ModeSelectEvent.MODE_RECORD);
+                modeSelectEvent2.setMode(Constants.MODE_RECORD);
                 EventBus.getDefault().post(modeSelectEvent2);
                 dismiss();
                 break;

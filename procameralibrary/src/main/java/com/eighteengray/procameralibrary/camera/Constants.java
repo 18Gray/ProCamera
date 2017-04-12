@@ -1,9 +1,8 @@
-package com.eighteengray.procamera.common;
-
-import java.io.File;
+package com.eighteengray.procameralibrary.camera;
 
 import android.os.Environment;
-import android.view.WindowManager;
+
+import java.io.File;
 
 public class Constants
 {
@@ -68,9 +67,5 @@ public class Constants
 	public static final int RATIO_4V3 = 12002;
 	public static final int RATIO_16V9 = 12003;
 
-	//TextureView触摸事件
-	public static final int TOUCH_TEXTURE_CLICK = 10013;
-	public static final int TOUCH_TEXTURE_LONGCLICK = 10014;
-	public static final int TOUCH_TEXTURE_ONEDRAG = 10015;
-	public static final int TOUCH_TEXTURE_TWODRAG = 10016;
+
 }

@@ -35,6 +35,7 @@ public abstract class BaseCamera2TextureView extends TextureView
     public Handler mMainHandlelr;
 
     public String mCameraId;
+    public int cameraNum = 0;
     public Size mPreviewSize;
     public Semaphore mCameraOpenCloseLock = new Semaphore(1);
     public int mSensorOrientation;
@@ -145,7 +146,7 @@ public abstract class BaseCamera2TextureView extends TextureView
         startBackgroundThread();
         if (isAvailable())
         {
-            openCameraReal(getWidth(), getHeight(), 0);
+            openCameraReal(getWidth(), getHeight(), cameraNum);
         } else
         {
             setSurfaceTextureListener(mSurfaceTextureListener);
@@ -158,9 +159,16 @@ public abstract class BaseCamera2TextureView extends TextureView
         stopBackgroundThread();
     }
 
-    public void reopenCamera(int cameraNum)
+    public void switchCamera()
     {
-        closeCamera();
+        if(cameraNum == 0)
+        {
+            cameraNum = 1;
+        }else if(cameraNum == 1)
+        {
+            cameraNum = 0;
+        }
+        closeCameraReal();
         openCameraReal(getWidth(), getHeight(), cameraNum);
     }
 
@@ -262,6 +270,7 @@ public abstract class BaseCamera2TextureView extends TextureView
             mCaptureSession = null;
         }
     }
+
 
 
 
