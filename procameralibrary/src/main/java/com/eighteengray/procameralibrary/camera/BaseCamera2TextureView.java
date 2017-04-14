@@ -12,12 +12,10 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.WindowManager;
-import java.util.Comparator;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
@@ -44,6 +42,7 @@ public abstract class BaseCamera2TextureView extends TextureView
     protected CameraDevice mCameraDevice;
     protected CameraCaptureSession mCaptureSession;
     protected Surface surface;
+    protected CameraCharacteristics mCameraCharacteristics;
 
     //监听，TextureView好了之后，打开相机
     protected final SurfaceTextureListener mSurfaceTextureListener = new SurfaceTextureListener()
@@ -262,6 +261,7 @@ public abstract class BaseCamera2TextureView extends TextureView
         surface = new Surface(texture);
     }
 
+
     protected void closePreviewSession()
     {
         if (mCaptureSession != null)
@@ -271,6 +271,17 @@ public abstract class BaseCamera2TextureView extends TextureView
         }
     }
 
+
+    protected void updatePreview(CaptureRequest captureRequest, CameraCaptureSession.CaptureCallback captureSessionCaptureCallback)
+    {
+        try
+        {
+            mCaptureSession.setRepeatingRequest(captureRequest, captureSessionCaptureCallback, mBackgroundHandler);
+        } catch (CameraAccessException e)
+        {
+            e.printStackTrace();
+        }
+    }
 
 
 

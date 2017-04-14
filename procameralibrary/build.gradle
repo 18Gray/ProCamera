@@ -29,6 +29,8 @@ dependencies {
     compile "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
     compile "com.android.support:support-v13:$rootProject.ext.supportLibraryVersion"
 
+    compile "org.greenrobot:eventbus:$rootProject.ext.eventbus"
+
     androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.ext.espressoVersion", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })

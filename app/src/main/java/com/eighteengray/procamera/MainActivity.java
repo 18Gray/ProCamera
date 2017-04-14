@@ -9,9 +9,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.WindowManager;
 import com.eighteengray.procamera.DataEvent.ModeSelectEvent;
-import com.eighteengray.procamera.common.Constants;
 import com.eighteengray.procamera.fragment.Camera2Fragment;
 import com.eighteengray.procamera.fragment.RecordVideoFragment;
+import com.eighteengray.procameralibrary.camera.Constants;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;

@@ -282,7 +282,7 @@ public class RecordTextureView extends BaseCamera2TextureView
             mCaptureSession = cameraCaptureSession;
             try
             {
-                mCaptureSession.setRepeatingRequest(CaptureRequestFactory.createPreviewRequest(mCameraDevice, surface), null, mBackgroundHandler);
+                updatePreview(CaptureRequestFactory.createPreviewRequest(mCameraDevice, surface), null);
             } catch (CameraAccessException e)
             {
                 e.printStackTrace();
@@ -302,7 +302,7 @@ public class RecordTextureView extends BaseCamera2TextureView
     {
         try
         {
-            mCaptureSession.setRepeatingRequest(CaptureRequestFactory.createRecordRequest(mCameraDevice, mMediaRecorder.getSurface()), recordCaptureCallback, mBackgroundHandler);
+            updatePreview(CaptureRequestFactory.createRecordRequest(mCameraDevice, mMediaRecorder.getSurface()), recordCaptureCallback);
         } catch (CameraAccessException e)
         {
             e.printStackTrace();
@@ -366,7 +366,7 @@ public class RecordTextureView extends BaseCamera2TextureView
     {
         try
         {
-            mCaptureSession.setRepeatingRequest(CaptureRequestFactory.createPreviewRequest(mCameraDevice, surface), recordCaptureCallback, mBackgroundHandler);
+            updatePreview(CaptureRequestFactory.createFlashRequest(mCameraDevice, surface, flashMode), recordCaptureCallback);
         } catch (CameraAccessException e)
         {
             e.printStackTrace();

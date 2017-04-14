@@ -10,10 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import com.eighteengray.procamera.DataEvent.ModeSelectEvent;
 import com.eighteengray.procamera.R;
-import com.eighteengray.procamera.common.Constants;
+import com.eighteengray.procameralibrary.camera.Constants;
 
 import org.greenrobot.eventbus.EventBus;
 import butterknife.BindView;

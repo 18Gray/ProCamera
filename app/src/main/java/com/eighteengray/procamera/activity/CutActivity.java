@@ -18,8 +18,8 @@ import com.eighteengray.commonutillibrary.DataConvertUtil;
 import com.eighteengray.commonutillibrary.ImageUtils;
 import com.eighteengray.commonutillibrary.ScreenUtils;
 import com.eighteengray.procamera.R;
-import com.eighteengray.procamera.common.Constants;
 import com.eighteengray.procamera.widget.CropImageView;
+import com.eighteengray.procameralibrary.camera.Constants;
 
 
 public class CutActivity extends BaseActivity implements OnClickListener

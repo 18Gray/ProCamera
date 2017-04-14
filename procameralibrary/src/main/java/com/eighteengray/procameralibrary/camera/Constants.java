@@ -67,5 +67,15 @@ public class Constants
 	public static final int RATIO_4V3 = 12002;
 	public static final int RATIO_16V9 = 12003;
 
+	//TextureView触摸事件
+	public static final int TOUCH_TEXTURE_CLICK = 10013;
+	public static final int TOUCH_TEXTURE_LONGCLICK = 10014;
+	public static final int TOUCH_TEXTURE_ONEDRAG = 10015;
+	public static final int TOUCH_TEXTURE_TWODRAG = 10016;
 
+	//FocusState
+	public static final int FOCUS_FOCUSING = 10017;
+	public static final int FOCUS_SUCCEED = 10018;
+	public static final int FOCUS_INACTIVE = 10019;
+	public static final int FOCUS_FAILED = 10020;
 }

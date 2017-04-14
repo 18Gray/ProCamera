@@ -14,7 +14,6 @@ import com.eighteengray.procamera.DataEvent.CameraConfigure;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.activity.AlbumActivity;
 import com.eighteengray.procamera.activity.SettingActivity;
-import com.eighteengray.procamera.common.Constants;
 import com.eighteengray.procamera.widget.dialogfragment.ModeSelectDialogFragment;
 import com.eighteengray.procamera.widget.dialogfragment.PopupWindowFactory;
 import com.eighteengray.procameralibrary.camera.RecordTextureView;

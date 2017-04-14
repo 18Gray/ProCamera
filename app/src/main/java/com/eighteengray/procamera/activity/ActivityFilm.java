@@ -57,9 +57,9 @@ import com.eighteengray.imageprocesslibrary.imagefilter.SaturationModifyFilter;
 import com.eighteengray.imageprocesslibrary.imagefilter.SharpFilter;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.SaveImage;
-import com.eighteengray.procamera.common.Constants;
 import com.eighteengray.procamera.widget.AllDialog;
 import com.eighteengray.procamera.widget.MyTouchImageView;
+import com.eighteengray.procameralibrary.camera.Constants;
 
 import java.io.File;
 import java.util.ArrayList;

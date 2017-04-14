@@ -1,28 +1,31 @@
 package com.eighteengray.procamera.fragment;
 
-import android.content.Context;
 import android.content.Intent;
+import android.hardware.camera2.CameraAccessException;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.eighteengray.procamera.DataEvent.CameraConfigure;
-import com.eighteengray.procamera.DataEvent.TextureViewTouchEvent;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.activity.AlbumActivity;
 import com.eighteengray.procamera.activity.GpuFilterActivity;
 import com.eighteengray.procamera.activity.SettingActivity;
-import com.eighteengray.procamera.common.Constants;
 import com.eighteengray.procamera.widget.TextureViewTouchListener;
 import com.eighteengray.procamera.widget.dialogfragment.ModeSelectDialogFragment;
 import com.eighteengray.procamera.widget.dialogfragment.PopupWindowFactory;
 import com.eighteengray.procameralibrary.camera.Camera2TextureView;
+import com.eighteengray.procameralibrary.camera.Constants;
+import com.eighteengray.procameralibrary.camera.TextureViewTouchEvent;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -47,6 +50,8 @@ public class Camera2Fragment extends BaseCameraFragment
     //拍照
     @BindView(R.id.cameraTextureView)
     Camera2TextureView cameraTextureView;
+    @BindView(R.id.iv_focus_camera)
+    ImageView iv_focus_camera;
 
     //中下部
     @BindView(R.id.rl_middle_bottom_menu)
@@ -74,6 +79,8 @@ public class Camera2Fragment extends BaseCameraFragment
     @BindView(R.id.iv_setting_camera)
     ImageView iv_setting_camera;
 
+    Handler handler;
+    private boolean mFlagShowFocusImage = false;
 
 
     @Override
@@ -82,6 +89,7 @@ public class Camera2Fragment extends BaseCameraFragment
         view = inflater.inflate(R.layout.fragment_camera2, container, false);
         ButterKnife.bind(this, view);
         EventBus.getDefault().register(this);
+        handler = new Handler(Looper.getMainLooper());
         return view;
     }
 
@@ -168,33 +176,104 @@ public class Camera2Fragment extends BaseCameraFragment
 
 
     //EventBus--TextureView触摸事件
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onTextureClick(TextureViewTouchEvent.TextureClick textureClick)
+    @Subscribe(threadMode = ThreadMode.MAIN)  //轻按：显示焦点，完成聚焦和测光。
+    public void onTextureClick(TextureViewTouchEvent.TextureClick textureClick) throws CameraAccessException
     {
-        Toast.makeText(getActivity(), "click", Toast.LENGTH_SHORT).show();
+        cameraTextureView.focus(textureClick.getX(), textureClick.getY());
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN) //长按：显示焦点，完成聚焦和测光，再拍摄。
     public void onTextureLongClick(TextureViewTouchEvent.TextureLongClick textureLongClick)
     {
         Toast.makeText(getActivity(), "longclick", Toast.LENGTH_SHORT).show();
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN) // 单指滑动，如果是向右下则进度环增加，否则减小，用于调节焦点白平衡。
     public void onTextureOneDrag(TextureViewTouchEvent.TextureOneDrag textureOneDrag)
     {
         Toast.makeText(getActivity(), "onedrag", Toast.LENGTH_SHORT).show();
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN)  // 两手指拖动则完成焦距调节。
     public void onTextureTwoDrag(TextureViewTouchEvent.TextureTwoDrag textureTwoDrag)
     {
         Toast.makeText(getActivity(), "twodrag", Toast.LENGTH_SHORT).show();
     }
 
+
+    //针对上面的聚焦，这四个是聚焦成功、失败等状态时显示的view
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onShowFocus(TextureViewTouchEvent.FocusState focusState)
+    {
+        switch (focusState.getFocusState())
+        {
+            case Constants.FOCUS_FOCUSING:
+                if (mFlagShowFocusImage == false)
+                {
+                    iv_focus_camera.setVisibility(View.VISIBLE);
+                    iv_focus_camera.setImageResource(R.mipmap.focusing);
+                    ScaleAnimation scaleAnimation = new ScaleAnimation(2.0f, 1.0f, 2.0f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                    scaleAnimation.setDuration(200);
+                    iv_focus_camera.startAnimation(scaleAnimation);
+                    handler.postDelayed(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            iv_focus_camera.setVisibility(View.GONE);
+                        }
+                    }, 1000);
+                    mFlagShowFocusImage = true;
+                }
+                break;
+
+            case Constants.FOCUS_SUCCEED:
+                if (mFlagShowFocusImage == true)
+                {
+                    iv_focus_camera.setVisibility(View.VISIBLE);
+                    iv_focus_camera.setImageResource(R.mipmap.focus_succeed);
+                    handler.postDelayed(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            iv_focus_camera.setVisibility(View.GONE);
+                        }
+                    }, 1000);
+                    mFlagShowFocusImage = false;
+                }
+                break;
+
+            case Constants.FOCUS_INACTIVE:
+                iv_focus_camera.setVisibility(View.GONE);
+                mFlagShowFocusImage = false;
+                break;
+
+            case Constants.FOCUS_FAILED:
+                if (mFlagShowFocusImage == true)
+                {
+                    iv_focus_camera.setVisibility(View.VISIBLE);
+                    iv_focus_camera.setImageResource(R.mipmap.focus_failed);
+                    handler.postDelayed(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            iv_focus_camera.setVisibility(View.GONE);
+                        }
+                    }, 1000);
+                    mFlagShowFocusImage = false;
+                }
+                break;
+        }
+    }
+
+
+
+
     //EventBus--接收相机配置的参数
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onFlashSelect(CameraConfigure.Flash flash)
+    public void onFlashSelect(CameraConfigure.Flash flash) throws CameraAccessException
     {
         tv_mode_gpufileter.setVisibility(View.VISIBLE);
         cameraTextureView.setFlashMode(flash.getFlash());

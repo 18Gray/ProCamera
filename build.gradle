@@ -37,6 +37,7 @@ ext {
     frescoVersion = '1.1.0'
     butterknifeVersion = '8.4.0'
     leakcanary = '1.5'
+    eventbus = '3.0.0'
 
     // Test dependencies
     espressoVersion = '2.2.2'

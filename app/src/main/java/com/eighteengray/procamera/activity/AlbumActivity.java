@@ -10,8 +10,8 @@ import com.eighteengray.commonutillibrary.ImageUtils;
 import com.eighteengray.procamera.MainActivity;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.SaveImage;
-import com.eighteengray.procamera.common.Constants;
 import com.eighteengray.procamera.widget.AllDialog;
+import com.eighteengray.procameralibrary.camera.Constants;
 
 import android.app.Dialog;
 import android.content.ContentResolver;

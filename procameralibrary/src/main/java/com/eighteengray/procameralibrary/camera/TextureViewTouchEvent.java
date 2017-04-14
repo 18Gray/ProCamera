@@ -1,4 +1,4 @@
-package com.eighteengray.procamera.DataEvent;
+package com.eighteengray.procameralibrary.camera;
 
 /**
  * Created by lutao on 2017/4/12.
@@ -87,6 +87,22 @@ public class TextureViewTouchEvent
         public void setScale(float scale)
         {
             this.scale = scale;
+        }
+    }
+
+
+    public static class FocusState
+    {
+        private int focusState;
+
+        public int getFocusState()
+        {
+            return focusState;
+        }
+
+        public void setFocusState(int focusState)
+        {
+            this.focusState = focusState;
         }
     }
 

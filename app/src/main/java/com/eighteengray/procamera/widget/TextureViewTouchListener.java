@@ -4,12 +4,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import com.eighteengray.commonutillibrary.ViewUtils;
-import com.eighteengray.procamera.DataEvent.TextureViewTouchEvent;
-import com.eighteengray.procamera.common.Constants;
-
+import com.eighteengray.procameralibrary.camera.TextureViewTouchEvent;
 import org.greenrobot.eventbus.EventBus;
-
-import static com.eighteengray.commonutillibrary.ViewUtils.getDistance;
 
 
 

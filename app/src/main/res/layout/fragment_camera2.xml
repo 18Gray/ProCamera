@@ -147,6 +147,16 @@
         android:layout_above="@id/rl_middle_bottom_menu"
     />
 
+    <!--聚焦图标-->
+    <ImageView
+        android:id="@+id/iv_focus_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@mipmap/focusing"
+        android:visibility="gone"
+    />
+
 
     <!-- 上部菜单 -->
     <RelativeLayout

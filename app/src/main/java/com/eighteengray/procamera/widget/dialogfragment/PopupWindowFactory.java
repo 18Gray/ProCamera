@@ -9,7 +9,8 @@ import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import com.eighteengray.procamera.DataEvent.CameraConfigure;
 import com.eighteengray.procamera.R;
-import com.eighteengray.procamera.common.Constants;
+import com.eighteengray.procameralibrary.camera.Constants;
+
 import org.greenrobot.eventbus.EventBus;
 
 
