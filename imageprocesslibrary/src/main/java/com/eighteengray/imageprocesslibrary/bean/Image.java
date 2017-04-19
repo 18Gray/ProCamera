@@ -118,8 +118,6 @@ public class Image
 	
 	/**
 	 * Set color array for image - called on initialisation by constructor
-	 * 
-	 * @param bitmap
 	 */
 	private void updateColorArray()
 	{
@@ -211,7 +209,6 @@ public class Image
 	
 	/**
 	 * Set the color of a specified pixel from an RGB combo
-	 * 
 	 * @param x
 	 * @param y
 	 * @param c0
@@ -228,7 +225,6 @@ public class Image
 		// vertexBuffer = vbb.asFloatBuffer();
 		// vertexBuffer.put(vertices);
 		// vertexBuffer.position(0);
-
 		// image.setPixel(x, y, colorArray[((y*image.getWidth()+x))]);
 	}
 

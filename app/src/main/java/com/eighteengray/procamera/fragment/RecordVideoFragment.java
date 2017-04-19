@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.eighteengray.procamera.DataEvent.CameraConfigure;
+import com.eighteengray.procamera.dataevent.CameraConfigure;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.activity.AlbumActivity;
 import com.eighteengray.procamera.activity.SettingActivity;
@@ -24,9 +24,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static com.eighteengray.procamera.R.id.cameraTextureView;
-import static com.eighteengray.procamera.R.id.tv_mode_gpufileter;
 
 
 public class RecordVideoFragment extends BaseCameraFragment

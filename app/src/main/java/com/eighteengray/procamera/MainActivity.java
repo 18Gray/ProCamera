@@ -8,7 +8,10 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.WindowManager;
-import com.eighteengray.procamera.DataEvent.ModeSelectEvent;
+import android.widget.Toast;
+
+import com.eighteengray.imageprocesslibrary.imageprocess.JniExample;
+import com.eighteengray.procamera.dataevent.ModeSelectEvent;
 import com.eighteengray.procamera.fragment.Camera2Fragment;
 import com.eighteengray.procamera.fragment.RecordVideoFragment;
 import com.eighteengray.procameralibrary.camera.Constants;
@@ -46,6 +49,7 @@ public class MainActivity extends FragmentActivity
                 .build());*/
         EventBus.getDefault().register(this);
         initFragment();
+        Toast.makeText(MainActivity.this, JniExample.stringFromJNI(), Toast.LENGTH_SHORT).show();
     }
 
 

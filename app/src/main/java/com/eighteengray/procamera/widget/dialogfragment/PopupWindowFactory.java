@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
-import com.eighteengray.procamera.DataEvent.CameraConfigure;
+import com.eighteengray.procamera.dataevent.CameraConfigure;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procameralibrary.camera.Constants;
 

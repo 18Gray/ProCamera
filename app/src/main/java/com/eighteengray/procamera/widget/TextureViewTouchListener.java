@@ -11,7 +11,7 @@ import org.greenrobot.eventbus.EventBus;
 
 
 //TextureView的触摸事件。轻按拍摄区域，显示焦点，完成聚焦和测光。
-//长按则是拍摄。
+//长按进行af/ae锁定。
 // 单指滑动，如果是向右下则进度环增加，否则减小，用于调节焦点白平衡。
 // 两手指拖动则完成焦距调节。
 public class TextureViewTouchListener implements View.OnTouchListener

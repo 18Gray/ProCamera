@@ -1,4 +1,4 @@
-package com.eighteengray.procamera.DataEvent;
+package com.eighteengray.procamera.dataevent;
 
 
 

@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.LinearLayout;
-import com.eighteengray.procamera.DataEvent.ModeSelectEvent;
+import com.eighteengray.procamera.dataevent.ModeSelectEvent;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procameralibrary.camera.Constants;
 

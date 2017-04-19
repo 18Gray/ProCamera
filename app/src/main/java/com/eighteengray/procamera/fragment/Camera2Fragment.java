@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.eighteengray.procamera.DataEvent.CameraConfigure;
+import com.eighteengray.procamera.dataevent.CameraConfigure;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.activity.AlbumActivity;
 import com.eighteengray.procamera.activity.GpuFilterActivity;
@@ -362,9 +362,6 @@ public class Camera2Fragment extends BaseCameraFragment
                 break;
         }
     }
-
-
-
 
 
 }
