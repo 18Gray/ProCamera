@@ -83,7 +83,14 @@ public class RecordTextureView extends BaseCamera2TextureView
         {
             return;
         }
-        buildRecordVideoRequest();
+        try
+        {
+            mRecordVideoBuilder = CaptureRequestFactory.createRecordBuilder(mCameraDevice, mMediaRecorder.getSurface());
+            updatePreview(mRecordVideoBuilder.build(), recordCaptureCallback);
+        } catch (CameraAccessException e)
+        {
+            e.printStackTrace();
+        }
     }
 
 
@@ -297,19 +304,6 @@ public class RecordTextureView extends BaseCamera2TextureView
     };
 
 
-
-    //录像操作
-    private void buildRecordVideoRequest()
-    {
-        try
-        {
-            updatePreview(CaptureRequestFactory.createRecordRequest(mCameraDevice, mMediaRecorder.getSurface()), recordCaptureCallback);
-        } catch (CameraAccessException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
     CameraCaptureSession.CaptureCallback recordCaptureCallback = new CameraCaptureSession.CaptureCallback()
     {
         @Override
@@ -363,15 +357,10 @@ public class RecordTextureView extends BaseCamera2TextureView
 
 
     //点击事件的处理方法
-    public void setFlashMode(int flashMode)
+    public void setFlashMode(int flashMode) throws CameraAccessException
     {
-        try
-        {
-            updatePreview(CaptureRequestFactory.createFlashRequest(mCameraDevice, surface, flashMode), recordCaptureCallback);
-        } catch (CameraAccessException e)
-        {
-            e.printStackTrace();
-        }
+        CaptureRequestFactory.setPreviewBuilderFlash(mPreviewRequestBuilder, flashMode);
+        updatePreview(mPreviewRequestBuilder.build(), recordCaptureCallback);
     }
 
 

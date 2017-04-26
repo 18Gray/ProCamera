@@ -19,6 +19,7 @@ import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.MeteringRectangle;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.ImageReader;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -104,7 +105,8 @@ public class Camera2TextureView extends BaseCamera2TextureView
             initImageReader(largest);
             mPreviewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class), width, height, largest);
             mPreviewSize = new Size(getWidth(), getHeight());
-            mFile = new File(getSystemPicFile(context), "procamera.jpg");
+            String picName = SystemClock.currentThreadTimeMillis() + ".jpg";
+            mFile = new File(getSystemPicFile(context), picName);
 
             //如果屏幕旋转需要调整
             int orientation = getResources().getConfiguration().orientation;
@@ -259,7 +261,7 @@ public class Camera2TextureView extends BaseCamera2TextureView
             switch (mState)
             {
                 case STATE_PREVIEW:  //在preview中处理TextureView的触摸事件
-                    /*if (afState == null)
+                    if (afState == null)
                     {
                         return;
                     }
@@ -269,7 +271,7 @@ public class Camera2TextureView extends BaseCamera2TextureView
                         return;
                     }
                     mAfState = afState.intValue();
-                    judgeFocus();  //聚焦视图*/
+                    judgeFocus();  //聚焦视图
                     break;
 
                 case STATE_WAITING_LOCK:
@@ -322,7 +324,7 @@ public class Camera2TextureView extends BaseCamera2TextureView
         try
         {
             mCaptureStillBuilder = CaptureRequestFactory.createCaptureStillBuilder(mCameraDevice, mImageReader.getSurface());
-            CaptureRequestFactory.setCaptureStillBuilder(mCaptureStillBuilder, windowManager);
+            CaptureRequestFactory.setCaptureBuilderStill(mCaptureStillBuilder, windowManager);
 
             mCaptureSession.stopRepeating();
             mCaptureSession.capture(mCaptureStillBuilder.build(), captureStillCallback, null);
@@ -342,7 +344,7 @@ public class Camera2TextureView extends BaseCamera2TextureView
                 @Override
                 public void run()
                 {
-                    Toast.makeText(context, "saved:"+mFile, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "saved:" + mFile, Toast.LENGTH_SHORT).show();
                 }
             });
             unlockFocus();
@@ -353,7 +355,8 @@ public class Camera2TextureView extends BaseCamera2TextureView
     {
         try
         {
-            mCaptureSession.capture(CaptureRequestFactory.createCaptureAgainRequest(mCameraDevice, mImageReader.getSurface()), captureSessionCaptureCallback, mBackgroundHandler);
+            CaptureRequestFactory.setCaptureBuilderPrecapture(mCaptureStillBuilder);
+            mCaptureSession.capture(mCaptureStillBuilder.build(), captureSessionCaptureCallback, mBackgroundHandler);
         } catch (CameraAccessException e)
         {
             e.printStackTrace();
@@ -366,6 +369,8 @@ public class Camera2TextureView extends BaseCamera2TextureView
         @Override
         public void onImageAvailable(ImageReader reader)
         {
+            //这里应该发EventBus，让View去处理，先开启线程保存，然后图像显示在界面上，在缩小动画到左边相册，相册显示图像。
+            // 上面执行完成后，会回调回来onCaptureCompleted。提示保存成功，并进入预览。
             new Thread(new ImageSaver(reader, mFile)).start();
         }
     };
@@ -432,11 +437,12 @@ public class Camera2TextureView extends BaseCamera2TextureView
     //点击事件的处理方法
     public void setFlashMode(int flashMode) throws CameraAccessException
     {
-        updatePreview(CaptureRequestFactory.createFlashRequest(mCameraDevice, surface, flashMode), captureSessionCaptureCallback);
+        CaptureRequestFactory.setPreviewBuilderFlash(mPreviewRequestBuilder, flashMode);
+        updatePreview(mPreviewRequestBuilder.build(), captureSessionCaptureCallback);
     }
 
 
-    public void focus(float x, float y) throws CameraAccessException
+    public void focusRegion(float x, float y) throws CameraAccessException
     {
         try
         {
@@ -462,7 +468,8 @@ public class Camera2TextureView extends BaseCamera2TextureView
         newRect = new Rect(focusLeft, focusBottom, focusLeft + areaSize, focusBottom + areaSize);
         MeteringRectangle meteringRectangle = new MeteringRectangle(newRect, 500);
         MeteringRectangle[] meteringRectangleArr = {meteringRectangle};
-        updatePreview(CaptureRequestFactory.createFocusRequest(mCameraDevice, surface, meteringRectangleArr), captureSessionCaptureCallback);
+        CaptureRequestFactory.setPreviewBuilderFocusRegion(mPreviewRequestBuilder, meteringRectangleArr);
+        updatePreview(mPreviewRequestBuilder.build(), captureSessionCaptureCallback);
     }
 
     private int clamp(int x, int min, int max)
