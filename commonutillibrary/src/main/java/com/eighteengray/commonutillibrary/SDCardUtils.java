@@ -121,4 +121,11 @@ public class SDCardUtils
         return context.getDir(path, 0);
     }
 
+
+    public static String getSystemPicFile(Context context)
+    {
+        return context.getExternalFilesDir(Environment.DIRECTORY_DCIM).getPath() + File.separator + "Camera";
+    }
+
+
 }

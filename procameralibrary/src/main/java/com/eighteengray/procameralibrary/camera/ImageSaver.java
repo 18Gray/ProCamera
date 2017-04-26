@@ -5,6 +5,8 @@ import android.media.ImageReader;
 import android.os.Environment;
 import android.util.Log;
 
+import com.eighteengray.commonutillibrary.SDCardUtils;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -13,27 +15,23 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.util.Random;
 
-/**
- * Created by yuyidong on 15-1-9.
- */
+
+
 public class ImageSaver implements Runnable
 {
-
     private ImageReader mImageReader;
+    private File file;
 
-    public ImageSaver(ImageReader mImageReader)
+    public ImageSaver(ImageReader mImageReader, File f)
     {
         this.mImageReader = mImageReader;
+        this.file = f;
     }
 
     @Override
     public void run()
     {
-        Image image = mImageReader.acquireLatestImage();
-        checkParentDir();
-        File file;
-        checkJpegDir();
-        file = createJpeg();
+        Image image = mImageReader.acquireNextImage();
         try
         {
             ByteBuffer buffer = image.getPlanes()[0].getBuffer();
@@ -53,49 +51,10 @@ public class ImageSaver implements Runnable
         }
     }
 
-    /**
-     * 判断父文件是否存在
-     */
-    private void checkParentDir()
-    {
-        File dir = new File(Environment.getExternalStorageDirectory() + "/Android_L_Test/");
-        if (!dir.exists())
-        {
-            dir.mkdir();
-        }
-    }
-
-    /**
-     * 判断文件夹是否存在
-     */
-    private void checkJpegDir()
-    {
-        File dir = new File(Environment.getExternalStorageDirectory() + "/Android_L_Test/jpeg/");
-        if (!dir.exists())
-        {
-            dir.mkdir();
-        }
-    }
-
-
-    /**
-     * 创建jpeg的文件
-     *
-     * @return
-     */
-    private File createJpeg()
-    {
-        long time = System.currentTimeMillis();
-        int random = new Random().nextInt(1000);
-        File dir = new File(Environment.getExternalStorageDirectory() + "/Android_L_Test/jpeg/");
-        Log.i("JpegSaver", time + "_" + random + ".jpg");
-        return new File(dir, time + "_" + random + ".jpg");
-    }
 
 
     /**
      * 保存
-     *
      * @param bytes
      * @param file
      * @throws IOException

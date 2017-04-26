@@ -16,6 +16,8 @@ import android.util.Size;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.WindowManager;
+
+import java.io.File;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
@@ -30,7 +32,7 @@ public abstract class BaseCamera2TextureView extends TextureView
     public WindowManager windowManager;
     public HandlerThread mBackgroundThread;
     public Handler mBackgroundHandler;
-    public Handler mMainHandlelr;
+    public Handler mMainHandler;
 
     public String mCameraId;
     public int cameraNum = 0;
@@ -43,6 +45,12 @@ public abstract class BaseCamera2TextureView extends TextureView
     protected CameraCaptureSession mCaptureSession;
     protected Surface surface;
     protected CameraCharacteristics mCameraCharacteristics;
+    protected File mFile;
+
+    //包括三类请求，预览相关、拍照、录像
+    protected CaptureRequest.Builder mPreviewRequestBuilder;
+    protected CaptureRequest.Builder mCaptureStillBuilder;
+    protected CaptureRequest.Builder mRecordVideoBuilder;
 
     //监听，TextureView好了之后，打开相机
     protected final SurfaceTextureListener mSurfaceTextureListener = new SurfaceTextureListener()
@@ -181,7 +189,7 @@ public abstract class BaseCamera2TextureView extends TextureView
         mBackgroundThread = new HandlerThread("CameraBackground");
         mBackgroundThread.start();
         mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
-        mMainHandlelr = new Handler(context.getMainLooper());
+        mMainHandler = new Handler(context.getMainLooper());
     }
 
     private void stopBackgroundThread()

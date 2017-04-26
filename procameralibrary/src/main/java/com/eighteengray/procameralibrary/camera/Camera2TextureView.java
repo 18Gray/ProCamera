@@ -11,6 +11,7 @@ import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
@@ -20,24 +21,33 @@ import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.ImageReader;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.Surface;
+import android.view.View;
+import android.widget.Toast;
+
 import org.greenrobot.eventbus.EventBus;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static com.eighteengray.commonutillibrary.SDCardUtils.getSDCardPath;
+import static com.eighteengray.commonutillibrary.SDCardUtils.getSystemPicFile;
 
 
 public class Camera2TextureView extends BaseCamera2TextureView
 {
     private int mState = STATE_PREVIEW;
     private static final int STATE_PREVIEW = 0;
-    private static final int STATE_WAITING_CAPTURE = 1;
-    private static final int STATE_TRY_CAPTURE_AGAIN = 2;
-    private static final int STATE_TRY_DO_CAPTURE = 3;
+    private static final int STATE_WAITING_LOCK = 1;
+    private static final int STATE_WAITING_PRECAPTURE = 2;
+    private static final int STATE_WAITING_NON_PRECAPTURE = 3;
+    private static final int STATE_PICTURE_TAKEN = 4;
 
     private int mAfState = CameraMetadata.CONTROL_AF_STATE_INACTIVE;
 
@@ -73,7 +83,7 @@ public class Camera2TextureView extends BaseCamera2TextureView
 
     public void takePicture()
     {
-        takePictureReal();
+        lockFocus();
     }
 
 
@@ -94,6 +104,7 @@ public class Camera2TextureView extends BaseCamera2TextureView
             initImageReader(largest);
             mPreviewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class), width, height, largest);
             mPreviewSize = new Size(getWidth(), getHeight());
+            mFile = new File(getSystemPicFile(context), "procamera.jpg");
 
             //如果屏幕旋转需要调整
             int orientation = getResources().getConfiguration().orientation;
@@ -164,9 +175,9 @@ public class Camera2TextureView extends BaseCamera2TextureView
         {
             matrix.postRotate(180, centerX, centerY);
         }
-        if(mMainHandlelr != null)
+        if(mMainHandler != null)
         {
-            mMainHandlelr.post(new Runnable()
+            mMainHandler.post(new Runnable()
             {
                 @Override
                 public void run()
@@ -194,6 +205,7 @@ public class Camera2TextureView extends BaseCamera2TextureView
 
 
 
+
     //监听，进入预览状态，预览配置成功后获取预览数据
     protected CameraCaptureSession.StateCallback captureSessionStateCallback = new CameraCaptureSession.StateCallback()
     {
@@ -207,7 +219,9 @@ public class Camera2TextureView extends BaseCamera2TextureView
             mCaptureSession = cameraCaptureSession;
             try
             {
-                updatePreview(CaptureRequestFactory.createPreviewRequest(mCameraDevice, surface), captureSessionCaptureCallback);
+                mPreviewRequestBuilder = CaptureRequestFactory.createPreviewBuilder(mCameraDevice, surface);
+                CaptureRequestFactory.setPreviewBuilderPreview(mPreviewRequestBuilder);
+                updatePreview(mPreviewRequestBuilder.build(), captureSessionCaptureCallback);
             } catch (CameraAccessException e)
             {
                 e.printStackTrace();
@@ -245,7 +259,7 @@ public class Camera2TextureView extends BaseCamera2TextureView
             switch (mState)
             {
                 case STATE_PREVIEW:  //在preview中处理TextureView的触摸事件
-                    if (afState == null)
+                    /*if (afState == null)
                     {
                         return;
                     }
@@ -255,38 +269,46 @@ public class Camera2TextureView extends BaseCamera2TextureView
                         return;
                     }
                     mAfState = afState.intValue();
-                    judgeFocus();
+                    judgeFocus();  //聚焦视图*/
                     break;
 
-                case STATE_WAITING_CAPTURE:
+                case STATE_WAITING_LOCK:
                     if (CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED == afState || CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED == afState
                             || CaptureResult.CONTROL_AF_STATE_PASSIVE_FOCUSED == afState || CaptureResult.CONTROL_AF_STATE_PASSIVE_UNFOCUSED == afState)
                     {
-                        if (aeState == null || aeState == CaptureResult.CONTROL_AE_STATE_CONVERGED)
+                        if (afState == null)
                         {
-                            mState = STATE_TRY_DO_CAPTURE;
                             doStillCapture();
-                        } else
+                        }
+                        else if (CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED == afState
+                               || CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED == afState)
                         {
-                            mState = STATE_TRY_CAPTURE_AGAIN;
-                            tryCaptureAgain();
+                            aeState = result.get(CaptureResult.CONTROL_AE_STATE);
+                            if (aeState == null || aeState == CaptureResult.CONTROL_AE_STATE_CONVERGED)
+                            {
+                                mState = STATE_PICTURE_TAKEN;
+                                doStillCapture();
+                            } else
+                            {
+                                tryCaptureAgain();
+                            }
                         }
                     }
                     break;
 
-                case STATE_TRY_CAPTURE_AGAIN:
+                case STATE_WAITING_PRECAPTURE:
                     if (aeState == null || aeState == CaptureResult.CONTROL_AE_STATE_PRECAPTURE ||
                             aeState == CaptureRequest.CONTROL_AE_STATE_FLASH_REQUIRED)
                     {
-                        mState = STATE_TRY_DO_CAPTURE;
+                        mState = STATE_WAITING_NON_PRECAPTURE;
                     }
                     break;
 
-                case STATE_TRY_DO_CAPTURE:
+                case STATE_WAITING_NON_PRECAPTURE:
                     aeState = result.get(CaptureResult.CONTROL_AE_STATE);
                     if (aeState == null || aeState != CaptureResult.CONTROL_AE_STATE_PRECAPTURE)
                     {
-                        mState = STATE_TRY_DO_CAPTURE;
+                        mState = STATE_PICTURE_TAKEN;
                         doStillCapture();
                     }
                     break;
@@ -299,15 +321,33 @@ public class Camera2TextureView extends BaseCamera2TextureView
     {
         try
         {
+            mCaptureStillBuilder = CaptureRequestFactory.createCaptureStillBuilder(mCameraDevice, mImageReader.getSurface());
+            CaptureRequestFactory.setCaptureStillBuilder(mCaptureStillBuilder, windowManager);
+
             mCaptureSession.stopRepeating();
-            mCaptureSession.capture(CaptureRequestFactory.createCaptureRequest(mCameraDevice, mImageReader.getSurface(), windowManager), new CameraCaptureSession.CaptureCallback()
-            {
-            }, mBackgroundHandler);
+            mCaptureSession.capture(mCaptureStillBuilder.build(), captureStillCallback, null);
         } catch (CameraAccessException e)
         {
             e.printStackTrace();
         }
     }
+
+    private CameraCaptureSession.CaptureCallback captureStillCallback = new CameraCaptureSession.CaptureCallback()
+    {
+        @Override
+        public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result)
+        {
+            mMainHandler.post(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    Toast.makeText(context, "saved:"+mFile, Toast.LENGTH_SHORT).show();
+                }
+            });
+            unlockFocus();
+        }
+    };
 
     private void tryCaptureAgain()
     {
@@ -326,21 +366,37 @@ public class Camera2TextureView extends BaseCamera2TextureView
         @Override
         public void onImageAvailable(ImageReader reader)
         {
-            new Thread(new ImageSaver(reader)).start();
+            new Thread(new ImageSaver(reader, mFile)).start();
         }
     };
 
 
 
-    //拍照，要先发preview请求，待captureSessionCaptureCallback回调，进入STATE_WAITING_CAPTURE从而可以调用真的拍照请求。
-    private void takePictureReal()
+
+    //拍照，要先发锁定焦点的preview请求，待captureSessionCaptureCallback回调，进入STATE_WAITING_CAPTURE从而可以调用真的拍照请求。
+    private void lockFocus()
     {
         try
         {
-            mState = STATE_WAITING_CAPTURE;
-            updatePreview(CaptureRequestFactory.createPreviewRequest(mCameraDevice, surface), captureSessionCaptureCallback);
+            CaptureRequestFactory.setPreviewBuilderLockfocus(mPreviewRequestBuilder);
+            mState = STATE_WAITING_LOCK;
+            mCaptureSession.capture(mPreviewRequestBuilder.build(), captureSessionCaptureCallback, mBackgroundHandler);
         } catch (CameraAccessException e)
         {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void unlockFocus()
+    {
+        try {
+            CaptureRequestFactory.setPreviewBuilderUnlockfocus(mPreviewRequestBuilder);
+            mCaptureSession.capture(mPreviewRequestBuilder.build(), captureSessionCaptureCallback, mBackgroundHandler);
+
+            mState = STATE_PREVIEW;
+            mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), captureSessionCaptureCallback, mBackgroundHandler);
+        } catch (CameraAccessException e) {
             e.printStackTrace();
         }
     }

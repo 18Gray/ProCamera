@@ -94,7 +94,7 @@ public class RecordTextureView extends BaseCamera2TextureView
             mMediaRecorder.stop();
             mMediaRecorder.reset();
         }
-        mMainHandlelr.post(new Runnable()
+        mMainHandler.post(new Runnable()
         {
             @Override
             public void run()
@@ -200,9 +200,9 @@ public class RecordTextureView extends BaseCamera2TextureView
             matrix.postScale(scale, scale, centerX, centerY);
             matrix.postRotate(90 * (rotation - 2), centerX, centerY);
         }
-        if(mMainHandlelr != null)
+        if(mMainHandler != null)
         {
-            mMainHandlelr.post(new Runnable()
+            mMainHandler.post(new Runnable()
             {
                 @Override
                 public void run()
@@ -282,7 +282,8 @@ public class RecordTextureView extends BaseCamera2TextureView
             mCaptureSession = cameraCaptureSession;
             try
             {
-                updatePreview(CaptureRequestFactory.createPreviewRequest(mCameraDevice, surface), null);
+                mPreviewRequestBuilder = CaptureRequestFactory.createPreviewBuilder(mCameraDevice, surface);
+                updatePreview(mPreviewRequestBuilder.build(), null);
             } catch (CameraAccessException e)
             {
                 e.printStackTrace();
@@ -320,7 +321,7 @@ public class RecordTextureView extends BaseCamera2TextureView
         public void onCaptureCompleted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull TotalCaptureResult result)
         {
             mMediaRecorder.start();
-            mMainHandlelr.post(new Runnable()
+            mMainHandler.post(new Runnable()
             {
                 @Override
                 public void run()
