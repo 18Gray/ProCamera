@@ -51,6 +51,7 @@ public class Camera2TextureView extends BaseCamera2TextureView
     private static final int STATE_PICTURE_TAKEN = 4;
 
     private int mAfState = CameraMetadata.CONTROL_AF_STATE_INACTIVE;
+    private boolean isTrigger = false;
 
     public static final SparseIntArray ORIENTATIONS = new SparseIntArray();
     static
@@ -263,11 +264,13 @@ public class Camera2TextureView extends BaseCamera2TextureView
                 case STATE_PREVIEW:  //在preview中处理TextureView的触摸事件
                     if (afState == null)
                     {
+                        Log.d("Camera2TextureView", "null");
                         return;
                     }
                     //这次的值与之前的一样，忽略掉
                     if (afState.intValue() == mAfState)
                     {
+                        Log.d("Camera2TextureView", "same");
                         return;
                     }
                     mAfState = afState.intValue();
@@ -393,7 +396,7 @@ public class Camera2TextureView extends BaseCamera2TextureView
     }
 
 
-    private void unlockFocus()
+    public void unlockFocus()
     {
         try {
             CaptureRequestFactory.setPreviewBuilderUnlockfocus(mPreviewRequestBuilder);
@@ -444,6 +447,7 @@ public class Camera2TextureView extends BaseCamera2TextureView
 
     public void focusRegion(float x, float y) throws CameraAccessException
     {
+        isTrigger = false;
         try
         {
             mCameraCharacteristics = manager.getCameraCharacteristics(mCameraId);
@@ -470,7 +474,10 @@ public class Camera2TextureView extends BaseCamera2TextureView
         MeteringRectangle[] meteringRectangleArr = {meteringRectangle};
         CaptureRequestFactory.setPreviewBuilderFocusRegion(mPreviewRequestBuilder, meteringRectangleArr);
         updatePreview(mPreviewRequestBuilder.build(), captureSessionCaptureCallback);
+        CaptureRequestFactory.setPreviewBuilderFocusTrigger(mPreviewRequestBuilder);
+        mCaptureSession.capture(mPreviewRequestBuilder.build(), captureSessionCaptureCallback, mBackgroundHandler);
     }
+
 
     private int clamp(int x, int min, int max)
     {
@@ -491,9 +498,9 @@ public class Camera2TextureView extends BaseCamera2TextureView
         switch (mAfState)
         {
             case CameraMetadata.CONTROL_AF_STATE_INACTIVE:
-                TextureViewTouchEvent.FocusState focusState3 = new TextureViewTouchEvent.FocusState();
-                focusState3.setFocusState(Constants.FOCUS_INACTIVE);
-                EventBus.getDefault().post(focusState3);
+                TextureViewTouchEvent.FocusState focusState0 = new TextureViewTouchEvent.FocusState();
+                focusState0.setFocusState(Constants.FOCUS_INACTIVE);
+                EventBus.getDefault().post(focusState0);
                 break;
 
             case CameraMetadata.CONTROL_AF_STATE_PASSIVE_SCAN:
@@ -509,13 +516,28 @@ public class Camera2TextureView extends BaseCamera2TextureView
                 break;
 
             case CameraMetadata.CONTROL_AF_STATE_ACTIVE_SCAN:
+                TextureViewTouchEvent.FocusState focusState3 = new TextureViewTouchEvent.FocusState();
+                focusState3.setFocusState(Constants.FOCUS_FOCUSING);
+                EventBus.getDefault().post(focusState3);
+                break;
+
             case CameraMetadata.CONTROL_AF_STATE_FOCUSED_LOCKED:
+                TextureViewTouchEvent.FocusState focusState4 = new TextureViewTouchEvent.FocusState();
+                focusState4.setFocusState(Constants.FOCUS_SUCCEED);
+                EventBus.getDefault().post(focusState4);
+                mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_IDLE);
+                break;
+
             case CameraMetadata.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED:
+                TextureViewTouchEvent.FocusState focusState5 = new TextureViewTouchEvent.FocusState();
+                focusState5.setFocusState(Constants.FOCUS_FAILED);
+                EventBus.getDefault().post(focusState5);
+                break;
 
             case CameraMetadata.CONTROL_AF_STATE_PASSIVE_UNFOCUSED:
-                TextureViewTouchEvent.FocusState focusState4 = new TextureViewTouchEvent.FocusState();
-                focusState4.setFocusState(Constants.FOCUS_FAILED);
-                EventBus.getDefault().post(focusState4);
+                TextureViewTouchEvent.FocusState focusState6 = new TextureViewTouchEvent.FocusState();
+                focusState6.setFocusState(Constants.FOCUS_FAILED);
+                EventBus.getDefault().post(focusState6);
                 break;
         }
     }

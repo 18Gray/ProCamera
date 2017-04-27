@@ -33,7 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-
+import static android.R.attr.width;
 
 
 public class Camera2Fragment extends BaseCameraFragment
@@ -81,6 +81,7 @@ public class Camera2Fragment extends BaseCameraFragment
 
     Handler handler;
     private boolean mFlagShowFocusImage = false;
+    private float mRawX, mRawY;
 
 
     @Override
@@ -179,6 +180,8 @@ public class Camera2Fragment extends BaseCameraFragment
     @Subscribe(threadMode = ThreadMode.MAIN)  //轻按：显示焦点，完成聚焦和测光。
     public void onTextureClick(TextureViewTouchEvent.TextureClick textureClick) throws CameraAccessException
     {
+        mRawX = textureClick.getRawX();
+        mRawY = textureClick.getRawY();
         cameraTextureView.focusRegion(textureClick.getX(), textureClick.getY());
     }
 
@@ -210,6 +213,19 @@ public class Camera2Fragment extends BaseCameraFragment
             case Constants.FOCUS_FOCUSING:
                 if (mFlagShowFocusImage == false)
                 {
+                    //聚焦图片显示在手点击的位置
+                    if(mRawX == 0 || mRawY == 0)
+                    {
+                        mRawX = cameraTextureView.getMeasuredWidth() / 2 - 100;
+                        mRawY = cameraTextureView.getMeasuredHeight() / 2;
+                    }
+                    int width = iv_focus_camera.getWidth();
+                    int height = iv_focus_camera.getHeight();
+                    ViewGroup.MarginLayoutParams margin = new ViewGroup.MarginLayoutParams(iv_focus_camera.getLayoutParams());
+                    margin.setMargins((int)(mRawX - width / 2), (int)(mRawY - height / 2), margin.rightMargin, margin.bottomMargin);
+                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(margin);
+                    iv_focus_camera.setLayoutParams(layoutParams);
+
                     iv_focus_camera.setVisibility(View.VISIBLE);
                     iv_focus_camera.setImageResource(R.mipmap.focusing);
                     ScaleAnimation scaleAnimation = new ScaleAnimation(2.0f, 1.0f, 2.0f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);

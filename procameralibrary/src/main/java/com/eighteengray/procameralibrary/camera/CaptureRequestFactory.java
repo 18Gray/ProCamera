@@ -27,7 +27,16 @@ public class CaptureRequestFactory
     public static void setPreviewBuilderPreview(CaptureRequest.Builder previewBuilder) throws CameraAccessException
     {
         previewBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
-//        previewBuilder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH);
+
+        /*previewBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
+        previewBuilder.set(CaptureRequest.CONTROL_AF_MODE, CameraMetadata.CONTROL_AF_MODE_AUTO);
+        previewBuilder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON);
+        previewBuilder.set(CaptureRequest.CONTROL_AWB_MODE, CameraMetadata.CONTROL_AWB_MODE_AUTO);
+        previewBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_OFF);
+        previewBuilder.set(CaptureRequest.LENS_FOCUS_DISTANCE, 5.0f);
+        previewBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, (long) ((214735991 - 13231) / 2));
+        previewBuilder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, 0);
+        previewBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, (10000 - 100) / 2);*/
     }
 
     //设置预览-锁定焦点
@@ -40,16 +49,21 @@ public class CaptureRequestFactory
     public static void setPreviewBuilderUnlockfocus(CaptureRequest.Builder previewBuilder) throws CameraAccessException
     {
         previewBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
-//        previewBuilder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH);
-
+        previewBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
     }
 
     //设置预览-聚焦区域
     public static void setPreviewBuilderFocusRegion(CaptureRequest.Builder previewBuilder, MeteringRectangle[] meteringRectangleArr) throws CameraAccessException
     {
-        previewBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
-        previewBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START);
         previewBuilder.set(CaptureRequest.CONTROL_AF_REGIONS, meteringRectangleArr);
+        previewBuilder.set(CaptureRequest.CONTROL_AE_REGIONS, meteringRectangleArr);
+        previewBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_AUTO);
+    }
+
+    public static void setPreviewBuilderFocusTrigger(CaptureRequest.Builder previewBuilder) throws CameraAccessException
+    {
+        previewBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START);
+        previewBuilder.set(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER, CameraMetadata.CONTROL_AE_PRECAPTURE_TRIGGER_START);
     }
 
     //设置预览-闪光灯模式

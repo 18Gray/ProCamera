@@ -115,6 +115,8 @@ public class TextureViewTouchListener implements View.OnTouchListener
                         TextureViewTouchEvent.TextureClick textureClick = new TextureViewTouchEvent.TextureClick();
                         textureClick.setX(downX);
                         textureClick.setY(downY);
+                        textureClick.setRawX(event.getRawX());
+                        textureClick.setRawY(event.getRawY());
                         EventBus.getDefault().post(textureClick);
                     }
                     //LongClick模式

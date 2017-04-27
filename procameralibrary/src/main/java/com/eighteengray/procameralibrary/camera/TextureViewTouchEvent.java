@@ -10,6 +10,29 @@ public class TextureViewTouchEvent
     public static class TextureClick
     {
         private float x, y;
+        private float rawX, rawY;
+
+        public float getRawX()
+        {
+            return rawX;
+        }
+
+        public void setRawX(float rawX)
+        {
+            this.rawX = rawX;
+        }
+
+        public float getRawY()
+        {
+            return rawY;
+        }
+
+        public void setRawY(float rawY)
+        {
+            this.rawY = rawY;
+        }
+
+
 
         public float getX()
         {
