@@ -1,6 +1,7 @@
 package com.eighteengray.procamera.fragment;
 
 import android.content.Intent;
+import android.hardware.camera2.CameraAccessException;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -139,7 +140,7 @@ public class RecordVideoFragment extends BaseCameraFragment
 
     //EventBus接收相机配置的参数
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onFlashSelect(CameraConfigure.Flash flash)
+    public void onFlashSelect(CameraConfigure.Flash flash) throws CameraAccessException
     {
         recordTextureView.setFlashMode(flash.getFlash());
     }

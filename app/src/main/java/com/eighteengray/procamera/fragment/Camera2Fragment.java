@@ -179,7 +179,7 @@ public class Camera2Fragment extends BaseCameraFragment
     @Subscribe(threadMode = ThreadMode.MAIN)  //轻按：显示焦点，完成聚焦和测光。
     public void onTextureClick(TextureViewTouchEvent.TextureClick textureClick) throws CameraAccessException
     {
-        cameraTextureView.focus(textureClick.getX(), textureClick.getY());
+        cameraTextureView.focusRegion(textureClick.getX(), textureClick.getY());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN) //长按：显示焦点，完成聚焦和测光，再拍摄。

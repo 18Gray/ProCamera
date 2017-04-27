@@ -15,6 +15,7 @@ import static com.eighteengray.procameralibrary.camera.Camera2TextureView.ORIENT
 
 public class CaptureRequestFactory
 {
+    //创建预览请求，后面的setXXX方法是根据不同情况设置预览参数
     public static CaptureRequest.Builder createPreviewBuilder(CameraDevice cameraDevice, Surface surface) throws CameraAccessException
     {
         CaptureRequest.Builder previewBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
@@ -22,18 +23,20 @@ public class CaptureRequestFactory
         return previewBuilder;
     }
 
-
+    //设置预览-自动聚焦模式
     public static void setPreviewBuilderPreview(CaptureRequest.Builder previewBuilder) throws CameraAccessException
     {
         previewBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
 //        previewBuilder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH);
     }
 
+    //设置预览-锁定焦点
     public static void setPreviewBuilderLockfocus(CaptureRequest.Builder previewBuilder) throws CameraAccessException
     {
         previewBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START);
     }
 
+    //设置预览-解除锁定焦点
     public static void setPreviewBuilderUnlockfocus(CaptureRequest.Builder previewBuilder) throws CameraAccessException
     {
         previewBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
@@ -41,22 +44,17 @@ public class CaptureRequestFactory
 
     }
 
-
-    public static CaptureRequest createFocusRequest(CameraDevice cameraDevice, Surface surface, MeteringRectangle[] meteringRectangleArr) throws CameraAccessException
+    //设置预览-聚焦区域
+    public static void setPreviewBuilderFocusRegion(CaptureRequest.Builder previewBuilder, MeteringRectangle[] meteringRectangleArr) throws CameraAccessException
     {
-        CaptureRequest.Builder focusBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
-        focusBuilder.addTarget(surface);
-        focusBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
-        focusBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START);
-        focusBuilder.set(CaptureRequest.CONTROL_AF_REGIONS, meteringRectangleArr);  //设置聚焦区域
-        return focusBuilder.build();
+        previewBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
+        previewBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START);
+        previewBuilder.set(CaptureRequest.CONTROL_AF_REGIONS, meteringRectangleArr);
     }
 
-    //点击事件对应的处理方法
-    public static CaptureRequest createFlashRequest(CameraDevice cameraDevice, Surface surface, int flashMode) throws CameraAccessException
+    //设置预览-闪光灯模式
+    public static CaptureRequest setPreviewBuilderFlash(CaptureRequest.Builder previewBuilder, int flashMode) throws CameraAccessException
     {
-        CaptureRequest.Builder previewBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
-        previewBuilder.addTarget(surface);
         previewBuilder.set(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_MODE_AUTO);
         switch (flashMode)
         {
@@ -85,7 +83,7 @@ public class CaptureRequestFactory
 
 
 
-
+    //创建拍照请求
     public static CaptureRequest.Builder createCaptureStillBuilder(CameraDevice cameraDevice, Surface surface) throws CameraAccessException
     {
         CaptureRequest.Builder captureBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
@@ -93,7 +91,8 @@ public class CaptureRequestFactory
         return captureBuilder;
     }
 
-    public static void setCaptureStillBuilder(CaptureRequest.Builder captureBuilder, WindowManager windowManager) throws CameraAccessException
+    //设置拍照模式-拍静态图片
+    public static void setCaptureBuilderStill(CaptureRequest.Builder captureBuilder, WindowManager windowManager) throws CameraAccessException
     {
         captureBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
 //        captureBuilder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH);
@@ -102,21 +101,19 @@ public class CaptureRequestFactory
         captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATIONS.get(rotation));
     }
 
-
-    public static CaptureRequest createCaptureAgainRequest(CameraDevice cameraDevice, Surface surface) throws CameraAccessException
+    //设置拍照模式-连续拍摄
+    public static void setCaptureBuilderPrecapture(CaptureRequest.Builder captureBuilder) throws CameraAccessException
     {
-        CaptureRequest.Builder captureAgaainBuilder = null;
-        captureAgaainBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
-        captureAgaainBuilder.addTarget(surface);
-        captureAgaainBuilder.set(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER, CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
-        return captureAgaainBuilder.build();
+        captureBuilder.set(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER, CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
     }
 
-    public static CaptureRequest createRecordRequest(CameraDevice cameraDevice, Surface surface) throws CameraAccessException
+
+    //创建录像请求
+    public static CaptureRequest.Builder createRecordBuilder(CameraDevice cameraDevice, Surface surface) throws CameraAccessException
     {
         CaptureRequest.Builder recordBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD);
         recordBuilder.addTarget(surface);
-        return recordBuilder.build();
+        return recordBuilder;
     }
 
 
