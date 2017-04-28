@@ -39,7 +39,6 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
-
 import com.eighteengray.commonutillibrary.DataConvertUtil;
 import com.eighteengray.commonutillibrary.ImageUtils;
 import com.eighteengray.imageprocesslibrary.imagefilter.BlackWhiteFilter;
@@ -57,14 +56,11 @@ import com.eighteengray.imageprocesslibrary.imagefilter.SaturationModifyFilter;
 import com.eighteengray.imageprocesslibrary.imagefilter.SharpFilter;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.SaveImage;
-import com.eighteengray.procamera.widget.AllDialog;
 import com.eighteengray.procamera.widget.MyTouchImageView;
-import com.eighteengray.procameralibrary.camera.Constants;
-
+import com.eighteengray.procameralibrary.common.Constants;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -243,8 +239,6 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
                     //currentShowBitmap是结合了印记的图片，currentBitmap用来保存原图，方便更换印记
                     currentShowBitmap = currentBitmap;
 
-                    closeDialog();
-
                     if (currentSaveImage.yinjiBitmap != null) {
                         currentYinjiBitmap = ImageUtils.watermarkWithBmp(currentBitmap, currentSaveImage.yinjiBitmap, currentSaveImage.x, currentSaveImage.y);
                         if (currentYinjiBitmap != null) {
@@ -263,8 +257,6 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
 
 
                 case Constants.IMAGEPROCESS:
-                    closeDialog();
-
                     if (currentShowBitmap != null) {
                         showBackgroundByMode(currentShowBitmap);
                     }
@@ -633,12 +625,10 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
                 }
                 currentGalleryPosition = position;  //记录下选中的位置，但是不改变currentXX。
 
-                showDialog();
 
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        // TODO Auto-generated method stub
                         File file = new File(currentSaveImage.saveImagePath);
                         ImageUtils.saveBitmap(currentShowBitmap, file.getParent().toString(), file.getName().toString());
 
@@ -761,20 +751,16 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
                                     int position, long id) {
                 final IImageFilter filter = (IImageFilter) filterAdapter.getItem(position);
 
-//				new processImageTask(ActivityFilm.this, filter).execute();
-                showDialog();
 
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        // TODO Auto-generated method stub
                         Image image = null;
                         if (currentBitmap != null) {
                             try {
                                 image = new Image(currentBitmap);
 
                             } catch (Exception e) {
-                                // TODO: handle exception
                                 if (currentBitmap != null && !currentBitmap.isRecycled()) {
                                     currentBitmap.recycle();
                                 }
@@ -1163,7 +1149,6 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
 
 
     private void saveResultImages(final ArrayList<SaveImage> saveImageList) {
-        showDialog();
 
         new Thread(new Runnable() {
             @Override
@@ -1254,23 +1239,6 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
     }
 
 
-    /**
-     * 显示Dialog
-     */
-    private void showDialog() {
-        if (dialog == null) {
-            dialog = AllDialog.createLoadingDialog(this, "正在加载中...");
-            dialog.show();
-        }
-    }
-
-
-    private void closeDialog() {
-        if (dialog != null) {
-            dialog.dismiss();
-            dialog = null;
-        }
-    }
 
 
     @Override

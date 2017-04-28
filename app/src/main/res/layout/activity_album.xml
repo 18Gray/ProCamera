@@ -1,102 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-     >
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+>
 
     <!-- top -->
     <RelativeLayout
-        android:id="@+id/rl_top_selectpic"
+        android:id="@+id/rl_top_album"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_alignParentTop="true"
-        android:background="#c000" >
+        android:layout_height="@dimen/height_toolbar"
+        android:background="@color/black_middle">
 
-        <Button
-            android:id="@+id/btn_back"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentLeft="true"
+        <ImageView
+            android:id="@+id/iv_back_album"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_margin="8dp"
-            android:background="@drawable/back"
-            android:onClick="back" />
+            android:layout_marginLeft="20dp"
+            android:src="@mipmap/back_white_24dp"
+        />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="8dp"
-            android:layout_toRightOf="@+id/btn_back"
-            android:text="图片"
+            android:layout_toRightOf="@+id/iv_back_album"
+            android:text="图片和视频"
             android:textColor="#ffffff"
-            android:textSize="16sp" />
+            android:textSize="16sp"/>
 
-        <Button
-            android:id="@+id/btn_ok"
-            android:layout_width="60dp"
+
+        <TextView
+            android:id="@+id/tv_done_album"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="8dp"
+            android:layout_marginRight="20dp"
             android:background="@null"
             android:gravity="center"
-            android:onClick="ok"
             android:text="完成"
-            android:textColor="#fff"
-            android:textSize="14sp" />
+            android:textColor="@color/text"
+            android:textSize="14sp"
+        />
+
     </RelativeLayout>
 
-    
+
     <!-- bottom -->
     <RelativeLayout
-        android:id="@+id/rl_bottom_selectpic"
+        android:id="@+id/rl_bottom_album"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="@dimen/height_toolbar"
         android:layout_alignParentBottom="true"
-        android:background="#c000" >
+        android:background="@color/black_middle"
+    >
 
-        <Button
-            android:id="@+id/btn_select"
+        <TextView
+            android:id="@+id/tv_select_album"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_margin="8dp"
-            android:background="@drawable/spinner_bg"
-            android:onClick="select"
-            android:text="所有图片"
-            android:textColor="#fff"
-            android:textSize="14sp" />
+            android:layout_marginLeft="20dp"
+            android:text="图片和视频"
+            android:textColor="@color/text"
+            android:textSize="16sp"
+        />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_select_album"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/signal_cellular_4_bar_white_18dp"
+        />
 
     </RelativeLayout>
 
-    
+
     <!-- middle -->
-    <RelativeLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rcv_pics_album"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/rl_top_selectpic"
-        android:layout_above="@id/rl_bottom_selectpic"
-        android:background="#d000" >
-
-        <GridView
-            android:id="@+id/gridview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:horizontalSpacing="3dp"
-            android:numColumns="3"
-            android:scrollbars="none"
-            android:verticalSpacing="5dp"
-             />
-
-        <ListView
-            android:id="@+id/listview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#fff"
-            android:visibility="gone" />
-        
-    </RelativeLayout>
+        android:layout_above="@id/rl_bottom_album"
+        android:layout_below="@id/rl_top_album"
+        android:background="@color/black_deep"
+    />
 
 </RelativeLayout>

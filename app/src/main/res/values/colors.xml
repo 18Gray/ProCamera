@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!--基本色-->
     <color name="primary">#010101</color>
     <color name="primary_dark">#000000</color>
     <color name="primary_light">#ae7E7570</color>
@@ -16,5 +18,11 @@
     <!--首页面-->
     <color name="white">#ffffff</color>
     <color name="white_transparent">#00ffffff</color>
+
+
+    <!--相册页面-->
+    <color name="black_deep">#1A1A1A</color>
+    <color name="black_middle">#373B3E</color>
+
 
 </resources>

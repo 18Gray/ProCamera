@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/back" />
+                android:src="@mipmap/back_white_24dp" />
         </LinearLayout>
 
         <TextView

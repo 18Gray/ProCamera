@@ -1,4 +1,4 @@
-package com.eighteengray.procameralibrary.camera;
+package com.eighteengray.procameralibrary.common;
 
 import android.os.Environment;
 
@@ -29,8 +29,9 @@ public class Constants
 	public static final int NOPIC = 113;
 	
 	
-	//intent putExtra
-	public static final String INTENT_SELECTED_PICTURE = "intent_selected_picture";
+	//Intent Bundle
+	public static final String IMAGEFOLDERS = "imagefolders";
+	public static final String CURRENTFOLDERNUM = "currentfoldernum";
 
 
 	//EventBus常量

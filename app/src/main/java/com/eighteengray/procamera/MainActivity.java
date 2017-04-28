@@ -14,7 +14,7 @@ import com.eighteengray.imageprocesslibrary.imageprocess.JniExample;
 import com.eighteengray.procamera.dataevent.ModeSelectEvent;
 import com.eighteengray.procamera.fragment.Camera2Fragment;
 import com.eighteengray.procamera.fragment.RecordVideoFragment;
-import com.eighteengray.procameralibrary.camera.Constants;
+import com.eighteengray.procameralibrary.common.Constants;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

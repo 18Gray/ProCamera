@@ -32,7 +32,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/back" />
+            android:src="@mipmap/back_white_24dp" />
 
         <Button
             android:id="@+id/button_next_gallery"

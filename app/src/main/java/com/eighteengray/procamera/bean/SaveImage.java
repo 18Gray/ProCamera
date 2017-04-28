@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 
 public class SaveImage implements Serializable
 {
-
 	private static final long serialVersionUID = 1L;
 	public String saveImagePath;
 

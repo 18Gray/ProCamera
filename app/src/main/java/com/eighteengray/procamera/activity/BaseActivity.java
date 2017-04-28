@@ -3,6 +3,7 @@ package com.eighteengray.procamera.activity;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
@@ -16,7 +17,7 @@ import com.eighteengray.procamera.R;
 
 
 
-public class BaseActivity extends Activity
+public class BaseActivity extends FragmentActivity
 {
     private Toolbar mToolBar;
     private LinearLayout mDectorView = null;//根布局

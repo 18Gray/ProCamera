@@ -1,7 +1,6 @@
 package com.eighteengray.procameralibrary.camera;
 
 import android.hardware.camera2.CameraAccessException;
-import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
@@ -9,9 +8,10 @@ import android.hardware.camera2.params.MeteringRectangle;
 import android.view.Surface;
 import android.view.WindowManager;
 
+import com.eighteengray.procameralibrary.common.Constants;
+
 import java.util.List;
 
-import static android.R.attr.rotation;
 import static com.eighteengray.procameralibrary.camera.Camera2TextureView.ORIENTATIONS;
 
 

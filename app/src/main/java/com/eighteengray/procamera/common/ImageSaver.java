@@ -2,11 +2,9 @@ package com.eighteengray.procamera.common;
 
 import android.media.Image;
 import android.media.ImageReader;
-import android.os.Environment;
 import android.util.Log;
 
-import com.eighteengray.commonutillibrary.SDCardUtils;
-import com.eighteengray.procameralibrary.camera.ImageAvailableEvent;
+import com.eighteengray.procameralibrary.dataevent.ImageAvailableEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -16,8 +14,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
-import java.util.Random;
-
 
 
 public class ImageSaver implements Runnable

@@ -3,7 +3,6 @@ package com.eighteengray.procamera.fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.hardware.camera2.CameraAccessException;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -29,8 +28,8 @@ import com.eighteengray.procamera.widget.TextureViewTouchListener;
 import com.eighteengray.procamera.widget.dialogfragment.ModeSelectDialogFragment;
 import com.eighteengray.procamera.widget.dialogfragment.PopupWindowFactory;
 import com.eighteengray.procameralibrary.camera.Camera2TextureView;
-import com.eighteengray.procameralibrary.camera.Constants;
-import com.eighteengray.procameralibrary.camera.ImageAvailableEvent;
+import com.eighteengray.procameralibrary.common.Constants;
+import com.eighteengray.procameralibrary.dataevent.ImageAvailableEvent;
 import com.eighteengray.procamera.common.ImageSaver;
 import com.eighteengray.procameralibrary.camera.TextureViewTouchEvent;
 import org.greenrobot.eventbus.EventBus;
@@ -45,7 +44,6 @@ import butterknife.OnClick;
 
 import static com.eighteengray.commonutillibrary.ImageUtils.getBitmapFromPath;
 import static com.eighteengray.commonutillibrary.SDCardUtils.getSystemPicFile;
-import static com.eighteengray.procamera.R.id.iv;
 
 
 public class Camera2Fragment extends BaseCameraFragment
@@ -155,7 +153,7 @@ public class Camera2Fragment extends BaseCameraFragment
                 PopupWindowFactory.createHdrPopupWindow(getActivity()).showAtLocation(iv_hdr_camera, Gravity.NO_GRAVITY, location2[0]+iv_hdr_camera.getWidth(), location2[1] - 30);
                 break;
 
-            case R.id.tv_mode_select: //模式选择，相机、视频、全景
+            case R.id.tv_mode_select: //模式选择，相机、视频
                 ModeSelectDialogFragment modeSelectDialogFragment = new ModeSelectDialogFragment();
                 modeSelectDialogFragment.show(getFragmentManager(), "mode");
                 break;

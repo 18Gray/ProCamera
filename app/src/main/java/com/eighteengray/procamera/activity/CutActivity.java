@@ -2,7 +2,7 @@ package com.eighteengray.procamera.activity;
 
 
 import java.io.File;
-import android.app.Activity;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -19,7 +19,7 @@ import com.eighteengray.commonutillibrary.ImageUtils;
 import com.eighteengray.commonutillibrary.ScreenUtils;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.widget.CropImageView;
-import com.eighteengray.procameralibrary.camera.Constants;
+import com.eighteengray.procameralibrary.common.Constants;
 
 
 public class CutActivity extends BaseActivity implements OnClickListener
