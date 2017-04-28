@@ -50,6 +50,8 @@ public class Camera2TextureView extends BaseCamera2TextureView
     private static final int STATE_WAITING_NON_PRECAPTURE = 3;
     private static final int STATE_PICTURE_TAKEN = 4;
 
+    private CaptureRequest.Builder mPreviewRequestBuilder;
+    private CaptureRequest.Builder mCaptureStillBuilder;
     private int mAfState = CameraMetadata.CONTROL_AF_STATE_INACTIVE;
     private boolean isTrigger = false;
 
@@ -106,8 +108,6 @@ public class Camera2TextureView extends BaseCamera2TextureView
             initImageReader(largest);
             mPreviewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class), width, height, largest);
             mPreviewSize = new Size(getWidth(), getHeight());
-            String picName = SystemClock.currentThreadTimeMillis() + ".jpg";
-            mFile = new File(getSystemPicFile(context), picName);
 
             //如果屏幕旋转需要调整
             int orientation = getResources().getConfiguration().orientation;
@@ -342,14 +342,6 @@ public class Camera2TextureView extends BaseCamera2TextureView
         @Override
         public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result)
         {
-            mMainHandler.post(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    Toast.makeText(context, "saved:" + mFile, Toast.LENGTH_SHORT).show();
-                }
-            });
             unlockFocus();
         }
     };
@@ -374,7 +366,9 @@ public class Camera2TextureView extends BaseCamera2TextureView
         {
             //这里应该发EventBus，让View去处理，先开启线程保存，然后图像显示在界面上，在缩小动画到左边相册，相册显示图像。
             // 上面执行完成后，会回调回来onCaptureCompleted。提示保存成功，并进入预览。
-            new Thread(new ImageSaver(reader, mFile)).start();
+            ImageAvailableEvent.ImageReaderAvailable imageReaderAvailable = new ImageAvailableEvent.ImageReaderAvailable();
+            imageReaderAvailable.setImageReader(reader);
+            EventBus.getDefault().post(imageReaderAvailable);
         }
     };
 

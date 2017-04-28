@@ -14,6 +14,7 @@ import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.MediaRecorder;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -21,11 +22,17 @@ import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.Surface;
 import android.widget.Toast;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import static com.eighteengray.commonutillibrary.SDCardUtils.getSystemPicFile;
 import static com.eighteengray.procameralibrary.album.ThumbnaiImageView.TAG;
 
 
@@ -35,6 +42,9 @@ public class RecordTextureView extends BaseCamera2TextureView
     private Size mVideoSize;
     private MediaRecorder mMediaRecorder;
     private String mNextVideoAbsolutePath;
+    private CaptureRequest.Builder mPreviewRequestBuilder;
+    private CaptureRequest.Builder mRecordVideoBuilder;
+    private boolean isRecording;
 
     private static final int SENSOR_ORIENTATION_DEFAULT_DEGREES = 90;
     private static final int SENSOR_ORIENTATION_INVERSE_DEGREES = 270;
@@ -85,8 +95,15 @@ public class RecordTextureView extends BaseCamera2TextureView
         }
         try
         {
-            mRecordVideoBuilder = CaptureRequestFactory.createRecordBuilder(mCameraDevice, mMediaRecorder.getSurface());
-            updatePreview(mRecordVideoBuilder.build(), recordCaptureCallback);
+            isRecording = true;
+            closePreviewSession();
+            configureMediaRecorder();
+
+            List<Surface> surfaces = new ArrayList<>();
+            surfaces.add(surface);
+            surfaces.add(mMediaRecorder.getSurface());
+            mRecordVideoBuilder = CaptureRequestFactory.createRecordBuilder(mCameraDevice, surfaces);
+            mCameraDevice.createCaptureSession(surfaces, recordSessionStateCallback, mBackgroundHandler);
         } catch (CameraAccessException e)
         {
             e.printStackTrace();
@@ -96,21 +113,39 @@ public class RecordTextureView extends BaseCamera2TextureView
 
     public void stopRecordVideo()
     {
-        if(mMediaRecorder != null)
+        isRecording = false;
+        //EventBus发送消息，更新UI
+        RecordVideoEvent recordVideoEvent = new RecordVideoEvent();
+        recordVideoEvent.setRecording(false);
+        EventBus.getDefault().post(recordVideoEvent);
+
+        try
         {
+            //下面三个参数必须加，不加的话会奔溃，在mediarecorder.stop();  报错为：RuntimeException:stop failed
+            mMediaRecorder.setOnErrorListener(null);
+            mMediaRecorder.setOnInfoListener(null);
+            mMediaRecorder.setPreviewDisplay(null);
             mMediaRecorder.stop();
             mMediaRecorder.reset();
+        } catch (IllegalStateException e)
+        {
+            Log.i("Exception", Log.getStackTraceString(e));
+        } catch (RuntimeException e)
+        {
+            Log.i("Exception", Log.getStackTraceString(e));
+        } catch (Exception e)
+        {
+            Log.i("Exception", Log.getStackTraceString(e));
         }
+
         mMainHandler.post(new Runnable()
         {
             @Override
             public void run()
             {
-                Toast.makeText(context, "Video saved: " + mNextVideoAbsolutePath,
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Video saved: " + mNextVideoAbsolutePath, Toast.LENGTH_SHORT).show();
             }
         });
-        mNextVideoAbsolutePath = null;
         createCameraPreviewSession();
     }
 
@@ -133,7 +168,7 @@ public class RecordTextureView extends BaseCamera2TextureView
             mSensorOrientation = characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
             mVideoSize = chooseVideoSize(map.getOutputSizes(MediaRecorder.class));
             mPreviewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class), width, height, mVideoSize);
-            mPreviewSize = new Size(getWidth(), getHeight());
+            mPreviewSize = new Size(getMeasuredWidth(), getMeasuredHeight());
 
             //如果屏幕旋转需要调整
             int orientation = getResources().getConfiguration().orientation;
@@ -227,9 +262,8 @@ public class RecordTextureView extends BaseCamera2TextureView
         try
         {
             closePreviewSession();
-            configureMediaRecorder();
             initSurface();
-            mCameraDevice.createCaptureSession(Arrays.asList(surface, mMediaRecorder.getSurface()), recordSessionStateCallback, mBackgroundHandler);
+            mCameraDevice.createCaptureSession(Arrays.asList(surface), recordSessionStateCallback, mBackgroundHandler);
         } catch (CameraAccessException e)
         {
             e.printStackTrace();
@@ -242,10 +276,7 @@ public class RecordTextureView extends BaseCamera2TextureView
         mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE);
         mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-        if (mNextVideoAbsolutePath == null || mNextVideoAbsolutePath.isEmpty())
-        {
-            mNextVideoAbsolutePath = getVideoFilePath(context);
-        }
+        mNextVideoAbsolutePath = getVideoFilePath(context);
         mMediaRecorder.setOutputFile(mNextVideoAbsolutePath);
         mMediaRecorder.setVideoEncodingBitRate(10000000);
         mMediaRecorder.setVideoFrameRate(30);
@@ -273,8 +304,9 @@ public class RecordTextureView extends BaseCamera2TextureView
 
     private String getVideoFilePath(Context context)
     {
-        return context.getExternalFilesDir(null).getAbsolutePath() + "/"
-                + System.currentTimeMillis() + ".mp4";
+        String picName = SystemClock.currentThreadTimeMillis() + ".mp4";
+        File file = new File(getSystemPicFile(context), picName);
+        return file.getAbsolutePath();
     }
 
     CameraCaptureSession.StateCallback recordSessionStateCallback = new CameraCaptureSession.StateCallback()
@@ -290,7 +322,18 @@ public class RecordTextureView extends BaseCamera2TextureView
             try
             {
                 mPreviewRequestBuilder = CaptureRequestFactory.createPreviewBuilder(mCameraDevice, surface);
+                CaptureRequestFactory.setPreviewBuilderRecordPreview(mPreviewRequestBuilder);
                 updatePreview(mPreviewRequestBuilder.build(), null);
+
+                if(isRecording)
+                {
+                    //EventBus给UI发消息，更新按钮。更新完成后，开始录像。
+                    RecordVideoEvent recordVideoEvent = new RecordVideoEvent();
+                    recordVideoEvent.setRecording(true);
+                    EventBus.getDefault().post(recordVideoEvent);
+                    mMediaRecorder.start();
+                }
+
             } catch (CameraAccessException e)
             {
                 e.printStackTrace();
@@ -303,29 +346,6 @@ public class RecordTextureView extends BaseCamera2TextureView
         }
     };
 
-
-    CameraCaptureSession.CaptureCallback recordCaptureCallback = new CameraCaptureSession.CaptureCallback()
-    {
-        @Override
-        public void onCaptureProgressed(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull CaptureResult partialResult)
-        {
-        }
-
-        @Override
-        public void onCaptureCompleted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull TotalCaptureResult result)
-        {
-            mMediaRecorder.start();
-            mMainHandler.post(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    Toast.makeText(context, "录制开始", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-
-    };
 
 
     @Override
@@ -360,7 +380,7 @@ public class RecordTextureView extends BaseCamera2TextureView
     public void setFlashMode(int flashMode) throws CameraAccessException
     {
         CaptureRequestFactory.setPreviewBuilderFlash(mPreviewRequestBuilder, flashMode);
-        updatePreview(mPreviewRequestBuilder.build(), recordCaptureCallback);
+        updatePreview(mPreviewRequestBuilder.build(), null);
     }
 
 

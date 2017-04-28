@@ -147,6 +147,16 @@
         android:layout_above="@id/rl_middle_bottom_menu"
     />
 
+    <!--拍完后显示照片区域-->
+    <ImageView
+        android:id="@+id/iv_imageavailable"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/rl_middle_bottom_menu"
+        android:visibility="gone"
+    />
+
+
     <!--聚焦图标-->
     <ImageView
         android:id="@+id/iv_focus_camera"

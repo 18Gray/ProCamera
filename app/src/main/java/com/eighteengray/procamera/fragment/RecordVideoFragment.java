@@ -18,6 +18,8 @@ import com.eighteengray.procamera.activity.SettingActivity;
 import com.eighteengray.procamera.widget.dialogfragment.ModeSelectDialogFragment;
 import com.eighteengray.procamera.widget.dialogfragment.PopupWindowFactory;
 import com.eighteengray.procameralibrary.camera.RecordTextureView;
+import com.eighteengray.procameralibrary.camera.RecordVideoEvent;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -143,6 +145,20 @@ public class RecordVideoFragment extends BaseCameraFragment
     public void onFlashSelect(CameraConfigure.Flash flash) throws CameraAccessException
     {
         recordTextureView.setFlashMode(flash.getFlash());
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onRecordVideo(RecordVideoEvent recordVideoEvent) throws CameraAccessException
+    {
+        if(recordVideoEvent.isRecording())
+        {
+            iv_shutter_camera.setImageResource(R.drawable.btn_shutter_recording);
+        }
+        else
+        {
+            iv_shutter_camera.setImageResource(R.drawable.btn_shutter_record);
+        }
     }
 
 

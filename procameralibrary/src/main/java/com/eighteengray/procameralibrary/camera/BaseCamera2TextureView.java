@@ -45,12 +45,7 @@ public abstract class BaseCamera2TextureView extends TextureView
     protected CameraCaptureSession mCaptureSession;
     protected Surface surface;
     protected CameraCharacteristics mCameraCharacteristics;
-    protected File mFile;
 
-    //包括三类请求，预览相关、拍照、录像
-    protected CaptureRequest.Builder mPreviewRequestBuilder;
-    protected CaptureRequest.Builder mCaptureStillBuilder;
-    protected CaptureRequest.Builder mRecordVideoBuilder;
 
     //监听，TextureView好了之后，打开相机
     protected final SurfaceTextureListener mSurfaceTextureListener = new SurfaceTextureListener()

@@ -1,10 +1,13 @@
 package com.eighteengray.procamera.fragment;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.hardware.camera2.CameraAccessException;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.eighteengray.commonutillibrary.ImageUtils;
 import com.eighteengray.procamera.dataevent.CameraConfigure;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.activity.AlbumActivity;
@@ -25,15 +30,22 @@ import com.eighteengray.procamera.widget.dialogfragment.ModeSelectDialogFragment
 import com.eighteengray.procamera.widget.dialogfragment.PopupWindowFactory;
 import com.eighteengray.procameralibrary.camera.Camera2TextureView;
 import com.eighteengray.procameralibrary.camera.Constants;
+import com.eighteengray.procameralibrary.camera.ImageAvailableEvent;
+import com.eighteengray.procamera.common.ImageSaver;
 import com.eighteengray.procameralibrary.camera.TextureViewTouchEvent;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.io.File;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static android.R.attr.width;
+import static com.eighteengray.commonutillibrary.ImageUtils.getBitmapFromPath;
+import static com.eighteengray.commonutillibrary.SDCardUtils.getSystemPicFile;
+import static com.eighteengray.procamera.R.id.iv;
 
 
 public class Camera2Fragment extends BaseCameraFragment
@@ -50,6 +62,8 @@ public class Camera2Fragment extends BaseCameraFragment
     //拍照
     @BindView(R.id.cameraTextureView)
     Camera2TextureView cameraTextureView;
+    @BindView(R.id.iv_imageavailable)
+    ImageView iv_imageavailable;
     @BindView(R.id.iv_focus_camera)
     ImageView iv_focus_camera;
 
@@ -79,9 +93,10 @@ public class Camera2Fragment extends BaseCameraFragment
     @BindView(R.id.iv_setting_camera)
     ImageView iv_setting_camera;
 
-    Handler handler;
-    private boolean mFlagShowFocusImage = false;
-    private float mRawX, mRawY;
+    Handler handler;  //用来更新UI的handler
+    private boolean mFlagShowFocusImage = false; //聚焦图像是否显示的标志位
+    private float mRawX, mRawY; //触摸聚焦时候的中心点
+    protected File mFile;   //保存图片的路径
 
 
     @Override
@@ -91,6 +106,8 @@ public class Camera2Fragment extends BaseCameraFragment
         ButterKnife.bind(this, view);
         EventBus.getDefault().register(this);
         handler = new Handler(Looper.getMainLooper());
+        String picName = SystemClock.currentThreadTimeMillis() + ".jpg";
+        mFile = new File(getSystemPicFile(getActivity()), picName);
         return view;
     }
 
@@ -379,5 +396,29 @@ public class Camera2Fragment extends BaseCameraFragment
         }
     }
 
+
+    //拍照完成后，拿到ImageReader做响应操作
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onImageReaderAvailable(ImageAvailableEvent.ImageReaderAvailable imageReaderAvailable)
+    {
+        new Thread(new ImageSaver(imageReaderAvailable.getImageReader(), mFile)).start();
+    }
+
+    //拍照完成后，拿到ImagePath显示图片，延时隐藏图片
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onImagePathAvailable(ImageAvailableEvent.ImagePathAvailable imagePathAvailable)
+    {
+        Bitmap bitmap = ImageUtils.getBitmapFromPath(imagePathAvailable.getImagePath());
+        iv_imageavailable.setImageBitmap(bitmap);
+        iv_imageavailable.setVisibility(View.VISIBLE);
+        handler.postDelayed(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                iv_imageavailable.setVisibility(View.GONE);
+            }
+        }, 3000);
+    }
 
 }

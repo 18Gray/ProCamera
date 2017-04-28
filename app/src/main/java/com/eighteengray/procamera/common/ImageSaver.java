@@ -1,4 +1,4 @@
-package com.eighteengray.procameralibrary.camera;
+package com.eighteengray.procamera.common;
 
 import android.media.Image;
 import android.media.ImageReader;
@@ -6,6 +6,9 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.eighteengray.commonutillibrary.SDCardUtils;
+import com.eighteengray.procameralibrary.camera.ImageAvailableEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,6 +24,7 @@ public class ImageSaver implements Runnable
 {
     private ImageReader mImageReader;
     private File file;
+
 
     public ImageSaver(ImageReader mImageReader, File f)
     {
@@ -45,6 +49,10 @@ public class ImageSaver implements Runnable
                 e.printStackTrace();
             }
             image.close();
+
+            ImageAvailableEvent.ImagePathAvailable imagePathAvailable = new ImageAvailableEvent.ImagePathAvailable();
+            imagePathAvailable.setImagePath(file.getAbsolutePath());
+            EventBus.getDefault().post(imagePathAvailable);
         } catch (Exception e)
         {
             e.getStackTrace();

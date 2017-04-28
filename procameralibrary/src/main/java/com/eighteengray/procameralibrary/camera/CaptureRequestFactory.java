@@ -9,6 +9,8 @@ import android.hardware.camera2.params.MeteringRectangle;
 import android.view.Surface;
 import android.view.WindowManager;
 
+import java.util.List;
+
 import static android.R.attr.rotation;
 import static com.eighteengray.procameralibrary.camera.Camera2TextureView.ORIENTATIONS;
 
@@ -123,12 +125,19 @@ public class CaptureRequestFactory
 
 
     //创建录像请求
-    public static CaptureRequest.Builder createRecordBuilder(CameraDevice cameraDevice, Surface surface) throws CameraAccessException
+    public static CaptureRequest.Builder createRecordBuilder(CameraDevice cameraDevice, List<Surface> surfaces) throws CameraAccessException
     {
         CaptureRequest.Builder recordBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD);
-        recordBuilder.addTarget(surface);
+        recordBuilder.addTarget(surfaces.get(0));
+        recordBuilder.addTarget(surfaces.get(1));
         return recordBuilder;
     }
 
+    //设置预览模式-录像预览
+    public static void setPreviewBuilderRecordPreview(CaptureRequest.Builder previewBuilder) throws CameraAccessException
+    {
+        previewBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_VIDEO);
+//        previewBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
+    }
 
 }
