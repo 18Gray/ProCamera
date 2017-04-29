@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -67,6 +68,8 @@ public class ImageFoldersDialogFragment extends DialogFragment
         window.setAttributes(lp);
         getDialog().setCancelable(true);
 
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        rcv_imagefolders_dialogfragment.setLayoutManager(linearLayoutManager);
         imageFoldersAdapter = new BaseRecyclerAdapter<ImageFolder>(R.layout.list_dir_item)
         {
             @Override
