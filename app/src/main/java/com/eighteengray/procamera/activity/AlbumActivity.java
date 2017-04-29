@@ -3,6 +3,7 @@ package com.eighteengray.procamera.activity;
 import com.eighteengray.commonutillibrary.ImageUtils;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.ImageFolder;
+import com.eighteengray.procamera.bean.SaveImage;
 import com.eighteengray.procamera.business.AlbumBusiness;
 import com.eighteengray.procamera.dataevent.ImageFolderEvent;
 import com.eighteengray.procamera.widget.baserecycler.BaseRecyclerAdapter;
@@ -12,11 +13,14 @@ import com.eighteengray.procameralibrary.common.Constants;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -72,16 +76,17 @@ public class AlbumActivity extends BaseActivity
     private void initView()
     {
         //图片表格
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(AlbumActivity.this, 3);
-        rcv_pics_album.setLayoutManager(layoutManager);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(AlbumActivity.this, 3);
+        rcv_pics_album.setLayoutManager(gridLayoutManager);
         picsAdapter = new BaseRecyclerAdapter<String>(R.layout.grid_item_picture)
         {
             @Override
-            public void setData2ViewR(BaseRecyclerViewHolder baseRecyclerViewHolder, String item, int position)
+            public void setData2ViewR(BaseRecyclerViewHolder baseRecyclerViewHolder, final String item, int position)
             {
                 Bitmap bitmap = ImageUtils.getBitmapFromPath(item);
+                Bitmap thumnailBitmap = ThumbnailUtils.extractThumbnail(bitmap, 320, 320);
                 ImageView imageView = baseRecyclerViewHolder.getViewById(R.id.iv_item_grid);
-                imageView.setImageBitmap(bitmap);
+                imageView.setImageBitmap(thumnailBitmap);
 
                 imageView.setOnClickListener(new OnClickListener()
                 {
@@ -89,13 +94,17 @@ public class AlbumActivity extends BaseActivity
                     public void onClick(View v)
                     {
                         Intent intent = new Intent(AlbumActivity.this, ActivityFilm.class);
+                        ArrayList<SaveImage> saveImages = new ArrayList<SaveImage>();
+                        SaveImage saveImage = new SaveImage();
+                        saveImage.saveImagePath = item;
+                        saveImages.add(saveImage);
+                        intent.putExtra("saveImages", saveImages);
                         startActivity(intent);
                     }
                 });
             }
         };
         rcv_pics_album.setAdapter(picsAdapter);
-
         tv_select_album.setText("所有图片");
     }
 
@@ -111,9 +120,12 @@ public class AlbumActivity extends BaseActivity
             public void call(List<ImageFolder> imageFolders)
             {
                 imageFolderArrayList = (ArrayList<ImageFolder>) imageFolders;
+                if(imageFolderArrayList != null && imageFolderArrayList.size() > 0)
+                {
+                    picsAdapter.setData(imageFolderArrayList.get(0).getImagePathList());
+                }
             }
         });
-
     }
 
 

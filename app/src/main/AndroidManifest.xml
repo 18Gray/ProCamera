@@ -47,19 +47,16 @@
 
         <activity android:name=".activity.GpuFilterActivity"/>
 
-        <activity
-            android:name=".activity.AlbumActivity" />
+        <activity android:name=".activity.AlbumActivity" />
+
+        <activity android:name=".activity.ActivityFilm"  />
 
         <activity android:name=".activity.SettingActivity" />
 
 
-        <activity
-            android:name=".activity.ActivityFilm"  />
-
-        <activity
-            android:name=".activity.CutActivity"  />
 
 
+        <activity android:name=".activity.CutActivity"  />
 
     </application>
 
