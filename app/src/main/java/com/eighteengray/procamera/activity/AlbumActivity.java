@@ -5,7 +5,11 @@ import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.ImageFolder;
 import com.eighteengray.procamera.bean.SaveImage;
 import com.eighteengray.procamera.business.AlbumBusiness;
+import com.eighteengray.procamera.component.DaggerAlbumComponent;
+import com.eighteengray.procamera.contract.IAlbumContract;
 import com.eighteengray.procamera.dataevent.ImageFolderEvent;
+import com.eighteengray.procamera.module.PresenterModule;
+import com.eighteengray.procamera.presenter.AlbumPresenter;
 import com.eighteengray.procamera.widget.baserecycler.BaseRecyclerAdapter;
 import com.eighteengray.procamera.widget.baserecycler.BaseRecyclerViewHolder;
 import com.eighteengray.procamera.widget.dialogfragment.ImageFoldersDialogFragment;
@@ -30,6 +34,8 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -43,7 +49,7 @@ import rx.functions.Action1;
  * Presenter会先执行business中业务方法拿到数据，然后执行IView更新界面。business中业务方法返回Observerable。
  * business中业务方法，会调用model中持久层方法，无论是本地获取数据，还是retrofit/okhttp网络获取数据，全部都封装成Observerable返回。
  */
-public class AlbumActivity extends BaseActivity
+public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
 {
     @BindView(R.id.iv_back_album)
     ImageView iv_back_album;
@@ -61,6 +67,9 @@ public class AlbumActivity extends BaseActivity
     private ContentResolver mContentResolver;
     private int currentImageFolderNum = 0;
     private ArrayList<ImageFolder> imageFolderArrayList = new ArrayList<>();
+
+    @Inject
+    AlbumPresenter albumPresenter;
 
 
     @Override
@@ -113,19 +122,10 @@ public class AlbumActivity extends BaseActivity
     protected void onResume()
     {
         super.onResume();
+
+        DaggerAlbumComponent.builder().presenterModule(new PresenterModule(this)).build().inject(this);
         //获取数据
-        AlbumBusiness.getImageFolder(mContentResolver).subscribe(new Action1<List<ImageFolder>>()
-        {
-            @Override
-            public void call(List<ImageFolder> imageFolders)
-            {
-                imageFolderArrayList = (ArrayList<ImageFolder>) imageFolders;
-                if(imageFolderArrayList != null && imageFolderArrayList.size() > 0)
-                {
-                    picsAdapter.setData(imageFolderArrayList.get(0).getImagePathList());
-                }
-            }
-        });
+        albumPresenter.getAlbumData(AlbumActivity.this);
     }
 
 
@@ -161,5 +161,17 @@ public class AlbumActivity extends BaseActivity
         picsAdapter.notifyDataSetChanged();
         tv_select_album.setText(imageFolderArrayList.get(currentImageFolderNum).getName());
     }
+
+
+    @Override
+    public void setAdapterData(List<ImageFolder> imageFolders)
+    {
+        imageFolderArrayList = (ArrayList<ImageFolder>) imageFolders;
+        if(imageFolderArrayList != null && imageFolderArrayList.size() > 0)
+        {
+            picsAdapter.setData(imageFolderArrayList.get(0).getImagePathList());
+        }
+    }
+
 
 }
