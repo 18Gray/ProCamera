@@ -38,6 +38,7 @@ ext {
     butterknifeVersion = '8.4.0'
     leakcanary = '1.5'
     eventbus = '3.0.0'
+    dagger2 ='2.4'
 
     // Test dependencies
     espressoVersion = '2.2.2'

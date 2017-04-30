@@ -45,6 +45,9 @@ dependencies {
     androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.ext.espressoVersion", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    apt "com.google.dagger:dagger-compiler:$rootProject.ext.dagger2"
+    compile "com.google.dagger:dagger:$rootProject.ext.dagger2"
+    compile 'org.glassfish:javax.annotation:10.0-b28'
     debugCompile "com.squareup.leakcanary:leakcanary-android:$rootProject.ext.leakcanary"
     releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.ext.leakcanary"
     testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.ext.leakcanary"

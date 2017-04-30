@@ -2,11 +2,10 @@ package com.eighteengray.procamera.activity;
 
 import android.app.Activity;
 
-/**
- * Created by Razer on 2017/3/19.
- */
+import com.eighteengray.procamera.contract.ISettingContract;
 
-public class SettingActivity extends Activity
+
+public class SettingActivity extends Activity implements ISettingContract.IView
 {
 
 
