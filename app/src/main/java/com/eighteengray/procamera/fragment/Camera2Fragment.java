@@ -45,7 +45,12 @@ import butterknife.OnClick;
 import static com.eighteengray.commonutillibrary.ImageUtils.getBitmapFromPath;
 import static com.eighteengray.commonutillibrary.SDCardUtils.getSystemPicFile;
 
-
+/**
+ * 待完成功能：
+ * 1.拍照相关：拍摄比例调节，九宫格，连拍，延时拍摄，手动调节焦距，对焦点和测光点分离，gpu滤镜，
+ * 图片数字签名（位置、时间、版权），水平校准。
+ * 2.处理相关：参考snapseed、vsco、prisma、拼图。
+ */
 public class Camera2Fragment extends BaseCameraFragment
 {
     View view;
