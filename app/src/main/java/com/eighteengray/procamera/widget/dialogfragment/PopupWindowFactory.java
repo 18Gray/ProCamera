@@ -1,17 +1,30 @@
 package com.eighteengray.procamera.widget.dialogfragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
+import android.widget.SeekBar;
+import android.widget.TextView;
+
+import com.eighteengray.commonutillibrary.ImageUtils;
+import com.eighteengray.imageprocesslibrary.imagefilter.IncreaseProcessImage;
+import com.eighteengray.procamera.activity.CutActivity;
+import com.eighteengray.procamera.activity.ImageProcessActivity;
 import com.eighteengray.procamera.dataevent.CameraConfigure;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procameralibrary.common.Constants;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.io.File;
+
+import static android.R.attr.mode;
 
 
 public class PopupWindowFactory
@@ -179,6 +192,131 @@ public class PopupWindowFactory
             }
         });
 
+        return popupWindow;
+    }
+
+
+    //图像处理中，裁剪弹出框
+    public static PopupWindow createCutPopupWindow(Context context)
+    {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.popupwindow_mode, null);
+        final PopupWindow popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setTouchable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setTouchInterceptor(new View.OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View v, MotionEvent event)
+            {
+                if (event.getAction() == MotionEvent.ACTION_OUTSIDE)
+                {
+                    popupWindow.dismiss();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        view.findViewById(R.id.ll_film_popup).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                popupWindow.dismiss();
+
+                /*Intent intent = new Intent(ImageProcessActivity.this, CutActivity.class);
+                intent.putExtra("mode", mode);
+                intent.putExtra("path", currentSaveImage.saveImagePath);*/
+            }
+        });
+
+        view.findViewById(R.id.ll_normal_popup).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                /*Intent intent = new Intent(ImageProcessActivity.this, CutActivity.class);
+                intent.putExtra("mode", mode);
+                intent.putExtra("path", currentSaveImage.saveImagePath);
+                startActivityForResult(intent, Constants.CUT_FILM);*/
+            }
+        });
+        return popupWindow;
+    }
+
+
+    //图像处理中，对比度弹出框
+    public static PopupWindow createContrastPopupWindow(Context context)
+    {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View popView = inflater.inflate(R.layout.popupwindow_strength, null);
+        /*IncreaseProcessImage increaseProcessImage = new IncreaseProcessImage(currentBitmap);
+        final SeekBar seekBarSaturation = (SeekBar) popView.findViewById(R.id.seekBarSaturation);
+        final SeekBar seekBarDuibidu = (SeekBar) popView.findViewById(R.id.seekBarDuibidu);
+        final SeekBar seekBarLight = (SeekBar) popView.findViewById(R.id.seekBarLight);
+        seekBarSaturation.setOnSeekBarChangeListener(this);
+        seekBarDuibidu.setOnSeekBarChangeListener(this);
+        seekBarLight.setOnSeekBarChangeListener(this);
+
+        TextView tv_baohedu_strength = (TextView) popView.findViewById(R.id.tv_baohedu_strength);
+        TextView tv_duibidu_strength = (TextView) popView.findViewById(R.id.tv_duibidu_strength);
+        TextView tv_liangdu_strength = (TextView) popView.findViewById(R.id.tv_liangdu_strength);
+
+        tv_baohedu_strength.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                seekBarSaturation.setVisibility(View.VISIBLE);
+                seekBarDuibidu.setVisibility(View.GONE);
+                seekBarLight.setVisibility(View.GONE);
+            }
+        });
+
+        tv_duibidu_strength.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                seekBarSaturation.setVisibility(View.GONE);
+                seekBarDuibidu.setVisibility(View.VISIBLE);
+                seekBarLight.setVisibility(View.GONE);
+            }
+        });
+
+        tv_liangdu_strength.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                seekBarSaturation.setVisibility(View.GONE);
+                seekBarDuibidu.setVisibility(View.GONE);
+                seekBarLight.setVisibility(View.VISIBLE);
+            }
+        });*/
+
+        popView.bringToFront();
+        final PopupWindow popupWindow = new PopupWindow(popView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setTouchable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setTouchInterceptor(new View.OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View v, MotionEvent event)
+            {
+                if (event.getAction() == MotionEvent.ACTION_OUTSIDE)
+                {
+                    popupWindow.dismiss();
+                    return true;
+                }
+                return false;
+            }
+        });
         return popupWindow;
     }
 

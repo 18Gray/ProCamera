@@ -11,17 +11,17 @@
         android:background="@color/black_deep"
         android:layout_alignParentTop="true"
         >
-        
-        <ImageView 
+
+        <ImageView
             android:id="@+id/iv_finish_gallery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/btn_return"
+            android:src="@mipmap/back_white_24dp"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"
             />
-        
+
         <Button
             android:id="@+id/button_next_gallery"
             android:layout_width="wrap_content"
@@ -30,27 +30,15 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             android:background="@null"
-            android:text="下一步"
+            android:text="保存"
             android:textColor="@color/white_deep"
             android:textSize="16sp"
-             />
-        
-        
-        <!-- 水平滑动相册 -->
-        <Gallery
-            android:id="@+id/gallery_xiangce_film"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_toRightOf="@id/iv_finish_gallery"
-            android:layout_toLeftOf="@id/button_next_gallery"
-            android:layout_centerVertical="true"
              />
 
     </RelativeLayout>
     
-    
-    
-    
+
+
     <!-- 底部菜单 -->
     <LinearLayout
         android:id="@+id/ll_bottommenu_film"
