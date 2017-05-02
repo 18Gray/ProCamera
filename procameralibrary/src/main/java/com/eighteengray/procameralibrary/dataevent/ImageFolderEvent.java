@@ -1,8 +1,4 @@
-package com.eighteengray.procamera.dataevent;
-
-/**
- * Created by lutao on 2017/4/28.
- */
+package com.eighteengray.procameralibrary.dataevent;
 
 public class ImageFolderEvent
 {

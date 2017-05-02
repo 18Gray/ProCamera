@@ -11,10 +11,10 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.eighteengray.imageprocesslibrary.imageprocess.JniExample;
-import com.eighteengray.procamera.dataevent.ModeSelectEvent;
 import com.eighteengray.procamera.fragment.Camera2Fragment;
 import com.eighteengray.procamera.fragment.RecordVideoFragment;
 import com.eighteengray.procameralibrary.common.Constants;
+import com.eighteengray.procameralibrary.dataevent.ModeSelectEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

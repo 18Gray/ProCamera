@@ -12,6 +12,8 @@ import com.eighteengray.procamera.widget.baserecycler.BaseRecyclerAdapter;
 import com.eighteengray.procamera.widget.baserecycler.BaseRecyclerViewHolder;
 import com.eighteengray.procamera.widget.dialogfragment.ImageFoldersDialogFragment;
 import com.eighteengray.procameralibrary.common.Constants;
+import com.eighteengray.procameralibrary.dataevent.ImageFolderEvent;
+
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -145,7 +147,7 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onImageFolderSelected(com.eighteengray.procamera.dataevent.ImageFolderEvent imageFolderEvent)
+    public void onImageFolderSelected(ImageFolderEvent imageFolderEvent)
     {
         currentImageFolderNum = imageFolderEvent.getCurrentImageFolderNum();
         picsAdapter.notifyDataSetChanged();

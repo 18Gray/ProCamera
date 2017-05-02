@@ -19,10 +19,10 @@ import android.widget.TextView;
 import com.eighteengray.commonutillibrary.ImageUtils;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.ImageFolder;
-import com.eighteengray.procamera.dataevent.ImageFolderEvent;
 import com.eighteengray.procamera.widget.baserecycler.BaseRecyclerAdapter;
 import com.eighteengray.procamera.widget.baserecycler.BaseRecyclerViewHolder;
 import com.eighteengray.procameralibrary.common.Constants;
+import com.eighteengray.procameralibrary.dataevent.ImageFolderEvent;
 
 import org.greenrobot.eventbus.EventBus;
 

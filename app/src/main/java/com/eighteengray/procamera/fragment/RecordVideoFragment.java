@@ -11,13 +11,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.eighteengray.procamera.dataevent.CameraConfigure;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.activity.AlbumActivity;
 import com.eighteengray.procamera.activity.SettingActivity;
 import com.eighteengray.procamera.widget.dialogfragment.ModeSelectDialogFragment;
 import com.eighteengray.procamera.widget.dialogfragment.PopupWindowFactory;
 import com.eighteengray.procameralibrary.camera.RecordTextureView;
+import com.eighteengray.procameralibrary.dataevent.CameraConfigure;
 import com.eighteengray.procameralibrary.dataevent.RecordVideoEvent;
 
 import org.greenrobot.eventbus.EventBus;

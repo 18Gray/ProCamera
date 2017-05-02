@@ -19,7 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eighteengray.commonutillibrary.ImageUtils;
-import com.eighteengray.procamera.dataevent.CameraConfigure;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.activity.AlbumActivity;
 import com.eighteengray.procamera.activity.GpuFilterActivity;
@@ -29,6 +28,7 @@ import com.eighteengray.procamera.widget.dialogfragment.ModeSelectDialogFragment
 import com.eighteengray.procamera.widget.dialogfragment.PopupWindowFactory;
 import com.eighteengray.procameralibrary.camera.Camera2TextureView;
 import com.eighteengray.procameralibrary.common.Constants;
+import com.eighteengray.procameralibrary.dataevent.CameraConfigure;
 import com.eighteengray.procameralibrary.dataevent.ImageAvailableEvent;
 import com.eighteengray.procamera.common.ImageSaver;
 import com.eighteengray.procameralibrary.camera.TextureViewTouchEvent;

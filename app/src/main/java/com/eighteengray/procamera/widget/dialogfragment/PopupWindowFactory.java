@@ -1,7 +1,6 @@
 package com.eighteengray.procamera.widget.dialogfragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
@@ -9,22 +8,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
-import android.widget.SeekBar;
-import android.widget.TextView;
-
-import com.eighteengray.commonutillibrary.ImageUtils;
-import com.eighteengray.imageprocesslibrary.imagefilter.IncreaseProcessImage;
-import com.eighteengray.procamera.activity.CutActivity;
-import com.eighteengray.procamera.activity.ImageProcessActivity;
-import com.eighteengray.procamera.dataevent.CameraConfigure;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procameralibrary.common.Constants;
-
+import com.eighteengray.procameralibrary.dataevent.CameraConfigure;
 import org.greenrobot.eventbus.EventBus;
 
-import java.io.File;
-
-import static android.R.attr.mode;
 
 
 public class PopupWindowFactory
