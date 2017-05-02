@@ -49,7 +49,7 @@
 
         <activity android:name=".activity.AlbumActivity" />
 
-        <activity android:name=".activity.ActivityFilm"  />
+        <activity android:name=".activity.ImageProcessActivity"  />
 
         <activity android:name=".activity.SettingActivity" />
 

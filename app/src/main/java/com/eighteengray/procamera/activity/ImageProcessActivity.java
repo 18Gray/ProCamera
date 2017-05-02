@@ -39,6 +39,7 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+
 import com.eighteengray.commonutillibrary.DataConvertUtil;
 import com.eighteengray.commonutillibrary.ImageUtils;
 import com.eighteengray.imageprocesslibrary.imagefilter.BlackWhiteFilter;
@@ -58,9 +59,11 @@ import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.SaveImage;
 import com.eighteengray.procamera.widget.MyTouchImageView;
 import com.eighteengray.procameralibrary.common.Constants;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -101,78 +104,79 @@ import butterknife.ButterKnife;
  * 存mode和ArrayList<SaveImage>。先getIntent，如果为null，则给一个值。
  */
 
-public class ActivityFilm extends BaseActivity implements OnClickListener, OnSeekBarChangeListener, OnItemSelectedListener {
+public class ImageProcessActivity extends BaseActivity implements OnClickListener, OnSeekBarChangeListener, OnItemSelectedListener
+{
     //上部
+    @BindView(R.id.rl_topmenu_gallery)
+    RelativeLayout rlTopmenuGallery;
+    @BindView(R.id.iv_finish_gallery)
     ImageView iv_finish_gallery;
+    @BindView(R.id.button_next_gallery)
     Button button_next_gallery;
-
-    //相册gallery
+    @BindView(R.id.gallery_xiangce_film)
     Gallery gallery_xiangce_film;
     HorizontalGalleryAdapter horizontalGalleryAdapter;
     ArrayList<Bitmap> horizontalBitmaps = new ArrayList<Bitmap>();
-    @BindView(R.id.iv_finish_gallery)
-    ImageView ivFinishGallery;
-    @BindView(R.id.button_next_gallery)
-    Button buttonNextGallery;
-    @BindView(R.id.gallery_xiangce_film)
-    Gallery galleryXiangceFilm;
-    @BindView(R.id.rl_topmenu_gallery)
-    RelativeLayout rlTopmenuGallery;
-    @BindView(R.id.iv_cut_film)
-    ImageView ivCutFilm;
-    @BindView(R.id.tv_cut_film)
-    TextView tvCutFilm;
-    @BindView(R.id.rl_cut_film)
-    RelativeLayout rlCutFilm;
-    @BindView(R.id.iv_filter_film)
-    ImageView ivFilterFilm;
-    @BindView(R.id.tv_filter_film)
-    TextView tvFilterFilm;
-    @BindView(R.id.rl_filter_film)
-    RelativeLayout rlFilterFilm;
-    @BindView(R.id.iv_subtitle_film)
-    ImageView ivSubtitleFilm;
-    @BindView(R.id.tv_subtitle_film)
-    TextView tvSubtitleFilm;
-    @BindView(R.id.rl_subtitle_film)
-    RelativeLayout rlSubtitleFilm;
-    @BindView(R.id.iv_yinji_film)
-    ImageView ivYinjiFilm;
-    @BindView(R.id.tv_yinji_film)
-    TextView tvYinjiFilm;
-    @BindView(R.id.rl_yinji_film)
-    RelativeLayout rlYinjiFilm;
-    @BindView(R.id.iv_duibidu_film)
-    ImageView ivDuibiduFilm;
-    @BindView(R.id.tv_duibidu_film)
-    TextView tvDuibiduFilm;
-    @BindView(R.id.rl_duibidu_film)
-    RelativeLayout rlDuibiduFilm;
-    @BindView(R.id.ll_bottommenu_film)
-    LinearLayout llBottommenuFilm;
-    @BindView(R.id.gallery_filter_film)
-    Gallery galleryFilterFilm;
-    @BindView(R.id.gallery_yinji_film)
-    Gallery galleryYinjiFilm;
-    @BindView(R.id.ll_gallery_film)
-    LinearLayout llGalleryFilm;
-    @BindView(R.id.tv_subtitletext_film)
-    TextView tvSubtitletextFilm;
-    @BindView(R.id.fl_gallery)
-    FrameLayout flGallery;
-    private ContentResolver mContentResolver;
 
+    //下部
+    @BindView(R.id.ll_bottommenu_film)
+    LinearLayout ll_bottommenu_film;
+
+    @BindView(R.id.rl_cut_film)
+    RelativeLayout rl_cut_film;
+    @BindView(R.id.iv_cut_film)
+    ImageView iv_cut_film;
+    @BindView(R.id.tv_cut_film)
+    TextView tv_cut_film;
+
+    @BindView(R.id.rl_filter_film)
+    RelativeLayout rl_filter_film;
+    @BindView(R.id.iv_filter_film)
+    ImageView iv_filter_film;
+    @BindView(R.id.tv_filter_film)
+    TextView tv_filter_film;
+
+    @BindView(R.id.rl_subtitle_film)
+    RelativeLayout rl_subtitle_film;
+    @BindView(R.id.iv_subtitle_film)
+    ImageView iv_subtitle_film;
+    @BindView(R.id.tv_subtitle_film)
+    TextView tv_subtitle_film;
+
+    @BindView(R.id.rl_yinji_film)
+    RelativeLayout rl_yinji_film;
+    @BindView(R.id.iv_yinji_film)
+    ImageView iv_yinji_film;
+    @BindView(R.id.tv_yinji_film)
+    TextView tv_yinji_film;
+
+    @BindView(R.id.rl_duibidu_film)
+    RelativeLayout rl_duibidu_film;
+    @BindView(R.id.iv_duibidu_film)
+    ImageView iv_duibidu_film;
+    @BindView(R.id.tv_duibidu_film)
+    TextView tv_duibidu_film;
+
+    //中下部
+    @BindView(R.id.ll_gallery_film)
+    LinearLayout ll_gallery_film;
+    @BindView(R.id.gallery_filter_film)
+    Gallery gallery_filter_film;
+    @BindView(R.id.gallery_yinji_film)
+    Gallery gallery_yinji_film;
+
+    //中部
+    @BindView(R.id.fl_gallery)
+    FrameLayout fl_gallery;
+    @BindView(R.id.tv_subtitletext_film)
+    TextView tv_subtitletext_film;
+
+    private ContentResolver mContentResolver;
     ArrayList<SaveImage> saveImages = null;
     ArrayList<String> toPostList = new ArrayList<String>();
     int currentGalleryPosition = 0;
     public static int Max = 9;
 
-
-    //中部
-    FrameLayout fl_gallery;
-
-    //图像带字幕
-    TextView tv_subtitletext_film;
     String uriString;
     String path;
 
@@ -187,14 +191,12 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
     String mode;
 
     //滤镜
-    Gallery gallery_filter_film;
     ImageFilterAdapter filterAdapter;
     ViewHolderGallery viewHolderGallery = null;
     private Dialog dialog;
 
 
     //印记
-    Gallery gallery_yinji_film;
     YinjiFilterAdapter yinjiFilterAdapter;
     int[] yinjiStrings = new int[]{R.drawable.img_1, R.drawable.img_2, R.drawable.img_3,
             R.drawable.img_4, R.drawable.img_5, R.drawable.img_6, R.drawable.img_7,
@@ -212,22 +214,23 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
 
 
     //底部
-    RelativeLayout rl_cut_film, rl_filter_film, rl_subtitle_film, rl_yinji_film, rl_duibidu_film;
     boolean isSubtitled = true;
     LayoutInflater inflater;
     View popView;
     PopupWindow popupWindow;
 
 
-    private Handler handler = new Handler() {
-        @SuppressLint("NewApi")
+    private Handler handler = new Handler()
+    {
         @Override
-        public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
-            switch (msg.what) {
+        public void handleMessage(Message msg)
+        {
+            switch (msg.what)
+            {
                 case Constants.SAVEIMAGE:
                     //然后把点击了的SaveImage获取数据，并显示出来。
-                    if (currentMyTouchImageView != null) {
+                    if (currentMyTouchImageView != null)
+                    {
                         currentMyTouchImageView.setVisibility(View.GONE);
                         currentMyTouchImageView = null;
                     }
@@ -239,14 +242,18 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
                     //currentShowBitmap是结合了印记的图片，currentBitmap用来保存原图，方便更换印记
                     currentShowBitmap = currentBitmap;
 
-                    if (currentSaveImage.yinjiBitmap != null) {
+                    if (currentSaveImage.yinjiBitmap != null)
+                    {
                         currentYinjiBitmap = ImageUtils.watermarkWithBmp(currentBitmap, currentSaveImage.yinjiBitmap, currentSaveImage.x, currentSaveImage.y);
-                        if (currentYinjiBitmap != null) {
+                        if (currentYinjiBitmap != null)
+                        {
                             showBackgroundByMode(currentYinjiBitmap);
                         }
-                    } else {
+                    } else
+                    {
                         currentShowBitmap = currentBitmap;
-                        if (currentShowBitmap != null) {
+                        if (currentShowBitmap != null)
+                        {
                             showBackgroundByMode(currentShowBitmap);
                         }
                     }
@@ -257,14 +264,15 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
 
 
                 case Constants.IMAGEPROCESS:
-                    if (currentShowBitmap != null) {
+                    if (currentShowBitmap != null)
+                    {
                         showBackgroundByMode(currentShowBitmap);
                     }
                     break;
 
 
                 case Constants.ADDIMAGE:
-                    Intent intent = new Intent(ActivityFilm.this, AlbumActivity.class);
+                    Intent intent = new Intent(ImageProcessActivity.this, AlbumActivity.class);
                     intent.putExtra("saveImages", saveImages);
                     startActivity(intent);
                     finish();
@@ -278,7 +286,8 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
 
 
     @Override
-    public void onCreate(final Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_film);
@@ -288,13 +297,16 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
         mContentResolver = getContentResolver();
 
         saveImages = (ArrayList<SaveImage>) getIntent().getSerializableExtra("saveImages");
-        if (saveImages == null) {
+        if (saveImages == null)
+        {
             saveImages = new ArrayList<SaveImage>();
         }
 
         //清理掉当前的图像和SaveImage，然后定义addSaveImage
-        if (currentSaveImage != null) {
-            if (currentBitmap != null && !currentBitmap.isRecycled()) {
+        if (currentSaveImage != null)
+        {
+            if (currentBitmap != null && !currentBitmap.isRecycled())
+            {
                 currentBitmap.recycle();
             }
 
@@ -305,27 +317,8 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
     }
 
 
-    private void initView() {
-        //上部
-        iv_finish_gallery = (ImageView) findViewById(R.id.iv_finish_gallery);
-        button_next_gallery = (Button) findViewById(R.id.button_next_gallery);
-        gallery_xiangce_film = (Gallery) findViewById(R.id.gallery_xiangce_film);
-
-
-        //中部
-        fl_gallery = (FrameLayout) findViewById(R.id.fl_gallery);
-        gallery_filter_film = (Gallery) findViewById(R.id.gallery_filter_film);
-        tv_subtitletext_film = (TextView) findViewById(R.id.tv_subtitletext_film);
-        gallery_yinji_film = (Gallery) findViewById(R.id.gallery_yinji_film);
-
-        //底部
-        rl_cut_film = (RelativeLayout) findViewById(R.id.rl_cut_film);
-        rl_filter_film = (RelativeLayout) findViewById(R.id.rl_filter_film);
-        rl_subtitle_film = (RelativeLayout) findViewById(R.id.rl_subtitle_film);
-        rl_yinji_film = (RelativeLayout) findViewById(R.id.rl_yinji_film);
-        rl_duibidu_film = (RelativeLayout) findViewById(R.id.rl_duibidu_film);
-
-
+    private void initView()
+    {
         //上部
         iv_finish_gallery.setOnClickListener(this);
         button_next_gallery.setOnClickListener(this);
@@ -339,26 +332,24 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
         rl_duibidu_film.setOnClickListener(this);
         tv_subtitletext_film.setOnClickListener(this);
 
-
         //中部
         LoadHorizontalGallery();
 
         LoadImageFilter();
-
         LoadYinjiFilter();
-
     }
 
-
-    @SuppressLint("NewApi")
     @Override
-    public void onClick(final View v) {
+    public void onClick(final View v)
+    {
         currentBitmap = DataConvertUtil.drawable2Bitmap(tv_subtitletext_film.getBackground());
-        if (currentBitmap != null) {
+        if (currentBitmap != null)
+        {
             showBackgroundByMode(currentBitmap);
         }
 
-        switch (v.getId()) {
+        switch (v.getId())
+        {
             //上部
             case R.id.iv_finish_gallery:
                 finish();
@@ -367,7 +358,6 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
             case R.id.button_next_gallery:
                 saveResultImages(saveImages);
                 break;
-
 
             //底部，点击任何一个按钮，首先要做的就是把currentImage的destImage设置到image上，并显示image。
             //裁剪
@@ -381,11 +371,13 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
                 popupWindow.setTouchable(true);
                 popupWindow.setOutsideTouchable(true);
                 popupWindow.setBackgroundDrawable(new BitmapDrawable());
-                popupWindow.setTouchInterceptor(new OnTouchListener() {
+                popupWindow.setTouchInterceptor(new OnTouchListener()
+                {
                     @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        // TODO Auto-generated method stub
-                        if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
+                    public boolean onTouch(View v, MotionEvent event)
+                    {
+                        if (event.getAction() == MotionEvent.ACTION_OUTSIDE)
+                        {
                             popupWindow.dismiss();
                             return true;
                         }
@@ -394,36 +386,39 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
                     }
                 });
 
-                popView.findViewById(R.id.ll_film_popup).setOnClickListener(new OnClickListener() {
+                popView.findViewById(R.id.ll_film_popup).setOnClickListener(new OnClickListener()
+                {
                     @Override
-                    public void onClick(View v) {
-                        // TODO Auto-generated method stub
+                    public void onClick(View v)
+                    {
                         popupWindow.dismiss();
 
                         mode = "大片";
                         File file = new File(currentSaveImage.saveImagePath);
                         ImageUtils.saveBitmap(currentShowBitmap, file.getParent().toString(), file.getName().toString());
-                        Intent intent = new Intent(ActivityFilm.this, CutActivity.class);
+                        Intent intent = new Intent(ImageProcessActivity.this, CutActivity.class);
                         intent.putExtra("mode", mode);
                         intent.putExtra("path", currentSaveImage.saveImagePath);
                         startActivityForResult(intent, Constants.CUT_FILM);
                     }
                 });
 
-                popView.findViewById(R.id.ll_normal_popup).setOnClickListener(new OnClickListener() {
+                popView.findViewById(R.id.ll_normal_popup).setOnClickListener(new OnClickListener()
+                {
                     @Override
-                    public void onClick(View v) {
-                        // TODO Auto-generated method stub
+                    public void onClick(View v)
+                    {
                         popupWindow.dismiss();
-
                         mode = "普通";
                         File file = new File(currentSaveImage.saveImagePath);
-                        ImageUtils.saveBitmap(currentShowBitmap, file.getParent().toString(), file.getName().toString());
-                        Intent intent = new Intent(ActivityFilm.this, CutActivity.class);
+                        if(currentBitmap != null && currentShowBitmap != null)
+                        {
+                            ImageUtils.saveBitmap(currentShowBitmap, file.getParent().toString(), file.getName().toString());
+                        }
+                        Intent intent = new Intent(ImageProcessActivity.this, CutActivity.class);
                         intent.putExtra("mode", mode);
                         intent.putExtra("path", currentSaveImage.saveImagePath);
                         startActivityForResult(intent, Constants.CUT_FILM);
-
                     }
                 });
 
@@ -437,16 +432,19 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
                 gallery_yinji_film.setVisibility(View.GONE);
                 break;
 
-
             //字幕
             case R.id.rl_subtitle_film:
-                if (isSubtitled) {
+                if (isSubtitled)
+                {
                     tv_subtitletext_film.setText("");
                     isSubtitled = false;
-                } else if (!isSubtitled) {
-                    if (currentSaveImage.subtitle != null && !currentSaveImage.subtitle.equals("")) {
+                } else if (!isSubtitled)
+                {
+                    if (currentSaveImage.subtitle != null && !currentSaveImage.subtitle.equals(""))
+                    {
                         tv_subtitletext_film.setText(currentSaveImage.subtitle);
-                    } else {
+                    } else
+                    {
                         tv_subtitletext_film.setText("这世界不止眼前的苟且，还有诗和远方。");
                     }
                     isSubtitled = true;
@@ -458,7 +456,6 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
                 gallery_filter_film.setVisibility(View.GONE);
                 gallery_yinji_film.setVisibility(View.VISIBLE);
                 break;
-
 
             //对比度
             case R.id.rl_duibidu_film:
@@ -479,30 +476,33 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
                 TextView tv_duibidu_strength = (TextView) popView.findViewById(R.id.tv_duibidu_strength);
                 TextView tv_liangdu_strength = (TextView) popView.findViewById(R.id.tv_liangdu_strength);
 
-                tv_baohedu_strength.setOnClickListener(new OnClickListener() {
+                tv_baohedu_strength.setOnClickListener(new OnClickListener()
+                {
                     @Override
-                    public void onClick(View v) {
-                        // TODO Auto-generated method stub
+                    public void onClick(View v)
+                    {
                         seekBarSaturation.setVisibility(View.VISIBLE);
                         seekBarDuibidu.setVisibility(View.GONE);
                         seekBarLight.setVisibility(View.GONE);
                     }
                 });
 
-                tv_duibidu_strength.setOnClickListener(new OnClickListener() {
+                tv_duibidu_strength.setOnClickListener(new OnClickListener()
+                {
                     @Override
-                    public void onClick(View v) {
-                        // TODO Auto-generated method stub
+                    public void onClick(View v)
+                    {
                         seekBarSaturation.setVisibility(View.GONE);
                         seekBarDuibidu.setVisibility(View.VISIBLE);
                         seekBarLight.setVisibility(View.GONE);
                     }
                 });
 
-                tv_liangdu_strength.setOnClickListener(new OnClickListener() {
+                tv_liangdu_strength.setOnClickListener(new OnClickListener()
+                {
                     @Override
-                    public void onClick(View v) {
-                        // TODO Auto-generated method stub
+                    public void onClick(View v)
+                    {
                         seekBarSaturation.setVisibility(View.GONE);
                         seekBarDuibidu.setVisibility(View.GONE);
                         seekBarLight.setVisibility(View.VISIBLE);
@@ -516,15 +516,16 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
                 popupWindow.setTouchable(true);
                 popupWindow.setOutsideTouchable(true);
                 popupWindow.setBackgroundDrawable(new BitmapDrawable());
-                popupWindow.setTouchInterceptor(new OnTouchListener() {
+                popupWindow.setTouchInterceptor(new OnTouchListener()
+                {
                     @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        // TODO Auto-generated method stub
-                        if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
+                    public boolean onTouch(View v, MotionEvent event)
+                    {
+                        if (event.getAction() == MotionEvent.ACTION_OUTSIDE)
+                        {
                             popupWindow.dismiss();
                             return true;
                         }
-
                         return false;
                     }
                 });
@@ -532,7 +533,6 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
                 popupWindow.showAtLocation(v, Gravity.LEFT | Gravity.BOTTOM, 5, 150);
                 popupWindow.update();
                 break;
-
 
             default:
                 break;
@@ -542,16 +542,19 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
 
 
     @Override
-    protected void onActivityResult(final int requestCode,
-                                    final int resultCode, final Intent data) {
-        switch (requestCode) {
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data)
+    {
+        switch (requestCode)
+        {
             case Constants.CUT_FILM:
-                if (resultCode == RESULT_OK) {
+                if (resultCode == RESULT_OK)
+                {
                     checkBitmapRecyled();
                     String path = data.getStringExtra("cropImagePath");
                     currentBitmap = ImageUtils.getBitmapFromPath(path);
                     currentShowBitmap = currentBitmap;
-                    if (currentBitmap != null) {
+                    if (currentBitmap != null)
+                    {
                         showBackgroundByMode(currentBitmap);
                     }
                 }
@@ -559,9 +562,11 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
 
 
             case Constants.SUBTITLE:
-                if (resultCode == RESULT_OK) {
+                if (resultCode == RESULT_OK)
+                {
                     subtitle = data.getStringExtra("subtitle");
-                    if (subtitle != null) {
+                    if (subtitle != null)
+                    {
                         tv_subtitletext_film.setText(subtitle);
                     }
                     currentSaveImage.subtitle = subtitle;
@@ -578,8 +583,10 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
 
     //加载水平滑动相册，除了加载选择的图像，最后加上add按钮。
     @SuppressWarnings("deprecation")
-    private void LoadHorizontalGallery() {
-        for (int j = 0; j < saveImages.size(); j++) {
+    private void LoadHorizontalGallery()
+    {
+        for (int j = 0; j < saveImages.size(); j++)
+        {
             checkBitmapRecyled();
             currentSaveImage = saveImages.get(j);
             currentBitmap = ImageUtils.getBitmapFromPath(currentSaveImage.saveImagePath);
@@ -589,7 +596,7 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
         //添加按钮
         horizontalBitmaps.add(DataConvertUtil.drawable2Bitmap(getResources().getDrawable(R.drawable.btn_add)));
 
-        horizontalGalleryAdapter = new HorizontalGalleryAdapter(ActivityFilm.this, horizontalBitmaps);
+        horizontalGalleryAdapter = new HorizontalGalleryAdapter(ImageProcessActivity.this, horizontalBitmaps);
         gallery_xiangce_film.setSelection(4);
         gallery_xiangce_film.setAnimationDuration(3000);
         gallery_xiangce_film.setSpacing(10);
@@ -602,22 +609,26 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
         currentBitmap = ImageUtils.getBitmapFromPath(currentSaveImage.saveImagePath);
 
         currentShowBitmap = currentBitmap;
-        if (currentBitmap != null) {
+        if (currentBitmap != null)
+        {
             showBackgroundByMode(currentBitmap);
         }
 
-        gallery_xiangce_film.setOnItemClickListener(new OnItemClickListener() {
+        gallery_xiangce_film.setOnItemClickListener(new OnItemClickListener()
+        {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
+                                    int position, long id)
+            {
                 //先保存currentShowBitmap到currentSaveImage.saveImagePath中；currentSaveImage的其他信息保存在ArrayList<SaveImage>中，随时更改。
                 //取出position即选中的SaveImage，从路径取出图像，取出其他信息显示出来。
 
                 //把更改的印记信息保存的currentSaveImage中
-                if (currentMyTouchImageView != null) {
+                if (currentMyTouchImageView != null)
+                {
                     currentSaveImage.yinjiBitmap = currentMyTouchImageView.getResultBitmap();
                     /*currentSaveImage.x = (int) currentMyTouchImageView.getStartX();
-					currentSaveImage.y = (int) currentMyTouchImageView.getStartY();*/
+                    currentSaveImage.y = (int) currentMyTouchImageView.getStartY();*/
                     currentSaveImage.x = (int) currentMyTouchImageView.x_down;
                     currentSaveImage.y = (int) currentMyTouchImageView.y_down;
                     saveImages.set(currentGalleryPosition, currentSaveImage);
@@ -626,9 +637,11 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
                 currentGalleryPosition = position;  //记录下选中的位置，但是不改变currentXX。
 
 
-                new Thread(new Runnable() {
+                new Thread(new Runnable()
+                {
                     @Override
-                    public void run() {
+                    public void run()
+                    {
                         File file = new File(currentSaveImage.saveImagePath);
                         ImageUtils.saveBitmap(currentShowBitmap, file.getParent().toString(), file.getName().toString());
 
@@ -641,15 +654,16 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
     }
 
 
-    public class HorizontalGalleryAdapter extends BaseAdapter {
+    public class HorizontalGalleryAdapter extends BaseAdapter
+    {
         private Context gContext;
         private List<Bitmap> horizontaList = new ArrayList<Bitmap>();
         private ViewHolderGallery viewHolderGallery;
         private LayoutInflater layoutInflater;
 
 
-        public HorizontalGalleryAdapter(Context c, List<Bitmap> l) {
-            // TODO Auto-generated constructor stub
+        public HorizontalGalleryAdapter(Context c, List<Bitmap> l)
+        {
             this.gContext = c;
             this.horizontaList = l;
             layoutInflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -657,48 +671,57 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
 
 
         @Override
-        public int getCount() {
-            // TODO Auto-generated method stub
+        public int getCount()
+        {
             return horizontaList.size();
         }
 
 
         @Override
-        public Object getItem(int position) {
+        public Object getItem(int position)
+        {
             // TODO Auto-generated method stub
             return horizontaList.get(position);
         }
 
 
         @Override
-        public long getItemId(int position) {
+        public long getItemId(int position)
+        {
             // TODO Auto-generated method stub
             return position;
         }
 
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(int position, View convertView, ViewGroup parent)
+        {
             // TODO Auto-generated method stub
-            if (convertView == null) {
+            if (convertView == null)
+            {
                 viewHolderGallery = new ViewHolderGallery();
                 convertView = layoutInflater.inflate(R.layout.item_gallery_film, null);
                 viewHolderGallery.imageView = (ImageView) convertView.findViewById(R.id.iv_item_gallery_film);
                 convertView.setTag(viewHolderGallery);
-            } else {
+            } else
+            {
                 viewHolderGallery = (ViewHolderGallery) convertView.getTag();
             }
 
             Bitmap thumbBitmap = horizontaList.get(position);
 
             //最后一个add按钮
-            if (position == horizontaList.size() - 1) {
-                viewHolderGallery.imageView.setOnClickListener(new OnClickListener() {
+            if (position == horizontaList.size() - 1)
+            {
+                viewHolderGallery.imageView.setOnClickListener(new OnClickListener()
+                {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(View v)
+                    {
                         // TODO Auto-generated method stub
                         //保存当前图像，保存ArrayList，传递给SelectPictureActivity
-                        if (currentMyTouchImageView != null) {
+                        if (currentMyTouchImageView != null)
+                        {
                             currentSaveImage.yinjiBitmap = currentMyTouchImageView.getResultBitmap();
 //							currentSaveImage.x = (int) currentMyTouchImageView.getStartX();
 //							currentSaveImage.y = (int) currentMyTouchImageView.getStartY();
@@ -707,9 +730,11 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
                             saveImages.set(currentGalleryPosition, currentSaveImage);
                         }
 
-                        new Thread(new Runnable() {
+                        new Thread(new Runnable()
+                        {
                             @Override
-                            public void run() {
+                            public void run()
+                            {
                                 // TODO Auto-generated method stub
                                 File file = new File(currentSaveImage.saveImagePath);
                                 ImageUtils.saveBitmap(currentShowBitmap, file.getParent().toString(), file.getName().toString());
@@ -738,30 +763,39 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
     //加载滤镜
     //滤镜的Adapter和ProcessTask
     @SuppressWarnings("deprecation")
-    private void LoadImageFilter() {
-        filterAdapter = new ImageFilterAdapter(ActivityFilm.this);
+    private void LoadImageFilter()
+    {
+        filterAdapter = new ImageFilterAdapter(ImageProcessActivity.this);
         gallery_filter_film.setAdapter(filterAdapter);
         gallery_filter_film.setSelection(2);
         gallery_filter_film.setSpacing(10);
         gallery_filter_film.setAnimationDuration(3000);
         gallery_filter_film.setUnselectedAlpha(5);
         gallery_filter_film.setOnItemSelectedListener(this);
-        gallery_filter_film.setOnItemClickListener(new OnItemClickListener() {
+        gallery_filter_film.setOnItemClickListener(new OnItemClickListener()
+        {
             public void onItemClick(AdapterView<?> arg0, View arg1,
-                                    int position, long id) {
+                                    int position, long id)
+            {
                 final IImageFilter filter = (IImageFilter) filterAdapter.getItem(position);
 
 
-                new Thread(new Runnable() {
+                new Thread(new Runnable()
+                {
                     @Override
-                    public void run() {
+                    public void run()
+                    {
                         Image image = null;
-                        if (currentBitmap != null) {
-                            try {
+                        if (currentBitmap != null)
+                        {
+                            try
+                            {
                                 image = new Image(currentBitmap);
 
-                            } catch (Exception e) {
-                                if (currentBitmap != null && !currentBitmap.isRecycled()) {
+                            } catch (Exception e)
+                            {
+                                if (currentBitmap != null && !currentBitmap.isRecycled())
+                                {
                                     currentBitmap.recycle();
                                 }
 
@@ -774,8 +808,10 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
 
                         }
 
-                        if (image != null) {
-                            if (filter != null) {
+                        if (image != null)
+                        {
+                            if (filter != null)
+                            {
                                 image = filter.process(image);
                                 image.copyPixelsFromBuffer();
 
@@ -791,18 +827,24 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
     }
 
 
-    public class processImageTask extends AsyncTask<Void, Void, Bitmap> {
+    public class processImageTask extends AsyncTask<Void, Void, Bitmap>
+    {
         private IImageFilter filter;
 
-        public processImageTask(Activity activity, IImageFilter imageFilter) {
+        public processImageTask(Activity activity, IImageFilter imageFilter)
+        {
             this.filter = imageFilter;
         }
 
-        public Bitmap doInBackground(Void... params) {
+        public Bitmap doInBackground(Void... params)
+        {
             Image image = new Image(currentBitmap);
-            try {
-                if (image != null) {
-                    if (filter != null) {
+            try
+            {
+                if (image != null)
+                {
+                    if (filter != null)
+                    {
                         image = filter.process(image);
                         image.copyPixelsFromBuffer();
                     }
@@ -810,14 +852,18 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
 
                 currentShowBitmap = image.getDestImage();
                 return currentShowBitmap;
-            } catch (Exception e) {
-                if (image != null && image.destImage != null && !image.destImage.isRecycled()) {
+            } catch (Exception e)
+            {
+                if (image != null && image.destImage != null && !image.destImage.isRecycled())
+                {
                     image.destImage.recycle();
                     image.destImage = null;
                     System.gc(); // 提醒系统及时回收
                 }
-            } finally {
-                if (image != null && image.image != null && !image.image.isRecycled()) {
+            } finally
+            {
+                if (image != null && image.image != null && !image.image.isRecycled())
+                {
                     image.image.recycle();
                     image.image = null;
                     System.gc(); // 提醒系统及时回收
@@ -828,8 +874,10 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
 
 
         @Override
-        protected void onPostExecute(Bitmap result) {
-            if (result != null) {
+        protected void onPostExecute(Bitmap result)
+        {
+            if (result != null)
+            {
                 super.onPostExecute(result);
 
                 showBackgroundByMode(result);
@@ -839,13 +887,16 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
     }
 
 
-    public class ImageFilterAdapter extends BaseAdapter {
-        private class FilterInfo {
+    public class ImageFilterAdapter extends BaseAdapter
+    {
+        private class FilterInfo
+        {
             public int filterID;
             public IImageFilter filter;
             public String filterName;
 
-            public FilterInfo(int r, IImageFilter filter, String n) {
+            public FilterInfo(int r, IImageFilter filter, String n)
+            {
                 this.filterID = r;
                 this.filter = filter;
                 this.filterName = n;
@@ -858,7 +909,8 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
         private List<FilterInfo> filterArray = new ArrayList<FilterInfo>();
         private LayoutInflater layoutInflater;
 
-        public ImageFilterAdapter(Context c) {
+        public ImageFilterAdapter(Context c)
+        {
             mContext = c;
 
             layoutInflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -913,33 +965,40 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
         }
 
 
-        public int getCount() {
+        public int getCount()
+        {
             return filterArray.size();
         }
 
 
-        public Object getItem(int position) {
+        public Object getItem(int position)
+        {
             return position < filterArray.size() ? filterArray.get(position).filter
                     : null;
         }
 
 
-        public long getItemId(int position) {
+        public long getItemId(int position)
+        {
             return position;
         }
 
 
-        public void setSelectItem(int selectItem) {
-            if (this.selectItem != selectItem) {
+        public void setSelectItem(int selectItem)
+        {
+            if (this.selectItem != selectItem)
+            {
                 this.selectItem = selectItem;
                 notifyDataSetChanged();
             }
         }
 
 
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(int position, View convertView, ViewGroup parent)
+        {
 
-            if (convertView == null) {
+            if (convertView == null)
+            {
                 viewHolderGallery = new ViewHolderGallery();
 
                 convertView = layoutInflater.inflate(R.layout.item_gallery_film, null);
@@ -948,7 +1007,8 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
                 viewHolderGallery.imageView = (ImageView) convertView.findViewById(R.id.iv_item_gallery_film);
                 viewHolderGallery.textView = (TextView) convertView.findViewById(R.id.tv_item_gallery_film);
                 convertView.setTag(viewHolderGallery);
-            } else {
+            } else
+            {
                 viewHolderGallery = (ViewHolderGallery) convertView.getTag();
             }
 
@@ -960,9 +1020,11 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
 
             viewHolderGallery.textView.setText(filterArray.get(position).filterName);
 
-            if (selectItem == position) {
+            if (selectItem == position)
+            {
                 viewHolderGallery.rl_item_gallery.setBackgroundColor(getResources().getColor(R.color.title_xiangbin));
-            } else {
+            } else
+            {
                 viewHolderGallery.rl_item_gallery.setBackgroundColor(getResources().getColor(android.R.color.transparent));
             }
 
@@ -976,7 +1038,8 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position,
-                               long id) {
+                               long id)
+    {
         // TODO Auto-generated method stub
         filterAdapter.setSelectItem(position);
 
@@ -984,30 +1047,36 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
 
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
+    public void onNothingSelected(AdapterView<?> parent)
+    {
         // TODO Auto-generated method stub
     }
 
 
     //印记的Adapter和ProcessTask
-    private void LoadYinjiFilter() {
-        for (int i = 0; i < yinjiStrings.length; i++) {
+    private void LoadYinjiFilter()
+    {
+        for (int i = 0; i < yinjiStrings.length; i++)
+        {
             yinjiList.add(yinjiStrings[i]);
         }
-        yinjiFilterAdapter = new YinjiFilterAdapter(ActivityFilm.this, yinjiList);
+        yinjiFilterAdapter = new YinjiFilterAdapter(ImageProcessActivity.this, yinjiList);
         gallery_yinji_film.setAdapter(yinjiFilterAdapter);
 
-        gallery_yinji_film.setOnItemClickListener(new OnItemClickListener() {
+        gallery_yinji_film.setOnItemClickListener(new OnItemClickListener()
+        {
             public void onItemClick(AdapterView<?> arg0, View arg1,
-                                    int position, long id) {
+                                    int position, long id)
+            {
                 //使用当前选中图像的原图
                 showBackgroundByMode(currentBitmap);
 
-                if (currentMyTouchImageView != null) {
+                if (currentMyTouchImageView != null)
+                {
                     fl_gallery.removeView(currentMyTouchImageView);
                     currentMyTouchImageView = null;
                 }
-                currentMyTouchImageView = new MyTouchImageView(ActivityFilm.this);
+                currentMyTouchImageView = new MyTouchImageView(ImageProcessActivity.this);
 
                 currentMyTouchImageView.setImageResource(yinjiShowStrings[position]);
                 currentMyTouchImageView.setVisibility(View.VISIBLE);
@@ -1018,11 +1087,13 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
     }
 
 
-    public class YinjiFilterAdapter extends BaseAdapter {
+    public class YinjiFilterAdapter extends BaseAdapter
+    {
         private Context yContext;
         private List<Integer> yinjiList = new ArrayList<Integer>();
 
-        public YinjiFilterAdapter(Context c, List<Integer> l) {
+        public YinjiFilterAdapter(Context c, List<Integer> l)
+        {
             // TODO Auto-generated constructor stub
             this.yContext = c;
             this.yinjiList = l;
@@ -1030,28 +1101,32 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
 
 
         @Override
-        public int getCount() {
+        public int getCount()
+        {
             // TODO Auto-generated method stub
             return yinjiList.size();
         }
 
 
         @Override
-        public Object getItem(int position) {
+        public Object getItem(int position)
+        {
             // TODO Auto-generated method stub
             return yinjiList.get(position);
         }
 
 
         @Override
-        public long getItemId(int position) {
+        public long getItemId(int position)
+        {
             // TODO Auto-generated method stub
             return position;
         }
 
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(int position, View convertView, ViewGroup parent)
+        {
             // TODO Auto-generated method stub
             int currentImage = yinjiList.get(position);
             ImageView imageview = new ImageView(yContext);
@@ -1066,7 +1141,8 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
     }
 
 
-    public class ViewHolderGallery {
+    public class ViewHolderGallery
+    {
         public RelativeLayout rl_item_gallery;
         public ImageView imageView;
         public TextView textView;
@@ -1074,7 +1150,8 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
 
 
     @SuppressLint("NewApi")
-    public void showBackgroundByMode(Bitmap b) {
+    public void showBackgroundByMode(Bitmap b)
+    {
         LayoutParams params = tv_subtitletext_film.getLayoutParams();
         params.width = b.getWidth();
         params.height = b.getHeight();
@@ -1109,11 +1186,13 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
 
     //Seekbar滑动
     @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+    {
         // TODO Auto-generated method stub
         int flag = 0;
 
-        switch (seekBar.getId()) {
+        switch (seekBar.getId())
+        {
             case R.id.seekBarSaturation: // 饱和度
                 flag = 0;
                 increaseProcessImage.setSaturation(progress);
@@ -1135,26 +1214,32 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
 
 
     @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
+    public void onStartTrackingTouch(SeekBar seekBar)
+    {
         // TODO Auto-generated method stub
 
     }
 
 
     @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
+    public void onStopTrackingTouch(SeekBar seekBar)
+    {
         // TODO Auto-generated method stub
 
     }
 
 
-    private void saveResultImages(final ArrayList<SaveImage> saveImageList) {
+    private void saveResultImages(final ArrayList<SaveImage> saveImageList)
+    {
 
-        new Thread(new Runnable() {
+        new Thread(new Runnable()
+        {
             @Override
-            public void run() {
+            public void run()
+            {
                 //先保存currentShowBitmap到currentSaveImage.saveImagePath中，此时所有Bitmap都保存到了SD卡中。
-                if (currentMyTouchImageView != null) {
+                if (currentMyTouchImageView != null)
+                {
                     currentSaveImage.yinjiBitmap = currentMyTouchImageView.getResultBitmap();
 					/*currentSaveImage.x = (int) currentMyTouchImageView.getStartX();
 					currentSaveImage.y = (int) currentMyTouchImageView.getStartY();*/
@@ -1169,18 +1254,21 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
                 checkBitmapRecyled();
                 SaveImage itemSaveImage = null;
                 Bitmap itemBitmap = null;
-                for (int i = 0; i < saveImages.size(); i++) {
+                for (int i = 0; i < saveImages.size(); i++)
+                {
                     //取出每个SaveImage，从saveImagePath中取出图像，然后绘制字幕，绘制印记，再保存到Constants.resultPath路径下。
                     itemSaveImage = saveImageList.get(i);
                     itemBitmap = ImageUtils.getBitmapFromPath(itemSaveImage.saveImagePath);
 
                     //水印图
-                    if (itemSaveImage.yinjiBitmap != null) {
+                    if (itemSaveImage.yinjiBitmap != null)
+                    {
                         itemBitmap = ImageUtils.watermarkWithBmp(itemBitmap, itemSaveImage.yinjiBitmap, itemSaveImage.x, itemSaveImage.y);
                     }
 
                     //带字幕图
-                    if (!TextUtils.isEmpty(itemSaveImage.subtitle)) {
+                    if (!TextUtils.isEmpty(itemSaveImage.subtitle))
+                    {
                         int bitmapwidth = itemBitmap.getWidth();
                         Paint paint = new Paint();
                         paint.setTextSize(tv_subtitletext_film.getTextSize());
@@ -1191,15 +1279,20 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
 
                         int fontSize = 0;
                         int maxSize = Math.max(itemBitmap.getWidth(), itemBitmap.getHeight());
-                        if (maxSize >= 800) {
+                        if (maxSize >= 800)
+                        {
                             fontSize = 30;
-                        } else if (maxSize >= 600) {
+                        } else if (maxSize >= 600)
+                        {
                             fontSize = 25;
-                        } else if (maxSize >= 400) {
+                        } else if (maxSize >= 400)
+                        {
                             fontSize = 20;
-                        } else if (maxSize >= 200) {
+                        } else if (maxSize >= 200)
+                        {
                             fontSize = 15;
-                        } else {
+                        } else
+                        {
                             fontSize = 12;
                         }
 
@@ -1212,7 +1305,8 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
                     toPostList.add(itemSaveImage.saveImagePath);
 
                     //清理图片
-                    if (itemBitmap != null && !itemBitmap.isRecycled()) {
+                    if (itemBitmap != null && !itemBitmap.isRecycled())
+                    {
                         itemBitmap.recycle();
                     }
 
@@ -1225,24 +1319,27 @@ public class ActivityFilm extends BaseActivity implements OnClickListener, OnSee
     }
 
 
-    private void checkBitmapRecyled() {
-        if (currentBitmap != null && !currentBitmap.isRecycled()) {
+    private void checkBitmapRecyled()
+    {
+        if (currentBitmap != null && !currentBitmap.isRecycled())
+        {
             currentBitmap.recycle();
         }
-        if (currentShowBitmap != null && !currentShowBitmap.isRecycled()) {
+        if (currentShowBitmap != null && !currentShowBitmap.isRecycled())
+        {
             currentShowBitmap.recycle();
         }
-        if (currentYinjiBitmap != null && !currentYinjiBitmap.isRecycled()) {
+        if (currentYinjiBitmap != null && !currentYinjiBitmap.isRecycled())
+        {
             currentYinjiBitmap.recycle();
         }
         System.gc();
     }
 
 
-
-
     @Override
-    protected void onDestroy() {
+    protected void onDestroy()
+    {
         super.onDestroy();
 
         System.gc();

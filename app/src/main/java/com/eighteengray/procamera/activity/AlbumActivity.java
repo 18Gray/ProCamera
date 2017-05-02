@@ -4,10 +4,8 @@ import com.eighteengray.commonutillibrary.ImageUtils;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.ImageFolder;
 import com.eighteengray.procamera.bean.SaveImage;
-import com.eighteengray.procamera.business.AlbumBusiness;
 import com.eighteengray.procamera.component.DaggerAlbumComponent;
 import com.eighteengray.procamera.contract.IAlbumContract;
-import com.eighteengray.procamera.dataevent.ImageFolderEvent;
 import com.eighteengray.procamera.module.PresenterModule;
 import com.eighteengray.procamera.presenter.AlbumPresenter;
 import com.eighteengray.procamera.widget.baserecycler.BaseRecyclerAdapter;
@@ -21,25 +19,19 @@ import android.media.ThumbnailUtils;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.functions.Action1;
 
 
 /**
@@ -102,7 +94,7 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
                     @Override
                     public void onClick(View v)
                     {
-                        Intent intent = new Intent(AlbumActivity.this, ActivityFilm.class);
+                        Intent intent = new Intent(AlbumActivity.this, ImageProcessActivity.class);
                         ArrayList<SaveImage> saveImages = new ArrayList<SaveImage>();
                         SaveImage saveImage = new SaveImage();
                         saveImage.saveImagePath = item;
@@ -155,7 +147,7 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onImageFolderSelected(ImageFolderEvent imageFolderEvent)
+    public void onImageFolderSelected(com.eighteengray.procamera.dataevent.ImageFolderEvent imageFolderEvent)
     {
         currentImageFolderNum = imageFolderEvent.getCurrentImageFolderNum();
         picsAdapter.notifyDataSetChanged();
