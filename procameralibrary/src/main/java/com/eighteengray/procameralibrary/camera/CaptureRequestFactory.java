@@ -76,12 +76,11 @@ public class CaptureRequestFactory
         {
             case Constants.FLASH_AUTO:
                 previewBuilder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON_AUTO_FLASH);
-                previewBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_SINGLE);
                 break;
 
             case Constants.FLASH_ON:
-                previewBuilder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON_ALWAYS_FLASH);
-                previewBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_STATE_READY);
+                previewBuilder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON);
+                previewBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_SINGLE);
                 break;
 
             case Constants.FLASH_OFF:
@@ -92,6 +91,8 @@ public class CaptureRequestFactory
             case Constants.FLASH_FLARE:
                 previewBuilder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON);
                 previewBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_TORCH);
+
+//                previewBuilder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON_ALWAYS_FLASH);
                 break;
         }
         return previewBuilder.build();
