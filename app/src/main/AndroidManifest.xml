@@ -45,15 +45,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.GpuFilterActivity"/>
+        <activity android:name=".activity.SceneActivity"/>
+        <activity android:name=".activity.EffectActivity"/>
+
 
         <activity android:name=".activity.AlbumActivity" />
-
         <activity android:name=".activity.ImageProcessActivity"  />
 
         <activity android:name=".activity.SettingActivity" />
-
-
 
 
         <activity android:name=".activity.CutActivity"  />

@@ -259,7 +259,6 @@
             android:layout_gravity="center"
             android:gravity="bottom|center_horizontal"
             android:paddingBottom="20dp"
-            android:text="这世界不止眼前的苟且，还有诗和远方。"
             android:textColor="@color/white_light"
             android:textSize="14sp"
             />

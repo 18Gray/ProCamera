@@ -9,6 +9,7 @@ import android.view.Surface;
 import android.view.WindowManager;
 
 import com.eighteengray.procameralibrary.common.Constants;
+import com.eighteengray.procameralibrary.gpufilter.GpuFilterModel;
 
 import java.util.List;
 
@@ -62,6 +63,7 @@ public class CaptureRequestFactory
         previewBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_AUTO);
     }
 
+    //设置预览-开始手动聚焦
     public static void setPreviewBuilderFocusTrigger(CaptureRequest.Builder previewBuilder) throws CameraAccessException
     {
         previewBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START);
@@ -91,10 +93,23 @@ public class CaptureRequestFactory
             case Constants.FLASH_FLARE:
                 previewBuilder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON);
                 previewBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_TORCH);
-
-//                previewBuilder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON_ALWAYS_FLASH);
                 break;
         }
+        return previewBuilder.build();
+    }
+
+
+    //设置预览-Scene模式
+    public static CaptureRequest setPreviewBuilderScene(CaptureRequest.Builder previewBuilder, String scene) throws CameraAccessException
+    {
+        previewBuilder.set(CaptureRequest.CONTROL_SCENE_MODE, GpuFilterModel.getSceneMode(scene));
+        return previewBuilder.build();
+    }
+
+    //设置预览-Effect模式
+    public static CaptureRequest setPreviewBuilderEffect(CaptureRequest.Builder previewBuilder, String effect) throws CameraAccessException
+    {
+        previewBuilder.set(CaptureRequest.CONTROL_EFFECT_MODE, GpuFilterModel.getEffectMode(effect));
         return previewBuilder.build();
     }
 
@@ -123,6 +138,9 @@ public class CaptureRequestFactory
     {
         captureBuilder.set(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER, CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
     }
+
+
+
 
 
     //创建录像请求

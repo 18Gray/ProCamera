@@ -18,9 +18,7 @@ import android.view.Window;
 
 /**
  * 底图缩放，浮层不变
- * 
  * @author yanglonghui
- * 
  */
 public class CropImageView extends View
 {
@@ -109,7 +107,6 @@ public class CropImageView extends View
 	@Override
 	public boolean onTouchEvent(MotionEvent event)
 	{
-
 		int t = mDrawableDst.top;
 		int l = mDrawableDst.left;
 		int r = mDrawableDst.right;

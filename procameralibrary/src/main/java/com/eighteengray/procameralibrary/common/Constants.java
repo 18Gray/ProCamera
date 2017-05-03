@@ -11,16 +11,12 @@ public class Constants
 			+ File.separator + "MyCamera" + File.separator;
 	
 	
-	//startActivityForResult
-	public static final int GPUFILTER = 101;
-	public static final int CUT_FILM = 103;
-	public static final int SUBTITLE = 102;
-	
+
 
 	//Handler
 	public static final int SAVEIMAGE = 105;
 	public static final int IMAGEPROCESS = 106;
-	public static final int SAVERESULTIMAGES = 107;
+	public static final int SAVERESULTIMAGE = 107;
 	public static final int SAVETAKEDPIC = 108;
 	public static final int ADDIMAGE = 109;
 	public static final int OKSELECT = 110;
@@ -29,9 +25,17 @@ public class Constants
 	public static final int NOPIC = 113;
 	
 	
-	//Intent Bundle
+	//Intent Bundle Key
+	public static final String CROPIMAGEPATH = "cropimagepath";
 	public static final String IMAGEFOLDERS = "imagefolders";
 	public static final String CURRENTFOLDERNUM = "currentfoldernum";
+
+
+	//startActivityForResult--requestCode
+	public static final int SUBTITLE = 102;
+	public static final int CUT_IMAGE = 103;
+
+
 
 
 	//EventBus常量
@@ -43,24 +47,11 @@ public class Constants
 	public static final int FLASH_OFF = 10005;
 	public static final int FLASH_FLARE = 10006;
 
-	public static final int HDR_ON = 10007;
-	public static final int HDR_OFF = 10008;
-
 	public static final int DELAY_3 = 10009;
 	public static final int DELAY_5 = 100010;
 	public static final int DELAY_8 = 100011;
 	public static final int DELAY_10 = 10012;
 
-	//一大波GPU滤镜，从11000开始
-	public static final int GPUFILTER_0 = 11000;
-	public static final int GPUFILTER_1 = 11001;
-	public static final int GPUFILTER_2 = 11002;
-	public static final int GPUFILTER_3 = 11003;
-	public static final int GPUFILTER_4 = 11004;
-	public static final int GPUFILTER_5 = 11005;
-	public static final int GPUFILTER_6 = 11006;
-	public static final int GPUFILTER_7 = 11007;
-	public static final int GPUFILTER_8 = 11008;
 
 	//一大波ratio比例，从12000开始
 	public static final int RATIO_NORMAL = 12000;

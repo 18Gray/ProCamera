@@ -22,20 +22,25 @@ import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.widget.CropImageView;
 import com.eighteengray.procameralibrary.common.Constants;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class CutActivity extends BaseActivity implements OnClickListener
+import static android.R.attr.mode;
+
+
+public class CutActivity extends BaseActivity
 {
+    @BindView(R.id.iv_finish_cut)
     ImageView iv_finish_cut;
+    @BindView(R.id.button_next_gallery)
     Button button_next_gallery;
 
-    private CropImageView mCropImage;
+    @BindView(R.id.civ_cut)
+    CropImageView mCropImage;
     private Drawable drawable;
     private Bitmap bitmap = null;
-
-    String mode;
     String path;
-
-
     int width;
 
 
@@ -45,12 +50,11 @@ public class CutActivity extends BaseActivity implements OnClickListener
         public void handleMessage(Message msg)
         {
             super.handleMessage(msg);
-
             switch (msg.what)
             {
                 case Constants.CUTPIC:
                     Intent mIntent = new Intent();
-                    mIntent.putExtra("cropImagePath", path);
+                    mIntent.putExtra(Constants.CROPIMAGEPATH, path);
                     setResult(RESULT_OK, mIntent);
                     finish();
                     break;
@@ -58,9 +62,7 @@ public class CutActivity extends BaseActivity implements OnClickListener
                 default:
                     break;
             }
-
         }
-
     };
 
 
@@ -68,51 +70,25 @@ public class CutActivity extends BaseActivity implements OnClickListener
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.aty_cut);
+        ButterKnife.bind(this);
 
         width = ScreenUtils.getScreenWidth(CutActivity.this);
-
-        mode = getIntent().getStringExtra("mode");
-        path = getIntent().getStringExtra("path");
+        path = getIntent().getStringExtra(Constants.CROPIMAGEPATH);
         bitmap = ImageUtils.getBitmapFromPath(path);
         drawable = DataConvertUtil.bitmap2Drawable(bitmap);
-
-        initView();
+        mCropImage.setDrawable(drawable, width, width / 2);
     }
 
 
-    private void initView()
+    @OnClick({R.id.iv_finish_cut, R.id.button_next_gallery})
+    public void click(View view)
     {
-        iv_finish_cut = (ImageView) findViewById(R.id.iv_finish_cut);
-        button_next_gallery = (Button) findViewById(R.id.button_next_gallery);
-
-        mCropImage = (CropImageView) findViewById(R.id.civ_cut);
-        if (mode.equals("大片") && bitmap != null)
-        {
-            mCropImage.setDrawable(drawable, width, width * 9 / 32);
-        } else if (mode.equals("普通") && bitmap != null)
-        {
-            mCropImage.setDrawable(drawable, width, width / 2);
-        }
-
-
-        iv_finish_cut.setOnClickListener(this);
-
-        button_next_gallery.setOnClickListener(this);
-
-    }
-
-
-    @Override
-    public void onClick(View v)
-    {
-        switch (v.getId())
+        switch (view.getId())
         {
             case R.id.iv_finish_cut:
                 finish();
                 break;
-
 
             case R.id.button_next_gallery:
                 new Thread(new Runnable()
@@ -125,11 +101,9 @@ public class CutActivity extends BaseActivity implements OnClickListener
                         ImageUtils.saveBitmap(bitmap, file.getParent().toString(), file.getName().toString());
 
                         handler.sendEmptyMessage(Constants.CUTPIC);
-
                     }
                 }).start();
                 break;
-
 
             default:
                 break;

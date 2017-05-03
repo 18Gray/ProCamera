@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,9 +24,10 @@ import android.widget.Toast;
 import com.eighteengray.commonutillibrary.ImageUtils;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.activity.AlbumActivity;
-import com.eighteengray.procamera.activity.GpuFilterActivity;
 import com.eighteengray.procamera.activity.SettingActivity;
 import com.eighteengray.procamera.widget.TextureViewTouchListener;
+import com.eighteengray.procamera.widget.baserecycler.BaseRecyclerAdapter;
+import com.eighteengray.procamera.widget.baserecycler.BaseRecyclerViewHolder;
 import com.eighteengray.procamera.widget.dialogfragment.ModeSelectDialogFragment;
 import com.eighteengray.procamera.widget.dialogfragment.PopupWindowFactory;
 import com.eighteengray.procameralibrary.camera.Camera2TextureView;
@@ -35,15 +39,14 @@ import com.eighteengray.procameralibrary.camera.TextureViewTouchEvent;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
 import java.io.File;
-
+import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static com.eighteengray.commonutillibrary.ImageUtils.getBitmapFromPath;
 import static com.eighteengray.commonutillibrary.SDCardUtils.getSystemPicFile;
+
+
 
 /**
  * 待完成功能：
@@ -69,6 +72,17 @@ public class Camera2Fragment extends BaseCameraFragment
     ImageView iv_imageavailable;
     @BindView(R.id.iv_focus_camera)
     ImageView iv_focus_camera;
+
+    //Scene和Effect的RecyclerView
+    @BindView(R.id.rcv_scene)
+    RecyclerView rcv_scene;
+    BaseRecyclerAdapter<String> sceneRecyclerAdapter;
+    ArrayList<String> sceneArrayList = new ArrayList<>();
+
+    @BindView(R.id.rcv_effect)
+    RecyclerView rcv_effect;
+    BaseRecyclerAdapter<String> effectRecyclerAdapter;
+    ArrayList<String> effectArrayList = new ArrayList<>();
 
     //中下部
     @BindView(R.id.rl_middle_bottom_menu)
@@ -120,7 +134,69 @@ public class Camera2Fragment extends BaseCameraFragment
         super.onResume();
         cameraTextureView.openCamera();
         cameraTextureView.setOnTouchListener(new TextureViewTouchListener());
+        initView();
     }
+
+
+    private void initView()
+    {
+        LinearLayoutManager sceneLayoutManager = new LinearLayoutManager(getActivity());
+        sceneLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        rcv_scene.setLayoutManager(sceneLayoutManager);
+        sceneRecyclerAdapter = new BaseRecyclerAdapter<String>(R.layout.item_text_grid)
+        {
+            @Override
+            public void setData2ViewR(BaseRecyclerViewHolder baseRecyclerViewHolder, final String item, int position)
+            {
+                TextView textView = baseRecyclerViewHolder.getViewById(R.id.tv_item_textgrid);
+                textView.setText(item);
+
+                textView.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        CameraConfigure.Scene scene = new CameraConfigure.Scene();
+                        scene.setScene(item);
+                        EventBus.getDefault().post(scene);
+                        rcv_scene.setVisibility(View.GONE);
+                    }
+                });
+            }
+        };
+        rcv_scene.setAdapter(sceneRecyclerAdapter);
+        setSceneData();
+        sceneRecyclerAdapter.setData(sceneArrayList);
+
+        LinearLayoutManager effectLayoutManager = new LinearLayoutManager(getActivity());
+        effectLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        rcv_effect.setLayoutManager(effectLayoutManager);
+        effectRecyclerAdapter = new BaseRecyclerAdapter<String>(R.layout.item_text_grid)
+        {
+            @Override
+            public void setData2ViewR(BaseRecyclerViewHolder baseRecyclerViewHolder, final String item, int position)
+            {
+                TextView textView = baseRecyclerViewHolder.getViewById(R.id.tv_item_textgrid);
+                textView.setText(item);
+
+                textView.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        CameraConfigure.Effect effect = new CameraConfigure.Effect();
+                        effect.setEffect(item);
+                        EventBus.getDefault().post(effect);
+                        rcv_effect.setVisibility(View.GONE);
+                    }
+                });
+            }
+        };
+        rcv_effect.setAdapter(effectRecyclerAdapter);
+        setEffectData();
+        effectRecyclerAdapter.setData(effectArrayList);
+    }
+
 
     @Override
     public void onPause()
@@ -153,9 +229,7 @@ public class Camera2Fragment extends BaseCameraFragment
                 break;
 
             case R.id.iv_hdr_camera:  //hdr设置
-                int[] location2 = new int[2];
-                iv_hdr_camera.getLocationOnScreen(location2);
-                PopupWindowFactory.createHdrPopupWindow(getActivity()).showAtLocation(iv_hdr_camera, Gravity.NO_GRAVITY, location2[0]+iv_hdr_camera.getWidth(), location2[1] - 30);
+                rcv_scene.setVisibility(View.VISIBLE);
                 break;
 
             case R.id.tv_mode_select: //模式选择，相机、视频
@@ -164,8 +238,7 @@ public class Camera2Fragment extends BaseCameraFragment
                 break;
 
             case R.id.iv_gpufilter_camera: //添加gpu滤镜
-                Intent intent_gpufilter = new Intent(getActivity(), GpuFilterActivity.class);
-                getActivity().startActivity(intent_gpufilter);
+                rcv_effect.setVisibility(View.VISIBLE);
                 break;
 
             case R.id.iv_album_camera: //进入相册
@@ -196,6 +269,44 @@ public class Camera2Fragment extends BaseCameraFragment
     }
 
 
+    private void setSceneData()
+    {
+        sceneArrayList.add("DISABLED");
+        sceneArrayList.add("FACE_PRIORITY");
+        sceneArrayList.add("ACTION");
+        sceneArrayList.add("PORTRAIT");
+        sceneArrayList.add("LANDSCAPE");
+        sceneArrayList.add("NIGHT");
+        sceneArrayList.add("PORTRAIT");
+        sceneArrayList.add("THEATRE");
+        sceneArrayList.add("BEACH");
+        sceneArrayList.add("SNOW");
+        sceneArrayList.add("SUNSET");
+        sceneArrayList.add("STEADYPHOTO");
+        sceneArrayList.add("FIREWORKS");
+        sceneArrayList.add("SPORTS");
+        sceneArrayList.add("PARTY");
+        sceneArrayList.add("CANDLELIGHT");
+        sceneArrayList.add("BARCODE");
+        sceneRecyclerAdapter.setData(sceneArrayList);
+    }
+
+
+    private void setEffectData()
+    {
+        effectArrayList.add("AQUA");
+        effectArrayList.add("BLACKBOARD");
+        effectArrayList.add("MONO");
+        effectArrayList.add("NEGATIVE");
+        effectArrayList.add("POSTERIZE");
+        effectArrayList.add("SEPIA");
+        effectArrayList.add("SOLARIZE");
+        effectArrayList.add("WHITEBOARD");
+        effectArrayList.add("OFF");
+        effectRecyclerAdapter.setData(effectArrayList);
+    }
+
+
     //EventBus--TextureView触摸事件
     @Subscribe(threadMode = ThreadMode.MAIN)  //轻按：显示焦点，完成聚焦和测光。
     public void onTextureClick(TextureViewTouchEvent.TextureClick textureClick) throws CameraAccessException
@@ -205,7 +316,7 @@ public class Camera2Fragment extends BaseCameraFragment
         cameraTextureView.focusRegion(textureClick.getX(), textureClick.getY());
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN) //长按：显示焦点，完成聚焦和测光，再拍摄。
+    @Subscribe(threadMode = ThreadMode.MAIN) //长按：进行测光点和对焦点锁定
     public void onTextureLongClick(TextureViewTouchEvent.TextureLongClick textureLongClick)
     {
         Toast.makeText(getActivity(), "longclick", Toast.LENGTH_SHORT).show();
@@ -218,9 +329,11 @@ public class Camera2Fragment extends BaseCameraFragment
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)  // 两手指拖动则完成焦距调节。
-    public void onTextureTwoDrag(TextureViewTouchEvent.TextureTwoDrag textureTwoDrag)
+    public void onTextureTwoDrag(TextureViewTouchEvent.TextureTwoDrag textureTwoDrag) throws CameraAccessException
     {
         Toast.makeText(getActivity(), "twodrag", Toast.LENGTH_SHORT).show();
+        int distance = (int) textureTwoDrag.getScale();
+        cameraTextureView.changeFocusDistance(distance);
     }
 
 
@@ -316,41 +429,15 @@ public class Camera2Fragment extends BaseCameraFragment
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onHdrSelect(CameraConfigure.Hdr hdr)
+    public void onSceneSelect(CameraConfigure.Scene scene) throws CameraAccessException
     {
-        switch (hdr.getHdr())
-        {
-            case Constants.HDR_ON:
-
-                break;
-
-            case Constants.HDR_OFF:
-
-                break;
-        }
+        cameraTextureView.setSceneMode(scene.getScene());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onGpuFilter(CameraConfigure.GpuFilter gpuFilter)
+    public void onEffectSelect(CameraConfigure.Effect effect) throws CameraAccessException
     {
-        switch (gpuFilter.getGpufilter())
-        {
-            case Constants.GPUFILTER_0:
-
-                break;
-
-            case Constants.GPUFILTER_1:
-
-                break;
-
-            case Constants.GPUFILTER_2:
-
-                break;
-
-            case Constants.GPUFILTER_3:
-
-                break;
-        }
+        cameraTextureView.setEffectMode(effect.getEffect());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

@@ -434,6 +434,7 @@ public class Camera2TextureView extends BaseCamera2TextureView
     }
 
 
+    //设置预览区域
     public void focusRegion(float x, float y) throws CameraAccessException
     {
         isTrigger = false;
@@ -482,6 +483,7 @@ public class Camera2TextureView extends BaseCamera2TextureView
         }
     }
 
+    //根据聚焦状态显示图像
     private void judgeFocus()
     {
         switch (mAfState)
@@ -530,5 +532,43 @@ public class Camera2TextureView extends BaseCamera2TextureView
                 break;
         }
     }
+
+
+    //设置Scene模式
+    public void setSceneMode(String sceneMode) throws CameraAccessException
+    {
+        CaptureRequestFactory.setPreviewBuilderScene(mPreviewRequestBuilder, sceneMode);
+        updatePreview(mPreviewRequestBuilder.build(), captureSessionCaptureCallback);
+    }
+
+    //设置Effect模式
+    public void setEffectMode(String effectMode) throws CameraAccessException
+    {
+        CaptureRequestFactory.setPreviewBuilderEffect(mPreviewRequestBuilder, effectMode);
+        updatePreview(mPreviewRequestBuilder.build(), captureSessionCaptureCallback);
+    }
+
+
+    //拉长、缩小焦距
+    public void changeFocusDistance(int distance) throws CameraAccessException
+    {
+        mCameraCharacteristics = manager.getCameraCharacteristics(mCameraId);
+        Rect rect = mCameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
+        int radio = mCameraCharacteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM).intValue() / 2;
+        int realRadio = mCameraCharacteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM).intValue();
+        int centerX = rect.centerX();
+        int centerY = rect.centerY();
+        int minMidth = (rect.right - ((distance * centerX) / 100 / radio) - 1) - ((distance * centerX / radio) / 100 + 8);
+        int minHeight = (rect.bottom - ((distance * centerY) / 100 / radio) - 1) - ((distance * centerY / radio) / 100 + 16);
+        if (minMidth < rect.right / realRadio || minHeight < rect.bottom / realRadio)
+        {
+            Log.i("sb_zoom", "sb_zoomsb_zoomsb_zoom");
+            return;
+        }
+        Rect newRect = new Rect((distance * centerX / radio) / 100 + 40, (distance * centerY / radio) / 100 + 40, rect.right - ((distance * centerX) / 100 / radio) - 1, rect.bottom - ((distance * centerY) / 100 / radio) - 1);
+        mPreviewRequestBuilder.set(CaptureRequest.SCALER_CROP_REGION, newRect);
+        updatePreview(mPreviewRequestBuilder.build(), captureSessionCaptureCallback);
+    }
+
 
 }

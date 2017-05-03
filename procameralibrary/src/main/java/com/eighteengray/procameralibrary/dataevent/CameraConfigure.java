@@ -16,29 +16,33 @@ public class CameraConfigure
         }
     }
 
-    public static class Hdr
+    public static class Scene
     {
-        private int hdr;
-        public int getHdr()
+        private String scene;
+
+        public String getScene()
         {
-            return hdr;
+            return scene;
         }
-        public void setHdr(int hdr)
+
+        public void setScene(String scene)
         {
-            this.hdr = hdr;
+            this.scene = scene;
         }
     }
 
-    public static class GpuFilter
+    public static class Effect
     {
-        private int gpufilter;
-        public int getGpufilter()
+        private String effect;
+
+        public String getEffect()
         {
-            return gpufilter;
+            return effect;
         }
-        public void setGpufilter(int gpufilter)
+
+        public void setEffect(String effect)
         {
-            this.gpufilter = gpufilter;
+            this.effect = effect;
         }
     }
 

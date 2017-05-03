@@ -157,6 +157,24 @@
     />
 
 
+    <!--Scene和Effect的RecyclerView-->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rcv_scene"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignBottom="@id/cameraTextureView"
+        android:visibility="gone"
+    />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rcv_effect"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignBottom="@id/cameraTextureView"
+        android:visibility="gone"
+    />
+
+
     <!--聚焦图标-->
     <ImageView
         android:id="@+id/iv_focus_camera"

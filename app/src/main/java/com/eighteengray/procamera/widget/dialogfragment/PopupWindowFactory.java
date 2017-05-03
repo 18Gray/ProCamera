@@ -80,46 +80,6 @@ public class PopupWindowFactory
     }
 
 
-    //Hdr的弹出框
-    public static PopupWindow createHdrPopupWindow(Context context)
-    {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View view = layoutInflater.inflate(R.layout.dialogfragment_hdrselect, null);
-
-        final PopupWindow popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
-
-        //点击空白处消失
-        popupWindow.setTouchable(true);
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.setBackgroundDrawable(new BitmapDrawable(context.getResources(), (Bitmap) null));
-
-        //点击事件
-        view.findViewById(R.id.iv_hdr_on).setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                CameraConfigure.Hdr hdr1 = new CameraConfigure.Hdr();
-                hdr1.setHdr(Constants.HDR_ON);
-                EventBus.getDefault().post(hdr1);
-                popupWindow.dismiss();
-            }
-        });
-        view.findViewById(R.id.iv_hdr_off).setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                CameraConfigure.Hdr hdr2 = new CameraConfigure.Hdr();
-                hdr2.setHdr(Constants.HDR_OFF);
-                EventBus.getDefault().post(hdr2);
-                popupWindow.dismiss();
-            }
-        });
-
-        return popupWindow;
-    }
-
 
     //Ratio的弹出框
     public static PopupWindow createRatioPopupWindow(Context context)
@@ -183,57 +143,6 @@ public class PopupWindowFactory
         return popupWindow;
     }
 
-
-    //图像处理中，裁剪弹出框
-    public static PopupWindow createCutPopupWindow(Context context)
-    {
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.popupwindow_mode, null);
-        final PopupWindow popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        popupWindow.setFocusable(true);
-        popupWindow.setTouchable(true);
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.setBackgroundDrawable(new BitmapDrawable());
-        popupWindow.setTouchInterceptor(new View.OnTouchListener()
-        {
-            @Override
-            public boolean onTouch(View v, MotionEvent event)
-            {
-                if (event.getAction() == MotionEvent.ACTION_OUTSIDE)
-                {
-                    popupWindow.dismiss();
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        view.findViewById(R.id.ll_film_popup).setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                popupWindow.dismiss();
-
-                /*Intent intent = new Intent(ImageProcessActivity.this, CutActivity.class);
-                intent.putExtra("mode", mode);
-                intent.putExtra("path", currentSaveImage.saveImagePath);*/
-            }
-        });
-
-        view.findViewById(R.id.ll_normal_popup).setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                /*Intent intent = new Intent(ImageProcessActivity.this, CutActivity.class);
-                intent.putExtra("mode", mode);
-                intent.putExtra("path", currentSaveImage.saveImagePath);
-                startActivityForResult(intent, Constants.CUT_FILM);*/
-            }
-        });
-        return popupWindow;
-    }
 
 
     //图像处理中，对比度弹出框
