@@ -115,6 +115,8 @@ public class CaptureRequestFactory
 
 
 
+
+
     //创建拍照请求
     public static CaptureRequest.Builder createCaptureStillBuilder(CameraDevice cameraDevice, Surface surface) throws CameraAccessException
     {
@@ -139,6 +141,12 @@ public class CaptureRequestFactory
         captureBuilder.set(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER, CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
     }
 
+
+    //设置拍照模式-延时拍着
+    public static void setCaptureBuilderDelay(CaptureRequest.Builder captureBuilder)
+    {
+//        captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, 10000);
+    }
 
 
 

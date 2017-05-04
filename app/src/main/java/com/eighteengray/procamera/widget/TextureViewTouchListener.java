@@ -92,9 +92,6 @@ public class TextureViewTouchListener implements View.OnTouchListener
                     {
                         moveDistance = ViewUtils.getDistance(event);
                         scale = moveDistance / downDistance;
-                        TextureViewTouchEvent.TextureTwoDrag textureTwoDrag = new TextureViewTouchEvent.TextureTwoDrag();
-                        textureTwoDrag.setScale(scale);
-                        EventBus.getDefault().post(textureTwoDrag);
                     }
                 }
                 break;

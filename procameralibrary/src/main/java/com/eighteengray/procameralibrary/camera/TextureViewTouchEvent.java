@@ -98,22 +98,6 @@ public class TextureViewTouchEvent
     }
 
 
-    public static class TextureTwoDrag
-    {
-        private float scale;
-
-        public float getScale()
-        {
-            return scale;
-        }
-
-        public void setScale(float scale)
-        {
-            this.scale = scale;
-        }
-    }
-
-
     public static class FocusState
     {
         private int focusState;

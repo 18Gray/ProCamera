@@ -83,10 +83,11 @@
                 android:id="@+id/tv_delay_second"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignRight="@id/iv_delay_shutter"
+                android:layout_marginLeft="70dp"
+                android:layout_marginTop="3dp"
                 android:text="0"
                 android:textColor="@color/text"
-                android:textSize="10sp"
+                android:textSize="14sp"
             />
 
         </RelativeLayout>
@@ -227,5 +228,18 @@
             android:layout_centerHorizontal="true"/>
 
     </RelativeLayout>
+
+    <!--调节焦距-->
+    <com.eighteengray.procamera.widget.VerticalSeekBar
+        android:id="@+id/seekbar_camera2"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/rl_topmenu"
+        android:layout_above="@id/rl_middle_bottom_menu"
+        android:layout_margin="20dp"
+        style="@android:style/Widget.Holo.Light.SeekBar"
+        android:thumb="@drawable/thumb_seekbar"
+    />
 
 </RelativeLayout>

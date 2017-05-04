@@ -18,6 +18,7 @@ import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.activity.AlbumActivity;
 import com.eighteengray.procamera.activity.SettingActivity;
 import com.eighteengray.procamera.widget.TextureViewTouchListener;
+import com.eighteengray.procamera.widget.VerticalSeekBar;
 import com.eighteengray.procamera.widget.baserecycler.BaseRecyclerAdapter;
 import com.eighteengray.procamera.widget.baserecycler.BaseRecyclerViewHolder;
 import com.eighteengray.procamera.widget.dialogfragment.ModeSelectDialogFragment;
@@ -70,6 +72,8 @@ public class Camera2Fragment extends BaseCameraFragment
     Camera2TextureView cameraTextureView;
     @BindView(R.id.iv_imageavailable)
     ImageView iv_imageavailable;
+    @BindView(R.id.seekbar_camera2)
+    VerticalSeekBar seekbar_camera2;
     @BindView(R.id.iv_focus_camera)
     ImageView iv_focus_camera;
 
@@ -114,6 +118,7 @@ public class Camera2Fragment extends BaseCameraFragment
     private boolean mFlagShowFocusImage = false; //聚焦图像是否显示的标志位
     private float mRawX, mRawY; //触摸聚焦时候的中心点
     protected File mFile;   //保存图片的路径
+    private int delayTime = 0;
 
 
     @Override
@@ -195,6 +200,31 @@ public class Camera2Fragment extends BaseCameraFragment
         rcv_effect.setAdapter(effectRecyclerAdapter);
         setEffectData();
         effectRecyclerAdapter.setData(effectArrayList);
+
+        seekbar_camera2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
+        {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+            {
+                try
+                {
+                    cameraTextureView.changeFocusDistance(progress);
+                } catch (CameraAccessException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar)
+            {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar)
+            {
+            }
+        });
     }
 
 
@@ -258,7 +288,20 @@ public class Camera2Fragment extends BaseCameraFragment
                 break;
 
             case R.id.iv_delay_shutter: //在延时TextView上显示时间(做放大缩小动画)，同时执行延时拍摄配置
-
+                switch (delayTime)
+                {
+                    case 0:
+                        delayTime = 3;
+                        break;
+                    case 3:
+                        delayTime = 10;
+                        break;
+                    case 10:
+                        delayTime = 0;
+                        break;
+                }
+                tv_delay_second.setText(delayTime + "");
+                cameraTextureView.setDalayTime(delayTime * 1000);
                 break;
 
             case R.id.iv_setting_camera: //进入设置界面
@@ -326,14 +369,6 @@ public class Camera2Fragment extends BaseCameraFragment
     public void onTextureOneDrag(TextureViewTouchEvent.TextureOneDrag textureOneDrag)
     {
         Toast.makeText(getActivity(), "onedrag", Toast.LENGTH_SHORT).show();
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)  // 两手指拖动则完成焦距调节。
-    public void onTextureTwoDrag(TextureViewTouchEvent.TextureTwoDrag textureTwoDrag) throws CameraAccessException
-    {
-        Toast.makeText(getActivity(), "twodrag", Toast.LENGTH_SHORT).show();
-        int distance = (int) textureTwoDrag.getScale();
-        cameraTextureView.changeFocusDistance(distance);
     }
 
 
@@ -462,24 +497,7 @@ public class Camera2Fragment extends BaseCameraFragment
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onRatioSelect(CameraConfigure.Ratio ratio)
     {
-        switch (ratio.getRatio())
-        {
-            case Constants.RATIO_NORMAL:
-
-                break;
-
-            case Constants.RATIO_SQUARE:
-
-                break;
-
-            case Constants.RATIO_4V3:
-
-                break;
-
-            case Constants.RATIO_16V9:
-
-                break;
-        }
+        cameraTextureView.setRatioMode(ratio.getRatio());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

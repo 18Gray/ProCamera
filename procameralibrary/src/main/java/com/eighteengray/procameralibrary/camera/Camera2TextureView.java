@@ -21,9 +21,11 @@ import android.media.ImageReader;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.Range;
 import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.Surface;
+import android.widget.Toast;
 
 import com.eighteengray.procameralibrary.common.Constants;
 import com.eighteengray.procameralibrary.dataevent.ImageAvailableEvent;
@@ -34,6 +36,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import static android.R.attr.width;
 
 
 public class Camera2TextureView extends BaseCamera2TextureView
@@ -101,18 +105,9 @@ public class Camera2TextureView extends BaseCamera2TextureView
             StreamConfigurationMap map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
             Size largest = Collections.max(Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)), new CompareSizesByArea());
             initImageReader(largest);
-            mPreviewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class), width, height, largest);
-            mPreviewSize = new Size(getWidth(), getHeight());
+//            mPreviewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class), width, height, largest);
+            setRatioReal(getWidth(), getHeight());
 
-            //如果屏幕旋转需要调整
-            int orientation = getResources().getConfiguration().orientation;
-            if (orientation == Configuration.ORIENTATION_LANDSCAPE)
-            {
-                setAspectRatio(mPreviewSize.getHeight(), mPreviewSize.getWidth());
-            } else
-            {
-                setAspectRatio(mPreviewSize.getWidth(), mPreviewSize.getHeight());
-            }
         } catch (CameraAccessException e)
         {
             e.printStackTrace();
@@ -121,6 +116,21 @@ public class Camera2TextureView extends BaseCamera2TextureView
             e.printStackTrace();
         }
     }
+
+    private void setRatioReal(int width, int height)
+    {
+        mPreviewSize = new Size(width, height);
+        //如果屏幕旋转需要调整
+        int orientation = getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE)
+        {
+            setAspectRatio(mPreviewSize.getHeight(), mPreviewSize.getWidth());
+        } else
+        {
+            setAspectRatio(mPreviewSize.getWidth(), mPreviewSize.getHeight());
+        }
+    }
+
 
     private void initImageReader(Size largest)
     {
@@ -570,5 +580,53 @@ public class Camera2TextureView extends BaseCamera2TextureView
         updatePreview(mPreviewRequestBuilder.build(), captureSessionCaptureCallback);
     }
 
+
+    //修改TextureView比例
+    public void setRatioMode(int ratio)
+    {
+        switch (ratio)
+        {
+            case Constants.RATIO_NORMAL:
+                setRatioReal(getWidth(), getHeight());
+                break;
+
+            case Constants.RATIO_SQUARE:
+                setRatioReal(getWidth(), getWidth());
+                break;
+
+            case Constants.RATIO_4V3:
+                int height_4v3 = getWidth() * 4 / 3;
+                setRatioReal(getWidth(), height_4v3);
+                break;
+
+            case Constants.RATIO_16V9:
+                int height_16v9 = getWidth() * 16 / 9;
+                setRatioReal(getWidth(), height_16v9);
+                break;
+        }
+    }
+
+
+    //延时拍摄
+    public void setDalayTime(int nanoseconds)
+    {
+        try
+        {
+            mCameraCharacteristics = manager.getCameraCharacteristics(mCameraId);
+            Range<Long> range = mCameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE);
+            if(range == null)
+            {
+                Toast.makeText(context, "您的相机不支持全功能", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                CaptureRequestFactory.setCaptureBuilderDelay(mCaptureStillBuilder);
+            }
+
+        } catch (CameraAccessException e)
+        {
+            e.printStackTrace();
+        }
+    }
 
 }
