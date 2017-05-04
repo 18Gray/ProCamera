@@ -425,6 +425,24 @@ public class Camera2Fragment extends BaseCameraFragment
     public void onFlashSelect(CameraConfigure.Flash flash) throws CameraAccessException
     {
         tv_mode_gpufileter.setVisibility(View.VISIBLE);
+        switch (flash.getFlash())
+        {
+            case Constants.FLASH_AUTO:
+                iv_flash_camera.setImageResource(R.mipmap.flash_auto_white_24dp);
+                break;
+
+            case Constants.FLASH_ON:
+                iv_flash_camera.setImageResource(R.mipmap.flash_on_white_24dp);
+                break;
+
+            case Constants.FLASH_OFF:
+                iv_flash_camera.setImageResource(R.mipmap.flash_off_white_24dp);
+                break;
+
+            case Constants.FLASH_FLARE:
+                iv_flash_camera.setImageResource(R.mipmap.flash_flare_white_24dp);
+                break;
+        }
         cameraTextureView.setFlashMode(flash.getFlash());
     }
 
@@ -437,6 +455,7 @@ public class Camera2Fragment extends BaseCameraFragment
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEffectSelect(CameraConfigure.Effect effect) throws CameraAccessException
     {
+        tv_mode_gpufileter.setText(effect.getEffect());
         cameraTextureView.setEffectMode(effect.getEffect());
     }
 
