@@ -2,7 +2,6 @@ package com.eighteengray.procamera.activity;
 
 
 import java.io.File;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -10,23 +9,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
-import android.view.Window;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
-
 import com.eighteengray.commonutillibrary.DataConvertUtil;
 import com.eighteengray.commonutillibrary.ImageUtils;
 import com.eighteengray.commonutillibrary.ScreenUtils;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.widget.CropImageView;
 import com.eighteengray.procameralibrary.common.Constants;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static android.R.attr.mode;
 
 
 public class CutActivity extends BaseActivity
@@ -99,7 +92,6 @@ public class CutActivity extends BaseActivity
                         bitmap = mCropImage.getCropImage();
                         File file = new File(path);
                         ImageUtils.saveBitmap(bitmap, file.getParent().toString(), file.getName().toString());
-
                         handler.sendEmptyMessage(Constants.CUTPIC);
                     }
                 }).start();

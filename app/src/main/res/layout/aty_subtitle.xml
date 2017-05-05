@@ -51,7 +51,7 @@
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
-                android:src="@drawable/cut" />
+                android:src="@mipmap/content_cut_white_24dp" />
         </RelativeLayout>
         
     </RelativeLayout>
