@@ -23,7 +23,7 @@
         android:layout_alignBottom="@id/iv_item_gallery_film"
         android:gravity="center_horizontal"
         android:layout_centerHorizontal="true"
-        android:textColor="@color/white_deep"
+        android:textColor="@color/text"
         android:textSize="14sp"
         />
     

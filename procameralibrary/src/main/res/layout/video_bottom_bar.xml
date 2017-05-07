@@ -14,7 +14,7 @@
         android:id="@+id/llVideoDetailPlayerBottom"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="@color/video_playter_bg"
+        android:background="@color/background_floating_material_dark"
         android:minHeight="40dip"
         android:orientation="horizontal" >
 

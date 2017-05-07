@@ -223,7 +223,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="mild"
-            android:textColor="@color/white_deep"
+            android:textColor="@color/text"
             android:textSize="14sp"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"/>

@@ -31,7 +31,7 @@
             android:layout_marginRight="10dp"
             android:background="@null"
             android:text="保存"
-            android:textColor="@color/white_deep"
+            android:textColor="@color/text"
             android:textSize="16sp"
              />
 
@@ -74,7 +74,7 @@
                 android:layout_below="@id/iv_cut_film"
                 android:gravity="center"
                 android:text="裁剪"
-                android:textColor="@color/white_light"
+                android:textColor="@color/text"
                 android:textSize="14sp"
                 />
             
@@ -105,7 +105,7 @@
                 android:layout_below="@id/iv_filter_film"
                 android:gravity="center"
                 android:text="滤镜"
-                android:textColor="@color/white_light"
+                android:textColor="@color/text"
                 android:textSize="14sp"
                 />
             
@@ -136,7 +136,7 @@
                 android:layout_below="@id/iv_subtitle_film"
                 android:gravity="center"
                 android:text="字幕"
-                android:textColor="@color/white_light"
+                android:textColor="@color/text"
                 android:textSize="14sp"
                 />
             
@@ -167,7 +167,7 @@
                 android:layout_below="@id/iv_yinji_film"
                 android:gravity="center"
                 android:text="印记"
-                android:textColor="@color/white_light"
+                android:textColor="@color/text"
                 android:textSize="14sp"
                 />
             
@@ -198,7 +198,7 @@
                 android:layout_below="@id/iv_duibidu_film"
                 android:gravity="center"
                 android:text="对比度"
-                android:textColor="@color/white_light"
+                android:textColor="@color/text"
                 android:textSize="14sp"
                 />
             
@@ -214,7 +214,7 @@
         android:layout_height="50dp"
         android:layout_above="@id/ll_bottommenu_film"
         android:orientation="horizontal"
-        android:background="@color/brown_middle"
+        android:background="@color/black_deep"
         >
         
         <!-- 滤镜 -->
@@ -226,7 +226,7 @@
             android:spacing="2px"
             android:visibility="gone"
              />
-        
+
         <!-- 印记 -->
         <Gallery
             android:id="@+id/gallery_yinji_film"
@@ -236,30 +236,36 @@
             android:spacing="2px"
             android:visibility="gone"
              />
-
     </LinearLayout>
     
 
     
     <!-- 中间部分图像 -->
-    <FrameLayout 
-        android:id="@+id/fl_gallery"
+    <FrameLayout
+        android:id="@+id/fl_center_imageprocess"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/rl_topmenu_gallery"
         android:layout_above="@id/ll_gallery_film"
-        android:background="@color/brown_middle"
+        android:background="@color/black_deep"
         >
+
+        <ImageView
+            android:id="@+id/iv_center_imageprocess"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:scaleType="center"
+            />
         
-        <!-- 字幕和图像背景 -->
+        <!-- 字幕 -->
         <TextView 
             android:id="@+id/tv_subtitletext_film"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="bottom|center_horizontal"
-            android:paddingBottom="20dp"
-            android:textColor="@color/white_light"
+            android:textColor="@color/text"
             android:textSize="14sp"
             />
         

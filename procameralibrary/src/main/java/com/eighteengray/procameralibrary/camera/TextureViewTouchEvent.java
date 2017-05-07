@@ -1,8 +1,6 @@
 package com.eighteengray.procameralibrary.camera;
 
-/**
- * Created by lutao on 2017/4/12.
- */
+
 
 public class TextureViewTouchEvent
 {

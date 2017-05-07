@@ -1,8 +1,6 @@
 package com.eighteengray.imageprocesslibrary.imagefilter;
 
-/**
- * Created by lutao on 2017/3/17.
- */
+
 
 public abstract class BaseImageFilter
 {

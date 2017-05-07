@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="裁剪图片"
-            android:textColor="@color/white_light"
+            android:textColor="@color/text"
             android:textSize="16sp"
         />
 

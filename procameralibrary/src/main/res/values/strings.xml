@@ -2,28 +2,4 @@
 
     <string name="app_name">RazerCameraLib</string>
 
-    
-    <!-- Camera -->
-    <!-- 存储文件文件夹 -->
-    <string name="Files">Files</string>
-    <!-- 图像文件夹 -->
-    <string name="Image">Image</string>
-    <!-- 缩略图文件夹 -->
-    <string name="Thumbnail">Thumbnail</string>
-    <!-- 视频文件夹 -->
-    <string name="Video">Video</string>
-    
-    <string name="album_enter_select">选择</string>
-    <string name="api_cancel">取消</string>
-    <string name="album_photo_select_tip">项</string>
-    <string name="album_phoot_select_all">全选</string>
-    <string name="album_phoot_unselect_all">取消全选</string>
-    <string name="album_title">我的相册</string>
-    <string name="pgcommon_share">分享</string>
-    <string name="common_cut">移动</string>
-    <string name="common_delete">删除</string>
-    <string name="common_edit">编辑</string>
-    <string name="album_message">图片&amp;视频</string>
-    
-    
 </resources>

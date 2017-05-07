@@ -97,9 +97,7 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
                     public void onClick(View v)
                     {
                         Intent intent = new Intent(AlbumActivity.this, ImageProcessActivity.class);
-                        SaveImage saveImage = new SaveImage();
-                        saveImage.saveImagePath = item;
-                        intent.putExtra("saveImage", saveImage);
+                        intent.putExtra("imagePath", item);
                         startActivity(intent);
                     }
                 });

@@ -19,20 +19,15 @@ import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.Surface;
 import android.widget.Toast;
-
 import com.eighteengray.procameralibrary.dataevent.RecordVideoEvent;
-
 import org.greenrobot.eventbus.EventBus;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
 import static com.eighteengray.commonutillibrary.SDCardUtils.getSystemPicFile;
-import static com.eighteengray.procameralibrary.album.ThumbnaiImageView.TAG;
 
 
 
@@ -217,7 +212,6 @@ public class RecordTextureView extends BaseCamera2TextureView
             return Collections.min(bigEnough, new CompareSizesByArea());
         } else
         {
-            Log.e(TAG, "Couldn't find any suitable preview size");
             return choices[0];
         }
     }

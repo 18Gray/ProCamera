@@ -75,7 +75,7 @@
                 android:gravity="center"
                 android:layout_marginLeft="5dp"
                 android:text="饱和度"
-                android:textColor="@color/white_deep"
+                android:textColor="@color/text"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -83,7 +83,7 @@
         <View 
             android:layout_width="1dp"
             android:layout_height="25dp"
-            android:background="@color/white_deep"
+            android:background="@color/text"
             />
         
         <!-- 对比度 -->
@@ -107,7 +107,7 @@
                 android:layout_marginLeft="5dp"
                 android:gravity="center"
                 android:text="对比度"
-                android:textColor="@color/white_deep"
+                android:textColor="@color/text"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -115,7 +115,7 @@
         <View 
             android:layout_width="1dp"
             android:layout_height="25dp"
-            android:background="@color/white_deep"
+            android:background="@color/text"
             />
         
         <!-- 亮度 -->
@@ -140,7 +140,7 @@
                 android:layout_marginLeft="5dp"
                 android:gravity="center"
                 android:text="亮	 度"
-                android:textColor="@color/white_deep"
+                android:textColor="@color/text"
                 android:textSize="14sp" />
             
         </LinearLayout>
