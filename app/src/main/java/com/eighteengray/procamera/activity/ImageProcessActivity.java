@@ -2,16 +2,12 @@ package com.eighteengray.procamera.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -21,37 +17,36 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.eighteengray.commonutillibrary.ImageUtils;
 import com.eighteengray.commonutillibrary.ScreenUtils;
 import com.eighteengray.imageprocesslibrary.bitmapfilter.ColorBitmapFilter;
-import com.eighteengray.imageprocesslibrary.imagefilter.IImageFilter;
-import com.eighteengray.imageprocesslibrary.imagefilter.Image;
+import com.eighteengray.imageprocesslibrary.bitmapfilter.IBitmapFilter;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.adapter.BitmapFilterAdapter;
-import com.eighteengray.procamera.adapter.ImageFilterAdapter;
 import com.eighteengray.procamera.adapter.MarkAdapter;
 import com.eighteengray.procamera.bean.FilterInfo;
 import com.eighteengray.procamera.bean.MarkInfo;
 import com.eighteengray.procamera.bean.SaveImage;
 import com.eighteengray.procamera.widget.MyTouchImageView;
+import com.eighteengray.procamera.widget.ProcessImageView;
 import com.eighteengray.procamera.widget.dialogfragment.PopupWindowFactory;
 import com.eighteengray.procameralibrary.common.Constants;
-import java.io.File;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import com.eighteengray.procameralibrary.dataevent.BitmapProcess;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+import java.io.File;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static android.R.attr.filter;
 
 
-public class ImageProcessActivity extends BaseActivity implements OnSeekBarChangeListener
+public class ImageProcessActivity extends BaseActivity
 {
     //上部
     @BindView(R.id.rl_topmenu_gallery)
@@ -107,7 +102,6 @@ public class ImageProcessActivity extends BaseActivity implements OnSeekBarChang
     @BindView(R.id.gallery_filter_film)
     Gallery gallery_filter_film;
     BitmapFilterAdapter filterAdapter;
-//    ImageFilterAdapter imageFilterAdapter;
 
         //印记
     @BindView(R.id.gallery_yinji_film)
@@ -118,12 +112,10 @@ public class ImageProcessActivity extends BaseActivity implements OnSeekBarChang
     //中部
     @BindView(R.id.fl_center_imageprocess)
     FrameLayout fl_center_imageprocess;
-    @BindView(R.id.iv_center_imageprocess)
-    ImageView iv_center_imageprocess;
+    @BindView(R.id.piv_center_imageprocess)
+    ProcessImageView piv_center_imageprocess;
     @BindView(R.id.tv_subtitletext_film)
     TextView tv_subtitletext_film;
-
-    int imageViewWidth, imageViewHeight;
 
     //对比度
     ColorBitmapFilter colorBitmapFilter;
@@ -133,22 +125,6 @@ public class ImageProcessActivity extends BaseActivity implements OnSeekBarChang
     SaveImage saveImage;
     Bitmap currentBitmap;  //传进来的原始图像
     Bitmap currentShowBitmap; //处理过后的图像，同样的处理过程要基于currentBitmap原始图像进行
-
-    //用于处理图像
-    Handler handler = new Handler()
-    {
-        @Override
-        public void handleMessage(Message msg)
-        {
-            switch (msg.what)
-            {
-                case Constants.IMAGEPROCESS:
-                    iv_center_imageprocess.setImageBitmap(currentShowBitmap);
-                    break;
-            }
-        }
-    };
-    ExecutorService executorService;
 
 
 
@@ -160,52 +136,28 @@ public class ImageProcessActivity extends BaseActivity implements OnSeekBarChang
         ButterKnife.bind(this);
         saveImage = new SaveImage();
         saveImage.saveImagePath = getIntent().getStringExtra("imagePath");
-        executorService = Executors.newSingleThreadExecutor();
         initView();
+        EventBus.getDefault().register(this);
     }
 
 
     private void initView()
     {
-        currentBitmap = ImageUtils.getBitmapFromPath(saveImage.saveImagePath);
-        currentShowBitmap = currentBitmap;
-        iv_center_imageprocess.setImageBitmap(currentShowBitmap);
-
         //滤镜
         filterAdapter = new BitmapFilterAdapter(ImageProcessActivity.this);
         gallery_filter_film.setAdapter(filterAdapter);
-      /*  imageFilterAdapter = new ImageFilterAdapter(ImageProcessActivity.this);
-        gallery_filter_film.setAdapter(imageFilterAdapter);*/
         gallery_filter_film.setSelection(2);
         gallery_filter_film.setSpacing(10);
         gallery_filter_film.setAnimationDuration(3000);
         gallery_filter_film.setUnselectedAlpha(5);
-        /*gallery_filter_film.setOnItemClickListener(new OnItemClickListener()
-        {
-            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id)
-            {
-                final FilterInfo filterInfo = (FilterInfo) filterAdapter.getItem(position);
-                Runnable runnable = new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        currentShowBitmap = filterInfo.filter.process(currentBitmap, 0);
-                        handler.sendEmptyMessage(Constants.IMAGEPROCESS);
-                    }
-                };
-                executorService.submit(runnable);
-            }
-        });*/
         gallery_filter_film.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id)
             {
-                /*IImageFilter filter = (IImageFilter) imageFilterAdapter.getItem(position);
-                new ProcessImageTask(filter).execute();*/
                 FilterInfo filterInfo = (FilterInfo) filterAdapter.getItem(position);
-                ProcessImageTask processImageTask = new ProcessImageTask(filterInfo);
-                processImageTask.execute();
+                IBitmapFilter bitmapFilter = filterInfo.filter;
+                ColorMatrixColorFilter colorMatrixColorFilter = new ColorMatrixColorFilter(bitmapFilter.createColorMatrix(10));
+                piv_center_imageprocess.setColorFilter(colorMatrixColorFilter);
             }
         });
 
@@ -216,6 +168,10 @@ public class ImageProcessActivity extends BaseActivity implements OnSeekBarChang
         {
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id)
             {
+                if(currentMyTouchImageView != null)
+                {
+                    fl_center_imageprocess.removeView(currentMyTouchImageView);
+                }
                 currentMyTouchImageView = new MyTouchImageView(ImageProcessActivity.this);
                 MarkInfo markInfo = (MarkInfo) markAdapter.getItem(position);
                 currentMyTouchImageView.setImageResource(markInfo.getMarkAdapterResource());
@@ -233,8 +189,11 @@ public class ImageProcessActivity extends BaseActivity implements OnSeekBarChang
     public void onWindowFocusChanged(boolean hasFocus)
     {
         super.onWindowFocusChanged(hasFocus);
-        imageViewWidth = iv_center_imageprocess.getWidth();
-        imageViewHeight = iv_center_imageprocess.getHeight();
+        int maxWidth = ScreenUtils.getScreenWidth(ImageProcessActivity.this);
+        int maxHeight = ScreenUtils.getScreenWidth(ImageProcessActivity.this) - rl_topmenu_gallery.getHeight() - ll_bottommenu_film.getHeight();
+        currentBitmap = ImageUtils.getBitmapFromPath(saveImage.saveImagePath, maxWidth, maxHeight);
+        currentShowBitmap = Bitmap.createBitmap(currentBitmap);
+        piv_center_imageprocess.setImageBitmap(currentShowBitmap);
     }
 
 
@@ -288,41 +247,35 @@ public class ImageProcessActivity extends BaseActivity implements OnSeekBarChang
     }
 
 
-
-    //Seekbar滑动
     @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+    protected void onDestroy()
     {
-        int flag = 0;
-        switch (seekBar.getId())
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    //EventBus处理
+    @Subscribe(threadMode = ThreadMode.MAIN)  //轻按：显示焦点，完成聚焦和测光。
+    public void onSeekBarChanged(BitmapProcess.ContrastEvent contrastEvent)
+    {
+        int seekBarNum = contrastEvent.getSeekBarNum();
+        int progress = contrastEvent.getProgress();
+        switch (seekBarNum)
         {
-            case R.id.seekBarSaturation: // 饱和度
-                flag = 0;
+            case 0:
                 colorBitmapFilter.setSaturation(progress);
                 break;
 
-            case R.id.seekBarDuibidu: // 色相
-                flag = 1;
+            case 1:
                 colorBitmapFilter.SetHue(progress);
                 break;
 
-            case R.id.seekBarLight: // 亮度
-                flag = 2;
+            case 2:
                 colorBitmapFilter.SetLum(progress);
                 break;
         }
-        currentShowBitmap = colorBitmapFilter.process(currentShowBitmap, flag);
-        iv_center_imageprocess.setImageBitmap(currentShowBitmap);
-    }
-
-    @Override
-    public void onStartTrackingTouch(SeekBar seekBar)
-    {
-    }
-
-    @Override
-    public void onStopTrackingTouch(SeekBar seekBar)
-    {
+        currentShowBitmap = colorBitmapFilter.process(currentShowBitmap, seekBarNum);
+        piv_center_imageprocess.setImageBitmap(currentShowBitmap);
     }
 
 
@@ -401,73 +354,5 @@ public class ImageProcessActivity extends BaseActivity implements OnSeekBarChang
         }).start();
     }
 
-
-
-    public class ProcessImageTask extends AsyncTask<Void, Void, Bitmap>
-    {
-//        private IImageFilter filter;
-        FilterInfo filterInfo;
-
-        public ProcessImageTask(FilterInfo filterInfo)
-        {
-            this.filterInfo = filterInfo;
-        }
-
-        @Override
-        protected void onPreExecute()
-        {
-            Toast.makeText(ImageProcessActivity.this, "处理中", Toast.LENGTH_LONG).show();
-        }
-
-        @Override
-        public Bitmap doInBackground(Void... params)
-        {
-            /*Image img = null;
-            try
-            {
-                Bitmap bitmap = Bitmap.createBitmap(currentShowBitmap.getWidth(), currentShowBitmap.getHeight(), Bitmap.Config.ARGB_8888);
-                img = new Image(bitmap);
-                img.updateColorArray();
-                if (filter != null)
-                {
-                    img = filter.process(img);
-                    img.copyPixelsFromBuffer();
-                }
-                return img.getImage();
-            } catch (Exception e)
-            {
-                if (img != null && img.destImage.isRecycled())
-                {
-                    img.destImage.recycle();
-                    img.destImage = null;
-                    System.gc(); // 提醒系统及时回收
-                }
-            } finally
-            {
-                if (img != null && img.image.isRecycled())
-                {
-                    img.image.recycle();
-                    img.image = null;
-                    System.gc(); // 提醒系统及时回收
-                }
-            }
-            return null;*/
-
-            Bitmap bitmap = Bitmap.createBitmap(currentShowBitmap.getWidth(), currentShowBitmap.getHeight(), Bitmap.Config.ARGB_8888);
-            Bitmap processBitmap = filterInfo.filter.process(bitmap, 0);
-            Bitmap resultBitmap = ImageUtils.zoomBitmap(processBitmap, imageViewWidth, imageViewHeight);
-            return resultBitmap;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap result)
-        {
-            if (result != null)
-            {
-                iv_center_imageprocess.setImageBitmap(result);
-                Toast.makeText(ImageProcessActivity.this, "处理完成", Toast.LENGTH_LONG).show();
-            }
-        }
-    }
 
 }

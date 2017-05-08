@@ -8,11 +8,19 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
+import android.widget.SeekBar;
+import android.widget.TextView;
+
 import com.eighteengray.procamera.R;
 import com.eighteengray.procameralibrary.common.Constants;
+import com.eighteengray.procameralibrary.dataevent.BitmapProcess;
 import com.eighteengray.procameralibrary.dataevent.CameraConfigure;
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Resource;
 
 
 public class PopupWindowFactory
@@ -146,21 +154,23 @@ public class PopupWindowFactory
 
 
     //图像处理中，对比度弹出框
-    public static PopupWindow createContrastPopupWindow(Context context)
+    public static PopupWindow createContrastPopupWindow(final Context context)
     {
         LayoutInflater inflater = LayoutInflater.from(context);
         View popView = inflater.inflate(R.layout.popupwindow_strength, null);
-        /*IncreaseProcessImage increaseProcessImage = new IncreaseProcessImage(currentBitmap);
+
         final SeekBar seekBarSaturation = (SeekBar) popView.findViewById(R.id.seekBarSaturation);
         final SeekBar seekBarDuibidu = (SeekBar) popView.findViewById(R.id.seekBarDuibidu);
         final SeekBar seekBarLight = (SeekBar) popView.findViewById(R.id.seekBarLight);
-        seekBarSaturation.setOnSeekBarChangeListener(this);
-        seekBarDuibidu.setOnSeekBarChangeListener(this);
-        seekBarLight.setOnSeekBarChangeListener(this);
 
         TextView tv_baohedu_strength = (TextView) popView.findViewById(R.id.tv_baohedu_strength);
         TextView tv_duibidu_strength = (TextView) popView.findViewById(R.id.tv_duibidu_strength);
         TextView tv_liangdu_strength = (TextView) popView.findViewById(R.id.tv_liangdu_strength);
+
+        final List<TextView> textViewList = new ArrayList<>();
+        textViewList.add(tv_baohedu_strength);
+        textViewList.add(tv_duibidu_strength);
+        textViewList.add(tv_liangdu_strength);
 
         tv_baohedu_strength.setOnClickListener(new View.OnClickListener()
         {
@@ -170,6 +180,7 @@ public class PopupWindowFactory
                 seekBarSaturation.setVisibility(View.VISIBLE);
                 seekBarDuibidu.setVisibility(View.GONE);
                 seekBarLight.setVisibility(View.GONE);
+                updateTextView(textViewList, 0, context);
             }
         });
 
@@ -181,6 +192,7 @@ public class PopupWindowFactory
                 seekBarSaturation.setVisibility(View.GONE);
                 seekBarDuibidu.setVisibility(View.VISIBLE);
                 seekBarLight.setVisibility(View.GONE);
+                updateTextView(textViewList, 1, context);
             }
         });
 
@@ -192,8 +204,81 @@ public class PopupWindowFactory
                 seekBarSaturation.setVisibility(View.GONE);
                 seekBarDuibidu.setVisibility(View.GONE);
                 seekBarLight.setVisibility(View.VISIBLE);
+                updateTextView(textViewList, 2, context);
             }
-        });*/
+        });
+
+        seekBarSaturation.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
+        {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+            {
+                BitmapProcess.ContrastEvent contrastEvent = new BitmapProcess.ContrastEvent();
+                contrastEvent.setSeekBarNum(0);
+                contrastEvent.setProgress(progress);
+                EventBus.getDefault().post(contrastEvent);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar)
+            {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar)
+            {
+
+            }
+        });
+
+        seekBarDuibidu.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
+        {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+            {
+                BitmapProcess.ContrastEvent contrastEvent = new BitmapProcess.ContrastEvent();
+                contrastEvent.setSeekBarNum(1);
+                contrastEvent.setProgress(progress);
+                EventBus.getDefault().post(contrastEvent);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar)
+            {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar)
+            {
+
+            }
+        });
+
+        seekBarLight.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
+        {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+            {
+                BitmapProcess.ContrastEvent contrastEvent = new BitmapProcess.ContrastEvent();
+                contrastEvent.setSeekBarNum(2);
+                contrastEvent.setProgress(progress);
+                EventBus.getDefault().post(contrastEvent);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar)
+            {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar)
+            {
+
+            }
+        });
 
         popView.bringToFront();
         final PopupWindow popupWindow = new PopupWindow(popView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -216,5 +301,23 @@ public class PopupWindowFactory
         });
         return popupWindow;
     }
+
+    private static void updateTextView(List<TextView>textViewList, int current, Context context)
+    {
+        for(int i=0;i<textViewList.size();i++)
+        {
+            TextView currentTextView = textViewList.get(i);
+            if(current == i)
+            {
+                currentTextView.setTextColor(context.getResources().getColor(R.color.accent));
+            }
+            else
+            {
+                currentTextView.setTextColor(context.getResources().getColor(R.color.text));
+            }
+        }
+    }
+
+
 
 }

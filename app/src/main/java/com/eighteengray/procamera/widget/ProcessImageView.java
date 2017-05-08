@@ -1,0 +1,60 @@
+package com.eighteengray.procamera.widget;
+
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+import android.util.AttributeSet;
+import android.widget.ImageView;
+
+
+/**
+ * 图像处理专用的ImageView
+ */
+public class ProcessImageView extends ImageView
+{
+    private Paint mPaint;
+    private Context mContext;
+
+
+
+    public ProcessImageView(Context context)
+    {
+        this(context, null);
+        mContext = context;
+        initPaint();
+    }
+
+    public ProcessImageView(Context context, AttributeSet attrs)
+    {
+        super(context, attrs);
+        mContext = context;
+        initPaint();
+    }
+
+    private void initPaint()
+    {
+        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas)
+    {
+        BitmapDrawable bitmapDrawable = (BitmapDrawable) getDrawable();
+        Bitmap bitmap = bitmapDrawable.getBitmap();
+        canvas.drawBitmap(bitmap, 0, 0, mPaint);
+    }
+
+
+    public void setColorFilter(ColorFilter colorFilter)
+    {
+        mPaint.setColorFilter(colorFilter);
+        invalidate();
+    }
+
+
+
+}
