@@ -7,7 +7,6 @@ import android.graphics.ImageFormat;
 import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
@@ -26,20 +25,21 @@ import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.Surface;
 import android.widget.Toast;
-
 import com.eighteengray.procameralibrary.common.Constants;
 import com.eighteengray.procameralibrary.dataevent.ImageAvailableEvent;
-
 import org.greenrobot.eventbus.EventBus;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static android.R.attr.width;
 
 
+/**
+ * 扩展功能：
+ * 1.测光点和聚焦点分离
+ * 2.聚焦后，滑动屏幕，纵向滑动显示调节项目（awb/iso/ae），横向滑动调节大小
+ */
 public class Camera2TextureView extends BaseCamera2TextureView
 {
     private int mState = STATE_PREVIEW;
