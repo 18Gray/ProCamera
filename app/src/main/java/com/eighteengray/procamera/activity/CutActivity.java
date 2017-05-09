@@ -66,7 +66,7 @@ public class CutActivity extends BaseActivity
         setContentView(R.layout.aty_cut);
         ButterKnife.bind(this);
 
-        width = 600;
+        width = ScreenUtils.getScreenWidth(CutActivity.this);
         path = getIntent().getStringExtra(Constants.CROPIMAGEPATH);
         bitmap = ImageUtils.getBitmapFromPath(path);
         drawable = DataConvertUtil.bitmap2Drawable(bitmap);
