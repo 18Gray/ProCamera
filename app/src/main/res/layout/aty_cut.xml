@@ -46,12 +46,19 @@
     </RelativeLayout>
 
 
-    <!-- 顶部菜单 -->
-    <com.eighteengray.procamera.widget.CropImageView
-        android:id="@+id/civ_cut"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@id/rl_topmenu_cut"
-    />
+    >
+
+        <com.eighteengray.procamera.widget.CropImageView
+            android:id="@+id/civ_cut"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+        />
+
+    </RelativeLayout>
+
 
 </RelativeLayout>

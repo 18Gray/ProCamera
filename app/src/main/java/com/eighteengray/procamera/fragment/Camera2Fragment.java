@@ -21,6 +21,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.eighteengray.commonutillibrary.FileUtils;
 import com.eighteengray.commonutillibrary.ImageUtils;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.activity.AlbumActivity;
@@ -127,8 +128,7 @@ public class Camera2Fragment extends BaseCameraFragment
         ButterKnife.bind(this, view);
         EventBus.getDefault().register(this);
         handler = new Handler(Looper.getMainLooper());
-        String picName = SystemClock.currentThreadTimeMillis() + ".jpg";
-        mFile = new File(getSystemPicFile(getActivity()), picName);
+        mFile = FileUtils.createSaveBitmapFile(getActivity());
         return view;
     }
 

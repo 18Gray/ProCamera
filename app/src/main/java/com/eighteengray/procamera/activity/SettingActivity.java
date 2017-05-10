@@ -20,5 +20,6 @@ public class SettingActivity extends Activity implements ISettingContract.IView
         super.onCreate(savedInstanceState);
 
 
+
     }
 }

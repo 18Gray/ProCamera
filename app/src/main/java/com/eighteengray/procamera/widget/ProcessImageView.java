@@ -10,6 +10,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+import com.eighteengray.commonutillibrary.ImageUtils;
+
 
 /**
  * 图像处理专用的ImageView
@@ -18,7 +20,7 @@ public class ProcessImageView extends ImageView
 {
     private Paint mPaint;
     private Context mContext;
-
+    private String path;
 
 
     public ProcessImageView(Context context)
@@ -44,8 +46,20 @@ public class ProcessImageView extends ImageView
     protected void onDraw(Canvas canvas)
     {
         BitmapDrawable bitmapDrawable = (BitmapDrawable) getDrawable();
-        Bitmap bitmap = bitmapDrawable.getBitmap();
-        canvas.drawBitmap(bitmap, 0, 0, mPaint);
+        if(bitmapDrawable != null)
+        {
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+            if(bitmap != null)
+            {
+                canvas.drawBitmap(bitmap, 0, 0, mPaint);
+            }
+            else
+            {
+                Bitmap newBitmap = ImageUtils.getBitmapFromPath(path);
+                canvas.drawBitmap(newBitmap, 0, 0, mPaint);
+            }
+
+        }
     }
 
 
@@ -56,5 +70,10 @@ public class ProcessImageView extends ImageView
     }
 
 
+    public void setImagePath(String path)
+    {
+        this.path = path;
+        invalidate();
+    }
 
 }

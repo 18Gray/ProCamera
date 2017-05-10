@@ -10,122 +10,128 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
-/**
- * ͷ��ͼƬѡ���ĸ���
- * 
- * @author Administrator
- * 
- */
+
 public class FloatDrawable extends Drawable
 {
 
-	private Context mContext;
-	// private Drawable mCropPointDrawable;
+    private Context mContext;
+    private int offset = 50;
+    private Paint mLinePaint = new Paint();
+    private Paint mLinePaint2 = new Paint();
 
-	private int left_Rect;
-	private int top_Rect;
-	private int bottom_Rect;
-	private int right_Rect;
+    {
+        mLinePaint.setARGB(200, 50, 50, 50);
+        mLinePaint.setStrokeWidth(1F);
+        mLinePaint.setStyle(Paint.Style.STROKE);
+        mLinePaint.setAntiAlias(true);
+        mLinePaint.setColor(Color.WHITE);
+        //
+        mLinePaint2.setARGB(200, 50, 50, 50);
+        mLinePaint2.setStrokeWidth(7F);
+        mLinePaint2.setStyle(Paint.Style.STROKE);
+        mLinePaint2.setAntiAlias(true);
+        mLinePaint2.setColor(Color.WHITE);
+    }
 
-	private Paint mLinePaint = new Paint();
-	{
-		mLinePaint.setARGB(200, 50, 50, 50);
-		mLinePaint.setStrokeWidth(1F);
-		mLinePaint.setStyle(Paint.Style.STROKE);
-		mLinePaint.setAntiAlias(true);
-		mLinePaint.setColor(Color.WHITE);
-	}
+    public FloatDrawable(Context context)
+    {
+        super();
+        this.mContext = context;
 
-	public FloatDrawable(Context context)
-	{
-		super();
-		this.mContext = context;
-	}
+    }
 
-	@Override
-	public void draw(Canvas canvas)
-	{
+    public int getBorderWidth()
+    {
+        return dipTopx(mContext, offset);//根据dip计算的像素值，做适配用的
+    }
 
-		int left = getBounds().left;
-		int top = getBounds().top;
-		int right = getBounds().right;
-		int bottom = getBounds().bottom;
+    public int getBorderHeight()
+    {
+        return dipTopx(mContext, offset);
+    }
 
-		left_Rect = left;// + mCropPointDrawable.getIntrinsicWidth() / 2;
-		top_Rect = top;// + mCropPointDrawable.getIntrinsicHeight() / 2;
-		right_Rect = right;// - mCropPointDrawable.getIntrinsicWidth() / 2;
-		bottom_Rect = bottom;// - mCropPointDrawable.getIntrinsicHeight() / 2;
+    @Override
+    public void draw(Canvas canvas)
+    {
 
-		Log.e("FloatDrawable", "left_Rect:   ==>" + left_Rect);
-		Log.e("FloatDrawable", "top_Rect:    ==>" + top_Rect);
-		Log.e("FloatDrawable", "right_Rect:  ==>" + right_Rect);
-		Log.e("FloatDrawable", "bottom_Rect: ==>" + bottom_Rect);
+        int left = getBounds().left;
+        int top = getBounds().top;
+        int right = getBounds().right;
+        int bottom = getBounds().bottom;
 
-		Rect mRect = new Rect(left_Rect, top_Rect, right_Rect, bottom_Rect);
+        Rect mRect = new Rect(left + dipTopx(mContext, offset) / 2, top
+                + dipTopx(mContext, offset) / 2, right
+                - dipTopx(mContext, offset) / 2, bottom
+                - dipTopx(mContext, offset) / 2);
+        //画默认的选择框
+        canvas.drawRect(mRect, mLinePaint);
+        //画四个角的四个粗拐角、也就是八条粗线
+        canvas.drawLine((left + dipTopx(mContext, offset) / 2 - 3.5f), top
+                        + dipTopx(mContext, offset) / 2,
+                left + dipTopx(mContext, offset) - 8f,
+                top + dipTopx(mContext, offset) / 2, mLinePaint2);
+        canvas.drawLine(left + dipTopx(mContext, offset) / 2,
+                top + dipTopx(mContext, offset) / 2,
+                left + dipTopx(mContext, offset) / 2,
+                top + dipTopx(mContext, offset) / 2 + 30, mLinePaint2);
+        canvas.drawLine(right - dipTopx(mContext, offset) + 8f,
+                top + dipTopx(mContext, offset) / 2,
+                right - dipTopx(mContext, offset) / 2,
+                top + dipTopx(mContext, offset) / 2, mLinePaint2);
+        canvas.drawLine(right - dipTopx(mContext, offset) / 2,
+                top + dipTopx(mContext, offset) / 2 - 3.5f,
+                right - dipTopx(mContext, offset) / 2,
+                top + dipTopx(mContext, offset) / 2 + 30, mLinePaint2);
+        canvas.drawLine((left + dipTopx(mContext, offset) / 2 - 3.5f), bottom
+                        - dipTopx(mContext, offset) / 2,
+                left + dipTopx(mContext, offset) - 8f,
+                bottom - dipTopx(mContext, offset) / 2, mLinePaint2);
+        canvas.drawLine((left + dipTopx(mContext, offset) / 2), bottom
+                        - dipTopx(mContext, offset) / 2,
+                (left + dipTopx(mContext, offset) / 2),
+                bottom - dipTopx(mContext, offset) / 2 - 30f, mLinePaint2);
+        canvas.drawLine((right - dipTopx(mContext, offset) + 8f), bottom
+                        - dipTopx(mContext, offset) / 2,
+                right - dipTopx(mContext, offset) / 2,
+                bottom - dipTopx(mContext, offset) / 2, mLinePaint2);
+        canvas.drawLine((right - dipTopx(mContext, offset) / 2), bottom
+                        - dipTopx(mContext, offset) / 2 - 30f,
+                right - dipTopx(mContext, offset) / 2,
+                bottom - dipTopx(mContext, offset) / 2 + 3.5f, mLinePaint2);
 
-	}
+    }
 
-	@Override
-	public void setBounds(Rect bounds)
-	{
-		super.setBounds(new Rect(bounds.left, bounds.top, bounds.right,
-				bounds.bottom));
-	}
+    @Override
+    public void setBounds(Rect bounds)
+    {
+        super.setBounds(new Rect(bounds.left - dipTopx(mContext, offset) / 2,
+                bounds.top - dipTopx(mContext, offset) / 2, bounds.right
+                + dipTopx(mContext, offset) / 2, bounds.bottom
+                + dipTopx(mContext, offset) / 2));
+    }
 
-	@Override
-	public void setAlpha(int alpha)
-	{
-	}
+    @Override
+    public void setAlpha(int alpha)
+    {
 
-	@Override
-	public void setColorFilter(ColorFilter cf)
-	{
-	}
+    }
 
-	@Override
-	public int getOpacity()
-	{
-		return PixelFormat.OPAQUE;
-	}
+    @Override
+    public void setColorFilter(ColorFilter cf)
+    {
 
-	public int getLeft_Rect()
-	{
-		return left_Rect;
-	}
+    }
 
-	public void setLeft_Rect(int left_Rect)
-	{
-		this.left_Rect = left_Rect;
-	}
+    @Override
+    public int getOpacity()
+    {
+        return PixelFormat.UNKNOWN;
+    }
 
-	public int getTop_Rect()
-	{
-		return top_Rect;
-	}
-
-	public void setTop_Rect(int top_Rect)
-	{
-		this.top_Rect = top_Rect;
-	}
-
-	public int getBottom_Rect()
-	{
-		return bottom_Rect;
-	}
-
-	public void setBottom_Rect(int bottom_Rect)
-	{
-		this.bottom_Rect = bottom_Rect;
-	}
-
-	public int getRight_Rect()
-	{
-		return right_Rect;
-	}
-
-	public void setRight_Rect(int right_Rect)
-	{
-		this.right_Rect = right_Rect;
-	}
+    public int dipTopx(Context context, float dpValue)
+    {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
 
 }

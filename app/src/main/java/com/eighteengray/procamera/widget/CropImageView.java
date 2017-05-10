@@ -1,10 +1,12 @@
 package com.eighteengray.procamera.widget;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.Region;
 import android.graphics.drawable.Drawable;
@@ -17,49 +19,43 @@ import android.view.Window;
 
 public class CropImageView extends View
 {
-    // 单点触摸的时候
-    private float oldX = 0;
-    private float oldY = 0;
+    // 在touch重要用到的点，
+    private float mX_1 = 0;
+    private float mY_1 = 0;
+    // 触摸事件判断
+    private final int STATUS_SINGLE = 1;
+    private final int STATUS_MULTI_START = 2;
+    private final int STATUS_MULTI_TOUCHING = 3;
+    // 当前状态
+    private int mStatus = STATUS_SINGLE;
+    // 默认裁剪的宽高
+    private int cropWidth;
+    private int cropHeight;
+    // 浮层Drawable的四个点
+    private final int EDGE_LT = 1;
+    private final int EDGE_RT = 2;
+    private final int EDGE_LB = 3;
+    private final int EDGE_RB = 4;
+    private final int EDGE_MOVE_IN = 5;
+    private final int EDGE_MOVE_OUT = 6;
+    private final int EDGE_NONE = 7;
 
-    // 多点触摸的时候
-    private float oldx_0 = 0;
-    private float oldy_0 = 0;
+    public int currentEdge = EDGE_NONE;
 
-    private float oldx_1 = 0;
-    private float oldy_1 = 0;
+    protected float oriRationWH = 0;
+    protected final float maxZoomOut = 5.0f;
+    protected final float minZoomIn = 0.333333f;
 
-    // 状态
-    private final int STATUS_Touch_SINGLE = 1;// 单点
-    private final int STATUS_TOUCH_MULTI_START = 2;// 多点开始
-    private final int STATUS_TOUCH_MULTI_TOUCHING = 3;// 多点拖拽中
+    protected Drawable mDrawable;
+    protected FloatDrawable mFloatDrawable;
 
-    private int mStatus = STATUS_Touch_SINGLE;
-
-    // 默认的裁剪图片宽度与高度
-    private final int defaultCropWidth = 250;
-    private final int defaultCropHeight = 250;
-    private int cropWidth = defaultCropWidth;
-    private int cropHeight = defaultCropHeight;
-
-    protected float oriRationWH = 0;// 原始宽高比率
-    protected float maxZoomOut = 3.0f;// 最大扩大到多少倍
-    protected float minZoomIn = 0.6666666f;// 最小缩小到多少倍
-
-    protected Drawable mDrawable;// 原图
-    protected FloatDrawable mFloatDrawable;// 浮层
-    protected Rect mDrawableSrc = new Rect();
-    protected Rect mDrawableDst = new Rect();
-    protected Rect mDrawableFloat = new Rect();// 浮层选择框，就是头像选择框
+    protected Rect mDrawableSrc = new Rect();// 图片Rect变换时的Rect
+    protected Rect mDrawableDst = new Rect();// 图片Rect
+    protected Rect mDrawableFloat = new Rect();// 浮层的Rect
     protected boolean isFrist = true;
+    private boolean isTouchInSquare = true;
 
     protected Context mContext;
-
-    private int floatWidth;
-    private int floatHeight;
-    private int floatLeft;
-    private int floatTop;
-    int statusBarHeight = 0;
-    int titleBarHeight = 0;
 
     public CropImageView(Context context)
     {
@@ -77,16 +73,24 @@ public class CropImageView extends View
     {
         super(context, attrs, defStyle);
         init(context);
-    }
 
+    }
 
     private void init(Context context)
     {
         this.mContext = context;
-        this.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        try
+        {
+            if (android.os.Build.VERSION.SDK_INT >= 11)
+            {
+                this.setLayerType(LAYER_TYPE_SOFTWARE, null);
+            }
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
         mFloatDrawable = new FloatDrawable(context);
     }
-
 
     public void setDrawable(Drawable mDrawable, int cropWidth, int cropHeight)
     {
@@ -97,61 +101,39 @@ public class CropImageView extends View
         invalidate();
     }
 
-
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
-        int t = mDrawableDst.top;
-        int l = mDrawableDst.left;
-        int r = mDrawableDst.right;
-        int b = mDrawableDst.bottom;
-
-        int left = mFloatDrawable.getLeft_Rect();
-        int top = mFloatDrawable.getTop_Rect();
-        int right = mFloatDrawable.getRight_Rect();
-        int bottom = mFloatDrawable.getBottom_Rect();
 
         if (event.getPointerCount() > 1)
         {
-            if (mStatus == STATUS_Touch_SINGLE)
+            if (mStatus == STATUS_SINGLE)
             {
-                mStatus = STATUS_TOUCH_MULTI_START;
-
-                oldx_0 = event.getX(0);
-                oldy_0 = event.getY(0);
-
-                oldx_1 = event.getX(1);
-                oldy_1 = event.getY(1);
-            } else if (mStatus == STATUS_TOUCH_MULTI_START)
+                mStatus = STATUS_MULTI_START;
+            } else if (mStatus == STATUS_MULTI_START)
             {
-                mStatus = STATUS_TOUCH_MULTI_TOUCHING;
+                mStatus = STATUS_MULTI_TOUCHING;
             }
         } else
         {
-            if (mStatus == STATUS_TOUCH_MULTI_START
-                    || mStatus == STATUS_TOUCH_MULTI_TOUCHING)
+            if (mStatus == STATUS_MULTI_START
+                    || mStatus == STATUS_MULTI_TOUCHING)
             {
-                oldx_0 = 0;
-                oldy_0 = 0;
-
-                oldx_1 = 0;
-                oldy_1 = 0;
-
-                oldX = event.getX();
-                oldY = event.getY();
+                mX_1 = event.getX();
+                mY_1 = event.getY();
             }
 
-            mStatus = STATUS_Touch_SINGLE;
+            mStatus = STATUS_SINGLE;
         }
 
         switch (event.getAction())
         {
             case MotionEvent.ACTION_DOWN:
-                oldX = event.getX();
-                oldY = event.getY();
-
-                Log.e("event.getAction()", "event.getAction():X" + oldX);
-                Log.e("event.getAction()", "event.getAction():Y" + oldY);
+                mX_1 = event.getX();
+                mY_1 = event.getY();
+                currentEdge = getTouch((int) mX_1, (int) mY_1);
+                isTouchInSquare = mDrawableFloat.contains((int) event.getX(),
+                        (int) event.getY());
 
                 break;
 
@@ -159,197 +141,183 @@ public class CropImageView extends View
                 checkBounds();
                 break;
 
-            case MotionEvent.ACTION_POINTER_1_DOWN:
-                break;
-
             case MotionEvent.ACTION_POINTER_UP:
+                currentEdge = EDGE_NONE;
                 break;
 
             case MotionEvent.ACTION_MOVE:
-                if (mStatus == STATUS_TOUCH_MULTI_TOUCHING)
-                {
-                    float newx_0 = event.getX(0);
-                    float newy_0 = event.getY(0);
-
-                    float newx_1 = event.getX(1);
-                    float newy_1 = event.getY(1);
-
-                    float oldWidth = Math.abs(oldx_1 - oldx_0);
-                    float oldHeight = Math.abs(oldy_1 - oldy_0);
-
-                    float newWidth = Math.abs(newx_1 - newx_0);
-                    float newHeight = Math.abs(newy_1 - newy_0);
-
-                    boolean isDependHeight = Math.abs(newHeight - oldHeight) > Math
-                            .abs(newWidth - oldWidth);
-                    float ration = isDependHeight ? ((float) newHeight / (float) oldHeight)
-                            : ((float) newWidth / (float) oldWidth);
-                    int centerX = mDrawableDst.centerX();
-                    int centerY = mDrawableDst.centerY();
-                    int _newWidth = (int) (mDrawableDst.width() * ration);
-                    int _newHeight = (int) ((float) _newWidth / oriRationWH);
-
-                    float tmpZoomRation = (float) _newWidth
-                            / (float) mDrawableSrc.width();
-                    if (tmpZoomRation >= maxZoomOut)
-                    {
-                        _newWidth = (int) (maxZoomOut * mDrawableSrc.width());
-                        _newHeight = (int) ((float) _newWidth / oriRationWH);
-                    } else if (tmpZoomRation <= minZoomIn)
-                    {
-                        _newWidth = (int) (minZoomIn * mDrawableSrc.width());
-                        _newHeight = (int) ((float) _newWidth / oriRationWH);
-                    }
-
-                    mDrawableDst.set(centerX - _newWidth / 2, centerY - _newHeight
-                            / 2, centerX + _newWidth / 2, centerY + _newHeight / 2);
-
-                    invalidate();
-
-                    Log.v("width():" + (mDrawableSrc.width()) + "height():"
-                            + (mDrawableSrc.height()), "new width():"
-                            + (mDrawableDst.width()) + "new height():"
-                            + (mDrawableDst.height()));
-                    Log.v("" + (float) mDrawableSrc.height()
-                                    / (float) mDrawableSrc.width(),
-                            "mDrawableDst:" + (float) mDrawableDst.height()
-                                    / (float) mDrawableDst.width());
-
-                    oldx_0 = newx_0;
-                    oldy_0 = newy_0;
-                    oldx_1 = newx_1;
-                    oldy_1 = newy_1;
-
-                    int dx_d = 0;
-                    int dy_d = 0;
-
-                    if (left < l)
-                    {
-                        dx_d = left - l;
-                    }
-
-                    if (top < t)
-                    {
-                        dy_d = top - t;
-                    }
-                    if (right > r)
-                    {
-                        dx_d = right - r;
-                    }
-                    if (bottom > b)
-                    {
-                        dy_d = bottom - b;
-                    }
-                    Log.e("RECT", "dx_d:==>" + dx_d);
-                    Log.e("RECT", "dy_d:==>" + dy_d);
-
-                    mDrawableDst.offset((int) dx_d, (int) dy_d);
-                    invalidate();
-
-                } else if (mStatus == STATUS_Touch_SINGLE)
+                if (mStatus == STATUS_MULTI_TOUCHING)
                 {
 
-                    int dx = (int) (event.getX() - oldX);
-                    int dy = (int) (event.getY() - oldY);
+                } else if (mStatus == STATUS_SINGLE)
+                {
+                    int dx = (int) (event.getX() - mX_1);
+                    int dy = (int) (event.getY() - mY_1);
 
-                    oldX = event.getX();
-                    oldY = event.getY();
-
-                    int dx_f = 0;
-                    int dy_f = 0;
-
-                    if (left >= l + dx && right <= r + dx)
-                    {
-                        dx_f = dx;
-                    }
-
-                    if (top >= t + dy && bottom <= b + dy)
-                    {
-                        dy_f = dy;
-                    }
-
+                    mX_1 = event.getX();
+                    mY_1 = event.getY();
+                    // 根據得到的那一个角，并且变换Rect
                     if (!(dx == 0 && dy == 0))
                     {
-                        mDrawableDst.offset((int) dx_f, (int) dy_f);
+                        switch (currentEdge)
+                        {
+                            case EDGE_LT:
+                                mDrawableFloat.set(mDrawableFloat.left + dx,
+                                        mDrawableFloat.top + dy, mDrawableFloat.right,
+                                        mDrawableFloat.bottom);
+                                break;
+
+                            case EDGE_RT:
+                                mDrawableFloat.set(mDrawableFloat.left,
+                                        mDrawableFloat.top + dy, mDrawableFloat.right
+                                                + dx, mDrawableFloat.bottom);
+                                break;
+
+                            case EDGE_LB:
+                                mDrawableFloat.set(mDrawableFloat.left + dx,
+                                        mDrawableFloat.top, mDrawableFloat.right,
+                                        mDrawableFloat.bottom + dy);
+                                break;
+
+                            case EDGE_RB:
+                                mDrawableFloat.set(mDrawableFloat.left,
+                                        mDrawableFloat.top, mDrawableFloat.right + dx,
+                                        mDrawableFloat.bottom + dy);
+                                break;
+
+                            case EDGE_MOVE_IN:
+                                if (isTouchInSquare)
+                                {
+                                    mDrawableFloat.offset((int) dx, (int) dy);
+                                }
+                                break;
+
+                            case EDGE_MOVE_OUT:
+                                break;
+                        }
+                        mDrawableFloat.sort();
                         invalidate();
                     }
-
                 }
                 break;
         }
+
         return true;
     }
 
+    // 根据初触摸点判断是触摸的Rect哪一个角
+    public int getTouch(int eventX, int eventY)
+    {
+        if (mFloatDrawable.getBounds().left <= eventX
+                && eventX < (mFloatDrawable.getBounds().left + mFloatDrawable
+                .getBorderWidth())
+                && mFloatDrawable.getBounds().top <= eventY
+                && eventY < (mFloatDrawable.getBounds().top + mFloatDrawable
+                .getBorderHeight()))
+        {
+            return EDGE_LT;
+        } else if ((mFloatDrawable.getBounds().right - mFloatDrawable
+                .getBorderWidth()) <= eventX
+                && eventX < mFloatDrawable.getBounds().right
+                && mFloatDrawable.getBounds().top <= eventY
+                && eventY < (mFloatDrawable.getBounds().top + mFloatDrawable
+                .getBorderHeight()))
+        {
+            return EDGE_RT;
+        } else if (mFloatDrawable.getBounds().left <= eventX
+                && eventX < (mFloatDrawable.getBounds().left + mFloatDrawable
+                .getBorderWidth())
+                && (mFloatDrawable.getBounds().bottom - mFloatDrawable
+                .getBorderHeight()) <= eventY
+                && eventY < mFloatDrawable.getBounds().bottom)
+        {
+            return EDGE_LB;
+        } else if ((mFloatDrawable.getBounds().right - mFloatDrawable
+                .getBorderWidth()) <= eventX
+                && eventX < mFloatDrawable.getBounds().right
+                && (mFloatDrawable.getBounds().bottom - mFloatDrawable
+                .getBorderHeight()) <= eventY
+                && eventY < mFloatDrawable.getBounds().bottom)
+        {
+            return EDGE_RB;
+        } else if (mFloatDrawable.getBounds().contains(eventX, eventY))
+        {
+            return EDGE_MOVE_IN;
+        }
+        return EDGE_MOVE_OUT;
+    }
 
     @Override
     protected void onDraw(Canvas canvas)
     {
+
         if (mDrawable == null)
         {
-            return; // couldn't resolve the URI
+            return;
         }
 
         if (mDrawable.getIntrinsicWidth() == 0
                 || mDrawable.getIntrinsicHeight() == 0)
         {
-            return; // nothing to draw (empty bounds)
+            return;
         }
 
         configureBounds();
-
+        // 在画布上花图片
         mDrawable.draw(canvas);
         canvas.save();
+        // 在画布上画浮层FloatDrawable,Region.Op.DIFFERENCE是表示Rect交集的补集
         canvas.clipRect(mDrawableFloat, Region.Op.DIFFERENCE);
+        // 在交集的补集上画上灰色用来区分
         canvas.drawColor(Color.parseColor("#a0000000"));
         canvas.restore();
+        // 画浮层
         mFloatDrawable.draw(canvas);
     }
 
-
     protected void configureBounds()
     {
+        // configureBounds在onDraw方法中调用
+        // isFirst的目的是下面对mDrawableSrc和mDrawableFloat只初始化一次，
+        // 之后的变化是根据touch事件来变化的，而不是每次执行重新对mDrawableSrc和mDrawableFloat进行设置
         if (isFrist)
         {
             oriRationWH = ((float) mDrawable.getIntrinsicWidth())
                     / ((float) mDrawable.getIntrinsicHeight());
+
             final float scale = mContext.getResources().getDisplayMetrics().density;
-            int width = ((Activity) mContext).getWindowManager()
-                    .getDefaultDisplay().getWidth();
             int w = Math.min(getWidth(), (int) (mDrawable.getIntrinsicWidth()
                     * scale + 0.5f));
             int h = (int) (w / oriRationWH);
-            floatWidth = dipTopx(mContext, cropWidth);
-            floatHeight = dipTopx(mContext, cropHeight);
-            floatLeft = (getWidth() - floatWidth) / 2;
-            floatTop = (getHeight() - floatHeight) / 2;
-            if (floatLeft <= 0)
-            {
-                floatLeft = 0;
-            }
-            // 图片的长宽
-            if (w <= h)
-            {
-                minZoomIn = (float) cropWidth * scale / (float) w;
-                maxZoomOut = minZoomIn * 2;
-            } else
-            {
-                minZoomIn = (float) cropHeight * scale / (float) h;
-                maxZoomOut = minZoomIn * 2;
-            }
-            int newWidth = (int) (minZoomIn * w);
-            int newHeight = (int) ((float) newWidth / oriRationWH);
-            int left = floatLeft;
-            int top = floatTop;
-            int right = floatLeft + w;
-            int bottom = floatTop + h;
-            minZoomIn = 1;
-            maxZoomOut = 2;
+
+            int left = (getWidth() - w) / 2;
+            int top = (getHeight() - h) / 2;
+            int right = left + w;
+            int bottom = top + h;
+
             mDrawableSrc.set(left, top, right, bottom);
             mDrawableDst.set(mDrawableSrc);
-            int floatRight = floatLeft + floatWidth >= width ? width
-                    - floatLeft : floatLeft + floatWidth;
-            mDrawableFloat.set(floatLeft, floatTop, floatRight, floatTop
-                    + floatHeight);
+
+            int floatWidth = dipTopx(mContext, cropWidth);
+            int floatHeight = dipTopx(mContext, cropHeight);
+
+            if (floatWidth > getWidth())
+            {
+                floatWidth = getWidth();
+                floatHeight = cropHeight * floatWidth / cropWidth;
+            }
+
+            if (floatHeight > getHeight())
+            {
+                floatHeight = getHeight();
+                floatWidth = cropWidth * floatHeight / cropHeight;
+            }
+
+            int floatLeft = (getWidth() - floatWidth) / 2;
+            int floatTop = (getHeight() - floatHeight) / 2;
+            mDrawableFloat.set(floatLeft, floatTop, floatLeft + floatWidth,
+                    floatTop + floatHeight);
+
             isFrist = false;
         }
 
@@ -357,81 +325,68 @@ public class CropImageView extends View
         mFloatDrawable.setBounds(mDrawableFloat);
     }
 
-
+    // 在up事件中调用了该方法，目的是检查是否把浮层拖出了屏幕
     protected void checkBounds()
     {
-        int newLeft = mDrawableDst.left;
-        int newTop = mDrawableDst.top;
+        int newLeft = mDrawableFloat.left;
+        int newTop = mDrawableFloat.top;
 
         boolean isChange = false;
-        if (mDrawableDst.left < -mDrawableDst.width())
+        if (mDrawableFloat.left < getLeft())
         {
-            newLeft = -mDrawableDst.width();
+            newLeft = getLeft();
             isChange = true;
         }
 
-        if (mDrawableDst.top < -mDrawableDst.height())
+        if (mDrawableFloat.top < getTop())
         {
-            newTop = -mDrawableDst.height();
+            newTop = getTop();
             isChange = true;
         }
 
-        if (mDrawableDst.left > getWidth())
+        if (mDrawableFloat.right > getRight())
         {
-            newLeft = getWidth();
+            newLeft = getRight() - mDrawableFloat.width();
             isChange = true;
         }
 
-        if (mDrawableDst.top > getHeight())
+        if (mDrawableFloat.bottom > getBottom())
         {
-            newTop = getHeight();
+            newTop = getBottom() - mDrawableFloat.height();
             isChange = true;
         }
 
-        mDrawableDst.offsetTo(newLeft, newTop);
+        mDrawableFloat.offsetTo(newLeft, newTop);
         if (isChange)
         {
             invalidate();
         }
     }
 
-
+    // 进行图片的裁剪，所谓的裁剪就是根据Drawable的新的坐标在画布上创建一张新的图片
     public Bitmap getCropImage()
     {
-        getBarHeight();
-        View view = ((Activity) mContext).getWindow().getDecorView();
-        view.setDrawingCacheEnabled(true);
-        view.buildDrawingCache();
-        Bitmap screenShoot = view.getDrawingCache();
+        Bitmap tmpBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.RGB_565);
+        Canvas canvas = new Canvas(tmpBitmap);
+        mDrawable.draw(canvas);
 
-        Bitmap finalBitmap = Bitmap.createBitmap(screenShoot,
-                mDrawableFloat.left, mDrawableFloat.top + titleBarHeight + statusBarHeight + 90,
-                mDrawableFloat.width(), mDrawableFloat.height());
+        Matrix matrix = new Matrix();
+        float scale = (float) (mDrawableSrc.width())
+                / (float) (mDrawableDst.width());
+        matrix.postScale(scale, scale);
 
-        return finalBitmap;
+        Bitmap ret = Bitmap.createBitmap(tmpBitmap, mDrawableFloat.left,
+                mDrawableFloat.top, mDrawableFloat.width(),
+                mDrawableFloat.height(), matrix, true);
+        tmpBitmap.recycle();
+        tmpBitmap = null;
+
+        return ret;
     }
-
-
-    private void getBarHeight()
-    {
-        // ��ȡ״̬���߶�
-        Rect frame = new Rect();
-        ((Activity) mContext).getWindow().getDecorView()
-                .getWindowVisibleDisplayFrame(frame);
-        statusBarHeight = frame.top;
-        int contenttop = ((Activity) mContext).getWindow()
-                .findViewById(Window.ID_ANDROID_CONTENT).getTop();
-        // statusBarHeight�����������״̬���ĸ߶�
-        titleBarHeight = contenttop - statusBarHeight;
-
-    }
-
 
     public int dipTopx(Context context, float dpValue)
     {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
-
-
 }

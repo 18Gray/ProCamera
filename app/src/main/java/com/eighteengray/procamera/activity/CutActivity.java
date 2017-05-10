@@ -4,6 +4,7 @@ package com.eighteengray.procamera.activity;
 import java.io.File;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import com.eighteengray.commonutillibrary.DataConvertUtil;
+import com.eighteengray.commonutillibrary.FileUtils;
 import com.eighteengray.commonutillibrary.ImageUtils;
 import com.eighteengray.commonutillibrary.ScreenUtils;
 import com.eighteengray.procamera.R;
@@ -69,8 +71,8 @@ public class CutActivity extends BaseActivity
         width = ScreenUtils.getScreenWidth(CutActivity.this);
         path = getIntent().getStringExtra(Constants.CROPIMAGEPATH);
         bitmap = ImageUtils.getBitmapFromPath(path);
-        drawable = DataConvertUtil.bitmap2Drawable(bitmap);
-        mCropImage.setDrawable(drawable, width, width / 2);
+        drawable = new BitmapDrawable(bitmap);
+        mCropImage.setDrawable(drawable, width-100, width-100);
     }
 
 
@@ -89,9 +91,10 @@ public class CutActivity extends BaseActivity
                     @Override
                     public void run()
                     {
-                        bitmap = mCropImage.getCropImage();
-                        File file = new File(path);
-                        ImageUtils.saveBitmap(bitmap, file.getParent().toString(), file.getName().toString());
+                        Bitmap cutBitmap = mCropImage.getCropImage();
+                        File file = FileUtils.createCutBitmapFile(CutActivity.this);
+                        path = file.getAbsolutePath();
+                        ImageUtils.saveBitmap(cutBitmap, file.getParent().toString(), file.getName().toString());
                         handler.sendEmptyMessage(Constants.CUTPIC);
                     }
                 }).start();

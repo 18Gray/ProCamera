@@ -6,6 +6,7 @@ import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -189,12 +190,11 @@ public class ImageProcessActivity extends BaseActivity
     public void onWindowFocusChanged(boolean hasFocus)
     {
         super.onWindowFocusChanged(hasFocus);
-        int maxWidth = ScreenUtils.getScreenWidth(ImageProcessActivity.this);
-        int maxHeight = ScreenUtils.getScreenWidth(ImageProcessActivity.this) - rl_topmenu_gallery.getHeight() - ll_bottommenu_film.getHeight();
-        currentBitmap = ImageUtils.getBitmapFromPath(saveImage.saveImagePath, maxWidth, maxHeight);
+        currentBitmap = ImageUtils.getBitmapFromPath(saveImage.saveImagePath);
         currentShowBitmap = Bitmap.createBitmap(currentBitmap);
         piv_center_imageprocess.setImageBitmap(currentShowBitmap);
     }
+
 
 
     @OnClick({R.id.iv_finish_gallery, R.id.button_next_gallery,
@@ -355,4 +355,21 @@ public class ImageProcessActivity extends BaseActivity
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        switch (requestCode)
+        {
+            case Constants.CUT_IMAGE:
+                if(resultCode == RESULT_OK)
+                {
+                    String path = data.getStringExtra(Constants.CROPIMAGEPATH);
+                    currentShowBitmap = ImageUtils.getBitmapFromPath(path);
+                    piv_center_imageprocess.setImagePath(path);
+                    piv_center_imageprocess.setImageBitmap(currentShowBitmap);
+                }
+                break;
+        }
+
+    }
 }
