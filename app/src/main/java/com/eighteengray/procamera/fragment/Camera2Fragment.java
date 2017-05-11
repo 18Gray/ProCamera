@@ -234,10 +234,16 @@ public class Camera2Fragment extends BaseCameraFragment
         {
             cameraTextureView.closeCamera();
         }
-        EventBus.getDefault().unregister(this);
         super.onPause();
     }
 
+
+    @Override
+    public void onDestroy()
+    {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
 
     @OnClick({R.id.iv_flash_camera, R.id.iv_switch_camera,
         R.id.iv_hdr_camera, R.id.tv_mode_select, R.id.iv_gpufilter_camera,

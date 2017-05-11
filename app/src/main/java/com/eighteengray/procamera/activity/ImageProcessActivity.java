@@ -252,6 +252,7 @@ public class ImageProcessActivity extends BaseActivity
     {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+
     }
 
     //EventBus处理
@@ -298,18 +299,17 @@ public class ImageProcessActivity extends BaseActivity
                 File file = new File(saveImage.saveImagePath);
                 ImageUtils.saveBitmap(currentBitmap, file.getParent().toString(), file.getName().toString());
 
-                SaveImage itemSaveImage = null;
                 //取出SaveImage，从saveImagePath中取出图像，然后绘制字幕，绘制印记，再保存到Constants.resultPath路径下。
-                Bitmap itemBitmap = ImageUtils.getBitmapFromPath(itemSaveImage.saveImagePath);
+                Bitmap itemBitmap = ImageUtils.getBitmapFromPath(saveImage.saveImagePath);
 
                 //水印图
-                if (itemSaveImage.yinjiBitmap != null)
+                if (saveImage.yinjiBitmap != null)
                 {
-                    itemBitmap = ImageUtils.watermarkWithBmp(itemBitmap, itemSaveImage.yinjiBitmap, itemSaveImage.x, itemSaveImage.y);
+                    itemBitmap = ImageUtils.watermarkWithBmp(itemBitmap, saveImage.yinjiBitmap, saveImage.x, saveImage.y);
                 }
 
                 //带字幕图
-                if (!TextUtils.isEmpty(itemSaveImage.subtitle))
+                if (!TextUtils.isEmpty(saveImage.subtitle))
                 {
                     int bitmapwidth = itemBitmap.getWidth();
                     Paint paint = new Paint();
@@ -337,10 +337,9 @@ public class ImageProcessActivity extends BaseActivity
                     {
                         fontSize = 12;
                     }
-
-                    itemBitmap = ImageUtils.watermarkWithText(itemBitmap, itemSaveImage.subtitle, x, y, fontSize, R.color.text);
+                    itemBitmap = ImageUtils.watermarkWithText(itemBitmap, saveImage.subtitle, x, y, fontSize, R.color.text);
                 }
-                File itemFile = new File(itemSaveImage.saveImagePath);
+                File itemFile = new File(saveImage.saveImagePath);
                 ImageUtils.saveBitmap(itemBitmap, itemFile.getParent().toString(), itemFile.getName().toString());
                 runOnUiThread(new Runnable()
                 {

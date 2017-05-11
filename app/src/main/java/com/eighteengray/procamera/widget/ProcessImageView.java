@@ -53,12 +53,6 @@ public class ProcessImageView extends ImageView
             {
                 canvas.drawBitmap(bitmap, 0, 0, mPaint);
             }
-            else
-            {
-                Bitmap newBitmap = ImageUtils.getBitmapFromPath(path);
-                canvas.drawBitmap(newBitmap, 0, 0, mPaint);
-            }
-
         }
     }
 

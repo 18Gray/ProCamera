@@ -3,11 +3,14 @@ package com.eighteengray.procamera.common;
 import android.app.Application;
 import com.squareup.leakcanary.LeakCanary;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 
 public class ProCameraApplication extends Application
 {
     private static ProCameraApplication context;
-
+    public static ExecutorService executorService;
 
     @Override
     public void onCreate()
@@ -19,6 +22,7 @@ public class ProCameraApplication extends Application
         }
         LeakCanary.install(this);
         context = this;
+        executorService = Executors.newSingleThreadExecutor();
     }
 
 

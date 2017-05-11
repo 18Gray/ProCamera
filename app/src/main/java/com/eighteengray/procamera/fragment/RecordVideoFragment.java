@@ -84,10 +84,16 @@ public class RecordVideoFragment extends BaseCameraFragment
         {
             recordTextureView.closeCamera();
         }
-        EventBus.getDefault().unregister(this);
         super.onPause();
     }
 
+
+    @Override
+    public void onDestroy()
+    {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
 
     @OnClick({R.id.iv_flash_camera, R.id.iv_switch_camera,
             R.id.recordTextureView, R.id.tv_mode_select,
