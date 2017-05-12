@@ -159,7 +159,7 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
         imageFolderArrayList = (ArrayList<ImageFolder>) imageFolders;
         if(imageFolderArrayList != null && imageFolderArrayList.size() > 0)
         {
-            picsAdapter.setData(imageFolderArrayList.get(0).getImagePathList());
+            picsAdapter.setData(imageFolderArrayList.get(1).getImagePathList());
         }
     }
 

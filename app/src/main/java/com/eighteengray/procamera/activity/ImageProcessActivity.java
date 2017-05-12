@@ -190,7 +190,9 @@ public class ImageProcessActivity extends BaseActivity
     public void onWindowFocusChanged(boolean hasFocus)
     {
         super.onWindowFocusChanged(hasFocus);
-        currentBitmap = ImageUtils.getBitmapFromPath(saveImage.saveImagePath);
+        int maxWidth = ScreenUtils.getScreenWidth(ImageProcessActivity.this);
+        int maxHeight = ScreenUtils.getScreenHeight(ImageProcessActivity.this);
+        currentBitmap = ImageUtils.getBitmapFromPath(saveImage.saveImagePath, maxWidth, maxHeight);
         currentShowBitmap = Bitmap.createBitmap(currentBitmap);
         piv_center_imageprocess.setImageBitmap(currentShowBitmap);
     }

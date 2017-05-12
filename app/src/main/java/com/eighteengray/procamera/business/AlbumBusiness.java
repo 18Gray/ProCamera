@@ -70,7 +70,6 @@ public class AlbumBusiness
                 cursor.close();
             }
         });
-
         Observable<List<ImageFolder>> imageFolderListObserverable = Observable.just(imageFolderList).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         return imageFolderListObserverable;
     }
