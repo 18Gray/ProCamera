@@ -2,7 +2,9 @@ package com.eighteengray.procamera.fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.hardware.camera2.CameraAccessException;
+import android.media.ThumbnailUtils;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -541,7 +543,8 @@ public class Camera2Fragment extends BaseCameraFragment
     public void onImagePathAvailable(ImageAvailableEvent.ImagePathAvailable imagePathAvailable)
     {
         Bitmap bitmap = ImageUtils.getBitmapFromPath(imagePathAvailable.getImagePath());
-        iv_imageavailable.setImageBitmap(bitmap);
+        final Bitmap thumbnail = ThumbnailUtils.extractThumbnail(bitmap, 60, 60);
+        iv_imageavailable.setImageResource(R.color.black_deep);
         iv_imageavailable.setVisibility(View.VISIBLE);
         handler.postDelayed(new Runnable()
         {
@@ -549,8 +552,9 @@ public class Camera2Fragment extends BaseCameraFragment
             public void run()
             {
                 iv_imageavailable.setVisibility(View.GONE);
+                iv_album_camera.setImageBitmap(thumbnail);
             }
-        }, 3000);
+        }, 200);
     }
 
 }
