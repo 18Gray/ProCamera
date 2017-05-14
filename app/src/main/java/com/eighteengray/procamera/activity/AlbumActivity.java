@@ -26,6 +26,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
@@ -59,7 +60,7 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
     TextView tv_select_album;
 
     private ContentResolver mContentResolver;
-    private int currentImageFolderNum = 0;
+    private int currentImageFolderNum = 1;
     private ArrayList<ImageFolder> imageFolderArrayList = new ArrayList<>();
 
     @Inject
@@ -73,6 +74,7 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
         setContentView(R.layout.activity_album);
         ButterKnife.bind(this);
         mContentResolver = getContentResolver();
+        EventBus.getDefault().register(this);
         initView();
     }
 
@@ -86,10 +88,9 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
             @Override
             public void setData2ViewR(BaseRecyclerViewHolder baseRecyclerViewHolder, final String item, int position)
             {
-                Bitmap bitmap = ImageUtils.getBitmapFromPath(item);
-                Bitmap thumnailBitmap = ThumbnailUtils.extractThumbnail(bitmap, 320, 320);
+                Bitmap bitmap = ImageUtils.getBitmapFromPath(item, 400, 400);
                 ImageView imageView = baseRecyclerViewHolder.getViewById(R.id.iv_item_grid);
-                imageView.setImageBitmap(thumnailBitmap);
+                imageView.setImageBitmap(bitmap);
 
                 imageView.setOnClickListener(new OnClickListener()
                 {
@@ -118,6 +119,13 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
         albumPresenter.getAlbumData(AlbumActivity.this);
     }
 
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 
     @OnClick({R.id.iv_back_album, R.id.tv_done_album, R.id.tv_select_album})
     public void click(View view)
@@ -148,7 +156,10 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
     public void onImageFolderSelected(ImageFolderEvent imageFolderEvent)
     {
         currentImageFolderNum = imageFolderEvent.getCurrentImageFolderNum();
-        picsAdapter.notifyDataSetChanged();
+        if(imageFolderArrayList != null && imageFolderArrayList.size() > 0)
+        {
+            picsAdapter.setData(imageFolderArrayList.get(currentImageFolderNum).getImagePathList());
+        }
         tv_select_album.setText(imageFolderArrayList.get(currentImageFolderNum).getName());
     }
 
@@ -159,7 +170,7 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
         imageFolderArrayList = (ArrayList<ImageFolder>) imageFolders;
         if(imageFolderArrayList != null && imageFolderArrayList.size() > 0)
         {
-            picsAdapter.setData(imageFolderArrayList.get(1).getImagePathList());
+            picsAdapter.setData(imageFolderArrayList.get(currentImageFolderNum).getImagePathList());
         }
     }
 
