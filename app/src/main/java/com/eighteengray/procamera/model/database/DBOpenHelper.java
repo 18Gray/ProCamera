@@ -5,7 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 
-
+/**
+ * openOrCreateDatabase被隐藏在了SQLiteOpenHelper构造函数中
+ */
 public class DBOpenHelper extends SQLiteOpenHelper
 {
 

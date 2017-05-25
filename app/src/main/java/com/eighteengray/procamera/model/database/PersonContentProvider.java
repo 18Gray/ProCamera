@@ -25,12 +25,25 @@ public class PersonContentProvider extends ContentProvider
 		MATCHER.addURI("cn.com.personProvider", "person/#", PERSON);
 	}
 
-	// ContentProvider创建的初始方法
 	@Override
 	public boolean onCreate()
 	{
 		this.dbOpenHelper = new DBOpenHelper(this.getContext());
 		return false;
+	}
+
+	@Override
+	public String getType(Uri uri)
+	{
+		switch (MATCHER.match(uri))
+		{
+			case PERSONS:
+				return "vnd.android.cursor.dir/person";
+			case PERSON:
+				return "vnd.android.cursor.item/person";
+			default:
+				throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
+		}
 	}
 
 	@Override
@@ -40,7 +53,9 @@ public class PersonContentProvider extends ContentProvider
 		SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
 		switch (MATCHER.match(uri))
 		{
-		// 查询所有person信息
+		// 查询所有person信息，参数分别为：
+		// 参数table:表名称，参数columns:列名称数组，参数selection:条件字句，相当于where，参数selectionArgs:条件字句，参数数组
+		//参数groupBy:分组列，参数having:分组条件，参数orderBy:排序列，参数limit:分页查询限制，参数Cursor:返回值，相当于结果集ResultSet
 		case PERSONS:
 			return db.query("person", projection, selection, selectionArgs, null, null, sortOrder);
 			// 查询对应id的一个person信息
@@ -109,7 +124,9 @@ public class PersonContentProvider extends ContentProvider
 		case PERSONS:
 			count = db.update("person", values, selection, selectionArgs);
 			return count;
+
 		case PERSON:
+			db.beginTransaction();
 			long id = ContentUris.parseId(uri);
 			String where = "_id=" + id;
 			if (selection != null && !"".equals(selection))
@@ -117,22 +134,10 @@ public class PersonContentProvider extends ContentProvider
 				where = selection + " and " + where;
 			}
 			count = db.update("person", values, where, selectionArgs);
+			db.setTransactionSuccessful();
+			db.endTransaction();
 			return count;
-		default:
-			throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
-		}
-	}
 
-	// 返回数据的MIME类型
-	@Override
-	public String getType(Uri uri)
-	{
-		switch (MATCHER.match(uri))
-		{
-		case PERSONS:
-			return "vnd.android.cursor.dir/person";
-		case PERSON:
-			return "vnd.android.cursor.item/person";
 		default:
 			throw new IllegalArgumentException("Unkwon Uri:" + uri.toString());
 		}
