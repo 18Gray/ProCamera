@@ -122,6 +122,9 @@ public class Camera2Fragment extends BaseCameraFragment
     protected File mFile;   //保存图片的路径
     private int delayTime = 0;
 
+    boolean isHDRVisible = false;
+    boolean isEFFECTVisible = false;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -266,7 +269,20 @@ public class Camera2Fragment extends BaseCameraFragment
                 break;
 
             case R.id.iv_hdr_camera:  //hdr设置
-                rcv_scene.setVisibility(View.VISIBLE);
+                if(rcv_effect.getVisibility() == View.VISIBLE)
+                {
+                    rcv_effect.setVisibility(View.GONE);
+                }
+                if(!isHDRVisible)
+                {
+                    rcv_scene.setVisibility(View.VISIBLE);
+                    isHDRVisible = true;
+                }
+                else
+                {
+                    rcv_scene.setVisibility(View.GONE);
+                    isHDRVisible = false;
+                }
                 break;
 
             case R.id.tv_mode_select: //模式选择，相机、视频
@@ -275,7 +291,20 @@ public class Camera2Fragment extends BaseCameraFragment
                 break;
 
             case R.id.iv_gpufilter_camera: //添加gpu滤镜
-                rcv_effect.setVisibility(View.VISIBLE);
+                if(rcv_scene.getVisibility() == View.VISIBLE)
+                {
+                    rcv_scene.setVisibility(View.GONE);
+                }
+                if(!isEFFECTVisible)
+                {
+                    rcv_effect.setVisibility(View.VISIBLE);
+                    isEFFECTVisible = true;
+                }
+                else
+                {
+                    rcv_effect.setVisibility(View.GONE);
+                    isEFFECTVisible = false;
+                }
                 break;
 
             case R.id.iv_album_camera: //进入相册

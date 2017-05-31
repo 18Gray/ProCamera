@@ -5,47 +5,6 @@
     android:background="@color/primary"
 >
 
-    <!-- 上部菜单 -->
-    <RelativeLayout
-        android:id="@+id/rl_topmenu"
-        style="@style/topMenu"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-    >
-
-        <!--闪光灯-->
-        <ImageView
-            android:id="@+id/iv_flash_camera"
-            style="@style/imageViewBtn"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="30dp"
-            android:src="@mipmap/flash_auto_white_24dp"
-        />
-
-        <!--前后摄像头切换-->
-        <ImageView
-            android:id="@+id/iv_switch_camera"
-            style="@style/imageViewBtn"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="30dp"
-            android:src="@mipmap/switch_camera_white_24dp"
-        />
-
-        <!--GPU滤镜已选效果-->
-        <TextView
-            android:id="@+id/tv_mode_gpufileter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="mild"
-            android:textColor="@color/text"
-            android:textSize="14sp"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"/>
-
-    </RelativeLayout>
-
-
     <!-- 下部菜单 -->
     <RelativeLayout
         android:id="@+id/rl_bottommenu"
@@ -144,8 +103,8 @@
         android:id="@+id/rl_middle_bottom_menu"
         style="@style/bottomMenu"
         android:layout_above="@id/rl_bottommenu"
-        android:paddingBottom="6dp"
-        android:paddingTop="6dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
     >
 
         <!--模式切换-->
@@ -185,39 +144,49 @@
 
 
     <!--拍照-->
-    <com.eighteengray.procameralibrary.camera.Camera2TextureView
-        android:id="@+id/cameraTextureView"
+    <RelativeLayout
+        android:id="@+id/rl_camera_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/rl_middle_bottom_menu"
-        android:layout_below="@id/rl_topmenu"
-    />
+    >
 
-    <!--拍完后显示照片区域-->
-    <ImageView
-        android:id="@+id/iv_imageavailable"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/rl_topmenu"
-        android:layout_above="@id/rl_middle_bottom_menu"
-        android:visibility="gone"
-    />
+        <com.eighteengray.procameralibrary.camera.Camera2TextureView
+            android:id="@+id/cameraTextureView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+        />
+
+        <!--拍完后显示照片区域-->
+        <ImageView
+            android:id="@+id/iv_imageavailable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+        />
+
+
+    </RelativeLayout>
+
+
 
 
     <!--Scene和Effect的RecyclerView-->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rcv_scene"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_alignBottom="@id/cameraTextureView"
+        android:layout_height="50dp"
+        android:layout_alignBottom="@id/rl_camera_image"
         android:visibility="gone"
     />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rcv_effect"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_alignBottom="@id/cameraTextureView"
+        android:layout_height="50dp"
+        android:layout_alignBottom="@id/rl_camera_image"
         android:visibility="gone"
     />
 
@@ -232,6 +201,48 @@
         android:visibility="gone"
     />
 
+
+    <!-- 上部菜单 -->
+    <RelativeLayout
+        android:id="@+id/rl_topmenu"
+        style="@style/topMenu"
+        android:layout_alignTop="@id/rl_camera_image"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+    >
+
+        <!--GPU滤镜已选效果-->
+
+        <!--闪光灯-->
+        <ImageView
+            android:id="@+id/iv_flash_camera"
+            style="@style/imageViewBtn"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="30dp"
+            android:src="@mipmap/flash_auto_white_24dp"
+        />
+
+        <!--前后摄像头切换-->
+        <ImageView
+            android:id="@+id/iv_switch_camera"
+            style="@style/imageViewBtn"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp"
+            android:src="@mipmap/switch_camera_white_24dp"
+        />
+
+        <TextView
+            android:id="@+id/tv_mode_gpufileter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="mild"
+            android:textColor="@color/text"
+            android:textSize="14sp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"/>
+
+    </RelativeLayout>
 
     <!--调节焦距-->
     <com.eighteengray.procamera.widget.VerticalSeekBar
