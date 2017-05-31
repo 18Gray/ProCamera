@@ -313,8 +313,8 @@ public class Camera2Fragment extends BaseCameraFragment
                 break;
 
             case R.id.iv_ratio_camera: //弹出比例修改对话框，修改拍摄比例
-                int[] location3 = new int[2];
-                iv_ratio_camera.getLocationOnScreen(location3);
+                int[] location = new int[2];
+                iv_ratio_camera.getLocationOnScreen(location);
                 PopupWindowFactory.createRatioPopupWindow(getActivity()).showAtLocation(iv_ratio_camera, Gravity.BOTTOM, 0, rl_bottommenu.getHeight() + rl_middle_bottom_menu.getHeight());
                 break;
 
