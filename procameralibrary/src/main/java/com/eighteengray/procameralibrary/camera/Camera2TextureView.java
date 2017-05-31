@@ -7,6 +7,7 @@ import android.graphics.ImageFormat;
 import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
@@ -105,8 +106,8 @@ public class Camera2TextureView extends BaseCamera2TextureView
             StreamConfigurationMap map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
             Size largest = Collections.max(Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)), new CompareSizesByArea());
             initImageReader(largest);
-//            mPreviewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class), width, height, largest);
-            setRatioReal(getWidth(), getHeight());
+            mPreviewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class), width, height, largest);
+            setRatioReal(mPreviewSize.getWidth(), mPreviewSize.getHeight());
 
         } catch (CameraAccessException e)
         {
@@ -124,10 +125,10 @@ public class Camera2TextureView extends BaseCamera2TextureView
         int orientation = getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE)
         {
-            setAspectRatio(mPreviewSize.getHeight(), mPreviewSize.getWidth());
+            setAspectRatio(mPreviewSize.getWidth(), mPreviewSize.getHeight());
         } else
         {
-            setAspectRatio(mPreviewSize.getWidth(), mPreviewSize.getHeight());
+            setAspectRatio(mPreviewSize.getHeight(), mPreviewSize.getWidth());
         }
     }
 
