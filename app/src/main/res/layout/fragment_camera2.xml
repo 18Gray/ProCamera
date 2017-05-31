@@ -154,8 +154,9 @@
         <com.eighteengray.procameralibrary.camera.Camera2TextureView
             android:id="@+id/cameraTextureView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
         />
 
         <!--拍完后显示照片区域-->

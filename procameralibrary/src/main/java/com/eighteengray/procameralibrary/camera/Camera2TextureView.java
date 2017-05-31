@@ -34,6 +34,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static android.R.attr.orientation;
+import static android.R.attr.width;
 
 
 /**
@@ -107,28 +109,20 @@ public class Camera2TextureView extends BaseCamera2TextureView
             Size largest = Collections.max(Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)), new CompareSizesByArea());
             initImageReader(largest);
             mPreviewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class), width, height, largest);
-            setRatioReal(mPreviewSize.getWidth(), mPreviewSize.getHeight());
-
+            int orientation = getResources().getConfiguration().orientation;
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE)
+            {
+                setAspectRatio(mPreviewSize.getWidth(), mPreviewSize.getHeight());
+            } else
+            {
+                setAspectRatio(mPreviewSize.getHeight(), mPreviewSize.getWidth());
+            }
         } catch (CameraAccessException e)
         {
             e.printStackTrace();
         } catch (NullPointerException e)
         {
             e.printStackTrace();
-        }
-    }
-
-    private void setRatioReal(int width, int height)
-    {
-        mPreviewSize = new Size(width, height);
-        //如果屏幕旋转需要调整
-        int orientation = getResources().getConfiguration().orientation;
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE)
-        {
-            setAspectRatio(mPreviewSize.getWidth(), mPreviewSize.getHeight());
-        } else
-        {
-            setAspectRatio(mPreviewSize.getHeight(), mPreviewSize.getWidth());
         }
     }
 
@@ -144,18 +138,18 @@ public class Camera2TextureView extends BaseCamera2TextureView
         List<Size> bigEnough = new ArrayList<Size>();
         int w = aspectRatio.getWidth();
         int h = aspectRatio.getHeight();
-        for (Size option : choices)
+        for (Size size : choices)
         {
-            if (option.getHeight() == option.getWidth() * h / w &&
-                    option.getWidth() >= width && option.getHeight() >= height)
+            if (size.getHeight() == size.getWidth() * h / w &&
+                    size.getWidth() >= width && size.getHeight() >= height)
             {
-                bigEnough.add(option);
+                bigEnough.add(size);
             }
         }
 
         if (bigEnough.size() > 0)
         {
-            return Collections.min(bigEnough, new CompareSizesByArea());
+            return Collections.max(bigEnough, new CompareSizesByArea());
         } else
         {
             return choices[0];
@@ -588,21 +582,19 @@ public class Camera2TextureView extends BaseCamera2TextureView
         switch (ratio)
         {
             case Constants.RATIO_NORMAL:
-                setRatioReal(getWidth(), getHeight());
+                configureCamera(mPreviewSize.getWidth(), mPreviewSize.getHeight(), cameraNum);
                 break;
 
             case Constants.RATIO_SQUARE:
-                setRatioReal(getWidth(), getWidth());
+                configureCamera(1, 1, cameraNum);
                 break;
 
             case Constants.RATIO_4V3:
-                int height_4v3 = getWidth() * 4 / 3;
-                setRatioReal(getWidth(), height_4v3);
+                configureCamera(3, 4, cameraNum);
                 break;
 
             case Constants.RATIO_16V9:
-                int height_16v9 = getWidth() * 16 / 9;
-                setRatioReal(getWidth(), height_16v9);
+                configureCamera(9, 16, cameraNum);
                 break;
         }
     }
