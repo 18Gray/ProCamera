@@ -136,12 +136,9 @@ public class Camera2TextureView extends BaseCamera2TextureView
     private Size chooseOptimalSize(Size[] choices, int width, int height, Size aspectRatio)
     {
         List<Size> bigEnough = new ArrayList<Size>();
-        int w = aspectRatio.getWidth();
-        int h = aspectRatio.getHeight();
         for (Size size : choices)
         {
-            if (size.getHeight() == size.getWidth() * h / w &&
-                    size.getWidth() >= width && size.getHeight() >= height)
+            if (size.getHeight() == size.getWidth() * height / width)
             {
                 bigEnough.add(size);
             }
@@ -590,11 +587,11 @@ public class Camera2TextureView extends BaseCamera2TextureView
                 break;
 
             case Constants.RATIO_4V3:
-                configureCamera(3, 4, cameraNum);
+                configureCamera(4, 3, cameraNum);
                 break;
 
             case Constants.RATIO_16V9:
-                configureCamera(9, 16, cameraNum);
+                configureCamera(16, 9, cameraNum);
                 break;
         }
     }
