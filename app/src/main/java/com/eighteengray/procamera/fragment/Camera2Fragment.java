@@ -26,6 +26,7 @@ import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.activity.AlbumActivity;
 import com.eighteengray.procamera.activity.SettingActivity;
 import com.eighteengray.procamera.business.ImageSaver;
+import com.eighteengray.procamera.widget.FocusView;
 import com.eighteengray.procamera.widget.TextureViewTouchListener;
 import com.eighteengray.procamera.widget.VerticalSeekBar;
 import com.eighteengray.procamera.widget.baserecycler.BaseRecyclerAdapter;
@@ -46,6 +47,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.eighteengray.procamera.R.id.iv_focus_camera;
 
 
 /**
@@ -72,8 +74,8 @@ public class Camera2Fragment extends BaseCameraFragment
     ImageView iv_imageavailable;
     @BindView(R.id.seekbar_camera2)
     VerticalSeekBar seekbar_camera2;
-    @BindView(R.id.iv_focus_camera)
-    ImageView iv_focus_camera;
+    @BindView(R.id.focusview_camera2)
+    FocusView focusview_camera2;
 
     //Scene和Effect的RecyclerView
     @BindView(R.id.rcv_scene)
@@ -120,6 +122,7 @@ public class Camera2Fragment extends BaseCameraFragment
 
     boolean isHDRVisible = false;
     boolean isEFFECTVisible = false;
+    TextureViewTouchListener textureViewTouchListener;
 
 
     @Override
@@ -138,7 +141,8 @@ public class Camera2Fragment extends BaseCameraFragment
     {
         super.onResume();
         cameraTextureView.openCamera();
-        cameraTextureView.setOnTouchListener(new TextureViewTouchListener());
+        textureViewTouchListener = new TextureViewTouchListener(cameraTextureView);
+        cameraTextureView.setOnTouchListener(textureViewTouchListener);
         initView();
     }
 
@@ -245,6 +249,7 @@ public class Camera2Fragment extends BaseCameraFragment
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
+
 
     @OnClick({R.id.iv_flash_camera, R.id.iv_switch_camera,
         R.id.iv_hdr_camera, R.id.tv_mode_select, R.id.iv_gpufilter_camera,
@@ -394,13 +399,13 @@ public class Camera2Fragment extends BaseCameraFragment
     @Subscribe(threadMode = ThreadMode.MAIN) //长按：进行测光点和对焦点锁定
     public void onTextureLongClick(TextureViewTouchEvent.TextureLongClick textureLongClick)
     {
-        Toast.makeText(getActivity(), "longclick", Toast.LENGTH_SHORT).show();
+        cameraTextureView.takePicture();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN) // 单指滑动，如果是向右下则进度环增加，否则减小，用于调节焦点白平衡。
     public void onTextureOneDrag(TextureViewTouchEvent.TextureOneDrag textureOneDrag)
     {
-        Toast.makeText(getActivity(), "onedrag", Toast.LENGTH_SHORT).show();
+        focusview_camera2.dragChangeAWB(textureOneDrag.getDistance());
     }
 
 
@@ -416,29 +421,10 @@ public class Camera2Fragment extends BaseCameraFragment
                     //聚焦图片显示在手点击的位置
                     if(mRawX == 0 || mRawY == 0)
                     {
-                        mRawX = cameraTextureView.getMeasuredWidth() / 2 - 100;
+                        mRawX = cameraTextureView.getMeasuredWidth() / 2;
                         mRawY = cameraTextureView.getMeasuredHeight() / 2;
                     }
-                    int width = iv_focus_camera.getWidth();
-                    int height = iv_focus_camera.getHeight();
-                    ViewGroup.MarginLayoutParams margin = new ViewGroup.MarginLayoutParams(iv_focus_camera.getLayoutParams());
-                    margin.setMargins((int)(mRawX - width / 2), (int)(mRawY - height / 2), margin.rightMargin, margin.bottomMargin);
-                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(margin);
-                    iv_focus_camera.setLayoutParams(layoutParams);
-
-                    iv_focus_camera.setVisibility(View.VISIBLE);
-                    iv_focus_camera.setImageResource(R.mipmap.focusing);
-                    ScaleAnimation scaleAnimation = new ScaleAnimation(2.0f, 1.0f, 2.0f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                    scaleAnimation.setDuration(200);
-                    iv_focus_camera.startAnimation(scaleAnimation);
-                    handler.postDelayed(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            iv_focus_camera.setVisibility(View.GONE);
-                        }
-                    }, 1000);
+                    focusview_camera2.showFocusing(mRawX, mRawY, textureViewTouchListener);
                     mFlagShowFocusImage = true;
                 }
                 break;
@@ -446,38 +432,20 @@ public class Camera2Fragment extends BaseCameraFragment
             case Constants.FOCUS_SUCCEED:
                 if (mFlagShowFocusImage == true)
                 {
-                    iv_focus_camera.setVisibility(View.VISIBLE);
-                    iv_focus_camera.setImageResource(R.mipmap.focus_succeed);
-                    handler.postDelayed(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            iv_focus_camera.setVisibility(View.GONE);
-                        }
-                    }, 1000);
+                    focusview_camera2.showFocusSucceed(textureViewTouchListener);
                     mFlagShowFocusImage = false;
                 }
                 break;
 
             case Constants.FOCUS_INACTIVE:
-                iv_focus_camera.setVisibility(View.GONE);
+                focusview_camera2.setVisibility(View.GONE);
                 mFlagShowFocusImage = false;
                 break;
 
             case Constants.FOCUS_FAILED:
                 if (mFlagShowFocusImage == true)
                 {
-                    iv_focus_camera.setVisibility(View.VISIBLE);
-                    iv_focus_camera.setImageResource(R.mipmap.focus_failed);
-                    handler.postDelayed(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            iv_focus_camera.setVisibility(View.GONE);
-                        }
-                    }, 1000);
+                    focusview_camera2.showFocusFailed();
                     mFlagShowFocusImage = false;
                 }
                 break;

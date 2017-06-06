@@ -17,7 +17,6 @@ import com.eighteengray.procamera.R;
 
 public class RippleView extends Button
 {
-
 	private float mDownX;
 	private float mDownY;
 	private float mAlphaFactor;
@@ -69,7 +68,6 @@ public class RippleView extends Button
 		mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		mPaint.setAlpha(100);
 		setRippleColor(Color.BLACK, 0.2f);
-
 	}
 
 	public void setRippleColor(int rippleColor, float alphaFactor)

@@ -3,138 +3,146 @@ package com.eighteengray.procamera.widget;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
-import com.eighteengray.commonutillibrary.ViewUtils;
 import com.eighteengray.procameralibrary.camera.TextureViewTouchEvent;
 import org.greenrobot.eventbus.EventBus;
 
 
 
 
-//TextureView的触摸事件。轻按拍摄区域，显示焦点，完成聚焦和测光。
-//长按进行af/ae锁定。
-// 单指滑动，如果是向右下则进度环增加，否则减小，用于调节焦点白平衡。
-// 两手指拖动则完成焦距调节。
+//TextureView的触摸事件：
+// 轻按拍摄区域：做两个延时任务，第一个时间短，完成时发送点击event到fragment，fragment执行textureview的focusRegion，在其回调中调用judgeFocus。
+// 分成正在聚焦、聚焦成功、失败等方法，发送聚焦event到fragment，fragment根据聚焦状态显示不同图标。
+// 聚焦完成时，发送聚焦完成event给TouchListener，此时TouchListener才能触发滑动事件。
+
+// 第二个时间长，完成时显示长按事件，进行af/ae锁定。
+// 只有完成了上面聚焦和测光后，才能进行单指滑动。如果是向右下则进度环增加，否则减小，用于调节焦点白平衡。滑动后修改上面两个延时任务的标志位，似其不再执行。
 public class TextureViewTouchListener implements View.OnTouchListener
 {
-    int mode;
-    public static final int CLICK = 1;
-    public static final int LongClick = 2; //前两者，都没有move，按下时间长短决定哪个
-    public static final int OnePointDrag = 3;
-    public static final int TwoPointDrag = 4;//都有移动move，点数量不同
+    View parentView;
+    Runnable runnable_short, runnable_long;
+
+    public boolean isMoved = false;
+    public boolean isFocused = false;
+    public boolean isUp = false;
 
     float downX, downY;
+    float rawX, rawY;
     float moveX, moveY;
-    float upX, upY;
-    float focusX, focusY;
-
-    long downTime;
-    long upTime;
-
     int touchSlop;
+
+
+
     //单指滑动，取横向纵向滑动最大距离，方向即为正负
     float maxChangeDistance;
 
-    float downDistance;
-    float moveDistance;
-    //两指滑动，取缩放比
-    float scale;
 
+    public TextureViewTouchListener(View parent)
+    {
+        this.parentView = parent;
+        runnable_short = new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                if(!isMoved)
+                {
+                    postClickEvent(downX, downY, rawX, rawY);
+                }
+            }
+        };
+        runnable_long = new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                if(!isMoved && !isUp)
+                {
+                    postLongClickEvent(downX, downY);
+                }
+            }
+        };
+        touchSlop = ViewConfiguration.getTouchSlop();
+    }
 
 
     @Override
     public boolean onTouch(View v, MotionEvent event)
     {
-        touchSlop = ViewConfiguration.getTouchSlop();
-
+        isMoved = false;
+        isUp = false;
         switch (event.getAction() & MotionEvent.ACTION_MASK)
         {
-            //单指触摸
             case MotionEvent.ACTION_DOWN:
                 downX = event.getX();
                 downY = event.getY();
-                downTime = event.getDownTime();
+                rawX = event.getRawX();
+                rawY = event.getRawY();
+                parentView.postDelayed(runnable_short, 200);
+                parentView.postDelayed(runnable_long, 1000);
                 break;
 
-            //两指触摸
-            case MotionEvent.ACTION_POINTER_DOWN:
-                mode = TwoPointDrag;
-                downDistance = ViewUtils.getDistance(event);
-                break;
-
-            //手指移动
             case MotionEvent.ACTION_MOVE:
                 moveX = event.getX();
                 moveY = event.getY();
 
-                //说明手指移动了
                 if(moveX != downX || moveY != downY)
                 {
-                    //OnePointDrag模式
-                    if(mode != TwoPointDrag)
+                    float absX = Math.abs(moveX - downX);
+                    float abxY = Math.abs(moveY - downY);
+                    if((absX - abxY > 0) && absX > touchSlop)
                     {
-                        mode = OnePointDrag;
-                        float absX = Math.abs(moveX - downX);
-                        float abxY = Math.abs(moveY - downY);
-                        if((absX - abxY > 0) && absX > touchSlop)
-                        {
-                            maxChangeDistance = moveX - downX;
-                        }
-                        else if((absX - abxY < 0) && abxY > touchSlop)
-                        {
-                            maxChangeDistance = moveY - downY;
-                        }
-                        TextureViewTouchEvent.TextureOneDrag textureOneDrag = new TextureViewTouchEvent.TextureOneDrag();
-                        textureOneDrag.setDistance(maxChangeDistance);
-                        EventBus.getDefault().post(textureOneDrag);
+                        maxChangeDistance = moveX - downX;
+                        isMoved = true;
                     }
-                    //TwoPointDrag模式
-                    else
+                    else if((absX - abxY < 0) && abxY > touchSlop)
                     {
-                        moveDistance = ViewUtils.getDistance(event);
-                        scale = moveDistance / downDistance;
+                        maxChangeDistance = moveY - downY;
+                        isMoved = true;
+                    }
+                    if(isFocused)
+                    {
+                        postDragEvent(maxChangeDistance);
                     }
                 }
                 break;
 
-            //单指抬起
             case MotionEvent.ACTION_UP:
-                upX = event.getX();
-                upY = event.getY();
-                upTime = event.getEventTime();
-
-                //点没有挪动过
-                if(downX == upX && downY == upY)
-                {
-                    //CLICK模式
-                    if((upTime - downTime) < 1000)
-                    {
-                        mode = CLICK;
-                        TextureViewTouchEvent.TextureClick textureClick = new TextureViewTouchEvent.TextureClick();
-                        textureClick.setX(downX);
-                        textureClick.setY(downY);
-                        textureClick.setRawX(event.getRawX());
-                        textureClick.setRawY(event.getRawY());
-                        EventBus.getDefault().post(textureClick);
-                    }
-                    //LongClick模式
-                    else
-                    {
-                        mode = LongClick;
-                        TextureViewTouchEvent.TextureLongClick textureLongClick = new TextureViewTouchEvent.TextureLongClick();
-                        textureLongClick.setX(downX);
-                        textureLongClick.setY(downY);
-                        EventBus.getDefault().post(textureLongClick);
-                    }
-                }
+                isUp = true;
                 break;
-
-            //两指抬起
-            case MotionEvent.ACTION_POINTER_UP:
-
-                break;
-
         }
         return true;
     }
+
+
+
+
+
+    private void postClickEvent(float x, float y, float rawX, float rawY)
+    {
+        TextureViewTouchEvent.TextureClick textureClick = new TextureViewTouchEvent.TextureClick();
+        textureClick.setX(x);
+        textureClick.setY(y);
+        textureClick.setRawX(rawX);
+        textureClick.setRawY(rawY);
+        EventBus.getDefault().post(textureClick);
+    }
+
+
+    private void postLongClickEvent(float x, float y)
+    {
+        TextureViewTouchEvent.TextureLongClick textureLongClick = new TextureViewTouchEvent.TextureLongClick();
+        textureLongClick.setX(x);
+        textureLongClick.setY(y);
+        EventBus.getDefault().post(textureLongClick);
+    }
+
+
+    private void postDragEvent(float distance)
+    {
+        TextureViewTouchEvent.TextureOneDrag textureOneDrag = new TextureViewTouchEvent.TextureOneDrag();
+        textureOneDrag.setDistance(distance);
+        EventBus.getDefault().post(textureOneDrag);
+    }
+
 
 }

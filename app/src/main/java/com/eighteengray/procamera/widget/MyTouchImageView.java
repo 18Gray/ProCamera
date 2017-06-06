@@ -20,48 +20,32 @@ import com.eighteengray.commonutillibrary.ImageUtils;
 public class MyTouchImageView extends ImageView
 {
 	Activity activity;
-	
 	Bitmap gintama;
-	
 	Bitmap resultBitmap;
-
 	public float x_down = 0;
-
 	public float y_down = 0;
-
 	PointF start = new PointF();
-
 	PointF mid = new PointF();
 
 	float oldDist = 1f;
-
 	float oldRotation = 0;
 
 	Matrix matrix = new Matrix();
-
 	Matrix matrix1 = new Matrix();
-
 	Matrix savedMatrix = new Matrix();
 
 	private static final int NONE = 0;
-
 	private static final int DRAG = 1;
-
 	private static final int ZOOM = 2;
-
 	int mode = NONE;
-
 	boolean matrixCheck = false;
-
 	int widthScreen;
-
 	int heightScreen;
 
 	
 
 	public MyTouchImageView(Activity myActivity)
 	{
-		// TODO Auto-generated constructor stub
 		super(myActivity);
 		
 		DisplayMetrics dm = new DisplayMetrics();
