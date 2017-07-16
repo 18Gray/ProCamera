@@ -56,8 +56,7 @@ public class SystemModel
 
         int count = cursor.getCount();
         int columnCount = cursor.getColumnCount();
-        Observable<Cursor> observable = Observable.just(cursor).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-        return observable;
+        return Observable.just(cursor);
     }
 
 }
