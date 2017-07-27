@@ -10,7 +10,7 @@ ProCameraÊÇÒ»¿î»ùÓÚCamera2 APIµÄÏà»ú£¬ÊµÏÖÁËÏà»úµÄ³£ÓÃ¹¦ÄÜ£¬Á¦Çó²»¶ÏÍÚ¾òCamera2µ
 1.Ïà»ú³£ÓÃ¹¦ÄÜ£º×Ô¶¯¶Ô½¹/²â¹â£¬ÊÖ¶¯¶Ô½¹/²â¹â£¬Ç°ºóÉãÏñÍ·ÇÐ»»£¬ÇÐ»»ÉÁ¹âµÆÄ£Ê½£¬Ê¹ÓÃHDR£¬Ìí¼ÓGPUÂË¾µ£¬ÅÄÉã±ÈÀýµ÷½Ú£¬ÑÓÊ±ÉãÓ°£¬Â¼ÖÆÊÓÆµ¡£
 2.Í¼Ïñ´¦ÀíÏà¹Ø£ºµã»÷×óÏÂ½Ç°´Å¥»á½øÈëÏà²á£¬Ñ¡È¡Ïà²áºó¿É½øÐÐÍ¼Ïñ´¦Àí¡£°üÀ¨£º²Ã¼ô£¬ÂË¾µ£¬×ÖÄ»£¬Ó¡¼Ç£¬¶Ô±È¶ÈµÈµÄµ÷½Ú¡£
 
-##¼´½«ÉÏÏß¹¦ÄÜ£º
+## ¼´½«ÉÏÏß¹¦ÄÜ£º
 1.30fps¸ßÇåÁ¬ÅÄ£¬ÊµÏÖ½¹µãºÍ²â¹âµãµÄÊÖ¶¯·ÖÀë£¬0ÑÓ³Ù¿ìÃÅÅÄÉã£¬raw¸ñÊ½µÄÍ¼Æ¬Êä³ö¡¢µ÷½Úawb/iso/ae¡£
 2.ÉèÖÃ½çÃæÏà¹Ø¹¦ÄÜ£º°üÀ¨ÉèÖÃ¾Å¹¬¸ñ¡¢Í¼Æ¬Êý×ÖÇ©Ãû£¨Î»ÖÃ¡¢Ê±¼ä¡¢°æÈ¨£©¡¢Ë®Æ½Ð£×¼¡£
 3.Í¼Ïñ´¦Àí£º»áÖð²½Ïòsnapseed¿¿Â££¬²¢½áºÏvsco¡¢prismaÕâÐ©ÓÐÈ¤µÄÓ¦ÓÃ½øÐÐ¸Ä½ø¡£
