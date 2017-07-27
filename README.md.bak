@@ -7,25 +7,25 @@ ProCameraÊÇÒ»¿î»ùÓÚCamera2 APIµÄÏà»ú£¬ÊµÏÖÁËÏà»úµÄ³£ÓÃ¹¦ÄÜ£¬Á¦Çó²»¶ÏÍÚ¾òCamera2µ
 
 
 ## ¹¦ÄÜ
-1.Ïà»ú³£ÓÃ¹¦ÄÜ£º×Ô¶¯¶Ô½¹/²â¹â£¬ÊÖ¶¯¶Ô½¹/²â¹â£¬Ç°ºóÉãÏñÍ·ÇÐ»»£¬ÇÐ»»ÉÁ¹âµÆÄ£Ê½£¬Ê¹ÓÃHDR£¬Ìí¼ÓGPUÂË¾µ£¬ÅÄÉã±ÈÀýµ÷½Ú£¬ÑÓÊ±ÉãÓ°£¬Â¼ÖÆÊÓÆµ¡£
-2.Í¼Ïñ´¦ÀíÏà¹Ø£ºµã»÷×óÏÂ½Ç°´Å¥»á½øÈëÏà²á£¬Ñ¡È¡Ïà²áºó¿É½øÐÐÍ¼Ïñ´¦Àí¡£°üÀ¨£º²Ã¼ô£¬ÂË¾µ£¬×ÖÄ»£¬Ó¡¼Ç£¬¶Ô±È¶ÈµÈµÄµ÷½Ú¡£
+1. Ïà»ú³£ÓÃ¹¦ÄÜ£º×Ô¶¯¶Ô½¹/²â¹â£¬ÊÖ¶¯¶Ô½¹/²â¹â£¬Ç°ºóÉãÏñÍ·ÇÐ»»£¬ÇÐ»»ÉÁ¹âµÆÄ£Ê½£¬Ê¹ÓÃHDR£¬Ìí¼ÓGPUÂË¾µ£¬ÅÄÉã±ÈÀýµ÷½Ú£¬ÑÓÊ±ÉãÓ°£¬Â¼ÖÆÊÓÆµ¡£
+2. Í¼Ïñ´¦ÀíÏà¹Ø£ºµã»÷×óÏÂ½Ç°´Å¥»á½øÈëÏà²á£¬Ñ¡È¡Ïà²áºó¿É½øÐÐÍ¼Ïñ´¦Àí¡£°üÀ¨£º²Ã¼ô£¬ÂË¾µ£¬×ÖÄ»£¬Ó¡¼Ç£¬¶Ô±È¶ÈµÈµÄµ÷½Ú¡£
 
 ## ¼´½«ÉÏÏß¹¦ÄÜ£º
-1.30fps¸ßÇåÁ¬ÅÄ£¬ÊµÏÖ½¹µãºÍ²â¹âµãµÄÊÖ¶¯·ÖÀë£¬0ÑÓ³Ù¿ìÃÅÅÄÉã£¬raw¸ñÊ½µÄÍ¼Æ¬Êä³ö¡¢µ÷½Úawb/iso/ae¡£
-2.ÉèÖÃ½çÃæÏà¹Ø¹¦ÄÜ£º°üÀ¨ÉèÖÃ¾Å¹¬¸ñ¡¢Í¼Æ¬Êý×ÖÇ©Ãû£¨Î»ÖÃ¡¢Ê±¼ä¡¢°æÈ¨£©¡¢Ë®Æ½Ð£×¼¡£
-3.Í¼Ïñ´¦Àí£º»áÖð²½Ïòsnapseed¿¿Â££¬²¢½áºÏvsco¡¢prismaÕâÐ©ÓÐÈ¤µÄÓ¦ÓÃ½øÐÐ¸Ä½ø¡£
+1. 30fps¸ßÇåÁ¬ÅÄ£¬ÊµÏÖ½¹µãºÍ²â¹âµãµÄÊÖ¶¯·ÖÀë£¬0ÑÓ³Ù¿ìÃÅÅÄÉã£¬raw¸ñÊ½µÄÍ¼Æ¬Êä³ö¡¢µ÷½Úawb/iso/ae¡£
+2. ÉèÖÃ½çÃæÏà¹Ø¹¦ÄÜ£º°üÀ¨ÉèÖÃ¾Å¹¬¸ñ¡¢Í¼Æ¬Êý×ÖÇ©Ãû£¨Î»ÖÃ¡¢Ê±¼ä¡¢°æÈ¨£©¡¢Ë®Æ½Ð£×¼¡£
+3. Í¼Ïñ´¦Àí£º»áÖð²½Ïòsnapseed¿¿Â££¬²¢½áºÏvsco¡¢prismaÕâÐ©ÓÐÈ¤µÄÓ¦ÓÃ½øÐÐ¸Ä½ø¡£
 
 ## ¼òµ¥Ê¹ÓÃ·½·¨
-1.ÔÚxmlÖÐÒýÈëCamera2TextureViewÕâ¸ö¿Ø¼þ¡£
-2.ÔÚActivity»òFragmentÖÐ£¬ÏÈÉèÖÃÒ»¸ömFileµÄÂ·¾¶ÓÃÒÔ±£´æÍ¼Æ¬µØÖ·¡£
-3.ÔÚÆäonResume£¬µ÷ÓÃcameraTextureView.openCamera()´ò¿ªÏà»ú¡£
-4.µã»÷ÅÄÕÕ°´Å¥£¬µ÷ÓÃcameraTextureView.takePicture()¾ÍÍê³ÉÁËÅÄÕÕ¡£
-5.ÔÚonPauseÖÐµ÷ÓÃcameraTextureView.closeCamera()¹Ø±ÕÏà»ú¡£
+1. ÔÚxmlÖÐÒýÈëCamera2TextureViewÕâ¸ö¿Ø¼þ¡£
+2. ÔÚActivity»òFragmentÖÐ£¬ÏÈÉèÖÃÒ»¸ömFileµÄÂ·¾¶ÓÃÒÔ±£´æÍ¼Æ¬µØÖ·¡£
+3. ÔÚÆäonResume£¬µ÷ÓÃcameraTextureView.openCamera()´ò¿ªÏà»ú¡£
+4. µã»÷ÅÄÕÕ°´Å¥£¬µ÷ÓÃcameraTextureView.takePicture()¾ÍÍê³ÉÁËÅÄÕÕ¡£
+5. ÔÚonPauseÖÐµ÷ÓÃcameraTextureView.closeCamera()¹Ø±ÕÏà»ú¡£
 
 ## ¸´ÔÓÊ¹ÓÃ·½·¨
 ¸´ÔÓÊ¹ÓÃ·½·¨Êµ¼ÊÊÇÔÚÉÏÃæ¼òµ¥Ê¹ÓÃ·½·¨»ù´¡ÉÏÔö¼ÓÁËµ÷½ÚÉÁ¹âµÆ¡¢Ç°ºóÉãÏñÍ·ÇÐ»»¡¢ÉèÖÃHDR¡¢ÂË¾µµÈ¹¦ÄÜ¡£
 ÕâÀïÆÕ±é²ÉÓÃµÄÒ»¸öË¼Â·ÊÇ£ºÔÚonClickÖÐµã»÷°´Å¥ºó£¬»áµ¯³öÒ»¸ö¶Ô»°¿òDialog»òPopupWindow£¬È»ºóÔÙµã»÷Dialog»òPopupWindowÉÏµÄÑ¡ÔñÏî£¬Ö®ºóÏûÏ¢»áÍ¨¹ýEventBus´«µ½Camera2FragmentÖÐ£¬ÔÚCamera2FragmentÖÐÍ¨¹ýonXXX·½·¨½ÓÊÕÏûÏ¢£¬ÔÙÖ´ÐÐcameraTextureView.xxx·½·¨Ö´ÐÐÏàÓ¦Ïà»ú²Ù×÷¡£
 ÒÔÉÁ¹âµÆÉèÖÃÎªÀý£º
-1.ÔÚonClickÖÐµ¯³öÁËPopupWindow¡£
-2.Ñ¡ÔñPopWindowÖÐËÄ¸öÑ¡ÔñÏîµÄÒ»¸ö£¬ÀýÈçiv_flash_autoÕâ¸ö£¬ÊÇÉèÖÃ×Ô¶¯ÉÁ¹â£¬ÓÚÊÇÍ¨¹ýEventBus·¢ËÍÏûÏ¢¡£
-3.ÔÚCamera2FragmentÖÐµÄonFlashSelect½ÓÊÕµ½ÏûÏ¢£¬ÏÈ½øÐÐÒ»Ð©UIµÄ¸Ä¶¯£¬È»ºócameraTextureView.setFlashModeÀ´ÉèÖÃÉÁ¹âµÆÄ£Ê½¡£
+1. ÔÚonClickÖÐµ¯³öÁËPopupWindow¡£
+2. Ñ¡ÔñPopWindowÖÐËÄ¸öÑ¡ÔñÏîµÄÒ»¸ö£¬ÀýÈçiv_flash_autoÕâ¸ö£¬ÊÇÉèÖÃ×Ô¶¯ÉÁ¹â£¬ÓÚÊÇÍ¨¹ýEventBus·¢ËÍÏûÏ¢¡£
+3. ÔÚCamera2FragmentÖÐµÄonFlashSelect½ÓÊÕµ½ÏûÏ¢£¬ÏÈ½øÐÐÒ»Ð©UIµÄ¸Ä¶¯£¬È»ºócameraTextureView.setFlashModeÀ´ÉèÖÃÉÁ¹âµÆÄ£Ê½¡£
