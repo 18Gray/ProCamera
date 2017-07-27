@@ -47,7 +47,7 @@ public abstract class BaseCamera2TextureView extends TextureView
     protected CameraCharacteristics mCameraCharacteristics;
 
 
-    //监听，TextureView好了之后，打开相机
+    //TextureView的状态监听，TextureView好了之后，打开相机
     protected final SurfaceTextureListener mSurfaceTextureListener = new SurfaceTextureListener()
     {
         @Override

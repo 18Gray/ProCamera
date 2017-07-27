@@ -59,6 +59,9 @@ public class Camera2TextureView extends BaseCamera2TextureView
         ORIENTATIONS.append(Surface.ROTATION_270, 180);
     }
 
+    //******************************************************************************************
+    //  初始化方法
+    //********************************************************************************************
 
     public Camera2TextureView(Context context)
     {
@@ -84,6 +87,128 @@ public class Camera2TextureView extends BaseCamera2TextureView
     {
         lockFocus();
     }
+
+
+    //设置闪光灯模式
+    public void setFlashMode(int flashMode) throws CameraAccessException
+    {
+        CaptureRequestFactory.setPreviewBuilderFlash(mPreviewRequestBuilder, flashMode);
+        updatePreview(mPreviewRequestBuilder.build(), captureSessionCaptureCallback);
+    }
+
+    //设置预览区域
+    public void focusRegion(float x, float y) throws CameraAccessException
+    {
+        try
+        {
+            mCameraCharacteristics = manager.getCameraCharacteristics(mCameraId);
+        } catch (CameraAccessException e)
+        {
+            e.printStackTrace();
+        }
+        Rect rect = mCameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
+        int areaSize = 200;
+        int right = rect.right;
+        int bottom = rect.bottom;
+        int viewWidth = getWidth();
+        int viewHeight = getHeight();
+        int ll, rr;
+        Rect newRect;
+        int centerX = (int) x;
+        int centerY = (int) y;
+        ll = ((centerX * right) - areaSize) / viewWidth;
+        rr = ((centerY * bottom) - areaSize) / viewHeight;
+        int focusLeft = clamp(ll, 0, right);
+        int focusBottom = clamp(rr, 0, bottom);
+        newRect = new Rect(focusLeft, focusBottom, focusLeft + areaSize, focusBottom + areaSize);
+        MeteringRectangle meteringRectangle = new MeteringRectangle(newRect, 500);
+        MeteringRectangle[] meteringRectangleArr = {meteringRectangle};
+        CaptureRequestFactory.setPreviewBuilderFocusRegion(mPreviewRequestBuilder, meteringRectangleArr);
+        updatePreview(mPreviewRequestBuilder.build(), captureSessionCaptureCallback);
+        CaptureRequestFactory.setPreviewBuilderFocusTrigger(mPreviewRequestBuilder);
+        mCaptureSession.capture(mPreviewRequestBuilder.build(), captureSessionCaptureCallback, mBackgroundHandler);
+    }
+
+    //设置Scene模式，即设置HDR的模式
+    public void setSceneMode(String sceneMode) throws CameraAccessException
+    {
+        CaptureRequestFactory.setPreviewBuilderScene(mPreviewRequestBuilder, sceneMode);
+        updatePreview(mPreviewRequestBuilder.build(), captureSessionCaptureCallback);
+    }
+
+    //设置Effect模式，即设置滤镜的模式
+    public void setEffectMode(String effectMode) throws CameraAccessException
+    {
+        CaptureRequestFactory.setPreviewBuilderEffect(mPreviewRequestBuilder, effectMode);
+        updatePreview(mPreviewRequestBuilder.build(), captureSessionCaptureCallback);
+    }
+
+    //拉长、缩小焦距
+    public void changeFocusDistance(int distance) throws CameraAccessException
+    {
+        mCameraCharacteristics = manager.getCameraCharacteristics(mCameraId);
+        Rect rect = mCameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
+        int radio = mCameraCharacteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM).intValue() / 2;
+        int realRadio = mCameraCharacteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM).intValue();
+        int centerX = rect.centerX();
+        int centerY = rect.centerY();
+        int minMidth = (rect.right - ((distance * centerX) / 100 / radio) - 1) - ((distance * centerX / radio) / 100 + 8);
+        int minHeight = (rect.bottom - ((distance * centerY) / 100 / radio) - 1) - ((distance * centerY / radio) / 100 + 16);
+        if (minMidth < rect.right / realRadio || minHeight < rect.bottom / realRadio)
+        {
+            Log.i("sb_zoom", "sb_zoomsb_zoomsb_zoom");
+            return;
+        }
+        Rect newRect = new Rect((distance * centerX / radio) / 100 + 40, (distance * centerY / radio) / 100 + 40, rect.right - ((distance * centerX) / 100 / radio) - 1, rect.bottom - ((distance * centerY) / 100 / radio) - 1);
+        mPreviewRequestBuilder.set(CaptureRequest.SCALER_CROP_REGION, newRect);
+        updatePreview(mPreviewRequestBuilder.build(), captureSessionCaptureCallback);
+    }
+
+    //修改TextureView比例，即调节拍照比例
+    public void setRatioMode(int ratio)
+    {
+        switch (ratio)
+        {
+            case Constants.RATIO_NORMAL:
+                configureCamera(mPreviewSize.getWidth(), mPreviewSize.getHeight(), cameraNum);
+                break;
+
+            case Constants.RATIO_SQUARE:
+                configureCamera(1, 1, cameraNum);
+                break;
+
+            case Constants.RATIO_4V3:
+                configureCamera(4, 3, cameraNum);
+                break;
+
+            case Constants.RATIO_16V9:
+                configureCamera(16, 9, cameraNum);
+                break;
+        }
+    }
+
+    //延时拍摄
+    public void setDalayTime(int nanoseconds)
+    {
+        try
+        {
+            mCameraCharacteristics = manager.getCameraCharacteristics(mCameraId);
+            Range<Long> range = mCameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE);
+            if(range == null)
+            {
+                Toast.makeText(context, "您的相机不支持全功能", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                CaptureRequestFactory.setCaptureBuilderDelay(mCaptureStillBuilder);
+            }
+
+        } catch (CameraAccessException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
 
 
     //******************************************************************************************
@@ -118,7 +243,6 @@ public class Camera2TextureView extends BaseCamera2TextureView
             e.printStackTrace();
         }
     }
-
 
     private void initImageReader(Size largest)
     {
@@ -181,7 +305,6 @@ public class Camera2TextureView extends BaseCamera2TextureView
         }
     }
 
-
     @Override
     public void createCameraPreviewSession()
     {
@@ -199,7 +322,7 @@ public class Camera2TextureView extends BaseCamera2TextureView
 
 
 
-    //监听，进入预览状态，预览配置成功后获取预览数据
+    //CaptureSession的状态监听
     protected CameraCaptureSession.StateCallback captureSessionStateCallback = new CameraCaptureSession.StateCallback()
     {
         @Override
@@ -230,7 +353,7 @@ public class Camera2TextureView extends BaseCamera2TextureView
 
 
 
-    //放在中间，预览和拍照的数据获取
+    //预览和拍照数据获取监听，获取到原始数据后做进一步处理
     CameraCaptureSession.CaptureCallback captureSessionCaptureCallback = new CameraCaptureSession.CaptureCallback()
     {
         @Override
@@ -379,7 +502,7 @@ public class Camera2TextureView extends BaseCamera2TextureView
         }
     }
 
-
+    //解除焦点锁定，进入预览状态
     public void unlockFocus()
     {
         try {
@@ -417,49 +540,6 @@ public class Camera2TextureView extends BaseCamera2TextureView
         {
             mCameraOpenCloseLock.release();
         }
-    }
-
-
-
-    //点击事件的处理方法
-    public void setFlashMode(int flashMode) throws CameraAccessException
-    {
-        CaptureRequestFactory.setPreviewBuilderFlash(mPreviewRequestBuilder, flashMode);
-        updatePreview(mPreviewRequestBuilder.build(), captureSessionCaptureCallback);
-    }
-
-
-    //设置预览区域
-    public void focusRegion(float x, float y) throws CameraAccessException
-    {
-        try
-        {
-            mCameraCharacteristics = manager.getCameraCharacteristics(mCameraId);
-        } catch (CameraAccessException e)
-        {
-            e.printStackTrace();
-        }
-        Rect rect = mCameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
-        int areaSize = 200;
-        int right = rect.right;
-        int bottom = rect.bottom;
-        int viewWidth = getWidth();
-        int viewHeight = getHeight();
-        int ll, rr;
-        Rect newRect;
-        int centerX = (int) x;
-        int centerY = (int) y;
-        ll = ((centerX * right) - areaSize) / viewWidth;
-        rr = ((centerY * bottom) - areaSize) / viewHeight;
-        int focusLeft = clamp(ll, 0, right);
-        int focusBottom = clamp(rr, 0, bottom);
-        newRect = new Rect(focusLeft, focusBottom, focusLeft + areaSize, focusBottom + areaSize);
-        MeteringRectangle meteringRectangle = new MeteringRectangle(newRect, 500);
-        MeteringRectangle[] meteringRectangleArr = {meteringRectangle};
-        CaptureRequestFactory.setPreviewBuilderFocusRegion(mPreviewRequestBuilder, meteringRectangleArr);
-        updatePreview(mPreviewRequestBuilder.build(), captureSessionCaptureCallback);
-        CaptureRequestFactory.setPreviewBuilderFocusTrigger(mPreviewRequestBuilder);
-        mCaptureSession.capture(mPreviewRequestBuilder.build(), captureSessionCaptureCallback, mBackgroundHandler);
     }
 
 
@@ -524,90 +604,6 @@ public class Camera2TextureView extends BaseCamera2TextureView
                 focusState6.setFocusState(Constants.FOCUS_FAILED);
                 EventBus.getDefault().post(focusState6);
                 break;
-        }
-    }
-
-
-    //设置Scene模式
-    public void setSceneMode(String sceneMode) throws CameraAccessException
-    {
-        CaptureRequestFactory.setPreviewBuilderScene(mPreviewRequestBuilder, sceneMode);
-        updatePreview(mPreviewRequestBuilder.build(), captureSessionCaptureCallback);
-    }
-
-    //设置Effect模式
-    public void setEffectMode(String effectMode) throws CameraAccessException
-    {
-        CaptureRequestFactory.setPreviewBuilderEffect(mPreviewRequestBuilder, effectMode);
-        updatePreview(mPreviewRequestBuilder.build(), captureSessionCaptureCallback);
-    }
-
-
-    //拉长、缩小焦距
-    public void changeFocusDistance(int distance) throws CameraAccessException
-    {
-        mCameraCharacteristics = manager.getCameraCharacteristics(mCameraId);
-        Rect rect = mCameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
-        int radio = mCameraCharacteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM).intValue() / 2;
-        int realRadio = mCameraCharacteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM).intValue();
-        int centerX = rect.centerX();
-        int centerY = rect.centerY();
-        int minMidth = (rect.right - ((distance * centerX) / 100 / radio) - 1) - ((distance * centerX / radio) / 100 + 8);
-        int minHeight = (rect.bottom - ((distance * centerY) / 100 / radio) - 1) - ((distance * centerY / radio) / 100 + 16);
-        if (minMidth < rect.right / realRadio || minHeight < rect.bottom / realRadio)
-        {
-            Log.i("sb_zoom", "sb_zoomsb_zoomsb_zoom");
-            return;
-        }
-        Rect newRect = new Rect((distance * centerX / radio) / 100 + 40, (distance * centerY / radio) / 100 + 40, rect.right - ((distance * centerX) / 100 / radio) - 1, rect.bottom - ((distance * centerY) / 100 / radio) - 1);
-        mPreviewRequestBuilder.set(CaptureRequest.SCALER_CROP_REGION, newRect);
-        updatePreview(mPreviewRequestBuilder.build(), captureSessionCaptureCallback);
-    }
-
-
-    //修改TextureView比例
-    public void setRatioMode(int ratio)
-    {
-        switch (ratio)
-        {
-            case Constants.RATIO_NORMAL:
-                configureCamera(mPreviewSize.getWidth(), mPreviewSize.getHeight(), cameraNum);
-                break;
-
-            case Constants.RATIO_SQUARE:
-                configureCamera(1, 1, cameraNum);
-                break;
-
-            case Constants.RATIO_4V3:
-                configureCamera(4, 3, cameraNum);
-                break;
-
-            case Constants.RATIO_16V9:
-                configureCamera(16, 9, cameraNum);
-                break;
-        }
-    }
-
-
-    //延时拍摄
-    public void setDalayTime(int nanoseconds)
-    {
-        try
-        {
-            mCameraCharacteristics = manager.getCameraCharacteristics(mCameraId);
-            Range<Long> range = mCameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE);
-            if(range == null)
-            {
-                Toast.makeText(context, "您的相机不支持全功能", Toast.LENGTH_SHORT).show();
-            }
-            else
-            {
-                CaptureRequestFactory.setCaptureBuilderDelay(mCaptureStillBuilder);
-            }
-
-        } catch (CameraAccessException e)
-        {
-            e.printStackTrace();
         }
     }
 

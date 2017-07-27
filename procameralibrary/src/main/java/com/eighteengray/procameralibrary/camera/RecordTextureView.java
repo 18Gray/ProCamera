@@ -60,6 +60,10 @@ public class RecordTextureView extends BaseCamera2TextureView
     }
 
 
+    //******************************************************************************************
+    //  初始化方法
+    //********************************************************************************************
+
     public RecordTextureView(Context context)
     {
         super(context);
@@ -80,7 +84,6 @@ public class RecordTextureView extends BaseCamera2TextureView
     //******************************************************************************************
     //  public 方法，供外部调用
     //********************************************************************************************
-
     public void startRecordVideo()
     {
         if (null == mCameraDevice || !isAvailable() || null == mPreviewSize)
@@ -103,7 +106,6 @@ public class RecordTextureView extends BaseCamera2TextureView
             e.printStackTrace();
         }
     }
-
 
     public void stopRecordVideo()
     {
@@ -143,10 +145,16 @@ public class RecordTextureView extends BaseCamera2TextureView
         createCameraPreviewSession();
     }
 
+    //点击事件的处理方法
+    public void setFlashMode(int flashMode) throws CameraAccessException
+    {
+        CaptureRequestFactory.setPreviewBuilderFlash(mPreviewRequestBuilder, flashMode);
+        updatePreview(mPreviewRequestBuilder.build(), null);
+    }
 
 
     //******************************************************************************************
-    //  private 方法，内部调用
+    //  内部调用
     //********************************************************************************************
 
     @Override
@@ -248,7 +256,6 @@ public class RecordTextureView extends BaseCamera2TextureView
         }
     }
 
-
     @Override
     public void createCameraPreviewSession()
     {
@@ -339,8 +346,6 @@ public class RecordTextureView extends BaseCamera2TextureView
         }
     };
 
-
-
     @Override
     public void closeCameraReal()
     {
@@ -365,15 +370,6 @@ public class RecordTextureView extends BaseCamera2TextureView
         {
             mCameraOpenCloseLock.release();
         }
-    }
-
-
-
-    //点击事件的处理方法
-    public void setFlashMode(int flashMode) throws CameraAccessException
-    {
-        CaptureRequestFactory.setPreviewBuilderFlash(mPreviewRequestBuilder, flashMode);
-        updatePreview(mPreviewRequestBuilder.build(), null);
     }
 
 

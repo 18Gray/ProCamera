@@ -302,7 +302,7 @@ public class Camera2Fragment extends BaseCameraFragment
                 cameraTextureView.switchCamera();
                 break;
 
-            case R.id.iv_hdr_camera:  //hdr设置
+            case R.id.iv_hdr_camera:  //HDR设置
                 if(rcv_effect.getVisibility() == View.VISIBLE)
                 {
                     rcv_effect.setVisibility(View.GONE);
@@ -324,7 +324,7 @@ public class Camera2Fragment extends BaseCameraFragment
                 modeSelectDialogFragment.show(getFragmentManager(), "mode");
                 break;
 
-            case R.id.iv_gpufilter_camera: //添加gpu滤镜
+            case R.id.iv_gpufilter_camera: //GPU滤镜
                 if(rcv_scene.getVisibility() == View.VISIBLE)
                 {
                     rcv_scene.setVisibility(View.GONE);
@@ -405,7 +405,7 @@ public class Camera2Fragment extends BaseCameraFragment
     }
 
 
-    //针对上面的聚焦，这四个是聚焦成功、失败等状态时显示的view
+    //聚焦的四种状态，对应的显示的View
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onShowFocus(TextureViewTouchEvent.FocusState focusState)
     {
@@ -452,7 +452,7 @@ public class Camera2Fragment extends BaseCameraFragment
 
 
     //EventBus--接收相机配置的参数
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN)  //闪光灯设置
     public void onFlashSelect(CameraConfigure.Flash flash) throws CameraAccessException
     {
         tv_mode_gpufileter.setVisibility(View.VISIBLE);
@@ -477,26 +477,26 @@ public class Camera2Fragment extends BaseCameraFragment
         cameraTextureView.setFlashMode(flash.getFlash());
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN) //HDR模式选择
     public void onSceneSelect(CameraConfigure.Scene scene) throws CameraAccessException
     {
         cameraTextureView.setSceneMode(scene.getScene());
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN) //GPU滤镜选择
     public void onEffectSelect(CameraConfigure.Effect effect) throws CameraAccessException
     {
         tv_mode_gpufileter.setText(effect.getEffect());
         cameraTextureView.setEffectMode(effect.getEffect());
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN) //拍摄比例调节
     public void onRatioSelect(CameraConfigure.Ratio ratio)
     {
         cameraTextureView.setRatioMode(ratio.getRatio());
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN) //延时拍摄
     public void onDelayTime(CameraConfigure.DelayTime delayTime)
     {
         switch (delayTime.getDelaytime())
@@ -519,16 +519,13 @@ public class Camera2Fragment extends BaseCameraFragment
         }
     }
 
-
-    //拍照完成后，拿到ImageReader做响应操作
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN) //拍照完成后，拿到ImageReader，然后做保存图片的操作
     public void onImageReaderAvailable(ImageAvailableEvent.ImageReaderAvailable imageReaderAvailable)
     {
         new Thread(new ImageSaver(imageReaderAvailable.getImageReader(), mFile)).start();
     }
 
-    //拍照完成后，拿到ImagePath显示图片，延时隐藏图片
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN) //拍照完成后，拿到ImagePath图片路径，然后做延时隐藏图片的操作
     public void onImagePathAvailable(ImageAvailableEvent.ImagePathAvailable imagePathAvailable)
     {
         Bitmap bitmap = ImageUtils.getBitmapFromPath(imagePathAvailable.getImagePath());
