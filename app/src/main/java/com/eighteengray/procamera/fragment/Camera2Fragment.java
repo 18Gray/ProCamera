@@ -51,10 +51,9 @@ import static com.eighteengray.procamera.R.id.iv_focus_camera;
 
 
 /**
- * 待完成功能：
- * 1.拍照相关：拍摄比例调节，九宫格，连拍，延时拍摄，手动调节焦距，对焦点和测光点分离，gpu滤镜，
- * 图片数字签名（位置、时间、版权），水平校准。
- * 2.处理相关：参考snapseed、vsco、prisma、拼图。
+ * 最简单使用相机的步骤：
+ * 1.在onResume中通过openCamera打开相机。
+ * 2.在click事件中点击时调用takePicture进行拍摄，图片路径就在mFile设置的变量中
  */
 public class Camera2Fragment extends BaseCameraFragment
 {
@@ -231,6 +230,41 @@ public class Camera2Fragment extends BaseCameraFragment
         });
     }
 
+    private void setSceneData()
+    {
+        sceneArrayList.add("DISABLED");
+        sceneArrayList.add("FACE_PRIORITY");
+        sceneArrayList.add("ACTION");
+        sceneArrayList.add("PORTRAIT");
+        sceneArrayList.add("LANDSCAPE");
+        sceneArrayList.add("NIGHT");
+        sceneArrayList.add("PORTRAIT");
+        sceneArrayList.add("THEATRE");
+        sceneArrayList.add("BEACH");
+        sceneArrayList.add("SNOW");
+        sceneArrayList.add("SUNSET");
+        sceneArrayList.add("STEADYPHOTO");
+        sceneArrayList.add("FIREWORKS");
+        sceneArrayList.add("SPORTS");
+        sceneArrayList.add("PARTY");
+        sceneArrayList.add("CANDLELIGHT");
+        sceneArrayList.add("BARCODE");
+        sceneRecyclerAdapter.setData(sceneArrayList);
+    }
+
+    private void setEffectData()
+    {
+        effectArrayList.add("AQUA");
+        effectArrayList.add("BLACKBOARD");
+        effectArrayList.add("MONO");
+        effectArrayList.add("NEGATIVE");
+        effectArrayList.add("POSTERIZE");
+        effectArrayList.add("SEPIA");
+        effectArrayList.add("SOLARIZE");
+        effectArrayList.add("WHITEBOARD");
+        effectArrayList.add("OFF");
+        effectRecyclerAdapter.setData(effectArrayList);
+    }
 
     @Override
     public void onPause()
@@ -241,7 +275,6 @@ public class Camera2Fragment extends BaseCameraFragment
         }
         super.onPause();
     }
-
 
     @Override
     public void onDestroy()
@@ -348,43 +381,6 @@ public class Camera2Fragment extends BaseCameraFragment
         }
     }
 
-
-    private void setSceneData()
-    {
-        sceneArrayList.add("DISABLED");
-        sceneArrayList.add("FACE_PRIORITY");
-        sceneArrayList.add("ACTION");
-        sceneArrayList.add("PORTRAIT");
-        sceneArrayList.add("LANDSCAPE");
-        sceneArrayList.add("NIGHT");
-        sceneArrayList.add("PORTRAIT");
-        sceneArrayList.add("THEATRE");
-        sceneArrayList.add("BEACH");
-        sceneArrayList.add("SNOW");
-        sceneArrayList.add("SUNSET");
-        sceneArrayList.add("STEADYPHOTO");
-        sceneArrayList.add("FIREWORKS");
-        sceneArrayList.add("SPORTS");
-        sceneArrayList.add("PARTY");
-        sceneArrayList.add("CANDLELIGHT");
-        sceneArrayList.add("BARCODE");
-        sceneRecyclerAdapter.setData(sceneArrayList);
-    }
-
-
-    private void setEffectData()
-    {
-        effectArrayList.add("AQUA");
-        effectArrayList.add("BLACKBOARD");
-        effectArrayList.add("MONO");
-        effectArrayList.add("NEGATIVE");
-        effectArrayList.add("POSTERIZE");
-        effectArrayList.add("SEPIA");
-        effectArrayList.add("SOLARIZE");
-        effectArrayList.add("WHITEBOARD");
-        effectArrayList.add("OFF");
-        effectRecyclerAdapter.setData(effectArrayList);
-    }
 
 
     //EventBus--TextureView触摸事件

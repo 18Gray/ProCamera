@@ -34,15 +34,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static android.R.attr.orientation;
-import static android.R.attr.width;
 
 
-/**
- * 扩展功能：
- * 1.测光点和聚焦点分离
- * 2.聚焦后，滑动屏幕，纵向滑动显示调节项目（awb/iso/ae），横向滑动调节大小
- */
+
 public class Camera2TextureView extends BaseCamera2TextureView
 {
     private int mState = STATE_PREVIEW;
@@ -55,7 +49,6 @@ public class Camera2TextureView extends BaseCamera2TextureView
     private CaptureRequest.Builder mPreviewRequestBuilder;
     private CaptureRequest.Builder mCaptureStillBuilder;
     private int mAfState = CameraMetadata.CONTROL_AF_STATE_INACTIVE;
-    private boolean isTrigger = false;
 
     public static final SparseIntArray ORIENTATIONS = new SparseIntArray();
     static
@@ -439,7 +432,6 @@ public class Camera2TextureView extends BaseCamera2TextureView
     //设置预览区域
     public void focusRegion(float x, float y) throws CameraAccessException
     {
-        isTrigger = false;
         try
         {
             mCameraCharacteristics = manager.getCameraCharacteristics(mCameraId);
