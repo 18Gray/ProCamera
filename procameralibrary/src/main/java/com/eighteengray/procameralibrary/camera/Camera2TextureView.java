@@ -477,8 +477,6 @@ public class Camera2TextureView extends BaseCamera2TextureView
         @Override
         public void onImageAvailable(ImageReader reader)
         {
-            //这里应该发EventBus，让View去处理，先开启线程保存，然后图像显示在界面上，在缩小动画到左边相册，相册显示图像。
-            // 上面执行完成后，会回调回来onCaptureCompleted。提示保存成功，并进入预览。
             ImageAvailableEvent.ImageReaderAvailable imageReaderAvailable = new ImageAvailableEvent.ImageReaderAvailable();
             imageReaderAvailable.setImageReader(reader);
             EventBus.getDefault().post(imageReaderAvailable);

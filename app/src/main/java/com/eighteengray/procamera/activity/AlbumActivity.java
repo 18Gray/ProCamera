@@ -3,7 +3,6 @@ package com.eighteengray.procamera.activity;
 import com.eighteengray.commonutillibrary.ImageUtils;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.ImageFolder;
-import com.eighteengray.procamera.bean.SaveImage;
 import com.eighteengray.procamera.component.DaggerAlbumComponent;
 import com.eighteengray.procamera.contract.IAlbumContract;
 import com.eighteengray.procamera.module.PresenterModule;
@@ -13,11 +12,9 @@ import com.eighteengray.procamera.widget.baserecycler.BaseRecyclerViewHolder;
 import com.eighteengray.procamera.widget.dialogfragment.ImageFoldersDialogFragment;
 import com.eighteengray.procameralibrary.common.Constants;
 import com.eighteengray.procameralibrary.dataevent.ImageFolderEvent;
-
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.ThumbnailUtils;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,7 +22,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;

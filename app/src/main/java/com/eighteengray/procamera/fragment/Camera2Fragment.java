@@ -47,7 +47,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.eighteengray.procamera.R.id.iv_focus_camera;
 
 
 /**
@@ -71,8 +70,8 @@ public class Camera2Fragment extends BaseCameraFragment
     //拍照
     @BindView(R.id.cameraTextureView)
     Camera2TextureView cameraTextureView;
-    @BindView(R.id.iv_imageavailable)
-    ImageView iv_imageavailable;
+    @BindView(R.id.iv_takepicture_done)
+    ImageView iv_takepicture_done;
     @BindView(R.id.seekbar_camera2)
     VerticalSeekBar seekbar_camera2;
     @BindView(R.id.focusview_camera2)
@@ -354,8 +353,8 @@ public class Camera2Fragment extends BaseCameraFragment
                 PopupWindowFactory.createRatioPopupWindow(getActivity()).showAtLocation(iv_ratio_camera, Gravity.BOTTOM, 0, rl_bottommenu.getHeight() + rl_middle_bottom_menu.getHeight());
                 break;
 
-            case R.id.iv_shutter_camera: //点击拍摄，执行拍摄操作（要结合已经点击的配置），存储图像，然后把图像显示到屏幕上。
-                                        // 然后图片通过动画下到相册按钮，相册按钮显示图片缩略图，然后主屏幕进入预览
+            case R.id.iv_shutter_camera: //点击拍摄，黑屏显示，执行拍摄操作。然后存储图像到指定路径，黑屏消失，相册处显示缩略图
+                showViewTakePicture();
                 cameraTextureView.takePicture();
                 break;
 
@@ -397,6 +396,7 @@ public class Camera2Fragment extends BaseCameraFragment
     @Subscribe(threadMode = ThreadMode.MAIN) //长按：进行测光点和对焦点锁定
     public void onTextureLongClick(TextureViewTouchEvent.TextureLongClick textureLongClick)
     {
+        showViewTakePicture();
         cameraTextureView.takePicture();
     }
 
@@ -527,20 +527,26 @@ public class Camera2Fragment extends BaseCameraFragment
         new Thread(new ImageSaver(imageReaderAvailable.getImageReader(), mFile)).start();
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN) //拍照完成后，拿到ImagePath图片路径，然后做延时隐藏图片的操作
+    @Subscribe(threadMode = ThreadMode.MAIN) //存储图像完成后，拿到ImagePath图片路径
     public void onImagePathAvailable(ImageAvailableEvent.ImagePathAvailable imagePathAvailable)
     {
         Bitmap bitmap = ImageUtils.getBitmapFromPath(imagePathAvailable.getImagePath());
-        final Bitmap thumbnail = ThumbnailUtils.extractThumbnail(bitmap, 60, 60);
-        iv_imageavailable.setImageResource(R.color.black_deep);
-        iv_imageavailable.setVisibility(View.VISIBLE);
+        if(bitmap != null)
+        {
+            final Bitmap thumbnail = ThumbnailUtils.extractThumbnail(bitmap, 60, 60);
+            iv_album_camera.setImageBitmap(thumbnail);
+        }
+    }
+
+    private void showViewTakePicture()
+    {
+        iv_takepicture_done.setVisibility(View.VISIBLE);
         handler.postDelayed(new Runnable()
         {
             @Override
             public void run()
             {
-                iv_imageavailable.setVisibility(View.GONE);
-                iv_album_camera.setImageBitmap(thumbnail);
+                iv_takepicture_done.setVisibility(View.GONE);
             }
         }, 200);
     }

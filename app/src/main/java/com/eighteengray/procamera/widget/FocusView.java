@@ -87,7 +87,7 @@ public class FocusView extends RelativeLayout
             @Override
             public void run()
             {
-                setVisibility(GONE);
+//                setVisibility(GONE);
                 textureViewTouchListener.isFocused = false;
             }
         }, 1000);

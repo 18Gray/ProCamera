@@ -159,19 +159,7 @@
             android:layout_centerHorizontal="true"
         />
 
-        <!--拍完后显示照片区域-->
-        <ImageView
-            android:id="@+id/iv_imageavailable"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="gone"
-        />
-
-
     </RelativeLayout>
-
-
 
 
     <!--Scene和Effect的RecyclerView-->
@@ -255,5 +243,15 @@
         style="@android:style/Widget.Holo.Light.SeekBar"
         android:thumb="@drawable/thumb_seekbar"
     />
+
+    <!--拍照时的遮挡区域-->
+    <ImageView
+        android:id="@+id/iv_takepicture_done"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/rl_middle_bottom_menu"
+        android:src="@color/primary_dark"
+        android:visibility="gone"
+        />
 
 </RelativeLayout>
