@@ -1,5 +1,6 @@
 # ProCamera
 ProCamera是一款基于Camera2 API的相机，实现了相机的常用功能，力求不断挖掘Camera2的巨大潜力，锻造一款在功能和设计上完美的相机产品。
+
 ProCamera is a Camera based on Camera2 API, and it implements some common functions about camera. It will excavate the potential of Camera2 API continuously, to forge an impressive product on function and design.
 
 ![camera2](https://github.com/18Gray/ProCamera/blob/master/screenshot/camera2.jpg)

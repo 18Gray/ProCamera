@@ -51,9 +51,11 @@ import static com.eighteengray.procamera.R.id.iv_focus_camera;
 
 
 /**
- * 最简单使用相机的步骤：
- * 1.在onResume中通过openCamera打开相机。
- * 2.在click事件中点击时调用takePicture进行拍摄，图片路径就在mFile设置的变量中
+ * 关于点击后聚焦和相应的视图变化：
+ * 点击TextureView后会触发TextureViewTouchListener，发送EventBus，Camera2Fragment接收该EventBus消息，在onTextureClick等四个函数中处理触摸事件。
+ * 例如就是onTextureClick这个单击事件，则调用cameraTextureView.focusRegion，然后会进入captureSessionCaptureCallback的checkState，然后judgeFocus。
+ * judgeFocus中会存在几种聚焦状态，根据不同的状态发送EventBus，Camera2Fragment接收该EventBus消息，在onShowFocus中处理不同聚焦状态应该显示的视图。
+ * 只有完成了上面聚焦和测光后，才能进行单指滑动。如果是向右下则进度环增加，否则减小，用于调节焦点白平衡。滑动后修改上面两个延时任务的标志位，似其不再执行。
  */
 public class Camera2Fragment extends BaseCameraFragment
 {

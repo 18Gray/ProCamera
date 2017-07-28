@@ -374,7 +374,7 @@ public class Camera2TextureView extends BaseCamera2TextureView
             Integer aeState = result.get(CaptureResult.CONTROL_AE_STATE);
             switch (mState)
             {
-                case STATE_PREVIEW:  //在preview中处理TextureView的触摸事件
+                case STATE_PREVIEW:  //对预览数据处理，根据afState即聚焦状态，如果为空、跟上次一样不做处理
                     if (afState == null)
                     {
                         Log.d("Camera2TextureView", "null");

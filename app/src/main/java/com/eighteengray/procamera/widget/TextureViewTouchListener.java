@@ -8,18 +8,10 @@ import org.greenrobot.eventbus.EventBus;
 
 
 
-
-//TextureView的触摸事件：
-// 轻按拍摄区域：做两个延时任务，第一个时间短，完成时发送点击event到fragment，fragment执行textureview的focusRegion，在其回调中调用judgeFocus。
-// 分成正在聚焦、聚焦成功、失败等方法，发送聚焦event到fragment，fragment根据聚焦状态显示不同图标。
-// 聚焦完成时，发送聚焦完成event给TouchListener，此时TouchListener才能触发滑动事件。
-
-// 第二个时间长，完成时显示长按事件，进行af/ae锁定。
-// 只有完成了上面聚焦和测光后，才能进行单指滑动。如果是向右下则进度环增加，否则减小，用于调节焦点白平衡。滑动后修改上面两个延时任务的标志位，似其不再执行。
 public class TextureViewTouchListener implements View.OnTouchListener
 {
     View parentView;
-    Runnable runnable_short, runnable_long;
+    Runnable runnable_short, runnable_long; //两个延时任务，第一个时间短，代表单击事件； 第二个时间长，代表长按事件
 
     public boolean isMoved = false;
     public boolean isFocused = false;
