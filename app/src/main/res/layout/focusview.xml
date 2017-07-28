@@ -7,20 +7,18 @@
 
     <ImageView
         android:id="@+id/iv_focus_camera"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:src="@mipmap/focusing"
     />
 
     <ImageView
         android:id="@+id/iv_arraw_awb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_toRightOf="@id/iv_focus_camera"
         android:layout_centerVertical="true"
         android:src="@mipmap/arrow_awb_white_24dp"
     />
 
-    
 </RelativeLayout>

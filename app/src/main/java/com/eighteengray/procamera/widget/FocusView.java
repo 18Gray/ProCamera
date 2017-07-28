@@ -60,7 +60,7 @@ public class FocusView extends RelativeLayout
         int height = getMeasuredHeight();
         if(width == 0)
         {
-            width = 264;
+            width = 168;
         }
         if(height == 0)
         {
