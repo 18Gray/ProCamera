@@ -504,11 +504,13 @@ public class Camera2TextureView extends BaseCamera2TextureView
     public void unlockFocus()
     {
         try {
-            CaptureRequestFactory.setPreviewBuilderUnlockfocus(mPreviewRequestBuilder);
-            mCaptureSession.capture(mPreviewRequestBuilder.build(), captureSessionCaptureCallback, mBackgroundHandler);
+            if(mCaptureSession != null && mPreviewRequestBuilder != null && captureSessionCaptureCallback != null && mBackgroundHandler != null){
+                CaptureRequestFactory.setPreviewBuilderUnlockfocus(mPreviewRequestBuilder);
+                mCaptureSession.capture(mPreviewRequestBuilder.build(), captureSessionCaptureCallback, mBackgroundHandler);
 
-            mState = STATE_PREVIEW;
-            mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), captureSessionCaptureCallback, mBackgroundHandler);
+                mState = STATE_PREVIEW;
+                mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), captureSessionCaptureCallback, mBackgroundHandler);
+            }
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }

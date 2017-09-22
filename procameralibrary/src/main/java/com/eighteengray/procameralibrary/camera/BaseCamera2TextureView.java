@@ -279,7 +279,9 @@ public abstract class BaseCamera2TextureView extends TextureView
     {
         try
         {
-            mCaptureSession.setRepeatingRequest(captureRequest, captureSessionCaptureCallback, mBackgroundHandler);
+            if(mCaptureSession != null && mBackgroundHandler != null){
+                mCaptureSession.setRepeatingRequest(captureRequest, captureSessionCaptureCallback, mBackgroundHandler);
+            }
         } catch (CameraAccessException e)
         {
             e.printStackTrace();
