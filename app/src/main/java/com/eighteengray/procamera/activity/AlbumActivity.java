@@ -18,6 +18,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -77,8 +78,8 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
     private void initView()
     {
         //图片表格
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(AlbumActivity.this, 3);
-        rcv_pics_album.setLayoutManager(gridLayoutManager);
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+        rcv_pics_album.setLayoutManager(staggeredGridLayoutManager);
         picsAdapter = new BaseRecyclerAdapter<String>(R.layout.grid_item_picture)
         {
             @Override
