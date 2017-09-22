@@ -9,8 +9,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
 
-
-public class PersonContentProvider extends ContentProvider
+/**
+ * 把处理过的图片信息存入数据库
+ */
+public class ImageProcessRecordProvider extends ContentProvider
 {
 	private DBOpenHelper dbOpenHelper;
 

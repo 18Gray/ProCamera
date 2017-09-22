@@ -36,4 +36,5 @@ public class AlbumPresenter implements IAlbumContract.IPresenter
             }
         });
     }
+
 }

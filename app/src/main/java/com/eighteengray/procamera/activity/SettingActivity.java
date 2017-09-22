@@ -11,6 +11,7 @@ import com.eighteengray.procamera.contract.ISettingContract;
  * 2.九宫格、平衡器、防手抖、静音、
  * 3.实时直方图
  * 4.签名，包括日期、位置、版权、字号、颜色
+ * 设置信息写入SP
  */
 public class SettingActivity extends Activity implements ISettingContract.IView
 {
@@ -18,6 +19,7 @@ public class SettingActivity extends Activity implements ISettingContract.IView
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
 
 
 
