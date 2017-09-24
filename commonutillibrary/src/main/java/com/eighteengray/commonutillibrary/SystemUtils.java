@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * 系统信息相关工具类
  */
-public class SystemTool
+public class SystemUtils
 {
     //应用相关
     /**
@@ -63,7 +63,7 @@ public class SystemTool
             version = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
         } catch (NameNotFoundException e)
         {
-            throw new RuntimeException(SystemTool.class.getName() + "the application not found");
+            throw new RuntimeException(SystemUtils.class.getName() + "the application not found");
         }
         return version;
     }
@@ -80,7 +80,7 @@ public class SystemTool
             version = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
         } catch (NameNotFoundException e)
         {
-            throw new RuntimeException(SystemTool.class.getName() + "the application not found");
+            throw new RuntimeException(SystemUtils.class.getName() + "the application not found");
         }
         return version;
     }
@@ -125,7 +125,7 @@ public class SystemTool
             return hexdigest(pis.signatures[0].toByteArray());
         } catch (NameNotFoundException e)
         {
-            throw new RuntimeException(SystemTool.class.getName() + "the "
+            throw new RuntimeException(SystemUtils.class.getName() + "the "
                     + pkgName + "'s application not found");
         }
     }

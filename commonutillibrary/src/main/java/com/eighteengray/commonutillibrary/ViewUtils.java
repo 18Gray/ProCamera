@@ -1,13 +1,21 @@
 package com.eighteengray.commonutillibrary;
 
+import android.app.Activity;
+import android.graphics.Color;
 import android.graphics.PointF;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.WindowInsetsCompat;
 import android.util.FloatMath;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,49 +97,5 @@ public class ViewUtils
         float midY = (event.getY(1) + event.getY(0)) / 2;
         return new PointF(midX, midY);
     }
-
-
-
-    //Fragment的工具
-    public static void addFragment(FragmentActivity activity, int containerViewId, Fragment fragment)
-    {
-        if (activity != null)
-        {
-            FragmentManager fm = activity.getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.add(containerViewId, fragment);
-            ft.commitAllowingStateLoss();
-        }
-    }
-
-
-    public static void removeFragment(FragmentActivity activity, Fragment fragment)
-    {
-        if(activity != null)
-        {
-            FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
-            ft.remove(fragment);
-            ft.commitAllowingStateLoss();
-        }
-    }
-
-
-    public static void showFragment(FragmentActivity activity, List<Fragment> fragments, Fragment fragment)
-    {
-        FragmentManager fm = activity.getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        for (Fragment itemFragment : fragments)
-        {
-            if (itemFragment == fragment)
-            {
-                ft.show(itemFragment);
-            } else
-            {
-                ft.hide(itemFragment);
-            }
-        }
-        ft.commitAllowingStateLoss();
-    }
-
 
 }
