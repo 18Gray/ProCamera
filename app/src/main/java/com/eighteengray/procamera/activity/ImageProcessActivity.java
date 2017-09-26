@@ -133,13 +133,20 @@ public class ImageProcessActivity extends BaseActivity
     public void onCreate(final Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_imageprocess);
+        setContentView(getLayoutResId());
         ButterKnife.bind(this);
         saveImage = new SaveImage();
         saveImage.saveImagePath = getIntent().getStringExtra("imagePath");
         initView();
         EventBus.getDefault().register(this);
     }
+
+    @Override
+    protected int getLayoutResId()
+    {
+        return R.layout.activity_imageprocess;
+    }
+
 
 
     private void initView()

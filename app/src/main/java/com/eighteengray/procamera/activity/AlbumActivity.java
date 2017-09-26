@@ -21,6 +21,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 import org.greenrobot.eventbus.EventBus;
@@ -68,11 +69,17 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_album);
+        setContentView(getLayoutResId());
         ButterKnife.bind(this);
         mContentResolver = getContentResolver();
         EventBus.getDefault().register(this);
         initView();
+    }
+
+    @Override
+    protected int getLayoutResId()
+    {
+        return R.layout.activity_album;
     }
 
     private void initView()
@@ -123,6 +130,7 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
+
 
     @OnClick({R.id.iv_back_album, R.id.tv_done_album, R.id.tv_select_album})
     public void click(View view)

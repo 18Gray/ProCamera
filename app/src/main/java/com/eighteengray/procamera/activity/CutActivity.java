@@ -65,7 +65,7 @@ public class CutActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.aty_cut);
+        setContentView(getLayoutResId());
         ButterKnife.bind(this);
 
         width = ScreenUtils.getScreenWidth(CutActivity.this);
@@ -73,6 +73,12 @@ public class CutActivity extends BaseActivity
         bitmap = ImageUtils.getBitmapFromPath(path);
         drawable = new BitmapDrawable(bitmap);
         mCropImage.setDrawable(drawable, width-100, width-100);
+    }
+
+    @Override
+    protected int getLayoutResId()
+    {
+        return R.layout.aty_cut;
     }
 
 

@@ -2,91 +2,53 @@ package com.eighteengray.procamera.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import com.eighteengray.procamera.R;
+import android.view.Window;
+import android.view.WindowManager;
+
+import com.eighteengray.procamera.widget.statusbar.StatusBarHelper;
+import com.eighteengray.procamera.widget.swipebacklayout.SwipeBackActivity;
+import com.eighteengray.procamera.widget.swipebacklayout.SwipeBackLayout;
 
 
-
-public class BaseActivity extends FragmentActivity
+/**
+ * BaseActivity
+ * 通用行为：顶部状态栏透明，左划finish
+ */
+public abstract class BaseActivity extends SwipeBackActivity
 {
-    private Toolbar mToolBar;
-    private LinearLayout mDectorView = null;//根布局
-    private FrameLayout mContentView = null;//activity内容布局
-    protected DrawerLayout mDrawerLayout;
-    protected ListView mDrawerList;
 
+    protected StatusBarHelper mStatusBarHelper;
+    private SwipeBackLayout mSwipeBackLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        if (mDectorView == null)
-        {
-            initView();
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(getLayoutResId());
+        if (mStatusBarHelper == null) {
+            mStatusBarHelper = new StatusBarHelper(this, StatusBarHelper.LEVEL_19_TRANSLUCENT,StatusBarHelper.LEVEL_21_VIEW);
         }
-        //如果已经创建就先把内容清空，再添加
-        if (mContentView != null)
-        {
-            mContentView.removeAllViews();//mContentview清空里面的view
-        }
-        initView();//初始化控件
+        mSwipeBackLayout = getSwipeBackLayout();
+        mSwipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
+        mSwipeBackLayout.addSwipeListener(new SwipeBackLayout.SwipeListener() {
+            @Override
+            public void onScrollStateChange(int state, float scrollPercent) {
+
+            }
+
+            @Override
+            public void onEdgeTouch(int edgeFlag) {
+
+            }
+
+            @Override
+            public void onScrollOverThreshold() {
+
+            }
+        });
     }
 
-    private void initView()
-    {
-        //生成DecorView
-        mDectorView = new LinearLayout(this);
-        mDectorView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
-        mDectorView.setOrientation(LinearLayout.VERTICAL);
-
-        //添加toolbar，把activity_toolbar的布局添加到mDectorView上
-        View view = getLayoutInflater().inflate(R.layout.activity_toolbar, mDectorView);
-        mToolBar = (Toolbar) view.findViewById(R.id.toolbar);
-        mToolBar.setTitleTextColor(Color.parseColor("#ff00ff"));
-        mToolBar.setNavigationIcon(R.mipmap.label_procamera);
-    }
-
-    @Override
-    public void setContentView(int layoutResID)
-    {
-        mDrawerLayout = (DrawerLayout) getLayoutInflater().inflate(R.layout.activity_base, null);
-        mContentView = (FrameLayout) mDrawerLayout.findViewById(R.id.content_frame);
-        // 将传入的layout加载到activity_base的content_frame里面
-        getLayoutInflater().inflate(layoutResID, mContentView, true);
-        super.setContentView(mDrawerLayout);
-
-        //生成drawer
-        /*planetTitles = getResources().getStringArray(R.array.planets_array);
-        drawerList = (ListView) findViewById(R.id.left_drawer);
-        drawerList.setAdapter(new ArrayAdapter<>(BaseActivity.this,
-                R.layout.list_item_drawer, planetTitles));*/
-
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                return true;
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     protected void onStart()
@@ -98,6 +60,8 @@ public class BaseActivity extends FragmentActivity
     protected void onResume()
     {
         super.onResume();
+        mStatusBarHelper.setActivityRootLayoutFitSystemWindows(true);
+        mStatusBarHelper.setColor(Color.TRANSPARENT);
     }
 
     @Override
@@ -124,5 +88,9 @@ public class BaseActivity extends FragmentActivity
     {
         super.onBackPressed();
     }
+
+
+
+    abstract protected int getLayoutResId();
 
 }
