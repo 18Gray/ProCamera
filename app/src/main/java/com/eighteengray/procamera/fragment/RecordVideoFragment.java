@@ -63,7 +63,7 @@ public class RecordVideoFragment extends BaseCameraFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        view = inflater.inflate(R.layout.fragment_recordvideo, container, false);
+        view = inflater.inflate(R.layout.fragment_recordvideo, null);
         ButterKnife.bind(this, view);
         EventBus.getDefault().register(this);
         return view;

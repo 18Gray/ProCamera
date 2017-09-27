@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navi_facebook"
+            android:icon="@mipmap/menu_white_24dp"
+            android:title="Facebook"/>
+        <item
+            android:id="@+id/navi_github"
+            android:icon="@mipmap/menu_white_24dp"
+            android:title="Github"/>
+        <item
+            android:id="@+id/navi_google"
+            android:icon="@mipmap/menu_white_24dp"
+            android:title="Google"/>
+        <item
+            android:id="@+id/navi_linkedin"
+            android:icon="@mipmap/menu_white_24dp"
+            android:title="LinkedIn"/>
+
+        <item
+            android:id="@+id/navi_pinterest"
+            android:icon="@mipmap/menu_white_24dp"
+            android:title="Pinterest"/>
+
+    </group>
+
+
+</menu>

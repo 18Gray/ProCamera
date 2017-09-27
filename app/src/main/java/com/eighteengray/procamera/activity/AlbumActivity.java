@@ -16,12 +16,10 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 import org.greenrobot.eventbus.EventBus;
@@ -44,11 +42,6 @@ import butterknife.OnClick;
  */
 public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
 {
-    @BindView(R.id.iv_back_album)
-    ImageView iv_back_album;
-    @BindView(R.id.tv_done_album)
-    TextView tv_done_album;
-
     @BindView(R.id.rcv_pics_album)
     RecyclerView rcv_pics_album;
     BaseRecyclerAdapter<String> picsAdapter;
@@ -112,7 +105,6 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
         tv_select_album.setText("所有图片");
     }
 
-
     @Override
     protected void onResume()
     {
@@ -132,19 +124,11 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
     }
 
 
-    @OnClick({R.id.iv_back_album, R.id.tv_done_album, R.id.tv_select_album})
+    @OnClick({R.id.tv_select_album})
     public void click(View view)
     {
         switch (view.getId())
         {
-            case R.id.iv_back_album:
-                finish();
-                break;
-
-            case R.id.tv_done_album:
-                finish();
-                break;
-
             case R.id.tv_select_album:
                 ImageFoldersDialogFragment imageFoldersDialogFragment = new ImageFoldersDialogFragment();
                 Bundle bundle = new Bundle();

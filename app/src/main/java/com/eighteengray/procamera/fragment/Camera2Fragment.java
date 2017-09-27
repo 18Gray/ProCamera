@@ -7,14 +7,18 @@ import android.media.ThumbnailUtils;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -24,7 +28,7 @@ import com.eighteengray.commonutillibrary.FileUtils;
 import com.eighteengray.commonutillibrary.ImageUtils;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.activity.AlbumActivity;
-import com.eighteengray.procamera.activity.SettingActivity;
+import com.eighteengray.procamera.activity.MineActivity;
 import com.eighteengray.procamera.business.ImageSaver;
 import com.eighteengray.procamera.widget.FocusView;
 import com.eighteengray.procamera.widget.TextureViewTouchListener;
@@ -58,7 +62,8 @@ import butterknife.OnClick;
  */
 public class Camera2Fragment extends BaseCameraFragment
 {
-    View view;
+    protected View view;
+
     //上部
     @BindView(R.id.iv_flash_camera)
     ImageView iv_flash_camera;
@@ -99,8 +104,6 @@ public class Camera2Fragment extends BaseCameraFragment
     ImageView iv_gpufilter_camera;
 
     //下部
-    @BindView(R.id.rl_bottommenu)
-    RelativeLayout rl_bottommenu;
     @BindView(R.id.iv_album_camera)
     ImageView iv_album_camera;
     @BindView(R.id.iv_ratio_camera)
@@ -111,8 +114,6 @@ public class Camera2Fragment extends BaseCameraFragment
     ImageView iv_delay_shutter;
     @BindView(R.id.tv_delay_second)
     TextView tv_delay_second;
-    @BindView(R.id.iv_setting_camera)
-    ImageView iv_setting_camera;
 
     Handler handler;  //用来更新UI的handler
     private boolean mFlagShowFocusImage = false; //聚焦图像是否显示的标志位
@@ -124,15 +125,63 @@ public class Camera2Fragment extends BaseCameraFragment
     boolean isEFFECTVisible = false;
     TextureViewTouchListener textureViewTouchListener;
 
+    protected Toolbar toolbar;
+    protected DrawerLayout drawerLayout;
+    protected NavigationView navigation;
+    public ActionBarDrawerToggle actionBarDrawerToggle;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        view = inflater.inflate(R.layout.fragment_camera2, container, false);
+        view = inflater.inflate(R.layout.fragment_camera2, null);
         ButterKnife.bind(this, view);
         EventBus.getDefault().register(this);
         handler = new Handler(Looper.getMainLooper());
         mFile = FileUtils.createSaveBitmapFile(getActivity());
+
+        toolbar = (Toolbar) view.findViewById(R.id.toolbar_camera2);
+        drawerLayout = (DrawerLayout) view.findViewById(R.id.drawerLayout_camera2);
+        navigation = (NavigationView) view.findViewById(R.id.navigation);
+
+        //绑定ToolBar和DrawerLayout
+        toolbar.setTitleTextColor(getResources().getColor(R.color.text));
+        toolbar.setSubtitleTextColor(getResources().getColor(R.color.text));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                drawerLayout.openDrawer(Gravity.LEFT);
+            }
+        });
+
+        navigation.setItemIconTintList(null);
+        View headerView = navigation.getHeaderView(0);
+        headerView.findViewById(R.id.iv_navigation_header).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(getActivity(), MineActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        navigation.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
+        {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem)
+            {
+                menuItem.setChecked(true);
+                drawerLayout.closeDrawers();
+                Toast.makeText(getContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+
+        actionBarDrawerToggle = new ActionBarDrawerToggle(getActivity(), drawerLayout, R.string.action_settings, R.string.app_name);
+        drawerLayout.setDrawerListener(actionBarDrawerToggle);
         return view;
     }
 
@@ -287,7 +336,7 @@ public class Camera2Fragment extends BaseCameraFragment
 
     @OnClick({R.id.iv_flash_camera, R.id.iv_switch_camera,
         R.id.iv_hdr_camera, R.id.tv_mode_select, R.id.iv_gpufilter_camera,
-        R.id.iv_album_camera, R.id.iv_ratio_camera, R.id.iv_shutter_camera, R.id.iv_delay_shutter, R.id.iv_setting_camera})
+        R.id.iv_album_camera, R.id.iv_ratio_camera, R.id.iv_shutter_camera, R.id.iv_delay_shutter})
     public void click(View view)
     {
         switch (view.getId())
@@ -350,7 +399,7 @@ public class Camera2Fragment extends BaseCameraFragment
             case R.id.iv_ratio_camera: //弹出比例修改对话框，修改拍摄比例
                 int[] location = new int[2];
                 iv_ratio_camera.getLocationOnScreen(location);
-                PopupWindowFactory.createRatioPopupWindow(getActivity()).showAtLocation(iv_ratio_camera, Gravity.BOTTOM, 0, rl_bottommenu.getHeight() + rl_middle_bottom_menu.getHeight());
+                PopupWindowFactory.createRatioPopupWindow(getActivity()).showAtLocation(iv_ratio_camera, Gravity.BOTTOM, 0, toolbar.getHeight() + rl_middle_bottom_menu.getHeight());
                 break;
 
             case R.id.iv_shutter_camera: //点击拍摄，黑屏显示，执行拍摄操作。然后存储图像到指定路径，黑屏消失，相册处显示缩略图
@@ -373,11 +422,6 @@ public class Camera2Fragment extends BaseCameraFragment
                 }
                 tv_delay_second.setText(delayTime + "");
                 cameraTextureView.setDalayTime(delayTime * 1000);
-                break;
-
-            case R.id.iv_setting_camera: //进入设置界面
-                Intent intent_setting = new Intent(getActivity(), SettingActivity.class);
-                startActivity(intent_setting);
                 break;
         }
     }

@@ -15,6 +15,39 @@
         <item name="shadow_bottom">@drawable/shadow_bottom</item>
     </style>
 
+    <style name="Theme.DesignDemo" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textSize">20sp</item>
+        <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
+        <item name="android:statusBarColor">@color/primary_dark</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+    </style>
+
+    <!--Toolbar右边三个点图像更换-->
+    <style name="OverFlow" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:src">@mipmap/album_white_24dp</item>
+    </style>
+
+    <!--添加DrawerToggle后修改左边按钮颜色-->
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@android:color/white</item>
+    </style>
+
+    <!--CollapsingToolbarLayout向上收缩的字体-->
+    <style name="CollapseTextApperance">
+        <item name="android:textColor">@color/accent</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">left|bottom</item>
+    </style>
+
+    <!--CollapsingToolbarLayout向下打开的字体-->
+    <style name="ExpandTextApperance">
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:gravity">left|center_vertical</item>
+    </style>
+
+
 
     <style  name="topMenu">
         <item name="android:layout_width">match_parent</item>

@@ -6,54 +6,17 @@
 >
 
     <!-- top -->
-    <RelativeLayout
-        android:id="@+id/rl_top_album"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_toolbar"
-        android:background="@color/black_middle">
-
-        <ImageView
-            android:id="@+id/iv_back_album"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:src="@mipmap/back_white_24dp"
+    <include
+        android:id="@+id/common_title"
+        layout="@layout/layout_common_title"
         />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="8dp"
-            android:layout_toRightOf="@+id/iv_back_album"
-            android:text="图片和视频"
-            android:textColor="#ffffff"
-            android:textSize="16sp"/>
-
-
-        <TextView
-            android:id="@+id/tv_done_album"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
-            android:background="@null"
-            android:gravity="center"
-            android:text="完成"
-            android:textColor="@color/text"
-            android:textSize="14sp"
-        />
-
-    </RelativeLayout>
 
 
     <!-- bottom -->
     <RelativeLayout
         android:id="@+id/rl_bottom_album"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_toolbar"
+        android:layout_height="@dimen/height_common_title"
         android:layout_alignParentBottom="true"
         android:background="@color/black_middle"
     >
@@ -86,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/rl_bottom_album"
-        android:layout_below="@id/rl_top_album"
+        android:layout_below="@id/common_title"
         android:background="@color/black_deep"
     />
 

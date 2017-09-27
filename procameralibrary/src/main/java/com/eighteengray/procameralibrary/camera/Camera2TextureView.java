@@ -463,8 +463,10 @@ public class Camera2TextureView extends BaseCamera2TextureView
     {
         try
         {
-            CaptureRequestFactory.setCaptureBuilderPrecapture(mCaptureStillBuilder);
-            mCaptureSession.capture(mCaptureStillBuilder.build(), captureSessionCaptureCallback, mBackgroundHandler);
+            if(mCaptureStillBuilder != null){
+                CaptureRequestFactory.setCaptureBuilderPrecapture(mCaptureStillBuilder);
+                mCaptureSession.capture(mCaptureStillBuilder.build(), captureSessionCaptureCallback, mBackgroundHandler);
+            }
         } catch (CameraAccessException e)
         {
             e.printStackTrace();

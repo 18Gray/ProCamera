@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/height_common_title"
+    android:background="@color/black_middle"
+     >
+
+    <Button
+        android:id="@+id/btn_back"
+        android:layout_width="@dimen/height_back_btn"
+        android:layout_height="@dimen/height_back_btn"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:background="@mipmap/back_white_24dp"
+        />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:maxLength="10"
+        android:text="Title"
+        android:textColor="#ffffff"
+        android:textSize="20dp"/>
+
+
+    <Button
+        android:id="@+id/btn_right"
+        android:layout_width="@dimen/height_back_btn"
+        android:layout_height="@dimen/height_back_btn"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:background="@mipmap/done_white_24dp"
+        android:visibility="gone"
+        />
+
+    <Button
+        android:id="@+id/btn_search"
+        android:layout_width="@dimen/height_back_btn"
+        android:layout_height="@dimen/height_back_btn"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/btn_right"
+        android:layout_marginRight="10dp"
+        android:background="@mipmap/search_white_24dp"
+        android:visibility="gone"
+        />
+
+
+</RelativeLayout>
