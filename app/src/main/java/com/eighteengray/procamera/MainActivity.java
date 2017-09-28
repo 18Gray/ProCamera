@@ -25,7 +25,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 
 
-public class MainActivity extends FragmentActivity
+public class MainActivity extends AppCompatActivity
 {
     Camera2Fragment camera2Fragment;
     RecordVideoFragment recordVideoFragment;

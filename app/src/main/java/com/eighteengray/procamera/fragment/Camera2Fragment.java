@@ -144,9 +144,12 @@ public class Camera2Fragment extends BaseCameraFragment
         drawerLayout = (DrawerLayout) view.findViewById(R.id.drawerLayout_camera2);
         navigation = (NavigationView) view.findViewById(R.id.navigation);
 
-        //绑定ToolBar和DrawerLayout
         toolbar.setTitleTextColor(getResources().getColor(R.color.text));
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.text));
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -180,8 +183,24 @@ public class Camera2Fragment extends BaseCameraFragment
             }
         });
 
-        actionBarDrawerToggle = new ActionBarDrawerToggle(getActivity(), drawerLayout, R.string.action_settings, R.string.app_name);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(getActivity(), drawerLayout, toolbar, R.string.action_settings, R.string.app_name) {
+            @Override
+            public void onDrawerOpened(View drawerView)
+            {
+                super.onDrawerOpened(drawerView);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView)
+            {
+                super.onDrawerClosed(drawerView);
+            }
+        };
+        actionBarDrawerToggle.syncState();
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
+
+        initView();
+
         return view;
     }
 
@@ -192,7 +211,6 @@ public class Camera2Fragment extends BaseCameraFragment
         cameraTextureView.openCamera();
         textureViewTouchListener = new TextureViewTouchListener(cameraTextureView);
         cameraTextureView.setOnTouchListener(textureViewTouchListener);
-        initView();
     }
 
 

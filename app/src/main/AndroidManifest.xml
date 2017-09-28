@@ -58,6 +58,8 @@
 
         <activity android:name=".activity.CutActivity"  />
 
+        <activity android:name=".activity.MineActivity"/>
+
     </application>
 
 </manifest>
