@@ -3,6 +3,9 @@ package com.eighteengray.procamera.fragment;
 import android.content.Intent;
 import android.hardware.camera2.CameraAccessException;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,8 +57,6 @@ public class RecordVideoFragment extends BaseCameraFragment
     ImageView iv_album_camera;
     @BindView(R.id.iv_shutter_camera)
     ImageView iv_shutter_camera;
-    @BindView(R.id.iv_setting_camera)
-    ImageView iv_setting_camera;
 
     private boolean isRecording = false;
 
@@ -66,6 +67,12 @@ public class RecordVideoFragment extends BaseCameraFragment
         view = inflater.inflate(R.layout.fragment_recordvideo, null);
         ButterKnife.bind(this, view);
         EventBus.getDefault().register(this);
+
+        toolbar = (Toolbar) view.findViewById(R.id.toolbar_record);
+        drawerLayout = (DrawerLayout) view.findViewById(R.id.drawerLayout_record);
+        navigation = (NavigationView) view.findViewById(R.id.navigation);
+        initToolDrawerNavi();
+
         return view;
     }
 
@@ -97,7 +104,7 @@ public class RecordVideoFragment extends BaseCameraFragment
 
     @OnClick({R.id.iv_flash_camera, R.id.iv_switch_camera,
             R.id.recordTextureView, R.id.tv_mode_select,
-            R.id.iv_album_camera, R.id.iv_shutter_camera, R.id.iv_setting_camera})
+            R.id.iv_album_camera, R.id.iv_shutter_camera})
     public void click(View view)
     {
         switch (view.getId())
@@ -136,11 +143,6 @@ public class RecordVideoFragment extends BaseCameraFragment
                     isRecording = false;
                     recordTextureView.stopRecordVideo();
                 }
-                break;
-
-            case R.id.iv_setting_camera:
-                Intent intent_setting = new Intent(getActivity(), SettingActivity.class);
-                startActivity(intent_setting);
                 break;
         }
     }
