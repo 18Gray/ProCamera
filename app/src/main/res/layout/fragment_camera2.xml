@@ -231,7 +231,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/rl_topmenu"
                 android:layout_above="@id/rl_middle_bottom_menu"
-                android:layout_margin="20dp"
+                android:layout_margin="30dp"
                 style="@android:style/Widget.Holo.Light.SeekBar"
                 android:thumb="@drawable/thumb_seekbar"
                 />

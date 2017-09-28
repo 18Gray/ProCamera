@@ -358,7 +358,7 @@ public class Camera2Fragment extends BaseCameraFragment
             case R.id.iv_ratio_camera: //弹出比例修改对话框，修改拍摄比例
                 int[] location = new int[2];
                 iv_ratio_camera.getLocationOnScreen(location);
-                PopupWindowFactory.createRatioPopupWindow(getActivity()).showAtLocation(iv_ratio_camera, Gravity.BOTTOM, 0, toolbar.getHeight() + rl_middle_bottom_menu.getHeight());
+                PopupWindowFactory.createRatioPopupWindow(getActivity()).showAtLocation(iv_ratio_camera, Gravity.BOTTOM, 0, toolbar.getMeasuredHeight() + 300);
                 break;
 
             case R.id.iv_shutter_camera: //点击拍摄，黑屏显示，执行拍摄操作。然后存储图像到指定路径，黑屏消失，相册处显示缩略图
