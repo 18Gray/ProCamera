@@ -3,53 +3,20 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black_middle"
+    android:background="@color/primary"
 >
 
-    <RelativeLayout
-        android:id="@+id/rl_topmenu_cut"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:background="@color/black_middle">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="裁剪图片"
-            android:textColor="@color/text"
-            android:textSize="16sp"
+    <!-- top -->
+    <include
+        android:id="@+id/common_title"
+        layout="@layout/layout_common_title"
         />
-
-
-        <ImageView
-            android:id="@+id/iv_finish_cut"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:src="@mipmap/back_white_24dp"/>
-
-        <Button
-            android:id="@+id/button_next_gallery"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:background="@mipmap/content_cut_white_24dp"
-        />
-
-    </RelativeLayout>
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/rl_topmenu_cut"
+        android:layout_below="@id/common_title"
     >
 
         <com.eighteengray.procamera.widget.CropImageView

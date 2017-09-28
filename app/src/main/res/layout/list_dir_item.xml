@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="所有图片"
-            android:textColor="@color/primary"
+            android:textColor="@color/primary_text"
             android:textSize="14sp"
         />
 
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:text="4723张"
-            android:textColor="@color/black_middle"
+            android:textColor="@color/primary_text"
             android:textSize="12sp"/>
 
     </LinearLayout>

@@ -60,6 +60,8 @@
 
         <activity android:name=".activity.MineActivity"/>
 
+        <activity android:name=".activity.BaseListViewCollapseActivity"/>
+
     </application>
 
 </manifest>

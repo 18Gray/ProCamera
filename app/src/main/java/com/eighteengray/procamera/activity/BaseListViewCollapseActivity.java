@@ -1,7 +1,6 @@
 package com.eighteengray.procamera.activity;
 
 
-import java.io.File;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -10,21 +9,22 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import com.eighteengray.commonutillibrary.DataConvertUtil;
+
 import com.eighteengray.commonutillibrary.FileUtils;
 import com.eighteengray.commonutillibrary.ImageUtils;
 import com.eighteengray.commonutillibrary.ScreenUtils;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.widget.CropImageView;
 import com.eighteengray.procameralibrary.common.Constants;
+
+import java.io.File;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class CutActivity extends BaseActivity
+public class BaseListViewCollapseActivity extends BaseActivity
 {
     @BindView(R.id.civ_cut)
     CropImageView mCropImage;
@@ -63,7 +63,7 @@ public class CutActivity extends BaseActivity
         setContentView(getLayoutResId());
         ButterKnife.bind(this);
 
-        width = ScreenUtils.getScreenWidth(CutActivity.this);
+        width = ScreenUtils.getScreenWidth(BaseListViewCollapseActivity.this);
         path = getIntent().getStringExtra(Constants.CROPIMAGEPATH);
         bitmap = ImageUtils.getBitmapFromPath(path);
         drawable = new BitmapDrawable(bitmap);
@@ -91,7 +91,7 @@ public class CutActivity extends BaseActivity
                     public void run()
                     {
                         Bitmap cutBitmap = mCropImage.getCropImage();
-                        File file = FileUtils.createCutBitmapFile(CutActivity.this);
+                        File file = FileUtils.createCutBitmapFile(BaseListViewCollapseActivity.this);
                         path = file.getAbsolutePath();
                         ImageUtils.saveBitmap(cutBitmap, file.getParent().toString(), file.getName().toString());
                         handler.sendEmptyMessage(Constants.CUTPIC);

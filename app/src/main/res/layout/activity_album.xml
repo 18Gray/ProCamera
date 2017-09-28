@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/black_middle"
+                android:background="@color/primary"
 >
 
     <!-- top -->
@@ -11,14 +11,13 @@
         layout="@layout/layout_common_title"
         />
 
-
     <!-- bottom -->
     <RelativeLayout
         android:id="@+id/rl_bottom_album"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_common_title"
         android:layout_alignParentBottom="true"
-        android:background="@color/black_middle"
+        android:background="@color/primary"
     >
 
         <TextView
@@ -50,7 +49,7 @@
         android:layout_height="match_parent"
         android:layout_above="@id/rl_bottom_album"
         android:layout_below="@id/common_title"
-        android:background="@color/black_deep"
+        android:background="@color/text"
     />
 
 </RelativeLayout>

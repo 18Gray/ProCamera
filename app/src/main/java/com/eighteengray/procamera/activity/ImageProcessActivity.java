@@ -49,13 +49,6 @@ import butterknife.OnClick;
 
 public class ImageProcessActivity extends BaseActivity
 {
-    //上部
-    @BindView(R.id.rl_topmenu_gallery)
-    RelativeLayout rl_topmenu_gallery;
-    @BindView(R.id.iv_finish_gallery)
-    ImageView iv_finish_gallery;
-    @BindView(R.id.button_next_gallery)
-    Button button_next_gallery;
 
     //下部
     @BindView(R.id.ll_bottommenu_film)
@@ -151,6 +144,8 @@ public class ImageProcessActivity extends BaseActivity
 
     private void initView()
     {
+        btn_right.setVisibility(View.VISIBLE);
+
         //滤镜
         filterAdapter = new BitmapFilterAdapter(ImageProcessActivity.this);
         gallery_filter_film.setAdapter(filterAdapter);
@@ -206,18 +201,13 @@ public class ImageProcessActivity extends BaseActivity
 
 
 
-    @OnClick({R.id.iv_finish_gallery, R.id.button_next_gallery,
-            R.id.rl_cut_film, R.id.rl_filter_film, R.id.rl_subtitle_film, R.id.rl_yinji_film, R.id.rl_duibidu_film,
+    @OnClick({R.id.rl_cut_film, R.id.rl_filter_film, R.id.rl_subtitle_film, R.id.rl_yinji_film, R.id.rl_duibidu_film,
             R.id.tv_subtitletext_film})
     public void click(View view)
     {
         switch (view.getId())
         {
-            case R.id.iv_finish_gallery:
-                finish();
-                break;
-
-            case R.id.button_next_gallery:
+            case R.id.btn_right:
                 saveResultImages(saveImage);
                 break;
 

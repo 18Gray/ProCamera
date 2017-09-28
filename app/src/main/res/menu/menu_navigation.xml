@@ -4,26 +4,18 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/navi_facebook"
-            android:icon="@mipmap/menu_white_24dp"
-            android:title="Facebook"/>
+            android:id="@+id/navi_album"
+            android:icon="@mipmap/album_black_24dp"
+            android:title="我的相册"/>
         <item
-            android:id="@+id/navi_github"
-            android:icon="@mipmap/menu_white_24dp"
-            android:title="Github"/>
-        <item
-            android:id="@+id/navi_google"
-            android:icon="@mipmap/menu_white_24dp"
-            android:title="Google"/>
-        <item
-            android:id="@+id/navi_linkedin"
-            android:icon="@mipmap/menu_white_24dp"
-            android:title="LinkedIn"/>
+            android:id="@+id/navi_cloudpics"
+            android:icon="@mipmap/pics_cloud_black_24dp"
+            android:title="云端相册"/>
 
         <item
-            android:id="@+id/navi_pinterest"
-            android:icon="@mipmap/menu_white_24dp"
-            android:title="Pinterest"/>
+            android:id="@+id/navi_settings"
+            android:icon="@mipmap/settings_black_24dp"
+            android:title="设置"/>
 
     </group>
 

@@ -1,43 +1,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black_deep"
+    android:background="@color/primary"
     >
 
     <!-- 顶部菜单 -->
-    <RelativeLayout 
-        android:id="@+id/rl_topmenu_gallery"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/black_deep"
-        android:layout_alignParentTop="true"
-        >
-
-        <ImageView
-            android:id="@+id/iv_finish_gallery"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/back_white_24dp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
-            android:layout_centerVertical="true"
-            />
-
-        <Button
-            android:id="@+id/button_next_gallery"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:background="@null"
-            android:text="保存"
-            android:textColor="@color/text"
-            android:textSize="16sp"
-             />
-
-    </RelativeLayout>
-    
+    <!-- top -->
+    <include
+        android:id="@+id/common_title"
+        layout="@layout/layout_common_title"
+        />
 
 
     <!-- 底部菜单 -->
@@ -46,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/black_deep"
+        android:background="@color/primary"
         android:orientation="horizontal"
         >
 
@@ -215,7 +187,8 @@
         android:layout_height="50dp"
         android:layout_above="@id/ll_bottommenu_film"
         android:orientation="horizontal"
-        android:background="@color/black_deep"
+        android:background="@color/primary"
+        android:visibility="gone"
         >
         
         <!-- 滤镜 -->
@@ -246,9 +219,9 @@
         android:id="@+id/fl_center_imageprocess"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/rl_topmenu_gallery"
+        android:layout_below="@id/common_title"
         android:layout_above="@id/ll_gallery_film"
-        android:background="@color/black_deep"
+        android:background="@color/text"
         >
 
         <com.eighteengray.procamera.widget.ProcessImageView

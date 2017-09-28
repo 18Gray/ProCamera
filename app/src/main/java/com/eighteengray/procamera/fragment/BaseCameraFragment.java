@@ -20,7 +20,10 @@ import android.widget.Toast;
 
 import com.eighteengray.procamera.MainActivity;
 import com.eighteengray.procamera.R;
+import com.eighteengray.procamera.activity.AlbumActivity;
+import com.eighteengray.procamera.activity.BaseListViewCollapseActivity;
 import com.eighteengray.procamera.activity.MineActivity;
+import com.eighteengray.procamera.activity.SettingActivity;
 
 
 public class BaseCameraFragment extends Fragment
@@ -90,7 +93,20 @@ public class BaseCameraFragment extends Fragment
             {
                 menuItem.setChecked(true);
                 drawerLayout.closeDrawers();
-                Toast.makeText(getContext(), menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                switch (menuItem.getItemId()){
+                    case R.id.navi_album:
+                        Intent intent1 = new Intent(getActivity(), AlbumActivity.class);
+                        startActivity(intent1);
+                        break;
+                    case R.id.navi_cloudpics:
+                        Intent intent2 = new Intent(getActivity(), BaseListViewCollapseActivity.class);
+                        startActivity(intent2);
+                        break;
+                    case R.id.navi_settings:
+                        Intent intent3 = new Intent(getActivity(), SettingActivity.class);
+                        startActivity(intent3);
+                        break;
+                }
                 return true;
             }
         });

@@ -12,7 +12,7 @@
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:src="@drawable/record"
+        android:src="@mipmap/label_procamera"
         />
 
     <TextView
@@ -22,7 +22,7 @@
         android:layout_below="@id/iv_navigation_header"
         android:layout_marginTop="15dp"
         android:layout_centerHorizontal="true"
-        android:text="RazerGene"
+        android:text="EighteenGray"
         android:textSize="20sp"
         android:textColor="@color/text"
         />
@@ -33,6 +33,7 @@
         android:layout_below="@id/tv_name_navigator_header"
         android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginLeft="40dp"
         android:layout_marginBottom="15dp"
         android:text="Daily Resources for Designers and Developers"
         android:textSize="14sp"
