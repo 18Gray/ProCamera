@@ -1,26 +1,19 @@
 package com.eighteengray.procamera.activity;
 
-import com.eighteengray.commonutillibrary.ImageUtils;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.ImageFolder;
+import com.eighteengray.procamera.card.baserecycler.BaseDataBean;
+import com.eighteengray.procamera.card.baserecycler.RecyclerLayout;
 import com.eighteengray.procamera.component.DaggerAlbumComponent;
 import com.eighteengray.procamera.contract.IAlbumContract;
 import com.eighteengray.procamera.module.PresenterModule;
 import com.eighteengray.procamera.presenter.AlbumPresenter;
-import com.eighteengray.procamera.widget.baserecycler.BaseRecyclerAdapter;
-import com.eighteengray.procamera.widget.baserecycler.BaseRecyclerViewHolder;
 import com.eighteengray.procamera.widget.dialogfragment.ImageFoldersDialogFragment;
 import com.eighteengray.procameralibrary.common.Constants;
 import com.eighteengray.procameralibrary.dataevent.ImageFolderEvent;
 import android.content.ContentResolver;
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ImageView;
 import android.widget.TextView;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -33,6 +26,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
+
 /**
  * 修改方案：
  * AlbumActivity作为View，实现IView方法。
@@ -42,10 +36,8 @@ import butterknife.OnClick;
  */
 public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
 {
-    @BindView(R.id.rcv_pics_album)
-    RecyclerView rcv_pics_album;
-    BaseRecyclerAdapter<String> picsAdapter;
-
+    @BindView(R.id.rl_pics_album)
+    RecyclerLayout rl_pics_album;
 
     @BindView(R.id.tv_select_album)
     TextView tv_select_album;
@@ -66,7 +58,6 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
         ButterKnife.bind(this);
         mContentResolver = getContentResolver();
         EventBus.getDefault().register(this);
-        initView();
     }
 
     @Override
@@ -75,44 +66,42 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
         return R.layout.activity_album;
     }
 
-    private void initView()
-    {
-        //图片表格
-        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
-        rcv_pics_album.setLayoutManager(staggeredGridLayoutManager);
-        picsAdapter = new BaseRecyclerAdapter<String>(R.layout.grid_item_picture)
-        {
-            @Override
-            public void setData2ViewR(BaseRecyclerViewHolder baseRecyclerViewHolder, final String item, int position)
-            {
-                Bitmap bitmap = ImageUtils.getBitmapFromPath(item, 400, 400);
-                ImageView imageView = baseRecyclerViewHolder.getViewById(R.id.iv_item_grid);
-                imageView.setImageBitmap(bitmap);
-
-                imageView.setOnClickListener(new OnClickListener()
-                {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        Intent intent = new Intent(AlbumActivity.this, ImageProcessActivity.class);
-                        intent.putExtra("imagePath", item);
-                        startActivity(intent);
-                    }
-                });
-            }
-        };
-        rcv_pics_album.setAdapter(picsAdapter);
-        tv_select_album.setText("所有图片");
-    }
 
     @Override
     protected void onResume()
     {
         super.onResume();
-
         DaggerAlbumComponent.builder().presenterModule(new PresenterModule(this)).build().inject(this);
         //获取数据
+        rl_pics_album.showLoadingView();
         albumPresenter.getAlbumData(AlbumActivity.this);
+
+        rl_pics_album.setRecyclerViewScroll(new RecyclerLayout.RecyclerViewScroll()
+        {
+            @Override
+            public void refreshData()
+            {
+                albumPresenter.getAlbumData(AlbumActivity.this);
+            }
+
+            @Override
+            public void getMoreData()
+            {
+                albumPresenter.getAlbumData(AlbumActivity.this);
+            }
+
+            @Override
+            public void upScroll()
+            {
+                
+            }
+
+            @Override
+            public void downScroll()
+            {
+
+            }
+        });
     }
 
 
@@ -145,10 +134,7 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
     public void onImageFolderSelected(ImageFolderEvent imageFolderEvent)
     {
         currentImageFolderNum = imageFolderEvent.getCurrentImageFolderNum();
-        if(imageFolderArrayList != null && imageFolderArrayList.size() > 0)
-        {
-            picsAdapter.setData(imageFolderArrayList.get(currentImageFolderNum).getImagePathList());
-        }
+        setAdapterData(imageFolderArrayList);
         tv_select_album.setText(imageFolderArrayList.get(currentImageFolderNum).getName());
     }
 
@@ -159,8 +145,19 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
         imageFolderArrayList = (ArrayList<ImageFolder>) imageFolders;
         if(imageFolderArrayList != null && imageFolderArrayList.size() > 0)
         {
-            picsAdapter.setData(imageFolderArrayList.get(currentImageFolderNum).getImagePathList());
+            List<String> imagePathList = imageFolderArrayList.get(currentImageFolderNum).getImagePathList();
+            rl_pics_album.showRecyclerView(generateDataBeanList(imagePathList));
         }
+    }
+
+    private List<BaseDataBean<String>> generateDataBeanList(List<String> imageFolderArrayList){
+        List<BaseDataBean<String>> list = new ArrayList<>();
+        int size = imageFolderArrayList.size();
+        for(int i = 0; i < size; i++){
+            BaseDataBean<String> baseDataBean = new BaseDataBean<>(1, imageFolderArrayList.get(i));
+            list.add(baseDataBean);
+        }
+        return list;
     }
 
 

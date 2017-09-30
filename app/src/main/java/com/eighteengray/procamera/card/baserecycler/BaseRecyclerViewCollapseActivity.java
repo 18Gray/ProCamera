@@ -1,4 +1,4 @@
-package com.eighteengray.procamera.activity;
+package com.eighteengray.procamera.card.baserecycler;
 
 
 import android.content.Intent;
@@ -14,6 +14,7 @@ import com.eighteengray.commonutillibrary.FileUtils;
 import com.eighteengray.commonutillibrary.ImageUtils;
 import com.eighteengray.commonutillibrary.ScreenUtils;
 import com.eighteengray.procamera.R;
+import com.eighteengray.procamera.activity.BaseActivity;
 import com.eighteengray.procamera.widget.CropImageView;
 import com.eighteengray.procameralibrary.common.Constants;
 
@@ -24,7 +25,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class BaseListViewCollapseActivity extends BaseActivity
+public class BaseRecyclerViewCollapseActivity extends BaseActivity
 {
     @BindView(R.id.civ_cut)
     CropImageView mCropImage;
@@ -63,7 +64,7 @@ public class BaseListViewCollapseActivity extends BaseActivity
         setContentView(getLayoutResId());
         ButterKnife.bind(this);
 
-        width = ScreenUtils.getScreenWidth(BaseListViewCollapseActivity.this);
+        width = ScreenUtils.getScreenWidth(BaseRecyclerViewCollapseActivity.this);
         path = getIntent().getStringExtra(Constants.CROPIMAGEPATH);
         bitmap = ImageUtils.getBitmapFromPath(path);
         drawable = new BitmapDrawable(bitmap);
@@ -91,7 +92,7 @@ public class BaseListViewCollapseActivity extends BaseActivity
                     public void run()
                     {
                         Bitmap cutBitmap = mCropImage.getCropImage();
-                        File file = FileUtils.createCutBitmapFile(BaseListViewCollapseActivity.this);
+                        File file = FileUtils.createCutBitmapFile(BaseRecyclerViewCollapseActivity.this);
                         path = file.getAbsolutePath();
                         ImageUtils.saveBitmap(cutBitmap, file.getParent().toString(), file.getName().toString());
                         handler.sendEmptyMessage(Constants.CUTPIC);

@@ -17,5 +17,10 @@
 
     <attr name="SwipeBackLayoutStyle" format="reference"/>
 
+
+    <declare-styleable name="RecyclerLayout">
+        <attr name="LayoutManagerNum" format="integer"/>
+    </declare-styleable>
+
     
 </resources>

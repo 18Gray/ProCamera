@@ -1,0 +1,48 @@
+package com.eighteengray.procamera.card.viewmodel;
+
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
+
+import com.eighteengray.procamera.R;
+import com.eighteengray.procamera.card.baserecycler.BaseRecyclerViewHolder;
+import com.eighteengray.procameralibrary.dataevent.CameraConfigure;
+import org.greenrobot.eventbus.EventBus;
+
+
+/**
+ * Created by lutao on 2017/3/24.
+ */
+public class ViewModel_Effect implements IViewModel<String>
+{
+
+
+    @Override
+    public View onCreateView(LayoutInflater layoutInflater)
+    {
+        return layoutInflater.inflate(R.layout.item_text_grid, null);
+    }
+
+    @Override
+    public void onBindView(Context context, RecyclerView.ViewHolder holder, final String data)
+    {
+        final BaseRecyclerViewHolder baseRecyclerViewHolder = (BaseRecyclerViewHolder) holder;
+        TextView textView = baseRecyclerViewHolder.getViewById(R.id.tv_item_textgrid);
+        textView.setText(data);
+
+        textView.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                CameraConfigure.Effect effect = new CameraConfigure.Effect();
+                effect.setEffect(data);
+                EventBus.getDefault().post(effect);
+            }
+        });
+    }
+
+
+}

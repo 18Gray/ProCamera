@@ -157,19 +157,21 @@
             </RelativeLayout>
 
             <!--Scene和Effect的RecyclerView-->
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rcv_scene"
+            <com.eighteengray.procamera.card.baserecycler.RecyclerLayout
+                android:id="@+id/rl_scene"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_alignBottom="@id/rl_camera_image"
+                app:LayoutManagerNum="2"
                 android:visibility="gone"
                 />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rcv_effect"
+            <com.eighteengray.procamera.card.baserecycler.RecyclerLayout
+                android:id="@+id/rl_effect"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_alignBottom="@id/rl_camera_image"
+                app:LayoutManagerNum="2"
                 android:visibility="gone"
                 />
 
@@ -185,9 +187,7 @@
             <RelativeLayout
                 android:id="@+id/rl_topmenu"
                 style="@style/topMenu"
-                android:layout_alignTop="@id/rl_camera_image"
                 android:orientation="horizontal"
-                android:layout_marginTop="10dp"
                 >
 
                 <!--GPU滤镜已选效果-->

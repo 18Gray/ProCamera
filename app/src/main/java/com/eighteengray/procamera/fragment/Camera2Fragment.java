@@ -9,32 +9,30 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import com.eighteengray.commonutillibrary.FileUtils;
 import com.eighteengray.commonutillibrary.ImageUtils;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.activity.AlbumActivity;
-import com.eighteengray.procamera.activity.MineActivity;
 import com.eighteengray.procamera.business.ImageSaver;
+import com.eighteengray.procamera.card.baserecycler.BaseDataBean;
+import com.eighteengray.procamera.card.baserecycler.RecyclerLayout;
 import com.eighteengray.procamera.widget.FocusView;
 import com.eighteengray.procamera.widget.TextureViewTouchListener;
 import com.eighteengray.procamera.widget.VerticalSeekBar;
-import com.eighteengray.procamera.widget.baserecycler.BaseRecyclerAdapter;
-import com.eighteengray.procamera.widget.baserecycler.BaseRecyclerViewHolder;
+import com.eighteengray.procamera.card.baserecycler.BaseRecyclerAdapter;
+import com.eighteengray.procamera.card.baserecycler.BaseRecyclerViewHolder;
 import com.eighteengray.procamera.widget.dialogfragment.ModeSelectDialogFragment;
 import com.eighteengray.procamera.widget.dialogfragment.PopupWindowFactory;
 import com.eighteengray.procameralibrary.camera.Camera2TextureView;
@@ -47,6 +45,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -83,14 +83,12 @@ public class Camera2Fragment extends BaseCameraFragment
     FocusView focusview_camera2;
 
     //Scene和Effect的RecyclerView
-    @BindView(R.id.rcv_scene)
-    RecyclerView rcv_scene;
-    BaseRecyclerAdapter<String> sceneRecyclerAdapter;
+    @BindView(R.id.rl_scene)
+    RecyclerLayout rl_scene;
     ArrayList<String> sceneArrayList = new ArrayList<>();
 
-    @BindView(R.id.rcv_effect)
-    RecyclerView rcv_effect;
-    BaseRecyclerAdapter<String> effectRecyclerAdapter;
+    @BindView(R.id.rl_effect)
+    RecyclerLayout rl_effect;
     ArrayList<String> effectArrayList = new ArrayList<>();
 
     //中下部
@@ -157,61 +155,8 @@ public class Camera2Fragment extends BaseCameraFragment
 
     private void initView()
     {
-        LinearLayoutManager sceneLayoutManager = new LinearLayoutManager(getActivity());
-        sceneLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        rcv_scene.setLayoutManager(sceneLayoutManager);
-        sceneRecyclerAdapter = new BaseRecyclerAdapter<String>(R.layout.item_text_grid)
-        {
-            @Override
-            public void setData2ViewR(BaseRecyclerViewHolder baseRecyclerViewHolder, final String item, int position)
-            {
-                TextView textView = baseRecyclerViewHolder.getViewById(R.id.tv_item_textgrid);
-                textView.setText(item);
-
-                textView.setOnClickListener(new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        CameraConfigure.Scene scene = new CameraConfigure.Scene();
-                        scene.setScene(item);
-                        EventBus.getDefault().post(scene);
-                        rcv_scene.setVisibility(View.GONE);
-                    }
-                });
-            }
-        };
-        rcv_scene.setAdapter(sceneRecyclerAdapter);
-        setSceneData();
-        sceneRecyclerAdapter.setData(sceneArrayList);
-
-        LinearLayoutManager effectLayoutManager = new LinearLayoutManager(getActivity());
-        effectLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        rcv_effect.setLayoutManager(effectLayoutManager);
-        effectRecyclerAdapter = new BaseRecyclerAdapter<String>(R.layout.item_text_grid)
-        {
-            @Override
-            public void setData2ViewR(BaseRecyclerViewHolder baseRecyclerViewHolder, final String item, int position)
-            {
-                TextView textView = baseRecyclerViewHolder.getViewById(R.id.tv_item_textgrid);
-                textView.setText(item);
-
-                textView.setOnClickListener(new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        CameraConfigure.Effect effect = new CameraConfigure.Effect();
-                        effect.setEffect(item);
-                        EventBus.getDefault().post(effect);
-                        rcv_effect.setVisibility(View.GONE);
-                    }
-                });
-            }
-        };
-        rcv_effect.setAdapter(effectRecyclerAdapter);
-        setEffectData();
-        effectRecyclerAdapter.setData(effectArrayList);
+        rl_scene.showRecyclerView(generateSceneData());
+        rl_effect.showRecyclerView(generateEffectData());
 
         seekbar_camera2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
         {
@@ -239,8 +184,10 @@ public class Camera2Fragment extends BaseCameraFragment
         });
     }
 
-    private void setSceneData()
+    private List<BaseDataBean<String>> generateSceneData()
     {
+        List<BaseDataBean<String>> list = new ArrayList<>();
+
         sceneArrayList.add("DISABLED");
         sceneArrayList.add("FACE_PRIORITY");
         sceneArrayList.add("ACTION");
@@ -258,11 +205,18 @@ public class Camera2Fragment extends BaseCameraFragment
         sceneArrayList.add("PARTY");
         sceneArrayList.add("CANDLELIGHT");
         sceneArrayList.add("BARCODE");
-        sceneRecyclerAdapter.setData(sceneArrayList);
+
+        for(int i=0;i < sceneArrayList.size();i++){
+            BaseDataBean<String> baseDataBean = new BaseDataBean<>(2, sceneArrayList.get(i));
+            list.add(baseDataBean);
+        }
+        return list;
     }
 
-    private void setEffectData()
+    private List<BaseDataBean<String>> generateEffectData()
     {
+        List<BaseDataBean<String>> list = new ArrayList<>();
+
         effectArrayList.add("AQUA");
         effectArrayList.add("BLACKBOARD");
         effectArrayList.add("MONO");
@@ -272,7 +226,12 @@ public class Camera2Fragment extends BaseCameraFragment
         effectArrayList.add("SOLARIZE");
         effectArrayList.add("WHITEBOARD");
         effectArrayList.add("OFF");
-        effectRecyclerAdapter.setData(effectArrayList);
+
+        for(int i=0;i < effectArrayList.size();i++){
+            BaseDataBean<String> baseDataBean = new BaseDataBean<>(3, effectArrayList.get(i));
+            list.add(baseDataBean);
+        }
+        return list;
     }
 
     @Override
@@ -304,7 +263,7 @@ public class Camera2Fragment extends BaseCameraFragment
                 tv_mode_gpufileter.setVisibility(View.GONE);
                 int[] location1 = new int[2];
                 iv_flash_camera.getLocationOnScreen(location1);
-                PopupWindowFactory.createFlashPopupWindow(getActivity()).showAtLocation(iv_flash_camera, Gravity.NO_GRAVITY, location1[0]+iv_flash_camera.getWidth(), location1[1]-iv_flash_camera.getHeight());
+                PopupWindowFactory.createFlashPopupWindow(getActivity()).showAtLocation(iv_flash_camera, Gravity.LEFT|Gravity.TOP, location1[0]+iv_flash_camera.getWidth(), location1[1]-iv_flash_camera.getHeight() + 60);
                 break;
 
             case R.id.iv_switch_camera: //切换摄像头
@@ -312,18 +271,18 @@ public class Camera2Fragment extends BaseCameraFragment
                 break;
 
             case R.id.iv_hdr_camera:  //HDR设置
-                if(rcv_effect.getVisibility() == View.VISIBLE)
+                if(rl_effect.getVisibility() == View.VISIBLE)
                 {
-                    rcv_effect.setVisibility(View.GONE);
+                    rl_effect.setVisibility(View.GONE);
                 }
                 if(!isHDRVisible)
                 {
-                    rcv_scene.setVisibility(View.VISIBLE);
+                    rl_scene.setVisibility(View.VISIBLE);
                     isHDRVisible = true;
                 }
                 else
                 {
-                    rcv_scene.setVisibility(View.GONE);
+                    rl_scene.setVisibility(View.GONE);
                     isHDRVisible = false;
                 }
                 break;
@@ -334,18 +293,18 @@ public class Camera2Fragment extends BaseCameraFragment
                 break;
 
             case R.id.iv_gpufilter_camera: //GPU滤镜
-                if(rcv_scene.getVisibility() == View.VISIBLE)
+                if(rl_scene.getVisibility() == View.VISIBLE)
                 {
-                    rcv_scene.setVisibility(View.GONE);
+                    rl_scene.setVisibility(View.GONE);
                 }
                 if(!isEFFECTVisible)
                 {
-                    rcv_effect.setVisibility(View.VISIBLE);
+                    rl_effect.setVisibility(View.VISIBLE);
                     isEFFECTVisible = true;
                 }
                 else
                 {
-                    rcv_effect.setVisibility(View.GONE);
+                    rl_effect.setVisibility(View.GONE);
                     isEFFECTVisible = false;
                 }
                 break;
@@ -358,7 +317,7 @@ public class Camera2Fragment extends BaseCameraFragment
             case R.id.iv_ratio_camera: //弹出比例修改对话框，修改拍摄比例
                 int[] location = new int[2];
                 iv_ratio_camera.getLocationOnScreen(location);
-                PopupWindowFactory.createRatioPopupWindow(getActivity()).showAtLocation(iv_ratio_camera, Gravity.BOTTOM, 0, toolbar.getMeasuredHeight() + 300);
+                PopupWindowFactory.createRatioPopupWindow(getActivity()).showAtLocation(iv_ratio_camera, Gravity.BOTTOM, 0, toolbar.getMeasuredHeight() + 350);
                 break;
 
             case R.id.iv_shutter_camera: //点击拍摄，黑屏显示，执行拍摄操作。然后存储图像到指定路径，黑屏消失，相册处显示缩略图
@@ -480,19 +439,24 @@ public class Camera2Fragment extends BaseCameraFragment
                 break;
         }
         cameraTextureView.setFlashMode(flash.getFlash());
+        tv_mode_gpufileter.setVisibility(View.VISIBLE);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN) //HDR模式选择
     public void onSceneSelect(CameraConfigure.Scene scene) throws CameraAccessException
     {
         cameraTextureView.setSceneMode(scene.getScene());
+        rl_scene.setVisibility(View.GONE);
+        isHDRVisible = false;
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN) //GPU滤镜选择
     public void onEffectSelect(CameraConfigure.Effect effect) throws CameraAccessException
     {
-        tv_mode_gpufileter.setText(effect.getEffect());
         cameraTextureView.setEffectMode(effect.getEffect());
+        tv_mode_gpufileter.setText(effect.getEffect());
+        rl_effect.setVisibility(View.GONE);
+        isEFFECTVisible = false;
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN) //拍摄比例调节

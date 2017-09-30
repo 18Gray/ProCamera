@@ -60,7 +60,7 @@
 
         <activity android:name=".activity.MineActivity"/>
 
-        <activity android:name=".activity.BaseListViewCollapseActivity"/>
+        <activity android:name=".card.baserecycler.BaseRecyclerViewCollapseActivity"/>
 
     </application>
 

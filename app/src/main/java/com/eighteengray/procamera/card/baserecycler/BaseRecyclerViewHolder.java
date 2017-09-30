@@ -1,8 +1,9 @@
-package com.eighteengray.procamera.widget.baserecycler;
+package com.eighteengray.procamera.card.baserecycler;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.View;
+import android.view.ViewGroup;
 
 
 public class BaseRecyclerViewHolder extends RecyclerView.ViewHolder
@@ -30,13 +31,6 @@ public class BaseRecyclerViewHolder extends RecyclerView.ViewHolder
             mViews.put(viewId, view);
         }
         return (T) view;
-    }
-
-
-    //返回convertView
-    public View getConvertView()
-    {
-        return itemView;
     }
 
 

@@ -19,15 +19,12 @@ import android.widget.TextView;
 import com.eighteengray.commonutillibrary.ImageUtils;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.ImageFolder;
-import com.eighteengray.procamera.widget.baserecycler.BaseRecyclerAdapter;
-import com.eighteengray.procamera.widget.baserecycler.BaseRecyclerViewHolder;
+import com.eighteengray.procamera.card.baserecycler.BaseRecyclerAdapter;
+import com.eighteengray.procamera.card.baserecycler.BaseRecyclerViewHolder;
 import com.eighteengray.procameralibrary.common.Constants;
 import com.eighteengray.procameralibrary.dataevent.ImageFolderEvent;
-
 import org.greenrobot.eventbus.EventBus;
-
 import java.util.ArrayList;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -55,7 +52,6 @@ public class ImageFoldersDialogFragment extends DialogFragment
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-
         //全屏显示
         Window window = getDialog().getWindow();
         view = inflater.inflate(R.layout.dialogfragment_imagefolders, null);
@@ -70,7 +66,7 @@ public class ImageFoldersDialogFragment extends DialogFragment
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         rcv_imagefolders_dialogfragment.setLayoutManager(linearLayoutManager);
-        imageFoldersAdapter = new BaseRecyclerAdapter<ImageFolder>(R.layout.list_dir_item)
+       /* imageFoldersAdapter = new BaseRecyclerAdapter<ImageFolder>(R.layout.list_dir_item)
         {
             @Override
             public void setData2ViewR(BaseRecyclerViewHolder baseRecyclerViewHolder, final ImageFolder item, final int position)
@@ -103,7 +99,7 @@ public class ImageFoldersDialogFragment extends DialogFragment
             }
         };
         rcv_imagefolders_dialogfragment.setAdapter(imageFoldersAdapter);
-        imageFoldersAdapter.setData(imageFolderArrayList);
+        imageFoldersAdapter.setData(imageFolderArrayList);*/
 
         return view;
     }

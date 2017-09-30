@@ -21,9 +21,9 @@ import android.widget.Toast;
 import com.eighteengray.procamera.MainActivity;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.activity.AlbumActivity;
-import com.eighteengray.procamera.activity.BaseListViewCollapseActivity;
 import com.eighteengray.procamera.activity.MineActivity;
 import com.eighteengray.procamera.activity.SettingActivity;
+import com.eighteengray.procamera.card.baserecycler.BaseRecyclerViewCollapseActivity;
 
 
 public class BaseCameraFragment extends Fragment
@@ -99,7 +99,7 @@ public class BaseCameraFragment extends Fragment
                         startActivity(intent1);
                         break;
                     case R.id.navi_cloudpics:
-                        Intent intent2 = new Intent(getActivity(), BaseListViewCollapseActivity.class);
+                        Intent intent2 = new Intent(getActivity(), SettingActivity.class);
                         startActivity(intent2);
                         break;
                     case R.id.navi_settings:
