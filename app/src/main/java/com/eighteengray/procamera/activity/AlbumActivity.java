@@ -2,7 +2,7 @@ package com.eighteengray.procamera.activity;
 
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.ImageFolder;
-import com.eighteengray.procamera.card.baserecycler.BaseDataBean;
+import com.eighteengray.procamera.business.GenerateDataUtils;
 import com.eighteengray.procamera.card.baserecycler.RecyclerLayout;
 import com.eighteengray.procamera.component.DaggerAlbumComponent;
 import com.eighteengray.procamera.contract.IAlbumContract;
@@ -43,8 +43,9 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
     TextView tv_select_album;
 
     private ContentResolver mContentResolver;
-    private int currentImageFolderNum = 1;
     private ArrayList<ImageFolder> imageFolderArrayList = new ArrayList<>();
+
+    ImageFoldersDialogFragment imageFoldersDialogFragment;
 
     @Inject
     AlbumPresenter albumPresenter;
@@ -56,16 +57,16 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResId());
         ButterKnife.bind(this);
+        initCommonTitle();
         mContentResolver = getContentResolver();
         EventBus.getDefault().register(this);
     }
 
     @Override
-    protected int getLayoutResId()
+    public int getLayoutResId()
     {
         return R.layout.activity_album;
     }
-
 
     @Override
     protected void onResume()
@@ -93,7 +94,7 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
             @Override
             public void upScroll()
             {
-                
+
             }
 
             @Override
@@ -119,10 +120,9 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
         switch (view.getId())
         {
             case R.id.tv_select_album:
-                ImageFoldersDialogFragment imageFoldersDialogFragment = new ImageFoldersDialogFragment();
+                imageFoldersDialogFragment = new ImageFoldersDialogFragment();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Constants.IMAGEFOLDERS, imageFolderArrayList);
-                bundle.putInt(Constants.CURRENTFOLDERNUM, currentImageFolderNum);
                 imageFoldersDialogFragment.setArguments(bundle);
                 imageFoldersDialogFragment.show(getSupportFragmentManager(), "");
                 break;
@@ -133,32 +133,36 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onImageFolderSelected(ImageFolderEvent imageFolderEvent)
     {
-        currentImageFolderNum = imageFolderEvent.getCurrentImageFolderNum();
-        setAdapterData(imageFolderArrayList);
+        int currentImageFolderNum = imageFolderEvent.getCurrentImageFolderNum();
+        updateImageFolderList(imageFolderArrayList, currentImageFolderNum);
+        setAdapterData(imageFolderArrayList, currentImageFolderNum);
         tv_select_album.setText(imageFolderArrayList.get(currentImageFolderNum).getName());
+        if(imageFoldersDialogFragment != null){
+            imageFoldersDialogFragment.dismiss();
+        }
     }
 
 
     @Override
-    public void setAdapterData(List<ImageFolder> imageFolders)
+    public void setAdapterData(List<ImageFolder> imageFolders, int currentImageFolderNum)
     {
         imageFolderArrayList = (ArrayList<ImageFolder>) imageFolders;
         if(imageFolderArrayList != null && imageFolderArrayList.size() > 0)
         {
             List<String> imagePathList = imageFolderArrayList.get(currentImageFolderNum).getImagePathList();
-            rl_pics_album.showRecyclerView(generateDataBeanList(imagePathList));
+            rl_pics_album.showRecyclerView(GenerateDataUtils.generateDataBeanList(1, imagePathList));
         }
     }
 
-    private List<BaseDataBean<String>> generateDataBeanList(List<String> imageFolderArrayList){
-        List<BaseDataBean<String>> list = new ArrayList<>();
-        int size = imageFolderArrayList.size();
-        for(int i = 0; i < size; i++){
-            BaseDataBean<String> baseDataBean = new BaseDataBean<>(1, imageFolderArrayList.get(i));
-            list.add(baseDataBean);
+    private void updateImageFolderList(List<ImageFolder> imageFolders, int currentImageFolderNum){
+        for(int i = 0; i < imageFolders.size(); i++){
+            if(i == currentImageFolderNum){
+                imageFolders.get(i).setSelected(true);
+            }
+            else {
+                imageFolders.get(i).setSelected(false);
+            }
         }
-        return list;
     }
-
 
 }

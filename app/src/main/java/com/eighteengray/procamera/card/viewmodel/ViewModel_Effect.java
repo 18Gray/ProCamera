@@ -26,7 +26,7 @@ public class ViewModel_Effect implements IViewModel<String>
     }
 
     @Override
-    public void onBindView(Context context, RecyclerView.ViewHolder holder, final String data)
+    public void onBindView(Context context, RecyclerView.ViewHolder holder, final String data, int position)
     {
         final BaseRecyclerViewHolder baseRecyclerViewHolder = (BaseRecyclerViewHolder) holder;
         TextView textView = baseRecyclerViewHolder.getViewById(R.id.tv_item_textgrid);

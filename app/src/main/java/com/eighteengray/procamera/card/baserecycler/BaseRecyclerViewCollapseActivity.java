@@ -74,7 +74,7 @@ public class BaseRecyclerViewCollapseActivity extends BaseActivity
     }
 
     @Override
-    protected int getLayoutResId()
+    public int getLayoutResId()
     {
         return R.layout.aty_cut;
     }

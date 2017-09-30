@@ -27,7 +27,7 @@ public class ViewModel_Album implements IViewModel<String>
     }
 
     @Override
-    public void onBindView(final Context context, RecyclerView.ViewHolder holder, final String data)
+    public void onBindView(final Context context, RecyclerView.ViewHolder holder, final String data, int position)
     {
         BaseRecyclerViewHolder baseRecyclerViewHolder = (BaseRecyclerViewHolder) holder;
         Bitmap bitmap = ImageUtils.getBitmapFromPath(data, 400, 400);

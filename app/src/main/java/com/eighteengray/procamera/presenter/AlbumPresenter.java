@@ -27,13 +27,12 @@ public class AlbumPresenter implements IAlbumContract.IPresenter
     @Override
     public void getAlbumData(Context context)
     {
-
         AlbumBusiness.getImageFolder(context.getContentResolver()).subscribe(new Action1<List<ImageFolder>>()
         {
             @Override
             public void call(List<ImageFolder> imageFolders)
             {
-                iView.setAdapterData(imageFolders);
+                iView.setAdapterData(imageFolders, 1);
             }
         });
     }

@@ -29,6 +29,8 @@ public class ImageFolder implements Serializable
      */
     public List<String> imagePathList = new ArrayList<String>();
 
+    public boolean isSelected;
+
 
     public String getFolderDir()
     {
@@ -74,5 +76,13 @@ public class ImageFolder implements Serializable
         this.imagePathList = imagePathList;
     }
 
+    public boolean isSelected()
+    {
+        return isSelected;
+    }
 
+    public void setSelected(boolean selected)
+    {
+        isSelected = selected;
+    }
 }

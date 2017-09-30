@@ -33,7 +33,6 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
         android:background="@mipmap/done_white_24dp"
-        android:visibility="gone"
         />
 
     <Button
@@ -41,10 +40,9 @@
         android:layout_width="@dimen/height_back_btn"
         android:layout_height="@dimen/height_back_btn"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@id/btn_right"
-        android:layout_marginRight="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="50dp"
         android:background="@mipmap/search_white_24dp"
-        android:visibility="gone"
         />
 
 

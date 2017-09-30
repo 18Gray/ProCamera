@@ -7,6 +7,8 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.widget.statusbar.StatusBarHelper;
 import com.eighteengray.procamera.widget.swipebacklayout.SwipeBackActivity;
@@ -20,17 +22,12 @@ import butterknife.OnClick;
  * BaseActivity
  * 通用行为：顶部状态栏透明，左划finish
  */
-public class BaseActivity extends SwipeBackActivity
+public abstract class BaseActivity extends SwipeBackActivity
 {
-    @BindView(R.id.common_title)
     protected RelativeLayout common_title;
-    @BindView(R.id.btn_back)
     protected Button btn_back;
-    @BindView(R.id.tv_title)
     protected TextView tv_title;
-    @BindView(R.id.btn_search)
     protected Button btn_search;
-    @BindView(R.id.btn_right)
     protected Button btn_right;
 
     protected StatusBarHelper mStatusBarHelper;
@@ -43,8 +40,7 @@ public class BaseActivity extends SwipeBackActivity
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(getLayoutResId());
-        ButterKnife.bind(this);
-
+        initCommonTitle();
         mSwipeBackLayout = getSwipeBackLayout();
         mSwipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
         mSwipeBackLayout.addSwipeListener(new SwipeBackLayout.SwipeListener() {
@@ -68,7 +64,6 @@ public class BaseActivity extends SwipeBackActivity
     protected int getLayoutResId(){
         return R.layout.activity_base;
     }
-
 
     @Override
     protected void onStart()
@@ -112,22 +107,32 @@ public class BaseActivity extends SwipeBackActivity
         super.onBackPressed();
     }
 
+    protected void initCommonTitle(){
+        common_title = (RelativeLayout) findViewById(R.id.common_title);
+        btn_back = (Button) findViewById(R.id.btn_back);
+        tv_title = (TextView) findViewById(R.id.tv_title);
+        btn_search = (Button) findViewById(R.id.btn_search);
+        btn_right = (Button) findViewById(R.id.btn_right);
 
-    @OnClick({R.id.btn_back, R.id.btn_search, R.id.btn_right})
-    public void click(View view)
-    {
-        switch (view.getId())
+        btn_back.setOnClickListener(new View.OnClickListener()
         {
-            case R.id.btn_back:
+            @Override
+            public void onClick(View view)
+            {
                 finish();
-                break;
+            }
+        });
 
-            case R.id.btn_search:
-                break;
+        btn_search.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Toast.makeText(BaseActivity.this, "跳转SearchActivity", Toast.LENGTH_SHORT).show();
+            }
+        });
 
-            case R.id.btn_right:
-                break;
-        }
+        btn_right.setVisibility(View.GONE);
     }
 
 }

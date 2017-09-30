@@ -13,7 +13,7 @@ import android.view.View;
 public interface IViewModel<T>
 {
     public View onCreateView(LayoutInflater layoutInflater);
-    public void onBindView(Context context, RecyclerView.ViewHolder holder, T data);
+    public void onBindView(Context context, RecyclerView.ViewHolder holder, T data, int position);
 }
 
 

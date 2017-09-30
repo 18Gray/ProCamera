@@ -58,6 +58,7 @@ public class AlbumBusiness
                                             imageFolder = new ImageFolder();
                                             imageFolder.setFolderDir(dirPath);
                                             imageFolder.setFirstImagePath(path);
+                                            imageFolder.setSelected(false);
                                             imageFolderList.add(imageFolder);
                                             tmpDir.put(dirPath, imageFolderList.indexOf(imageFolder));
                                         } else

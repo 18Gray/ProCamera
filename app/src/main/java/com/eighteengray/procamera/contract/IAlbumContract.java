@@ -11,7 +11,7 @@ public interface IAlbumContract
 {
     public interface IView
     {
-        public void setAdapterData(List<ImageFolder> imageFolders);
+        public void setAdapterData(List<ImageFolder> imageFolders, int currentImageFolderNum);
     }
 
     public interface IPresenter

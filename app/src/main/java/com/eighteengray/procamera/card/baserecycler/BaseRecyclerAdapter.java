@@ -59,7 +59,7 @@ public class BaseRecyclerAdapter<T> extends RecyclerView.Adapter
         IViewModel viewModel = ViewModelFactory.viewModelFactory(getItemViewType(position));
 
         //绑定View
-        viewModel.onBindView(context, holder, data);
+        viewModel.onBindView(context, holder, data, position);
     }
 
 
