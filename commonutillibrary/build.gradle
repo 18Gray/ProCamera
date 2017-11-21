@@ -9,16 +9,53 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
-    buildTypes {
+
+    signingConfigs {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            storeFile file("android-release-key.keystore")
+            storePassword "luozhifan@tencent-2010"
+            keyAlias "androidreleasekey"
+            keyPassword "luozhifan@tencent-2010"
+        }
+        debug {
+            storeFile file("android-release-key.keystore")
+            storePassword "luozhifan@tencent-2010"
+            keyAlias "androidreleasekey"
+            keyPassword "luozhifan@tencent-2010"
         }
     }
+
+    productFlavors {
+        create('all') {
+        }
+    }
+    publishNonDefault true
+
+
+    buildTypes {
+        release {
+            // 混淆文件的位置
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            // 是否进行混淆
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            zipAlignEnabled true
+            buildConfigField 'boolean','isShowLog',isShowLog
+        }
+        debug {
+            signingConfig signingConfigs.debug
+            multiDexEnabled true
+            debuggable true
+            buildConfigField 'boolean','isShowLog',isShowLog
+        }
+    }
+}
+
+configurations {
+    allDebug
+    allRelease
 }
 
 dependencies {

@@ -23,6 +23,10 @@ public class ProCameraApplication extends Application
         LeakCanary.install(this);
         context = this;
         executorService = Executors.newSingleThreadExecutor();
+
+        //异常上报
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(context);
     }
 
 

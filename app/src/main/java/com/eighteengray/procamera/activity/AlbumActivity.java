@@ -144,8 +144,7 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
 
 
     @Override
-    public void setAdapterData(List<ImageFolder> imageFolders, int currentImageFolderNum)
-    {
+    public void setAdapterData(List<ImageFolder> imageFolders, int currentImageFolderNum) {
         imageFolderArrayList = (ArrayList<ImageFolder>) imageFolders;
         if(imageFolderArrayList != null && imageFolderArrayList.size() > 0)
         {
