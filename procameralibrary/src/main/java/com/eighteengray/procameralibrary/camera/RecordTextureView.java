@@ -11,6 +11,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.MediaRecorder;
+import android.os.Environment;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
@@ -27,8 +28,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import static com.eighteengray.commonutillibrary.SDCardUtils.getSystemPicFile;
-
 
 
 public class RecordTextureView extends BaseCamera2TextureView
@@ -307,6 +306,11 @@ public class RecordTextureView extends BaseCamera2TextureView
         String picName = SystemClock.currentThreadTimeMillis() + ".mp4";
         File file = new File(getSystemPicFile(context), picName);
         return file.getAbsolutePath();
+    }
+
+    public static String getSystemPicFile(Context context)
+    {
+        return Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + File.separator + "DCIM" + File.separator +"Camera";
     }
 
     CameraCaptureSession.StateCallback recordSessionStateCallback = new CameraCaptureSession.StateCallback()
