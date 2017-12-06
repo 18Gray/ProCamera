@@ -34,11 +34,13 @@ ext {
     gsonVersion = '2.8.0'
     rxjavaVersion = '1.2.6'
     rxandroidVersion = '1.2.1'
-    frescoVersion = '1.1.0'
     butterknifeVersion = '8.4.0'
     leakcanary = '1.5'
     eventbus = '3.0.0'
     dagger2 ='2.4'
+    universalVersion = '1.9.5'
+    frescoVersion = '1.1.0'
+    glideVersion = '3.7.0'
 
     // Test dependencies
     espressoVersion = '2.2.2'
