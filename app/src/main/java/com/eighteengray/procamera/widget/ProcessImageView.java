@@ -10,7 +10,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import com.eighteengray.commonutillibrary.ImageUtils;
 
 
 /**

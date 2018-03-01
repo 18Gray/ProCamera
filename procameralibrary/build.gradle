@@ -27,6 +27,9 @@ dependencies {
     compile "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
     compile "com.android.support:support-v13:$rootProject.ext.supportLibraryVersion"
     compile "org.greenrobot:eventbus:$rootProject.ext.eventbus"
+    // 权限管理
+    compile 'com.yanzhenjie:permission:2.0.0-rc2'
+    compile 'com.yanzhenjie.alertdialog:alertdialog:1.0.1'
     androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.ext.espressoVersion", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })

@@ -1,4 +1,4 @@
-package com.eighteengray.imageprocesslibrary.bitmapfilter;
+package com.eighteengray.imageprocesslibrary.java.bitmapfilter;
 
 
 import android.graphics.ColorMatrix;

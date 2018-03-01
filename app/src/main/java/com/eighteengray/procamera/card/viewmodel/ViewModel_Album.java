@@ -7,9 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import com.eighteengray.commonutillibrary.ImageUtils;
+import com.eighteengray.imageprocesslibrary.java.ImageUtils;
 import com.eighteengray.procamera.R;
-import com.eighteengray.procamera.activity.AlbumActivity;
 import com.eighteengray.procamera.activity.ImageProcessActivity;
 import com.eighteengray.procamera.card.baserecycler.BaseRecyclerViewHolder;
 

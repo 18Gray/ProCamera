@@ -1,4 +1,4 @@
-package com.eighteengray.imageprocesslibrary.imageprocess;
+package com.eighteengray.imageprocesslibrary.jni;
 
 
 public class JniExample

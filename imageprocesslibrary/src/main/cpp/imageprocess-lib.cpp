@@ -1,6 +1,6 @@
 #include <jni.h>
 #include <string>
-
+#include <android/bitmap.h>
 
 #include <stdio.h>
 #include <stdlib.h>

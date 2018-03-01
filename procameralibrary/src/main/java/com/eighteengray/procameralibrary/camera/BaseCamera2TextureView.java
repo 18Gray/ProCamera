@@ -1,5 +1,6 @@
 package com.eighteengray.procameralibrary.camera;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
@@ -17,7 +18,14 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.WindowManager;
 
-import java.io.File;
+import com.eighteengray.procameralibrary.permission.DefaultRationale;
+import com.eighteengray.procameralibrary.permission.PermissionSetting;
+import com.yanzhenjie.permission.Action;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.Permission;
+import com.yanzhenjie.permission.Rationale;
+
+import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
@@ -45,6 +53,10 @@ public abstract class BaseCamera2TextureView extends TextureView
     protected CameraCaptureSession mCaptureSession;
     protected Surface surface;
     protected CameraCharacteristics mCameraCharacteristics;
+
+    // 权限管理
+    private Rationale mRationale;
+    private PermissionSetting permissionSetting;
 
 
     //TextureView的状态监听，TextureView好了之后，打开相机
@@ -104,6 +116,9 @@ public abstract class BaseCamera2TextureView extends TextureView
         this.context = c;
         windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
+
+        mRationale = new DefaultRationale();
+        permissionSetting = new PermissionSetting(context);
     }
 
     protected void setAspectRatio(int width, int height)
@@ -217,10 +232,36 @@ public abstract class BaseCamera2TextureView extends TextureView
             {
                 throw new RuntimeException("Time out waiting to lock camera opening.");
             }
-            manager.openCamera(mCameraId, deviceStateCallback, mBackgroundHandler);
-        } catch (CameraAccessException e)
-        {
-            e.printStackTrace();
+
+            AndPermission.with(context)
+                    .permission(new String[]{Permission.CAMERA, Permission.RECORD_AUDIO, Permission.WRITE_EXTERNAL_STORAGE})
+                    .rationale(mRationale)
+                    .onGranted(new Action()
+                    {
+                        @SuppressLint("MissingPermission")
+                        @Override
+                        public void onAction(List<String> list)
+                        {
+                            try
+                            {
+                                manager.openCamera(mCameraId, deviceStateCallback, mBackgroundHandler);
+                            } catch (CameraAccessException e)
+                            {
+                                e.printStackTrace();
+                            }
+                        }
+                    })
+                    .onDenied(new Action()
+                    {
+                        @Override
+                        public void onAction(List<String> list)
+                        {
+                            if (AndPermission.hasAlwaysDeniedPermission(context, list)) {
+                                permissionSetting.showSetting(list);
+                            }
+                        }
+                    }).start();
+
         } catch (InterruptedException e)
         {
             throw new RuntimeException("Interrupted while trying to lock camera opening.", e);

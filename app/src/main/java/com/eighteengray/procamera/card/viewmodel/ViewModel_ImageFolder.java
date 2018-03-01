@@ -8,17 +8,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.eighteengray.commonutillibrary.ImageUtils;
+import com.eighteengray.imageprocesslibrary.java.ImageUtils;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.ImageFolder;
-import com.eighteengray.procamera.bean.SaveImage;
 import com.eighteengray.procamera.card.baserecycler.BaseRecyclerViewHolder;
 import com.eighteengray.procameralibrary.dataevent.ImageFolderEvent;
-
 import org.greenrobot.eventbus.EventBus;
 
-import static com.eighteengray.procamera.R.id.rl_item_dirlsit;
 
 /**
  * Created by lutao on 2017/3/24.
