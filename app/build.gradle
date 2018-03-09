@@ -24,7 +24,6 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':procameralibrary')
     compile project(':imageprocesslibrary')
-    compile project(':commonutillibrary')
     compile "com.android.support:support-v4:$rootProject.ext.supportLibraryVersion"
     compile "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
     compile "com.android.support:support-v13:$rootProject.ext.supportLibraryVersion"
@@ -54,8 +53,4 @@ dependencies {
     compile "com.nostra13.universalimageloader:universal-image-loader:$rootProject.ext.universalVersion"
     compile "com.facebook.fresco:fresco:$rootProject.ext.frescoVersion"
     compile "com.github.bumptech.glide:glide:$rootProject.ext.glideVersion"
-
-    //保证library也能用BuildConfig
-    debugCompile project(path: ':commonutillibrary', configuration: 'allDebug')
-    releaseCompile project(path: ':commonutillibrary', configuration: 'allRelease')
 }

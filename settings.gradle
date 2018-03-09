@@ -1,1 +1,1 @@
-include ':app', ':procameralibrary', ':imageprocesslibrary', ':commonutillibrary'
+include ':app', ':procameralibrary', ':imageprocesslibrary'
