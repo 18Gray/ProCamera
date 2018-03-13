@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import com.eighteengray.commonutillibrary.FileUtils;
+import com.eighteengray.commonutillibrary.SDCardUtils;
 import com.eighteengray.commonutillibrary.ScreenUtils;
 import com.eighteengray.imageprocesslibrary.java.ImageUtils;
 import com.eighteengray.procamera.R;
@@ -88,7 +89,7 @@ public class CutActivity extends BaseActivity
                     public void run()
                     {
                         Bitmap cutBitmap = mCropImage.getCropImage();
-                        File file = FileUtils.createCutBitmapFile(CutActivity.this);
+                        File file = FileUtils.createFile(SDCardUtils.getAppFile(CutActivity.this).getAbsolutePath(), "cutBitmap.jpg");
                         path = file.getAbsolutePath();
                         ImageUtils.saveBitmap(cutBitmap, file.getParent().toString(), file.getName().toString());
                         handler.sendEmptyMessage(Constants.CUTPIC);

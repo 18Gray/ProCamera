@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import com.eighteengray.commonutillibrary.FileUtils;
+import com.eighteengray.commonutillibrary.SDCardUtils;
 import com.eighteengray.imageprocesslibrary.java.ImageUtils;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.activity.AlbumActivity;
@@ -127,7 +128,7 @@ public class Camera2Fragment extends BaseCameraFragment
         ButterKnife.bind(this, view);
         EventBus.getDefault().register(this);
         handler = new Handler(Looper.getMainLooper());
-        mFile = FileUtils.createSaveBitmapFile(getActivity());
+        mFile = FileUtils.createFile(SDCardUtils.getAppFile(getActivity()).getAbsolutePath(), "saveImg");
 
         toolbar = (Toolbar) view.findViewById(R.id.toolbar_camera2);
         drawerLayout = (DrawerLayout) view.findViewById(R.id.drawerLayout_camera2);
