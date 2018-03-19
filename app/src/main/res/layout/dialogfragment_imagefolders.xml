@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     >
 
-    <com.eighteengray.procamera.card.baserecycler.RecyclerLayout
+    <com.eighteengray.cardlibrary.widget.RecyclerLayout
         android:id="@+id/rl_imagefolders_dialogfragment"
         android:layout_width="match_parent"
         android:layout_height="400dp"

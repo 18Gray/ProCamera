@@ -1,4 +1,4 @@
-package com.eighteengray.procamera.card.viewmodel;
+package com.eighteengray.procamera.viewmodel;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -8,10 +8,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.eighteengray.cardlibrary.viewmodel.IViewModel;
+import com.eighteengray.cardlibrary.widget.BaseRecyclerViewHolder;
 import com.eighteengray.imageprocesslibrary.java.ImageUtils;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.ImageFolder;
-import com.eighteengray.procamera.card.baserecycler.BaseRecyclerViewHolder;
 import com.eighteengray.procameralibrary.dataevent.ImageFolderEvent;
 import org.greenrobot.eventbus.EventBus;
 
@@ -19,7 +21,7 @@ import org.greenrobot.eventbus.EventBus;
 /**
  * Created by lutao on 2017/3/24.
  */
-public class ViewModel_ImageFolder implements IViewModel<ImageFolder>
+public class ViewModel_4 implements IViewModel<ImageFolder>
 {
 
 

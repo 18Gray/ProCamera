@@ -1,6 +1,7 @@
 package com.eighteengray.procamera.business;
 
-import com.eighteengray.procamera.card.baserecycler.BaseDataBean;
+
+import com.eighteengray.cardlibrary.bean.BaseDataBean;
 
 import java.util.ArrayList;
 import java.util.List;

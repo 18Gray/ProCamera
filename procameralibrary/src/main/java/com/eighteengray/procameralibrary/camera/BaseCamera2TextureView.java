@@ -17,7 +17,9 @@ import android.util.Size;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.WindowManager;
+import android.widget.Toast;
 
+import com.eighteengray.procameralibrary.R;
 import com.eighteengray.procameralibrary.permission.DefaultRationale;
 import com.eighteengray.procameralibrary.permission.PermissionSetting;
 import com.yanzhenjie.permission.Action;
@@ -226,46 +228,31 @@ public abstract class BaseCamera2TextureView extends TextureView
         configureCamera(width, height, cameraNum);
         configureTransform(width, height);
 
-        try
-        {
-            if (!mCameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS))
-            {
-                throw new RuntimeException("Time out waiting to lock camera opening.");
-            }
-
-            AndPermission.with(context)
-                    .permission(new String[]{Permission.CAMERA, Permission.RECORD_AUDIO, Permission.WRITE_EXTERNAL_STORAGE})
-                    .rationale(mRationale)
-                    .onGranted(new Action()
-                    {
-                        @SuppressLint("MissingPermission")
-                        @Override
-                        public void onAction(List<String> list)
+        AndPermission.with(context)
+                .permission(new String[]{Permission.CAMERA, Permission.RECORD_AUDIO, Permission.WRITE_EXTERNAL_STORAGE})
+                .rationale(new DefaultRationale())
+                .onGranted(new Action() {
+                    @SuppressLint("MissingPermission")
+                    @Override
+                    public void onAction(List<String> permissions) {
+                        try
                         {
-                            try
-                            {
-                                manager.openCamera(mCameraId, deviceStateCallback, mBackgroundHandler);
-                            } catch (CameraAccessException e)
-                            {
-                                e.printStackTrace();
-                            }
-                        }
-                    })
-                    .onDenied(new Action()
-                    {
-                        @Override
-                        public void onAction(List<String> list)
+                            manager.openCamera(mCameraId, deviceStateCallback, mBackgroundHandler);
+                        } catch (CameraAccessException e)
                         {
-                            if (AndPermission.hasAlwaysDeniedPermission(context, list)) {
-                                permissionSetting.showSetting(list);
-                            }
+                            e.printStackTrace();
                         }
-                    }).start();
-
-        } catch (InterruptedException e)
-        {
-            throw new RuntimeException("Interrupted while trying to lock camera opening.", e);
-        }
+                    }
+                })
+                .onDenied(new Action() {
+                    @Override
+                    public void onAction(@NonNull List<String> permissions) {
+                        if (AndPermission.hasAlwaysDeniedPermission(context, permissions)) {
+                            new PermissionSetting(context).showSetting(permissions);
+                        }
+                    }
+                })
+                .start();
     }
 
     //监听，相机打开好后，进入预览
@@ -305,7 +292,6 @@ public abstract class BaseCamera2TextureView extends TextureView
         surface = new Surface(texture);
     }
 
-
     protected void closePreviewSession()
     {
         if (mCaptureSession != null)
@@ -314,7 +300,6 @@ public abstract class BaseCamera2TextureView extends TextureView
             mCaptureSession = null;
         }
     }
-
 
     protected void updatePreview(CaptureRequest captureRequest, CameraCaptureSession.CaptureCallback captureSessionCaptureCallback)
     {

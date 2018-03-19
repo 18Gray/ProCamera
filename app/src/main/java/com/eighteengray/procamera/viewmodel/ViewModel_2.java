@@ -1,13 +1,13 @@
-package com.eighteengray.procamera.card.viewmodel;
+package com.eighteengray.procamera.viewmodel;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-
+import com.eighteengray.cardlibrary.viewmodel.IViewModel;
+import com.eighteengray.cardlibrary.widget.BaseRecyclerViewHolder;
 import com.eighteengray.procamera.R;
-import com.eighteengray.procamera.card.baserecycler.BaseRecyclerViewHolder;
 import com.eighteengray.procameralibrary.dataevent.CameraConfigure;
 import org.greenrobot.eventbus.EventBus;
 
@@ -15,7 +15,7 @@ import org.greenrobot.eventbus.EventBus;
 /**
  * Created by lutao on 2017/3/24.
  */
-public class ViewModel_Effect implements IViewModel<String>
+public class ViewModel_2 implements IViewModel<String>
 {
 
 
@@ -37,9 +37,9 @@ public class ViewModel_Effect implements IViewModel<String>
             @Override
             public void onClick(View v)
             {
-                CameraConfigure.Effect effect = new CameraConfigure.Effect();
-                effect.setEffect(data);
-                EventBus.getDefault().post(effect);
+                CameraConfigure.Scene scene = new CameraConfigure.Scene();
+                scene.setScene(data);
+                EventBus.getDefault().post(scene);
             }
         });
     }

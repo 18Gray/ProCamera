@@ -9,11 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+
+import com.eighteengray.cardlibrary.widget.RecyclerLayout;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.ImageFolder;
 import com.eighteengray.procamera.business.GenerateDataUtils;
-import com.eighteengray.procamera.card.baserecycler.BaseRecyclerAdapter;
-import com.eighteengray.procamera.card.baserecycler.RecyclerLayout;
 import com.eighteengray.procameralibrary.common.Constants;
 import java.util.ArrayList;
 import butterknife.BindView;
@@ -54,7 +54,7 @@ public class ImageFoldersDialogFragment extends DialogFragment
         window.setAttributes(lp);
         getDialog().setCancelable(true);
 
-        rl_imagefolders_dialogfragment.showRecyclerView(GenerateDataUtils.generateDataBeanList(4, imageFolderArrayList));
+        rl_imagefolders_dialogfragment.showRecyclerView(GenerateDataUtils.generateDataBeanList(4, imageFolderArrayList), Constants.viewModelPackage);
         return view;
     }
 

@@ -44,7 +44,7 @@
 
 
     <!-- middle -->
-    <com.eighteengray.procamera.card.baserecycler.RecyclerLayout
+    <com.eighteengray.cardlibrary.widget.RecyclerLayout
         android:id="@+id/rl_pics_album"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

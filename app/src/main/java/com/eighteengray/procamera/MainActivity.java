@@ -4,6 +4,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Debug;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -16,11 +17,17 @@ import com.eighteengray.procamera.fragment.Camera2Fragment;
 import com.eighteengray.procamera.fragment.RecordVideoFragment;
 import com.eighteengray.procameralibrary.common.Constants;
 import com.eighteengray.procameralibrary.dataevent.ModeSelectEvent;
+import com.eighteengray.procameralibrary.permission.DefaultRationale;
+import com.eighteengray.procameralibrary.permission.PermissionSetting;
+import com.yanzhenjie.permission.Action;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.Permission;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity

@@ -55,4 +55,5 @@ dependencies {
     compile "com.github.bumptech.glide:glide:$rootProject.ext.glideVersion"
 
     compile "com.github.18Gray:CommonUtils:v0.1"
+    compile 'com.github.18Gray:ProCameraAlbum:0.2'
 }

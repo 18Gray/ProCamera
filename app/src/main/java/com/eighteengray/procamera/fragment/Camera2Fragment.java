@@ -7,6 +7,7 @@ import android.media.ThumbnailUtils;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
@@ -18,14 +19,17 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.eighteengray.cardlibrary.bean.BaseDataBean;
+import com.eighteengray.cardlibrary.widget.RecyclerLayout;
 import com.eighteengray.commonutillibrary.FileUtils;
 import com.eighteengray.commonutillibrary.SDCardUtils;
 import com.eighteengray.imageprocesslibrary.java.ImageUtils;
+import com.eighteengray.procamera.MainActivity;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.activity.AlbumActivity;
 import com.eighteengray.procamera.business.ImageSaver;
-import com.eighteengray.procamera.card.baserecycler.BaseDataBean;
-import com.eighteengray.procamera.card.baserecycler.RecyclerLayout;
 import com.eighteengray.procamera.widget.FocusView;
 import com.eighteengray.procamera.widget.TextureViewTouchListener;
 import com.eighteengray.procamera.widget.VerticalSeekBar;
@@ -36,6 +40,12 @@ import com.eighteengray.procameralibrary.common.Constants;
 import com.eighteengray.procameralibrary.dataevent.CameraConfigure;
 import com.eighteengray.procameralibrary.dataevent.ImageAvailableEvent;
 import com.eighteengray.procameralibrary.camera.TextureViewTouchEvent;
+import com.eighteengray.procameralibrary.permission.DefaultRationale;
+import com.eighteengray.procameralibrary.permission.PermissionSetting;
+import com.yanzhenjie.permission.Action;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.Permission;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -150,8 +160,8 @@ public class Camera2Fragment extends BaseCameraFragment
 
     private void initView()
     {
-        rl_scene.showRecyclerView(generateSceneData());
-        rl_effect.showRecyclerView(generateEffectData());
+        rl_scene.showRecyclerView(generateSceneData(), Constants.viewModelPackage);
+        rl_effect.showRecyclerView(generateEffectData(), Constants.viewModelPackage);
 
         seekbar_camera2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
         {

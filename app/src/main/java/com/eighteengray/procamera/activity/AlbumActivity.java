@@ -1,9 +1,9 @@
 package com.eighteengray.procamera.activity;
 
+import com.eighteengray.cardlibrary.widget.RecyclerLayout;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.ImageFolder;
 import com.eighteengray.procamera.business.GenerateDataUtils;
-import com.eighteengray.procamera.card.baserecycler.RecyclerLayout;
 import com.eighteengray.procamera.component.DaggerAlbumComponent;
 import com.eighteengray.procamera.contract.IAlbumContract;
 import com.eighteengray.procamera.module.PresenterModule;
@@ -149,7 +149,7 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
         if(imageFolderArrayList != null && imageFolderArrayList.size() > 0)
         {
             List<String> imagePathList = imageFolderArrayList.get(currentImageFolderNum).getImagePathList();
-            rl_pics_album.showRecyclerView(GenerateDataUtils.generateDataBeanList(1, imagePathList));
+            rl_pics_album.showRecyclerView(GenerateDataUtils.generateDataBeanList(1, imagePathList), Constants.viewModelPackage);
         }
     }
 

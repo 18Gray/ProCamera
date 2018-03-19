@@ -157,7 +157,7 @@
             </RelativeLayout>
 
             <!--Scene和Effect的RecyclerView-->
-            <com.eighteengray.procamera.card.baserecycler.RecyclerLayout
+            <com.eighteengray.cardlibrary.widget.RecyclerLayout
                 android:id="@+id/rl_scene"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -166,7 +166,7 @@
                 android:visibility="gone"
                 />
 
-            <com.eighteengray.procamera.card.baserecycler.RecyclerLayout
+            <com.eighteengray.cardlibrary.widget.RecyclerLayout
                 android:id="@+id/rl_effect"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"

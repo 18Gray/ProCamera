@@ -1,4 +1,4 @@
-package com.eighteengray.procamera.card.viewmodel;
+package com.eighteengray.procamera.viewmodel;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,15 +7,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.eighteengray.cardlibrary.viewmodel.IViewModel;
+import com.eighteengray.cardlibrary.widget.BaseRecyclerViewHolder;
 import com.eighteengray.imageprocesslibrary.java.ImageUtils;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.activity.ImageProcessActivity;
-import com.eighteengray.procamera.card.baserecycler.BaseRecyclerViewHolder;
 
 /**
  * Created by lutao on 2017/3/24.
  */
-public class ViewModel_Album implements IViewModel<String>
+public class ViewModel_1 implements IViewModel<String>
 {
 
 

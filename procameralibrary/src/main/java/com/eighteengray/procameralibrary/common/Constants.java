@@ -45,5 +45,5 @@ public class Constants
 	public static final int FOCUS_INACTIVE = 10019;
 	public static final int FOCUS_FAILED = 10020;
 
-
+	public  static String viewModelPackage = "com.eighteengray.procamera.viewmodel";
 }
