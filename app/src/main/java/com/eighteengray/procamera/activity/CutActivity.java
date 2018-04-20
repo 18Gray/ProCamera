@@ -13,7 +13,7 @@ import android.view.View;
 import com.eighteengray.commonutillibrary.FileUtils;
 import com.eighteengray.commonutillibrary.SDCardUtils;
 import com.eighteengray.commonutillibrary.ScreenUtils;
-import com.eighteengray.imageprocesslibrary.java.ImageUtils;
+import com.eighteengray.imageprocesslibrary.ImageUtils;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.widget.CropImageView;
 import com.eighteengray.procameralibrary.common.Constants;

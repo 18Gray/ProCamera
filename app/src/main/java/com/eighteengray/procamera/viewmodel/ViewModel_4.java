@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.eighteengray.cardlibrary.viewmodel.IViewModel;
 import com.eighteengray.cardlibrary.widget.BaseRecyclerViewHolder;
-import com.eighteengray.imageprocesslibrary.java.ImageUtils;
+import com.eighteengray.imageprocesslibrary.ImageUtils;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.ImageFolder;
 import com.eighteengray.procameralibrary.dataevent.ImageFolderEvent;

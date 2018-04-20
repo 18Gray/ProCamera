@@ -1,7 +1,7 @@
 package com.eighteengray.procamera.bean;
 
 
-import com.eighteengray.imageprocesslibrary.java.bitmapfilter.IBitmapFilter;
+import com.eighteengray.imageprocesslibrary.bitmapfilter.IBitmapFilter;
 
 public class FilterInfo
 {

@@ -10,7 +10,7 @@ import android.widget.ImageView;
 
 import com.eighteengray.cardlibrary.viewmodel.IViewModel;
 import com.eighteengray.cardlibrary.widget.BaseRecyclerViewHolder;
-import com.eighteengray.imageprocesslibrary.java.ImageUtils;
+import com.eighteengray.imageprocesslibrary.ImageUtils;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.activity.ImageProcessActivity;
 
