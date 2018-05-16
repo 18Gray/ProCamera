@@ -1,9 +1,14 @@
 package com.eighteengray.procamera.business;
 
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.media.Image;
 import android.media.ImageReader;
 import android.util.Log;
 
+import com.eighteengray.commonutillibrary.DataConvertUtil;
+import com.eighteengray.commonutillibrary.ImageProcessUtils;
+import com.eighteengray.commonutillibrary.ImageUtils;
 import com.eighteengray.procameralibrary.dataevent.ImageAvailableEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -19,13 +24,13 @@ import java.nio.ByteBuffer;
 public class ImageSaver implements Runnable
 {
     private ImageReader mImageReader;
-    private File file;
+    private Context context;
 
 
-    public ImageSaver(ImageReader mImageReader, File f)
+    public ImageSaver(ImageReader mImageReader, Context c)
     {
         this.mImageReader = mImageReader;
-        this.file = f;
+        this.context = c;
     }
 
     @Override
@@ -37,17 +42,12 @@ public class ImageSaver implements Runnable
             ByteBuffer buffer = image.getPlanes()[0].getBuffer();
             byte[] bytes = new byte[buffer.remaining()];
             buffer.get(bytes);
-            try
-            {
-                save(bytes, file);
-            } catch (IOException e)
-            {
-                e.printStackTrace();
-            }
+            Bitmap bitmap = DataConvertUtil.bytes2Bimap(bytes);
+            String imagePath = ImageUtils.saveBitmap2Album(context, bitmap);
             image.close();
 
             ImageAvailableEvent.ImagePathAvailable imagePathAvailable = new ImageAvailableEvent.ImagePathAvailable();
-            imagePathAvailable.setImagePath(file.getAbsolutePath());
+            imagePathAvailable.setImagePath(imagePath);
             EventBus.getDefault().post(imagePathAvailable);
         } catch (Exception e)
         {

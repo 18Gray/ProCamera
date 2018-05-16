@@ -10,7 +10,6 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -24,36 +23,38 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':procameralibrary')
     compile project(':imageprocesslibrary')
+    compile "com.github.18Gray:CommonUtils:$rootProject.ext.commonUtilsVersion"
+    compile "com.github.18Gray:ProCameraAlbum:$rootProject.ext.proCameraAlbum"
+
+    //基础库
     compile "com.android.support:support-v4:$rootProject.ext.supportLibraryVersion"
     compile "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
-    compile "com.android.support:support-v13:$rootProject.ext.supportLibraryVersion"
     compile "com.android.support:design:$rootProject.ext.supportLibraryVersion"
     compile "com.android.support:cardview-v7:$rootProject.ext.supportLibraryVersion"
     compile "com.android.support:recyclerview-v7:$rootProject.ext.supportLibraryVersion"
+
+    //网络与数据处理库
     compile "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
     compile "com.squareup.retrofit2:adapter-rxjava:$rootProject.ext.retrofitVersion"
     compile "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofitVersion"
     compile "com.google.code.gson:gson:$rootProject.ext.gsonVersion"
+
+    // 组织结构库
     compile "io.reactivex:rxjava:$rootProject.ext.rxjavaVersion"
     compile "io.reactivex:rxandroid:$rootProject.ext.rxandroidVersion"
     compile "org.greenrobot:eventbus:$rootProject.ext.eventbus"
     compile "com.jakewharton:butterknife:$rootProject.ext.butterknifeVersion"
     apt "com.jakewharton:butterknife-compiler:$rootProject.ext.butterknifeVersion"
-    androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.ext.espressoVersion", {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
     apt "com.google.dagger:dagger-compiler:$rootProject.ext.dagger2"
     compile "com.google.dagger:dagger:$rootProject.ext.dagger2"
-    compile 'org.glassfish:javax.annotation:10.0-b28'
-    debugCompile "com.squareup.leakcanary:leakcanary-android:$rootProject.ext.leakcanary"
-    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.ext.leakcanary"
-    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.ext.leakcanary"
 
     // 图片加载框架
     compile "com.nostra13.universalimageloader:universal-image-loader:$rootProject.ext.universalVersion"
     compile "com.facebook.fresco:fresco:$rootProject.ext.frescoVersion"
     compile "com.github.bumptech.glide:glide:$rootProject.ext.glideVersion"
 
-    compile "com.github.18Gray:CommonUtils:v0.1"
-    compile 'com.github.18Gray:ProCameraAlbum:0.2'
+    // 测试性能库
+    debugCompile "com.squareup.leakcanary:leakcanary-android:$rootProject.ext.leakcanary"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.ext.leakcanary"
+    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.ext.leakcanary"
 }

@@ -4,6 +4,7 @@ package com.eighteengray.procamera.business;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 
 import com.eighteengray.procamera.bean.ImageFolder;
 import com.eighteengray.procamera.model.SystemModel;
@@ -29,44 +30,67 @@ public class AlbumBusiness
     //获取ImageFolder的列表
     public static Observable<List<ImageFolder>> getImageFolder(ContentResolver contentResolver)
     {
-        final Map<String, Integer> tmpDir = new HashMap<String, Integer>(); //用于防止同一个文件夹的多次扫描
+        final Map<String, ImageFolder> imageFolderHashMap = new HashMap(); //用于防止同一个文件夹的多次扫描
         final List<ImageFolder> imageFolderList = new ArrayList<>();
+
         Observable<List<ImageFolder>> imageFolderListObserverable =
-                SystemModel.getImagesCursor(contentResolver).
-                        flatMap(new Func1<Cursor, Observable<List<ImageFolder>>>() {
+                SystemModel.getImagesCursor(contentResolver).flatMap(
+                        new Func1<Cursor, Observable<List<ImageFolder>>>() {
                             @Override
                             public Observable<List<ImageFolder>> call(Cursor cursor) {
-                                if (cursor.moveToFirst())
+                                if (cursor != null && cursor.getCount() > 0)
                                 {
-                                    int data = cursor.getColumnIndex(MediaStore.Images.Media.DATA);
-                                    do
-                                    {
-                                        // 获取图片的路径
-                                        String path = cursor.getString(data);
+                                    // 所有图片
+                                    boolean isSetAllPicFolder = false;
+                                    ImageFolder allPicImageFolder = new ImageFolder();
+                                    imageFolderList.add(allPicImageFolder);
 
-                                        // 获取该图片的父路径名
-                                        File parentFile = new File(path).getParentFile();
-                                        if (parentFile == null)
-                                        {
-                                            continue;
+                                    // 子文件夹
+                                    while (cursor.moveToNext()){
+                                        int data = cursor.getColumnIndex(MediaStore.Images.Media.DATA);
+                                        // 获取图片的路径
+                                        String imagePath = cursor.getString(data);
+
+                                        //设置所有图片
+                                        if(!isSetAllPicFolder){
+                                            allPicImageFolder.setName("所有图片");
+                                            allPicImageFolder.setFirstImagePath(imagePath);
+                                            allPicImageFolder.setSelected(true);
+                                            isSetAllPicFolder = true;
                                         }
+                                        allPicImageFolder.addImagePath(imagePath);
+
+                                        // 设置子文件夹
+                                        File parentFile = new File(imagePath).getParentFile();
                                         String dirPath = parentFile.getAbsolutePath();
-                                        ImageFolder imageFolder = null;
-                                        if (!tmpDir.containsKey(dirPath))
-                                        {
-                                            // 初始化imageFloder
-                                            imageFolder = new ImageFolder();
-                                            imageFolder.setFolderDir(dirPath);
-                                            imageFolder.setFirstImagePath(path);
-                                            imageFolder.setSelected(false);
-                                            imageFolderList.add(imageFolder);
-                                            tmpDir.put(dirPath, imageFolderList.indexOf(imageFolder));
-                                        } else
-                                        {
-                                            imageFolder = imageFolderList.get(tmpDir.get(dirPath));
+                                        if (TextUtils.isEmpty(dirPath)) {
+                                            int end = dirPath.lastIndexOf(File.separator);
+                                            if (end != -1) {
+                                                dirPath = imagePath.substring(0, end);
+                                            }
+                                        }else {  // 生成文件夹
+                                            ImageFolder imageFolder = null;
+                                            if (!imageFolderHashMap.containsKey(dirPath))
+                                            {
+                                                imageFolder = new ImageFolder();
+                                                String folderName = dirPath.substring(dirPath.lastIndexOf(File.separator) + 1);
+                                                if (TextUtils.isEmpty(folderName)) {
+                                                    folderName = "/";
+                                                }
+                                                imageFolder.setName(folderName);
+                                                imageFolder.setFolderDir(dirPath);
+                                                imageFolder.setFirstImagePath(imagePath);
+                                                imageFolder.setSelected(false);
+                                                imageFolderHashMap.put(dirPath, imageFolder);
+                                            } else
+                                            {
+                                                imageFolder = imageFolderHashMap.get(dirPath);
+                                            }
+                                            // 导入图片地址
+                                            imageFolder.addImagePath(imagePath);
                                         }
-                                        imageFolder.getImagePathList().add(path);
-                                    } while (cursor.moveToNext());
+                                    }
+                                    imageFolderList.addAll(imageFolderHashMap.values());
                                 }
                                 cursor.close();
                                 return Observable.just(imageFolderList);

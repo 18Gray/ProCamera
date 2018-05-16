@@ -1,20 +1,19 @@
 package com.eighteengray.procamera.model.imageloader;
 
-import android.graphics.Bitmap;
-import android.view.View;
-import android.widget.ImageView;
-
+import com.bumptech.glide.DrawableTypeRequest;
+import com.bumptech.glide.GenericRequestBuilder;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.nostra13.universalimageloader.core.*;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+
 
 /**
  * Created by Razer on 2017/12/6.
  */
-
-public class UniverImageLoader implements IImageLoader
+public class UniverImageLoader extends ImageLoader
 {
-    private static final IImageLoader instance = new UniverImageLoader();
+    private static ImageLoader instance;
 
     DisplayImageOptions options = new DisplayImageOptions.Builder()
             .showImageOnLoading(null)
@@ -24,48 +23,78 @@ public class UniverImageLoader implements IImageLoader
             .cacheOnDisc(true)
             .build();
 
-    private UniverImageLoader(){
-
-    }
-
-    public static IImageLoader getInstance(){
+    public static ImageLoader getInstance(){
+        if(instance == null){
+            synchronized (GlideImageLoader.class){
+                if(instance == null){
+                    instance = new GlideImageLoader();
+                }
+            }
+        }
         return instance;
     }
 
     @Override
-    public void loadImage(String uri, ImageView imageView)
+    public void execute()
     {
-        com.nostra13.universalimageloader.core.ImageLoader.getInstance().displayImage(uri, imageView, options);
-    }
+        RequestManager requestManager = null;
+        if(context != null){
+            requestManager = Glide.with(context);
+        }else if(fragment != null){
+            requestManager = Glide.with(fragment);
+        }else if(v4Fragment != null){
+            requestManager = Glide.with(v4Fragment);
+        }
 
-    @Override
-    public void loadImage(String uri, ImageView imageView, final ImageLoadListener imageLoadListener)
-    {
-        com.nostra13.universalimageloader.core.ImageLoader.getInstance().displayImage(uri, imageView, options, new ImageLoadingListener()
-        {
-            @Override
-            public void onLoadingStarted(String s, View view)
-            {
-                imageLoadListener.onLoadStarted(s, view);
-            }
+        DrawableTypeRequest drawableTypeRequest = null;
+        if(loadFile != null){
+            drawableTypeRequest = requestManager.load(loadFile);
+        }else if(loadResource != 0){
+            drawableTypeRequest = requestManager.load(loadResource);
+        }else if(loadBytes != null){
+            drawableTypeRequest = requestManager.load(loadBytes);
+        }else if(loadUrl != null){
+            drawableTypeRequest = requestManager.load(loadUrl);
+        }
 
-            @Override
-            public void onLoadingFailed(String s, View view, FailReason failReason)
-            {
-                imageLoadListener.onLoadFailed(s, view, failReason.toString());
-            }
+        DiskCacheStrategy diskCacheStrategy = DiskCacheStrategy.ALL;
+        switch (diskCacheMode){
+            case ALL:
+                diskCacheStrategy = DiskCacheStrategy.ALL;
+                break;
+            case SOURCE:
+                diskCacheStrategy = DiskCacheStrategy.SOURCE;
+                break;
+            case RESULT:
+                diskCacheStrategy = DiskCacheStrategy.RESULT;
+                break;
+            case NONE:
+                diskCacheStrategy = DiskCacheStrategy.NONE;
+                break;
+        }
 
-            @Override
-            public void onLoadingComplete(String s, View view, Bitmap bitmap)
-            {
-                imageLoadListener.onLoadComplete(s, view, bitmap);
-            }
+        GenericRequestBuilder genericRequestBuilder = null;
+        switch (format){
+            case IMAGE_FORMAT_BITMAP:
+                genericRequestBuilder = drawableTypeRequest.asBitmap();
+                break;
+            case IMAGE_FORMAT_GIF:
+                genericRequestBuilder = drawableTypeRequest.asGif();
+                break;
+        }
 
-            @Override
-            public void onLoadingCancelled(String s, View view)
-            {
-                imageLoadListener.onLoadCancelled(s, view);
-            }
-        });
+        if(placeHolder != 0){
+            genericRequestBuilder.placeholder(placeHolder);
+        }
+        if(errorHolder != 0){
+            genericRequestBuilder.error(errorHolder);
+        }
+
+        if(width != 0 && height != 0){
+            genericRequestBuilder.override(width, height);
+        }
+
+//        genericRequestBuilder.diskCacheStrategy(diskCacheStrategy).into(imageView);
+        com.nostra13.universalimageloader.core.ImageLoader.getInstance().displayImage(loadUrl, imageView, options);
     }
 }

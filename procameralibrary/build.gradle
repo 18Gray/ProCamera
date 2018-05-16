@@ -28,8 +28,4 @@ dependencies {
     // 权限管理
     compile 'com.yanzhenjie:permission:2.0.0-rc3'
     compile 'com.yanzhenjie.alertdialog:alertdialog:1.0.1'
-    androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.ext.espressoVersion", {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    testCompile "junit:junit:$rootProject.ext.junitVersion"
 }

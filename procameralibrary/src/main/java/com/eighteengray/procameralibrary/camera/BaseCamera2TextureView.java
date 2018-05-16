@@ -17,19 +17,14 @@ import android.util.Size;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.WindowManager;
-import android.widget.Toast;
-
-import com.eighteengray.procameralibrary.R;
 import com.eighteengray.procameralibrary.permission.DefaultRationale;
 import com.eighteengray.procameralibrary.permission.PermissionSetting;
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
 import com.yanzhenjie.permission.Rationale;
-
 import java.util.List;
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.TimeUnit;
 
 
 

@@ -51,7 +51,7 @@
         android:layout_above="@id/rl_bottom_album"
         android:layout_below="@id/common_title"
         android:background="@color/text"
-        app:LayoutManagerNum="4"
+        app:LayoutManagerNum="3"
     />
 
 </RelativeLayout>

@@ -20,7 +20,6 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Resource;
 
 
 public class PopupWindowFactory

@@ -32,7 +32,7 @@ public class AlbumPresenter implements IAlbumContract.IPresenter
             @Override
             public void call(List<ImageFolder> imageFolders)
             {
-                iView.setAdapterData(imageFolders, 1);
+                iView.setAdapterData(imageFolders, 0);
             }
         });
     }

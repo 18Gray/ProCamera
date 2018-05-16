@@ -7,10 +7,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.eighteengray.cardlibrary.viewmodel.IViewModel;
 import com.eighteengray.cardlibrary.widget.BaseRecyclerViewHolder;
-import com.eighteengray.imageprocesslibrary.ImageUtils;
+import com.eighteengray.commonutillibrary.ImageUtils;
+import com.eighteengray.commonutillibrary.ScreenUtils;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.activity.ImageProcessActivity;
 
@@ -31,8 +33,11 @@ public class ViewModel_1 implements IViewModel<String>
     public void onBindView(final Context context, RecyclerView.ViewHolder holder, final String data, int position)
     {
         BaseRecyclerViewHolder baseRecyclerViewHolder = (BaseRecyclerViewHolder) holder;
-        Bitmap bitmap = ImageUtils.getBitmapFromPath(data, 400, 400);
+        Bitmap bitmap = ImageUtils.getBitmapFromPathSimple(data);
         ImageView imageView = baseRecyclerViewHolder.getViewById(R.id.iv_item_grid);
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
+        layoutParams.width = RelativeLayout.LayoutParams.MATCH_PARENT;
+        layoutParams.height = ScreenUtils.getScreenWidth(context) / 3;
         imageView.setImageBitmap(bitmap);
 
         imageView.setOnClickListener(new View.OnClickListener()

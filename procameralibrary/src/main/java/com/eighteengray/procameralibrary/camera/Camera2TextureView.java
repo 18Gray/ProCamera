@@ -209,7 +209,12 @@ public class Camera2TextureView extends BaseCamera2TextureView
         }
     }
 
-
+    // 设置防手抖功能
+    public void setSteadyPhoto(boolean isSteady) throws CameraAccessException
+    {
+        CaptureRequestFactory.setPreviewBuilderSteady(mPreviewRequestBuilder, isSteady);
+        updatePreview(mPreviewRequestBuilder.build(), captureSessionCaptureCallback);
+    }
 
     //******************************************************************************************
     //  预览方法，内部调用

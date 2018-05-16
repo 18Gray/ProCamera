@@ -2,6 +2,7 @@ package com.eighteengray.procamera.fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.hardware.camera2.CameraAccessException;
 import android.media.ThumbnailUtils;
 import android.os.Bundle;
@@ -22,8 +23,8 @@ import android.widget.TextView;
 import com.eighteengray.cardlibrary.bean.BaseDataBean;
 import com.eighteengray.cardlibrary.widget.RecyclerLayout;
 import com.eighteengray.commonutillibrary.FileUtils;
+import com.eighteengray.commonutillibrary.ImageUtils;
 import com.eighteengray.commonutillibrary.SDCardUtils;
-import com.eighteengray.imageprocesslibrary.ImageUtils;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.activity.AlbumActivity;
 import com.eighteengray.procamera.business.ImageSaver;
@@ -121,8 +122,6 @@ public class Camera2Fragment extends BaseCameraFragment
     TextureViewTouchListener textureViewTouchListener;
 
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -148,7 +147,6 @@ public class Camera2Fragment extends BaseCameraFragment
         textureViewTouchListener = new TextureViewTouchListener(cameraTextureView);
         cameraTextureView.setOnTouchListener(textureViewTouchListener);
     }
-
 
     private void initView()
     {
@@ -411,7 +409,6 @@ public class Camera2Fragment extends BaseCameraFragment
 
 
 
-
     //EventBus--接收相机配置的参数
     @Subscribe(threadMode = ThreadMode.MAIN)  //闪光灯设置
     public void onFlashSelect(CameraConfigure.Flash flash) throws CameraAccessException
@@ -488,18 +485,19 @@ public class Camera2Fragment extends BaseCameraFragment
     @Subscribe(threadMode = ThreadMode.MAIN) //拍照完成后，拿到ImageReader，然后做保存图片的操作
     public void onImageReaderAvailable(ImageAvailableEvent.ImageReaderAvailable imageReaderAvailable)
     {
-        new Thread(new ImageSaver(imageReaderAvailable.getImageReader(), mFile)).start();
+        new Thread(new ImageSaver(imageReaderAvailable.getImageReader(), getActivity())).start();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN) //存储图像完成后，拿到ImagePath图片路径
     public void onImagePathAvailable(ImageAvailableEvent.ImagePathAvailable imagePathAvailable)
     {
-        Bitmap bitmap = ImageUtils.getBitmapFromPath(imagePathAvailable.getImagePath());
+        Bitmap bitmap = BitmapFactory.decodeFile(imagePathAvailable.getImagePath());
         if(bitmap != null)
         {
-            final Bitmap thumbnail = ThumbnailUtils.extractThumbnail(bitmap, 60, 60);
+            final Bitmap thumbnail = ThumbnailUtils.extractThumbnail(bitmap, 120, 120);
             iv_album_camera.setImageBitmap(thumbnail);
         }
+
     }
 
     private void showViewTakePicture()

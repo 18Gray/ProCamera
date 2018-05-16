@@ -113,8 +113,16 @@ public class CaptureRequestFactory
         return previewBuilder.build();
     }
 
-
-
+    // 设置预览-防手抖
+    public static CaptureRequest setPreviewBuilderSteady(CaptureRequest.Builder previewBuilder, boolean isSteady) throws CameraAccessException
+    {
+        if(isSteady){
+            previewBuilder.set(CaptureRequest.CONTROL_SCENE_MODE, CameraMetadata.CONTROL_SCENE_MODE_STEADYPHOTO);
+        }else {
+            previewBuilder.set(CaptureRequest.CONTROL_SCENE_MODE, CameraMetadata.CONTROL_SCENE_MODE_DISABLED);
+        }
+        return previewBuilder.build();
+    }
 
 
     //创建拍照请求

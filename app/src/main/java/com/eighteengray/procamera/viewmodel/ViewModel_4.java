@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.eighteengray.cardlibrary.viewmodel.IViewModel;
 import com.eighteengray.cardlibrary.widget.BaseRecyclerViewHolder;
-import com.eighteengray.imageprocesslibrary.ImageUtils;
+import com.eighteengray.commonutillibrary.ImageUtils;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.ImageFolder;
 import com.eighteengray.procameralibrary.dataevent.ImageFolderEvent;
@@ -41,7 +41,7 @@ public class ViewModel_4 implements IViewModel<ImageFolder>
         TextView tv_count_item_dirlist = baseRecyclerViewHolder.getViewById(R.id.tv_count_item_dirlist);
         ImageView iv_choosen_item_dirlist = baseRecyclerViewHolder.getViewById(R.id.iv_choosen_item_dirlist);
 
-        Bitmap bitmap = ImageUtils.getBitmapFromPath(data.getFirstImagePath());
+        Bitmap bitmap = ImageUtils.getBitmapFromPathSimple(data.getFirstImagePath());
         iv_image_item_dirlist.setImageBitmap(bitmap);
         tv_name_item_dirlist.setText(data.getName());
         tv_count_item_dirlist.setText(data.getImagePathList().size() + "张");

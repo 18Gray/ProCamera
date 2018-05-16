@@ -1,28 +1,26 @@
 package com.eighteengray.procamera.model.imageloader;
 
-import android.content.Context;
-import android.widget.ImageView;
 
+import com.bumptech.glide.DrawableTypeRequest;
+import com.bumptech.glide.GenericRequestBuilder;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 
 /**
  * Created by Razer on 2017/12/6.
  */
 
-public class GlideImageLoader implements IImageLoader
+public class GlideImageLoader extends ImageLoader
 {
-    private static IImageLoader instance;
-    private static Context context;
+    private static ImageLoader instance;
 
-    private GlideImageLoader(Context c){
-        this.context = c;
-    }
-
-    public static IImageLoader getInstance(){
+    public static ImageLoader getInstance(){
         if(instance == null){
             synchronized (GlideImageLoader.class){
                 if(instance == null){
-                    instance = new GlideImageLoader(context);
+                    instance = new GlideImageLoader();
                 }
             }
         }
@@ -30,14 +28,65 @@ public class GlideImageLoader implements IImageLoader
     }
 
     @Override
-    public void loadImage(String uri, ImageView imageView)
+    public void execute()
     {
-        Glide.with(context).load(uri).into(imageView);
-    }
+        RequestManager requestManager = null;
+        if(context != null){
+            requestManager = Glide.with(context);
+        }else if(fragment != null){
+            requestManager = Glide.with(fragment);
+        }else if(v4Fragment != null){
+            requestManager = Glide.with(v4Fragment);
+        }
 
-    @Override
-    public void loadImage(String uri, ImageView imageView, ImageLoadListener imageLoadListener)
-    {
-        Glide.with(context).load(uri).into(imageView);
+        DrawableTypeRequest drawableTypeRequest = null;
+        if(loadFile != null){
+            drawableTypeRequest = requestManager.load(loadFile);
+        }else if(loadResource != 0){
+            drawableTypeRequest = requestManager.load(loadResource);
+        }else if(loadBytes != null){
+            drawableTypeRequest = requestManager.load(loadBytes);
+        }else if(loadUrl != null){
+            drawableTypeRequest = requestManager.load(loadUrl);
+        }
+
+        DiskCacheStrategy diskCacheStrategy = DiskCacheStrategy.ALL;
+        switch (diskCacheMode){
+            case ALL:
+                diskCacheStrategy = DiskCacheStrategy.ALL;
+                break;
+            case SOURCE:
+                diskCacheStrategy = DiskCacheStrategy.SOURCE;
+                break;
+            case RESULT:
+                diskCacheStrategy = DiskCacheStrategy.RESULT;
+                break;
+            case NONE:
+                diskCacheStrategy = DiskCacheStrategy.NONE;
+                break;
+        }
+
+        GenericRequestBuilder genericRequestBuilder = null;
+        switch (format){
+            case IMAGE_FORMAT_BITMAP:
+                genericRequestBuilder = drawableTypeRequest.asBitmap();
+                break;
+            case IMAGE_FORMAT_GIF:
+                genericRequestBuilder = drawableTypeRequest.asGif();
+                break;
+        }
+
+        if(placeHolder != 0){
+            genericRequestBuilder.placeholder(placeHolder);
+        }
+        if(errorHolder != 0){
+            genericRequestBuilder.error(errorHolder);
+        }
+
+        if(width != 0 && height != 0){
+            genericRequestBuilder.override(width, height);
+        }
+
+        genericRequestBuilder.diskCacheStrategy(diskCacheStrategy).into(imageView);
     }
 }

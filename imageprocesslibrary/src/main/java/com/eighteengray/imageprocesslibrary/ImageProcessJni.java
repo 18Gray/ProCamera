@@ -1,6 +1,5 @@
 package com.eighteengray.imageprocesslibrary;
 
-import android.graphics.Bitmap;
 
 public class ImageProcessJni
 {

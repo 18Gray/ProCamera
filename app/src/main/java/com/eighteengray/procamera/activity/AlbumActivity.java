@@ -36,6 +36,11 @@ import butterknife.OnClick;
  */
 public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
 {
+    private boolean isRadio = true;
+    private boolean isTakeCamera = false;
+    private boolean isShowAdd = false;
+
+
     @BindView(R.id.rl_pics_album)
     RecyclerLayout rl_pics_album;
 

@@ -18,8 +18,10 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.eighteengray.commonutillibrary.ImageProcessUtils;
+import com.eighteengray.commonutillibrary.ImageUtils;
 import com.eighteengray.commonutillibrary.ScreenUtils;
-import com.eighteengray.imageprocesslibrary.ImageUtils;
 import com.eighteengray.imageprocesslibrary.bitmapfilter.ColorBitmapFilter;
 import com.eighteengray.imageprocesslibrary.bitmapfilter.IBitmapFilter;
 import com.eighteengray.procamera.R;
@@ -190,7 +192,7 @@ public class ImageProcessActivity extends BaseActivity
         super.onWindowFocusChanged(hasFocus);
         int maxWidth = ScreenUtils.getScreenWidth(ImageProcessActivity.this);
         int maxHeight = ScreenUtils.getScreenHeight(ImageProcessActivity.this);
-        currentBitmap = ImageUtils.getBitmapFromPath(saveImage.saveImagePath, maxWidth, maxHeight);
+        currentBitmap = ImageUtils.getBitmapFromPathSimple(saveImage.saveImagePath);
         currentShowBitmap = Bitmap.createBitmap(currentBitmap);
         piv_center_imageprocess.setImageBitmap(currentShowBitmap);
     }
@@ -295,12 +297,12 @@ public class ImageProcessActivity extends BaseActivity
                 ImageUtils.saveBitmap(currentBitmap, file.getParent().toString(), file.getName().toString());
 
                 //取出SaveImage，从saveImagePath中取出图像，然后绘制字幕，绘制印记，再保存到Constants.resultPath路径下。
-                Bitmap itemBitmap = ImageUtils.getBitmapFromPath(saveImage.saveImagePath);
+                Bitmap itemBitmap = ImageUtils.getBitmapFromPathSimple(saveImage.saveImagePath);
 
                 //水印图
                 if (saveImage.yinjiBitmap != null)
                 {
-                    itemBitmap = ImageUtils.watermarkWithBmp(itemBitmap, saveImage.yinjiBitmap, saveImage.x, saveImage.y);
+                    itemBitmap = ImageProcessUtils.watermarkWithBmp(itemBitmap, saveImage.yinjiBitmap, saveImage.x, saveImage.y);
                 }
 
                 //带字幕图
@@ -332,7 +334,7 @@ public class ImageProcessActivity extends BaseActivity
                     {
                         fontSize = 12;
                     }
-                    itemBitmap = ImageUtils.watermarkWithText(itemBitmap, saveImage.subtitle, x, y, fontSize, R.color.text);
+                    itemBitmap = ImageProcessUtils.watermarkWithText(itemBitmap, saveImage.subtitle, x, y, fontSize, R.color.text);
                 }
                 File itemFile = new File(saveImage.saveImagePath);
                 ImageUtils.saveBitmap(itemBitmap, itemFile.getParent().toString(), itemFile.getName().toString());
@@ -358,7 +360,7 @@ public class ImageProcessActivity extends BaseActivity
                 if(resultCode == RESULT_OK)
                 {
                     String path = data.getStringExtra(Constants.CROPIMAGEPATH);
-                    currentShowBitmap = ImageUtils.getBitmapFromPath(path);
+                    currentShowBitmap = ImageUtils.getBitmapFromPathSimple(path);
                     piv_center_imageprocess.setImagePath(path);
                     piv_center_imageprocess.setImageBitmap(currentShowBitmap);
                 }

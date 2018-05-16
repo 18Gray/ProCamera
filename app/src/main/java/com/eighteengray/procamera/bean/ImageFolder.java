@@ -76,6 +76,12 @@ public class ImageFolder implements Serializable
         this.imagePathList = imagePathList;
     }
 
+    public void addImagePath(String path){
+        if(this.imagePathList != null){
+            this.imagePathList.add(path);
+        }
+    }
+
     public boolean isSelected()
     {
         return isSelected;

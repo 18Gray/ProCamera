@@ -41,10 +41,6 @@ ext {
     frescoVersion = '1.1.0'
     glideVersion = '3.7.0'
 
-    // Test dependencies
-    espressoVersion = '2.2.2'
-    junitVersion = '4.12'
-
     robolectricVersion = '3.1.2'
     hamcrestVersion = '1.3'
     mockitoVersion = '1.10.19'
@@ -54,5 +50,6 @@ ext {
     supportTestVersion = '0.5'
 
     //工具类
-    commonUtilsVersion = 'v0.1'
+    commonUtilsVersion = 'v0.8'
+    proCameraAlbum = '0.2'
 }

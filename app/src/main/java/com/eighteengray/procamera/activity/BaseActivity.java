@@ -132,6 +132,8 @@ public abstract class BaseActivity extends SwipeBackActivity
             }
         });
 
+        tv_title.setVisibility(View.GONE);
+        btn_search.setVisibility(View.GONE);
         btn_right.setVisibility(View.GONE);
     }
 
