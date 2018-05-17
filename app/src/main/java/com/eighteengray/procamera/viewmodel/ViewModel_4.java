@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.eighteengray.cardlibrary.viewmodel.IViewModel;
 import com.eighteengray.cardlibrary.widget.BaseRecyclerViewHolder;
 import com.eighteengray.commonutillibrary.ImageUtils;
@@ -41,8 +42,8 @@ public class ViewModel_4 implements IViewModel<ImageFolder>
         TextView tv_count_item_dirlist = baseRecyclerViewHolder.getViewById(R.id.tv_count_item_dirlist);
         ImageView iv_choosen_item_dirlist = baseRecyclerViewHolder.getViewById(R.id.iv_choosen_item_dirlist);
 
-        Bitmap bitmap = ImageUtils.getBitmapFromPathSimple(data.getFirstImagePath());
-        iv_image_item_dirlist.setImageBitmap(bitmap);
+        Glide.with(context).load(data.getFirstImagePath()).into(iv_image_item_dirlist);
+
         tv_name_item_dirlist.setText(data.getName());
         tv_count_item_dirlist.setText(data.getImagePathList().size() + "张");
         iv_choosen_item_dirlist.setVisibility(data.isSelected() ? View.VISIBLE : View.GONE);

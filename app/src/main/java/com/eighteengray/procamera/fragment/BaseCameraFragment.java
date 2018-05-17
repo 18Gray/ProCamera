@@ -13,9 +13,8 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import com.eighteengray.procamera.R;
-import com.eighteengray.procamera.activity.AlbumActivity;
 import com.eighteengray.procamera.activity.MineActivity;
-import com.eighteengray.procamera.activity.SettingActivity;
+import com.eighteengray.procamera.business.JumpActivityUtils;
 
 
 public class BaseCameraFragment extends Fragment
@@ -76,16 +75,13 @@ public class BaseCameraFragment extends Fragment
                 drawerLayout.closeDrawers();
                 switch (menuItem.getItemId()){
                     case R.id.navi_album:
-                        Intent intent1 = new Intent(getActivity(), AlbumActivity.class);
-                        startActivity(intent1);
+                        JumpActivityUtils.jump2AlbumActivity(getActivity(), true, true, false);
                         break;
                     case R.id.navi_cloudpics:
-                        Intent intent2 = new Intent(getActivity(), SettingActivity.class);
-                        startActivity(intent2);
+                       JumpActivityUtils.jump2SettingActivity(getActivity());
                         break;
                     case R.id.navi_settings:
-                        Intent intent3 = new Intent(getActivity(), SettingActivity.class);
-                        startActivity(intent3);
+                        JumpActivityUtils.jump2SettingActivity(getActivity());
                         break;
                 }
                 return true;

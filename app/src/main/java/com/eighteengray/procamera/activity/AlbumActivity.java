@@ -62,6 +62,12 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResId());
         ButterKnife.bind(this);
+
+        Bundle bundle = getIntent().getExtras();
+        isRadio = bundle.getBoolean(Constants.IS_RADIO);
+        isTakeCamera = bundle.getBoolean(Constants.IS_TAKE_CAMERA);
+        isShowAdd = bundle.getBoolean(Constants.IS_SHOW_ADD);
+
         initCommonTitle();
         mContentResolver = getContentResolver();
         EventBus.getDefault().register(this);
@@ -80,20 +86,18 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
         DaggerAlbumComponent.builder().presenterModule(new PresenterModule(this)).build().inject(this);
         //获取数据
         rl_pics_album.showLoadingView();
-        albumPresenter.getAlbumData(AlbumActivity.this);
+        albumPresenter.getAlbumData(AlbumActivity.this, isRadio, isTakeCamera, isShowAdd);
 
         rl_pics_album.setRecyclerViewScroll(new RecyclerLayout.RecyclerViewScroll()
         {
             @Override
             public void refreshData()
             {
-                albumPresenter.getAlbumData(AlbumActivity.this);
             }
 
             @Override
             public void getMoreData()
             {
-                albumPresenter.getAlbumData(AlbumActivity.this);
             }
 
             @Override
@@ -142,7 +146,7 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
         updateImageFolderList(imageFolderArrayList, currentImageFolderNum);
         setAdapterData(imageFolderArrayList, currentImageFolderNum);
         tv_select_album.setText(imageFolderArrayList.get(currentImageFolderNum).getName());
-        if(imageFoldersDialogFragment != null){
+        if(imageFoldersDialogFragment != null && imageFoldersDialogFragment.isVisible()){
             imageFoldersDialogFragment.dismiss();
         }
     }
@@ -153,8 +157,8 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
         imageFolderArrayList = (ArrayList<ImageFolder>) imageFolders;
         if(imageFolderArrayList != null && imageFolderArrayList.size() > 0)
         {
-            List<String> imagePathList = imageFolderArrayList.get(currentImageFolderNum).getImagePathList();
-            rl_pics_album.showRecyclerView(GenerateDataUtils.generateDataBeanList(1, imagePathList), Constants.viewModelPackage);
+            List<ImageFolder.ImageItem> imageItemList = imageFolderArrayList.get(currentImageFolderNum).getImagePathList();
+            rl_pics_album.showRecyclerView(GenerateDataUtils.generateDataBeanList(1, imageItemList), Constants.viewModelPackage);
         }
     }
 

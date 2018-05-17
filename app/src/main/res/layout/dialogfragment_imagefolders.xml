@@ -10,7 +10,7 @@
         android:id="@+id/rl_imagefolders_dialogfragment"
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        app:LayoutManagerNum="3"
+        app:LayoutManagerNum="1"
        />
 
 

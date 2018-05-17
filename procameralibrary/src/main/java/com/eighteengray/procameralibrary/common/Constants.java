@@ -10,6 +10,10 @@ public class Constants
 	public static final String IMAGEFOLDERS = "imagefolders";
 	public static final String CURRENTFOLDERNUM = "currentfoldernum";
 
+    public static final String IS_RADIO = "isRadio";
+    public static final String IS_TAKE_CAMERA = "isTakeCamera";
+    public static final String IS_SHOW_ADD = "isShowAdd";
+
 
 	//Handler Message What
 	public static final int IMAGEPROCESS = 106;

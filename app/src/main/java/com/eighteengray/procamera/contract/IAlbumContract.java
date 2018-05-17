@@ -16,7 +16,7 @@ public interface IAlbumContract
 
     public interface IPresenter
     {
-        public void getAlbumData(Context context);
+        public void getAlbumData(Context context, boolean isRadio, boolean isTakeCamera, boolean isShowAdd);
     }
 
 }

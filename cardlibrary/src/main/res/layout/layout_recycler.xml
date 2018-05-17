@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:orientation="vertical" >
+
+    <!--LoadingView-->
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <!--RecyclerView-->
+        <android.support.v7.widget.RecyclerView
+	        android:id="@+id/recycler_view"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent" />
+    
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <!--MoreView-->
+    <android.support.v4.widget.ContentLoadingProgressBar
+        android:id="@+id/loadmore_progressbar"
+        style="?android:attr/progressBarStyleInverse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        tools:targetApi="donut"/>
+
+    <!--ErrorView-->
+    <RelativeLayout
+        android:id="@+id/rl_error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        >
+
+        <ImageView
+            android:id="@+id/iv_error"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/error_grey600_24dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_error"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="出错了，请重试"
+            />
+
+    </RelativeLayout>
+
+</RelativeLayout>

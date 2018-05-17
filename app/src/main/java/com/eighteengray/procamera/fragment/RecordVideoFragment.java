@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.activity.AlbumActivity;
 import com.eighteengray.procamera.activity.SettingActivity;
+import com.eighteengray.procamera.business.JumpActivityUtils;
 import com.eighteengray.procamera.widget.dialogfragment.ModeSelectDialogFragment;
 import com.eighteengray.procamera.widget.dialogfragment.PopupWindowFactory;
 import com.eighteengray.procameralibrary.camera.RecordTextureView;
@@ -129,8 +130,7 @@ public class RecordVideoFragment extends BaseCameraFragment
                 break;
 
             case R.id.iv_album_camera:
-                Intent intent_album = new Intent(getActivity(), AlbumActivity.class);
-                startActivity(intent_album);
+                JumpActivityUtils.jump2AlbumActivity(getActivity(), true, true, false);
                 break;
 
             case R.id.iv_shutter_camera:

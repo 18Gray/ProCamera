@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--MainActivity基本色-->
+    <color name="primary_main">#010101</color>
+    <color name="primary_dark_main">#000000</color>
+    <color name="primary_light_main">#ae7E7570</color>
+    <color name="primary_transparent_main">#00010101</color>
+
+    <color name="accent_main">#E0E245</color>
+
+    <color name="divider_main">#7C7C7C</color>
+
+
+    <!--其他页面基本色-->
+    <color name="primary">#673AB7</color>
+    <color name="primary_dark">#512DA8</color>
+    <color name="primary_light">#D1C4E9</color>
+    <color name="accent">#FF9800</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#757575</color>
+    <color name="text">#FFFFFF</color>
+    <color name="divider">#BDBDBD</color>
+
+
+    <!--首页面-->
+    <color name="white">#ffffff</color>
+    <color name="white_transparent">#00ffffff</color>
+
+
+
+
+</resources>

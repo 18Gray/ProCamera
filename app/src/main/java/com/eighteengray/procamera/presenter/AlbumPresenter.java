@@ -25,9 +25,9 @@ public class AlbumPresenter implements IAlbumContract.IPresenter
 
 
     @Override
-    public void getAlbumData(Context context)
+    public void getAlbumData(Context context, boolean isRadio, boolean isTakeCamera, boolean isShowAdd)
     {
-        AlbumBusiness.getImageFolder(context.getContentResolver()).subscribe(new Action1<List<ImageFolder>>()
+        AlbumBusiness.getImageFolder(context, isRadio, isTakeCamera, isShowAdd).subscribe(new Action1<List<ImageFolder>>()
         {
             @Override
             public void call(List<ImageFolder> imageFolders)

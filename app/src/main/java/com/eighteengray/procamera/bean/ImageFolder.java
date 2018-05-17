@@ -15,7 +15,7 @@ public class ImageFolder implements Serializable
     private String folderDir;
 
     /**
-     * 第一张图片的路径
+     * 第一张图片的路径，即封面图
      */
     private String firstImagePath;
 
@@ -25,11 +25,15 @@ public class ImageFolder implements Serializable
     private String name;
 
     /**
-     * 文件夹内所有图片路径
+     * 文件夹是否被选中
      */
-    public List<String> imagePathList = new ArrayList<String>();
-
     public boolean isSelected;
+
+    /**
+     * 文件夹内所有图片的结构
+     */
+    public List<ImageItem> imagePathList = new ArrayList<ImageItem>();
+
 
 
     public String getFolderDir()
@@ -44,7 +48,6 @@ public class ImageFolder implements Serializable
         this.name = this.folderDir.substring(lastIndexOf);
     }
 
-
     public String getFirstImagePath()
     {
         return firstImagePath;
@@ -54,7 +57,6 @@ public class ImageFolder implements Serializable
     {
         this.firstImagePath = firstImagePath;
     }
-
 
     public void setName(String name)
     {
@@ -66,22 +68,6 @@ public class ImageFolder implements Serializable
         return name;
     }
 
-    public List<String> getImagePathList()
-    {
-        return imagePathList;
-    }
-
-    public void setImagePathList(List<String> imagePathList)
-    {
-        this.imagePathList = imagePathList;
-    }
-
-    public void addImagePath(String path){
-        if(this.imagePathList != null){
-            this.imagePathList.add(path);
-        }
-    }
-
     public boolean isSelected()
     {
         return isSelected;
@@ -91,4 +77,30 @@ public class ImageFolder implements Serializable
     {
         isSelected = selected;
     }
+
+
+
+    public static class ImageItem{
+        public String imagePath;
+        public int resource;
+        public boolean showCheckBox;
+        public boolean isChecked;
+    }
+
+    public List<ImageItem> getImagePathList()
+    {
+        return imagePathList;
+    }
+
+    public void setImagePathList(List<ImageItem> imagePathList)
+    {
+        this.imagePathList = imagePathList;
+    }
+
+    public void addImagePath(ImageItem imageItem){
+        if(this.imagePathList != null){
+            this.imagePathList.add(imageItem);
+        }
+    }
+
 }

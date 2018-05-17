@@ -28,6 +28,7 @@ import com.eighteengray.commonutillibrary.SDCardUtils;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.activity.AlbumActivity;
 import com.eighteengray.procamera.business.ImageSaver;
+import com.eighteengray.procamera.business.JumpActivityUtils;
 import com.eighteengray.procamera.widget.FocusView;
 import com.eighteengray.procamera.widget.TextureViewTouchListener;
 import com.eighteengray.procamera.widget.VerticalSeekBar;
@@ -305,8 +306,7 @@ public class Camera2Fragment extends BaseCameraFragment
                 break;
 
             case R.id.iv_album_camera: //进入相册
-                Intent intent_album = new Intent(getActivity(), AlbumActivity.class);
-                startActivity(intent_album);
+                JumpActivityUtils.jump2AlbumActivity(getActivity(), true, true, false);
                 break;
 
             case R.id.iv_ratio_camera: //弹出比例修改对话框，修改拍摄比例
