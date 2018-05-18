@@ -55,7 +55,7 @@
 
         <activity android:name=".activity.AlbumActivity" />
 
-        <activity android:name=".activity.ImageProcessActivity"  />
+        <activity android:name=".activity.ImageProcessOldActivity"  />
 
         <activity android:name=".activity.SettingActivity" />
 
@@ -63,7 +63,6 @@
 
         <activity android:name=".activity.MineActivity"/>
 
-        <activity android:name=".card.baserecycler.BaseRecyclerViewCollapseActivity"/>
 
     </application>
 

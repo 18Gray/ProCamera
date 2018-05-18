@@ -1,10 +1,10 @@
-package com.eighteengray.procamera.activity;
+package com.eighteengray.procamera.imageprocess.activity;
 
 
 import android.os.Bundle;
 
 import com.eighteengray.procamera.R;
-import com.eighteengray.procamera.bean.SaveImage;
+import com.eighteengray.procamera.activity.BaseActivity;
 
 import org.greenrobot.eventbus.EventBus;
 

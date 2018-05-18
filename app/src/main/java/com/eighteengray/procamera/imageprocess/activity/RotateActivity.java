@@ -1,7 +1,6 @@
-package com.eighteengray.procamera.activity;
+package com.eighteengray.procamera.imageprocess.activity;
 
 
-import java.io.File;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -16,15 +15,18 @@ import com.eighteengray.commonutillibrary.ImageUtils;
 import com.eighteengray.commonutillibrary.SDCardUtils;
 import com.eighteengray.commonutillibrary.ScreenUtils;
 import com.eighteengray.procamera.R;
+import com.eighteengray.procamera.activity.BaseActivity;
 import com.eighteengray.procamera.widget.CropImageView;
 import com.eighteengray.procameralibrary.common.Constants;
+
+import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class CutActivity extends BaseActivity
+public class RotateActivity extends BaseActivity
 {
     @BindView(R.id.civ_cut)
     CropImageView mCropImage;
@@ -64,7 +66,7 @@ public class CutActivity extends BaseActivity
         ButterKnife.bind(this);
 
 
-        width = ScreenUtils.getScreenWidth(CutActivity.this);
+        width = ScreenUtils.getScreenWidth(RotateActivity.this);
         path = getIntent().getStringExtra(Constants.CROPIMAGEPATH);
         bitmap = ImageUtils.getBitmapFromPathSimple(path);
         drawable = new BitmapDrawable(bitmap);
@@ -92,9 +94,9 @@ public class CutActivity extends BaseActivity
                     public void run()
                     {
                         Bitmap cutBitmap = mCropImage.getCropImage();
-                        File file = FileUtils.createFile(SDCardUtils.getAppFile(CutActivity.this).getAbsolutePath(), "cutBitmap.jpg");
+                        File file = FileUtils.createFile(SDCardUtils.getAppFile(RotateActivity.this).getAbsolutePath(), "cutBitmap.jpg");
                         path = file.getAbsolutePath();
-                        ImageUtils.saveBitmap2Album(CutActivity.this, cutBitmap);
+                        ImageUtils.saveBitmap2Album(RotateActivity.this, cutBitmap);
                         handler.sendEmptyMessage(Constants.CUTPIC);
                     }
                 }).start();

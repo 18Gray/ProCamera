@@ -2,24 +2,20 @@ package com.eighteengray.procamera.viewmodel;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-
 import com.bumptech.glide.Glide;
 import com.eighteengray.cardlibrary.viewmodel.IViewModel;
 import com.eighteengray.cardlibrary.widget.BaseRecyclerViewHolder;
-import com.eighteengray.commonutillibrary.ImageUtils;
 import com.eighteengray.commonutillibrary.ScreenUtils;
 import com.eighteengray.procamera.MainActivity;
 import com.eighteengray.procamera.R;
-import com.eighteengray.procamera.activity.ImageProcessActivity;
+import com.eighteengray.procamera.activity.ImageProcessOldActivity;
 import com.eighteengray.procamera.bean.ImageFolder;
-import com.squareup.haha.perflib.Main;
 
 
 /**
@@ -58,7 +54,7 @@ public class ViewModel_1 implements IViewModel<ImageFolder.ImageItem>
             public void onClick(View v)
             {
                 if(!TextUtils.isEmpty(imageItem.imagePath)){
-                    Intent intent = new Intent(context, ImageProcessActivity.class);
+                    Intent intent = new Intent(context, ImageProcessOldActivity.class);
                     intent.putExtra("imagePath", imageItem.imagePath);
                     context.startActivity(intent);
                 }else { // 跳转相机
