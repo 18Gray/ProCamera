@@ -78,7 +78,7 @@ public class BaseCameraFragment extends Fragment
                         JumpActivityUtils.jump2AlbumActivity(getActivity(), true, true, false);
                         break;
                     case R.id.navi_cloudpics:
-                       JumpActivityUtils.jump2SettingActivity(getActivity());
+                       JumpActivityUtils.jump2WebViewActivity(getActivity());
                         break;
                     case R.id.navi_settings:
                         JumpActivityUtils.jump2SettingActivity(getActivity());

@@ -1,0 +1,21 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_aty_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+>
+
+    <include
+        android:id="@+id/common_title"
+        layout="@layout/layout_common_title"
+        />
+
+    <com.github.lzyzsd.jsbridge.BridgeWebView
+        android:id="@+id/bridge_web_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>
+
+

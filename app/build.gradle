@@ -24,7 +24,6 @@ dependencies {
     compile project(':procameralibrary')
     compile project(':imageprocesslibrary')
     compile "com.github.18Gray:CommonUtils:$rootProject.ext.commonUtilsVersion"
-    compile "com.github.18Gray:ProCameraAlbum:$rootProject.ext.proCameraAlbum"
 
     //基础库
     compile "com.android.support:support-v4:$rootProject.ext.supportLibraryVersion"
@@ -53,8 +52,12 @@ dependencies {
     compile "com.facebook.fresco:fresco:$rootProject.ext.frescoVersion"
     compile "com.github.bumptech.glide:glide:$rootProject.ext.glideVersion"
 
+    // JSBridge
+    compile "com.github.lzyzsd:jsbridge:$rootProject.ext.jsBridge"
+
     // 测试性能库
     debugCompile "com.squareup.leakcanary:leakcanary-android:$rootProject.ext.leakcanary"
     releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.ext.leakcanary"
     testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.ext.leakcanary"
+    compile project(':cardlibrary')
 }

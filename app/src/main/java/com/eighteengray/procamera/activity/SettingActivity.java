@@ -7,9 +7,7 @@ import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.Settings;
 import com.eighteengray.procamera.contract.ISettingContract;
 import com.eighteengray.procamera.presenter.SettingPresenter;
-
 import org.greenrobot.eventbus.EventBus;
-
 import java.util.List;
 
 import butterknife.BindView;
@@ -38,7 +36,7 @@ public class SettingActivity extends BaseActivity implements ISettingContract.IV
         setContentView(getLayoutResId());
         ButterKnife.bind(this);
         initCommonTitle();
-        EventBus.getDefault().register(this);
+//        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -94,7 +92,7 @@ public class SettingActivity extends BaseActivity implements ISettingContract.IV
     protected void onDestroy()
     {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
+//        EventBus.getDefault().unregister(this);
     }
 
 

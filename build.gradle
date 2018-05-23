@@ -51,5 +51,5 @@ ext {
 
     //工具类
     commonUtilsVersion = 'v0.8'
-    proCameraAlbum = '0.2'
+    jsBridge = '1.0.4'
 }
