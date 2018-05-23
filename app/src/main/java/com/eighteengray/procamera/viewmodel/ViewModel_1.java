@@ -14,8 +14,8 @@ import com.eighteengray.cardlibrary.widget.BaseRecyclerViewHolder;
 import com.eighteengray.commonutillibrary.ScreenUtils;
 import com.eighteengray.procamera.MainActivity;
 import com.eighteengray.procamera.R;
-import com.eighteengray.procamera.activity.ImageProcessOldActivity;
 import com.eighteengray.procamera.bean.ImageFolder;
+import com.eighteengray.procamera.imageprocess.activity.ImageProcessActivity;
 
 
 /**
@@ -54,7 +54,7 @@ public class ViewModel_1 implements IViewModel<ImageFolder.ImageItem>
             public void onClick(View v)
             {
                 if(!TextUtils.isEmpty(imageItem.imagePath)){
-                    Intent intent = new Intent(context, ImageProcessOldActivity.class);
+                    Intent intent = new Intent(context, ImageProcessActivity.class);
                     intent.putExtra("imagePath", imageItem.imagePath);
                     context.startActivity(intent);
                 }else { // 跳转相机
