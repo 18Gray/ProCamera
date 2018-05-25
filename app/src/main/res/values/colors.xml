@@ -28,6 +28,7 @@
     <color name="white_transparent">#00ffffff</color>
 
 
-
+    <!--图像处理界面-->
+    <color name="bg_image_process">#BDBDBD</color>
 
 </resources>

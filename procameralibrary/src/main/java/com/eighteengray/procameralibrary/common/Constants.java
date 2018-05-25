@@ -24,6 +24,23 @@ public class Constants
 	public static final int CUT_IMAGE = 103;
 
 
+	// SharePreference要保存的key
+    public static final String SETTINGS = "settings";
+    public static final String IMAGE_QUALITY = "imageQuality";
+    public static final String IMAGE_FORMAT = "imageFormat";
+    public static final String IMAGE_GRID = "imageGrid";
+    public static final String IMAGE_BALANCE = "imageBalance";
+    public static final String IMAGE_ANTI_SHAKE = "imageAntiShake";
+    public static final String IMAGE_MUTE = "imageMute";
+    public static final String IMAGE_HISTOGRAM = "imageHistogram";
+    public static final String IMAGE_SIGN = "imageSign";
+    public static final String IMAGE_SIGN_DATE = "imageSignDate";
+    public static final String IMAGE_LOCATION = "imageLocation";
+    public static final String IMAGE_SIGN_NAME = "imageSignName";
+    public static final String IMAGE_SIGN_TEXT_COLOR = "imageSignTextColor";
+    public static final String IMAGE_SIGN_TEXT_SIZE = "imageSignTextSize";
+
+    public static final String VIDEO_QUALITY = "videoQuality";
 
 	//EventBus常量
 	public static final int MODE_CAMERA = 10001;
@@ -49,5 +66,6 @@ public class Constants
 	public static final int FOCUS_INACTIVE = 10019;
 	public static final int FOCUS_FAILED = 10020;
 
+	// Card的时候必须要传递的包名
 	public  static String viewModelPackage = "com.eighteengray.procamera.viewmodel";
 }

@@ -22,7 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class ImageProcessMenuDialog extends DialogFragment
+public class FilterMenuDialog extends DialogFragment
 {
     View view;
 

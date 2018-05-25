@@ -31,14 +31,14 @@ public class BitmapFilterAdapter extends BaseAdapter
         context = c;
         layoutInflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        filterArray.add(new FilterInfo(R.drawable.filter_original, new GrayBitmapFilter(), "原图"));
-        filterArray.add(new FilterInfo(R.drawable.filter_meibai, new ReverseBitmapFilter(), "美白"));
-        filterArray.add(new FilterInfo(R.drawable.filter_feather, new ReverseBitmapFilter(), "淡雅"));
-        filterArray.add(new FilterInfo(R.drawable.filter_baohe, new GrayBitmapFilter(), "哥特"));
-        filterArray.add(new FilterInfo(R.drawable.filter_light, new ReverseBitmapFilter(), "美食"));
-        filterArray.add(new FilterInfo(R.drawable.filter_lomo, new ReverseBitmapFilter(), "LOMO"));
-        filterArray.add(new FilterInfo(R.drawable.filter_blackwhite, new GrayBitmapFilter(), "黑白"));
-        filterArray.add(new FilterInfo(R.drawable.filter_sharp, new ReverseBitmapFilter(), "锐色"));
+        filterArray.add(new FilterInfo(R.mipmap.filter_original, new GrayBitmapFilter(), "原图"));
+        filterArray.add(new FilterInfo(R.mipmap.filter_meibai, new ReverseBitmapFilter(), "美白"));
+        filterArray.add(new FilterInfo(R.mipmap.filter_feather, new ReverseBitmapFilter(), "淡雅"));
+        filterArray.add(new FilterInfo(R.mipmap.filter_baohe, new GrayBitmapFilter(), "哥特"));
+        filterArray.add(new FilterInfo(R.mipmap.filter_light, new ReverseBitmapFilter(), "美食"));
+        filterArray.add(new FilterInfo(R.mipmap.filter_lomo, new ReverseBitmapFilter(), "LOMO"));
+        filterArray.add(new FilterInfo(R.mipmap.filter_blackwhite, new GrayBitmapFilter(), "黑白"));
+        filterArray.add(new FilterInfo(R.mipmap.filter_sharp, new ReverseBitmapFilter(), "锐色"));
     }
 
     public int getCount()

@@ -68,9 +68,9 @@ public class ViewModel_1 implements IViewModel<ImageFolder.ImageItem>
         if(imageItem.showCheckBox){
             iv_checkbox_item_grid.setVisibility(View.VISIBLE);
             if(imageItem.isChecked){
-                iv_checkbox_item_grid.setImageResource(R.drawable.cb_album_checked);
+                iv_checkbox_item_grid.setImageResource(R.mipmap.cb_album_checked);
             }else {
-                iv_checkbox_item_grid.setImageResource(R.drawable.cb_album_normal);
+                iv_checkbox_item_grid.setImageResource(R.mipmap.cb_album_normal);
             }
         }else {
             iv_checkbox_item_grid.setVisibility(View.GONE);

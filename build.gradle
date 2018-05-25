@@ -1,6 +1,10 @@
 buildscript {
     repositories {
         jcenter()
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
@@ -12,6 +16,10 @@ allprojects {
     repositories {
         jcenter()
         maven { url 'https://jitpack.io' }
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
+        }
     }
 }
 
@@ -52,4 +60,7 @@ ext {
     //工具类
     commonUtilsVersion = 'v0.8'
     jsBridge = '1.0.4'
+
+    // 控件库
+    materialVersion = '1.2.4'
 }

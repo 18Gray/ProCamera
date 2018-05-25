@@ -1,5 +1,7 @@
-package com.eighteengray.procamera.activity;
+package com.eighteengray.procamera.circle;
 
+
+import com.eighteengray.procamera.activity.BaseActivity;
 
 public class CircleEditActivity extends BaseActivity
 {

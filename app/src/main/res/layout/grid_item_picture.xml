@@ -22,7 +22,7 @@
         android:paddingLeft="8dp"
         android:paddingRight="4dp"
         android:paddingTop="4dp"
-        android:src="@drawable/cb_album_normal"
+        android:src="@mipmap/cb_album_normal"
         />
 
 </RelativeLayout>

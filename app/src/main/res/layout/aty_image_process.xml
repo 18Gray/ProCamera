@@ -1,189 +1,87 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primary"
     >
 
     <!-- 顶部菜单 -->
     <RelativeLayout
+        android:id="@+id/rl_topmenu_image_process"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/white"
         >
 
-        <TextView
+        <ImageView
+            android:id="@+id/iv_back_image_process"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
+            android:layout_margin="10dp"
+            android:src="@mipmap/btn_left_arrow"
             />
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp"
+            android:src="@mipmap/btn_redo_menu"
+            />
 
     </RelativeLayout>
 
 
     <!-- 底部菜单 -->
     <LinearLayout
-        android:id="@+id/ll_bottommenu_film"
+        android:id="@+id/ll_bottommenu_image_process"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/primary"
         android:orientation="horizontal"
+        android:background="@color/white"
         >
 
-        <!-- 裁剪 -->
-        <RelativeLayout 
-            android:id="@+id/rl_cut_film"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/tv_filter_image_process"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            >
-            
-            <ImageView 
-                android:id="@+id/iv_cut_film"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="15dp"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/btn_cut"
-                />
-            
-            <TextView 
-                android:id="@+id/tv_cut_film"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/iv_cut_film"
-                android:gravity="center"
-                android:text="裁剪"
-                android:textColor="@color/text"
-                android:textSize="14sp"
-                />
-            
-        </RelativeLayout>
-        
-        <!-- 滤镜 -->
-        <RelativeLayout 
-            android:id="@+id/rl_filter_film"
-            android:layout_width="0dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:textColor="@color/primary_text"
+            android:textSize="16dp"
+            android:text="滤镜"
+            />
+
+        <TextView
+            android:id="@+id/tv_tools_image_process"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            >
-            
-            <ImageView 
-                android:id="@+id/iv_filter_film"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="15dp"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/btn_filter"
-                />
-            
-            <TextView 
-                android:id="@+id/tv_filter_film"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/iv_filter_film"
-                android:gravity="center"
-                android:text="滤镜"
-                android:textColor="@color/text"
-                android:textSize="14sp"
-                />
-            
-        </RelativeLayout>
-        
-        <!-- 字幕 -->
-        <RelativeLayout 
-            android:id="@+id/rl_subtitle_film"
-            android:layout_width="0dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:textColor="@color/primary_text"
+            android:textSize="16dp"
+            android:text="工具"
+            />
+
+        <TextView
+            android:id="@+id/tv_output_image_process"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            >
-            
-            <ImageView 
-                android:id="@+id/iv_subtitle_film"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="15dp"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/btn_subtitle"
-                />
-            
-            <TextView 
-                android:id="@+id/tv_subtitle_film"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/iv_subtitle_film"
-                android:gravity="center"
-                android:text="字幕"
-                android:textColor="@color/text"
-                android:textSize="14sp"
-                />
-            
-        </RelativeLayout>
-        
-        <!-- 印记 -->
-        <RelativeLayout 
-            android:id="@+id/rl_yinji_film"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            >
-            
-            <ImageView 
-                android:id="@+id/iv_yinji_film"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="15dp"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/btn_yinji"
-                />
-            
-            <TextView 
-                android:id="@+id/tv_yinji_film"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/iv_yinji_film"
-                android:gravity="center"
-                android:text="印记"
-                android:textColor="@color/text"
-                android:textSize="14sp"
-                />
-            
-        </RelativeLayout>
-        
-        <!-- 对比度 -->
-        <RelativeLayout 
-            android:id="@+id/rl_duibidu_film"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            >
-            
-            <ImageView 
-                android:id="@+id/iv_duibidu_film"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="15dp"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/btn_duibidu"
-                />
-            
-            <TextView 
-                android:id="@+id/tv_duibidu_film"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/iv_duibidu_film"
-                android:gravity="center"
-                android:text="对比度"
-                android:textColor="@color/text"
-                android:textSize="14sp"
-                />
-            
-        </RelativeLayout>
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:textColor="@color/primary_text"
+            android:textSize="16dp"
+            android:text="导出"
+            />
 
     </LinearLayout>
     
@@ -193,31 +91,13 @@
         android:id="@+id/ll_gallery_film"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_above="@id/ll_bottommenu_film"
+        android:layout_above="@id/ll_bottommenu_image_process"
         android:orientation="horizontal"
         android:background="@color/primary"
         android:visibility="gone"
         >
         
-        <!-- 滤镜 -->
-        <Gallery
-            android:id="@+id/gallery_filter_film"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_gravity="bottom|center_horizontal"
-            android:spacing="2px"
-            android:visibility="gone"
-             />
 
-        <!-- 印记 -->
-        <Gallery
-            android:id="@+id/gallery_yinji_film"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_gravity="bottom|center_horizontal"
-            android:spacing="2px"
-            android:visibility="gone"
-             />
     </LinearLayout>
     
 
@@ -227,9 +107,9 @@
         android:id="@+id/fl_center_imageprocess"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/common_title"
-        android:layout_above="@id/ll_gallery_film"
-        android:background="@color/text"
+        android:layout_below="@id/rl_topmenu_image_process"
+        android:layout_above="@id/ll_bottommenu_image_process"
+        android:background="@color/bg_image_process"
         >
 
         <com.eighteengray.procamera.widget.ProcessImageView
@@ -237,22 +117,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:scaleType="centerInside"
+            android:scaleType="fitXY"
             />
-        
-        <!-- 字幕 -->
-        <TextView 
-            android:id="@+id/tv_subtitletext_film"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="bottom|center_horizontal"
-            android:textColor="@color/text"
-            android:textSize="14sp"
-            android:visibility="gone"
-            />
-        
+
     </FrameLayout>
-	
 
 </RelativeLayout>

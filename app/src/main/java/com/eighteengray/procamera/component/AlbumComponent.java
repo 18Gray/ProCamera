@@ -8,6 +8,5 @@ import dagger.Component;
 @Component(modules = PresenterModule.class)
 public interface AlbumComponent
 {
-
    public void inject(AlbumActivity albumActivity);
 }

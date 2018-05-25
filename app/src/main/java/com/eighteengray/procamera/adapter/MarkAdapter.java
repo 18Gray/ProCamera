@@ -23,16 +23,16 @@ public class MarkAdapter extends BaseAdapter
     {
         this.context = c;
 
-        markList.add(new MarkInfo(R.drawable.img_1, R.drawable.img01));
-        markList.add(new MarkInfo(R.drawable.img_2, R.drawable.img02));
-        markList.add(new MarkInfo(R.drawable.img_3, R.drawable.img03));
-        markList.add(new MarkInfo(R.drawable.img_4, R.drawable.img04));
-        markList.add(new MarkInfo(R.drawable.img_5, R.drawable.img05));
-        markList.add(new MarkInfo(R.drawable.img_6, R.drawable.img06));
-        markList.add(new MarkInfo(R.drawable.img_7, R.drawable.img07));
-        markList.add(new MarkInfo(R.drawable.img_8, R.drawable.img08));
-        markList.add(new MarkInfo(R.drawable.img_9, R.drawable.img09));
-        markList.add(new MarkInfo(R.drawable.img_10, R.drawable.img10));
+        markList.add(new MarkInfo(R.mipmap.img_1, R.mipmap.img01));
+        markList.add(new MarkInfo(R.mipmap.img_2, R.mipmap.img02));
+        markList.add(new MarkInfo(R.mipmap.img_3, R.mipmap.img03));
+        markList.add(new MarkInfo(R.mipmap.img_4, R.mipmap.img04));
+        markList.add(new MarkInfo(R.mipmap.img_5, R.mipmap.img05));
+        markList.add(new MarkInfo(R.mipmap.img_6, R.mipmap.img06));
+        markList.add(new MarkInfo(R.mipmap.img_7, R.mipmap.img07));
+        markList.add(new MarkInfo(R.mipmap.img_8, R.mipmap.img08));
+        markList.add(new MarkInfo(R.mipmap.img_9, R.mipmap.img09));
+        markList.add(new MarkInfo(R.mipmap.img_10, R.mipmap.img10));
     }
 
     @Override

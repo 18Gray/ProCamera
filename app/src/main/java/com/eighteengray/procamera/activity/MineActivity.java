@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.widget.SnackbarUtil;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

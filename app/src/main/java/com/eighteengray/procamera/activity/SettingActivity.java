@@ -2,13 +2,25 @@ package com.eighteengray.procamera.activity;
 
 import android.os.Bundle;
 
+import com.eighteengray.cardlibrary.bean.BaseDataBean;
 import com.eighteengray.cardlibrary.widget.RecyclerLayout;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.Settings;
+import com.eighteengray.procamera.business.GenerateDataUtils;
+import com.eighteengray.procamera.component.DaggerSettingsComponent;
 import com.eighteengray.procamera.contract.ISettingContract;
+import com.eighteengray.procamera.module.PresenterModule;
 import com.eighteengray.procamera.presenter.SettingPresenter;
+import com.eighteengray.procameralibrary.common.Constants;
+import com.eighteengray.procameralibrary.dataevent.ImageFolderEvent;
+
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,6 +39,7 @@ public class SettingActivity extends BaseActivity implements ISettingContract.IV
     @BindView(R.id.rl_settings)
     RecyclerLayout rl_settings;
 
+    @Inject
     SettingPresenter settingPresenter;
 
     @Override
@@ -35,8 +48,9 @@ public class SettingActivity extends BaseActivity implements ISettingContract.IV
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResId());
         ButterKnife.bind(this);
+
         initCommonTitle();
-//        EventBus.getDefault().register(this);
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -55,22 +69,23 @@ public class SettingActivity extends BaseActivity implements ISettingContract.IV
     protected void onResume()
     {
         super.onResume();
+        // 注册Dagger2，从而可以注入Presenter
+        DaggerSettingsComponent.builder().presenterModule(new PresenterModule(this)).build().inject(this);
+
         //获取数据
         rl_settings.showLoadingView();
-        /*rl_settings.getSe(SettingActivity.this);
+        settingPresenter.getSettingsData(this);
 
-        rl_pics_album.setRecyclerViewScroll(new RecyclerLayout.RecyclerViewScroll()
+        rl_settings.setRecyclerViewScroll(new RecyclerLayout.RecyclerViewScroll()
         {
             @Override
             public void refreshData()
             {
-                albumPresenter.getAlbumData(AlbumActivity.this);
             }
 
             @Override
             public void getMoreData()
             {
-                albumPresenter.getAlbumData(AlbumActivity.this);
             }
 
             @Override
@@ -84,7 +99,7 @@ public class SettingActivity extends BaseActivity implements ISettingContract.IV
             {
 
             }
-        });*/
+        });
     }
 
 
@@ -92,13 +107,21 @@ public class SettingActivity extends BaseActivity implements ISettingContract.IV
     protected void onDestroy()
     {
         super.onDestroy();
-//        EventBus.getDefault().unregister(this);
+        EventBus.getDefault().unregister(this);
     }
 
 
     @Override
-    public void setAdapterData(List<Settings> settingsList)
+    public void setAdapterData(List<BaseDataBean<Settings>> settingsList)
+    {
+        rl_settings.showRecyclerView(settingsList, Constants.viewModelPackage);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onImageFolderSelected(ImageFolderEvent imageFolderEvent)
     {
 
     }
+
+
 }

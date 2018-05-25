@@ -10,7 +10,7 @@
         android:id="@+id/iv_item_viewholder"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:src="@drawable/duibidu"
+        android:src="@mipmap/duibidu"
         />
 
 </LinearLayout>

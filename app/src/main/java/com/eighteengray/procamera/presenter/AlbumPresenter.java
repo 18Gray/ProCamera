@@ -17,12 +17,12 @@ public class AlbumPresenter implements IAlbumContract.IPresenter
 {
     private IAlbumContract.IView iView;
 
+
     @Inject
     public AlbumPresenter(IAlbumContract.IView iView)
     {
         this.iView = iView;
     }
-
 
     @Override
     public void getAlbumData(Context context, boolean isRadio, boolean isTakeCamera, boolean isShowAdd)

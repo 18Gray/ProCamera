@@ -233,7 +233,7 @@
                 android:layout_above="@id/rl_middle_bottom_menu"
                 android:layout_margin="30dp"
                 style="@android:style/Widget.Holo.Light.SeekBar"
-                android:thumb="@drawable/thumb_seekbar"
+                android:thumb="@mipmap/thumb_seekbar"
                 />
 
             <!--拍照时的遮挡区域-->

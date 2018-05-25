@@ -50,12 +50,9 @@
             </intent-filter>
         </activity>
 
-
         <activity android:name=".activity.AlbumActivity" />
         <activity android:name=".activity.SettingActivity" />
         <activity android:name=".activity.MineActivity"/>
-        <activity android:name=".activity.CircleEditActivity"/>
-        <activity android:name=".activity.WebViewActivity"/>
 
         <activity android:name=".imageprocess.activity.ImageProcessActivity"/>
         <activity android:name=".imageprocess.activity.BeautyActivity"/>
@@ -65,6 +62,8 @@
         <activity android:name=".imageprocess.activity.FilterActivity"/>
         <activity android:name=".imageprocess.activity.RepairActivity"/>
         <activity android:name=".imageprocess.activity.RotateActivity"/>
+
+        <activity android:name=".circle.CircleEditActivity"/>
 
     </application>
 
