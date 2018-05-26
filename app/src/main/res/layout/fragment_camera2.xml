@@ -26,7 +26,7 @@
             android:scaleType="center"
             android:layout_marginLeft="30dp"
             android:layout_centerVertical="true"
-            android:src="@mipmap/ratio_white_24dp"
+            android:src="@mipmap/crop_white_24dp"
             />
 
         <!--拍照按钮-->
@@ -133,7 +133,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="30dp"
-                    android:src="@mipmap/gpu_filter_white"
+                    android:src="@mipmap/gpu_filter_white_24dp"
                     />
 
             </RelativeLayout>
@@ -233,7 +233,7 @@
                 android:layout_above="@id/rl_middle_bottom_menu"
                 android:layout_margin="30dp"
                 style="@android:style/Widget.Holo.Light.SeekBar"
-                android:thumb="@mipmap/thumb_seekbar"
+                android:thumb="@mipmap/focal_length_change_24dp"
                 />
 
             <!--拍照时的遮挡区域-->

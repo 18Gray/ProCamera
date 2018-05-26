@@ -1,5 +1,7 @@
 package com.eighteengray.procamera.imageprocess.bean;
 
-public class OutputMenuItem
+import java.io.Serializable;
+
+public class OutputMenuItem implements Serializable
 {
 }

@@ -5,25 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
 
-
-
-    <TextView
-        android:id="@+id/tv_view_model5"
+    <ImageView
+        android:id="@+id/iv_icon_viewmodel8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16dp"
-        android:textColor="@color/primary_text"
-        tools:text="图像质量"
+        tools:src="@mipmap/focal_length_change_24dp"
         />
 
-    <com.rey.material.widget.Spinner
-        android:id="@+id/spinner_viewmodel5"
-        style="@style/Material.Widget.Spinner"
+    <TextView
+        android:id="@+id/tv_name_viewmodel8"
         android:layout_width="wrap_content"
-        android:layout_toRightOf="@id/tv_view_model5"
-        android:layout_height="40dp"
-        android:layout_alignParentRight="true"
-        app:rd_style="@style/Material.Drawable.Ripple.Wave"
+        android:layout_height="wrap_content"
+        tools:text="调整"
         />
 
 

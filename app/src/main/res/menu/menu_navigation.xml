@@ -9,7 +9,7 @@
             android:title="我的相册"/>
         <item
             android:id="@+id/navi_cloudpics"
-            android:icon="@mipmap/pics_cloud_black_24dp"
+            android:icon="@mipmap/cloud_black_24dp"
             android:title="云端相册"/>
 
         <item

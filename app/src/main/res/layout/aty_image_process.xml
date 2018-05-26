@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:src="@mipmap/btn_left_arrow"
+            android:src="@mipmap/back_arrow_black_24dp"
             />
 
         <ImageView
@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_margin="10dp"
-            android:src="@mipmap/btn_redo_menu"
+            android:src="@mipmap/redo_menu_black_24dp"
             />
 
     </RelativeLayout>

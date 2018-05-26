@@ -13,7 +13,7 @@
         android:id="@+id/img"  
         android:layout_width="wrap_content"   
         android:layout_height="wrap_content"   
-        android:src="@mipmap/publicloading"
+        android:src="@mipmap/loading_progress_grey_24dp"
         android:layout_gravity="center"
         />  
         

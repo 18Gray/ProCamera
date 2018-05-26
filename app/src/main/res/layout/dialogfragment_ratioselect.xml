@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_gravity="center"
-            android:src="@mipmap/ratio_white_24dp"
+            android:src="@mipmap/crop_white_24dp"
         />
 
         <TextView
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_gravity="center"
-            android:src="@mipmap/ratio_white_24dp"
+            android:src="@mipmap/crop_white_24dp"
         />
 
         <TextView
@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_gravity="center"
-            android:src="@mipmap/ratio_white_24dp"
+            android:src="@mipmap/crop_white_24dp"
         />
 
         <TextView
@@ -102,7 +102,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_gravity="center"
-            android:src="@mipmap/ratio_white_24dp"
+            android:src="@mipmap/crop_white_24dp"
         />
 
         <TextView

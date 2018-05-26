@@ -4,4 +4,5 @@ public class Settings
 {
     public String funcName;
     public String value;
+    public int resourceId;
 }

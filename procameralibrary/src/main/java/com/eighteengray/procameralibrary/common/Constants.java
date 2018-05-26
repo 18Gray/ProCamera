@@ -9,6 +9,7 @@ public class Constants
 	public static final String CROPIMAGEPATH = "cropimagepath";
 	public static final String IMAGEFOLDERS = "imagefolders";
 	public static final String CURRENTFOLDERNUM = "currentfoldernum";
+	public static final String IMAGEPROCESS_TOOLS = "imageProcessTools";
 
     public static final String IS_RADIO = "isRadio";
     public static final String IS_TAKE_CAMERA = "isTakeCamera";

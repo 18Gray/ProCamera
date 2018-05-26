@@ -1,5 +1,7 @@
 package com.eighteengray.procamera.imageprocess.bean;
 
-public class ImageFilterMenuItem
+import java.io.Serializable;
+
+public class ImageFilterMenuItem implements Serializable
 {
 }

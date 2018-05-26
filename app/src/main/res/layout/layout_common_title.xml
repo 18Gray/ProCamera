@@ -11,7 +11,7 @@
         android:layout_height="@dimen/height_back_btn"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
-        android:background="@mipmap/back_white_24dp"
+        android:background="@mipmap/back_arrow_white_24dp"
         />
 
     <TextView

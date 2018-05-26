@@ -1,10 +1,8 @@
 package com.eighteengray.procamera.business;
 
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 
@@ -15,7 +13,6 @@ import com.eighteengray.procamera.model.SystemModel;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -63,14 +60,14 @@ public class AlbumBusiness
 
                                             if(isTakeCamera){ // 第一个图，相机图
                                                 ImageFolder.ImageItem takeCameraItem = new ImageFolder.ImageItem();
-                                                takeCameraItem.resource = R.mipmap.btn_camera;
+                                                takeCameraItem.resource = R.mipmap.take_camera_gray_48dp;
                                                 takeCameraItem.showCheckBox = false;
                                                 takeCameraItem.isChecked = false;
                                                 allPicImageFolder.getImagePathList().add(0, takeCameraItem);
                                             }
                                             if(isShowAdd){ // 最后一个图，添加图
                                                 ImageFolder.ImageItem addImageItem = new ImageFolder.ImageItem();
-                                                addImageItem.resource = R.mipmap.btn_camera;
+                                                addImageItem.resource = R.mipmap.add_grey_24dp;
                                                 addImageItem.showCheckBox = false;
                                                 addImageItem.isChecked = false;
                                                 allPicImageFolder.addImagePath(addImageItem);
@@ -138,14 +135,14 @@ public class AlbumBusiness
                                         ImageFolder currentFolder = entry.getValue();
                                         if(isTakeCamera){ // 第一个图，相机图
                                             ImageFolder.ImageItem takeCameraItem = new ImageFolder.ImageItem();
-                                            takeCameraItem.resource = R.mipmap.btn_camera;
+                                            takeCameraItem.resource = R.mipmap.take_camera_gray_48dp;
                                             takeCameraItem.showCheckBox = false;
                                             takeCameraItem.isChecked = false;
                                             currentFolder.getImagePathList().add(0, takeCameraItem);
                                         }
                                         if(isShowAdd){ // 最后一个图，添加图
                                             ImageFolder.ImageItem addImageItem = new ImageFolder.ImageItem();
-                                            addImageItem.resource = R.mipmap.btn_camera;
+                                            addImageItem.resource = R.mipmap.add_grey_24dp;
                                             addImageItem.showCheckBox = false;
                                             addImageItem.isChecked = false;
                                             currentFolder.addImagePath(addImageItem);

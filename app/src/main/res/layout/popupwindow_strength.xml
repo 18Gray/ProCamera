@@ -15,7 +15,7 @@
         android:max="255"
         android:progress="127"
         android:progressDrawable="@drawable/progress_holo_light"
-        android:thumb="@mipmap/detail_icon_schedule_ball" >
+        android:thumb="@mipmap/focal_length_change_24dp" >
     </SeekBar>
 
     <SeekBar
@@ -27,7 +27,7 @@
         android:max="255"
         android:progress="127"
         android:progressDrawable="@drawable/progress_holo_light"
-        android:thumb="@mipmap/detail_icon_schedule_ball"
+        android:thumb="@mipmap/focal_length_change_24dp"
         android:visibility="gone" >
     </SeekBar>
 
@@ -40,7 +40,7 @@
         android:max="255"
         android:progress="127"
         android:progressDrawable="@drawable/progress_holo_light"
-        android:thumb="@mipmap/detail_icon_schedule_ball"
+        android:thumb="@mipmap/focal_length_change_24dp"
         android:visibility="gone" >
     </SeekBar>
 
@@ -66,7 +66,7 @@
                 android:layout_width="17dp"
                 android:layout_height="17dp"
                 android:layout_marginLeft="20dp"
-                android:src="@mipmap/baohedu" />
+                android:src="@mipmap/brightness_white_24dp" />
 
             <TextView
                 android:id="@+id/tv_baohedu_strength"
@@ -98,7 +98,7 @@
                 android:layout_width="17dp"
                 android:layout_height="17dp"
                 android:layout_marginLeft="20dp"
-                android:src="@mipmap/duibidu" />
+                android:src="@mipmap/tonality_white_24dp" />
             
             <TextView
                 android:id="@+id/tv_duibidu_strength"
@@ -130,7 +130,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginLeft="20dp"
-                android:src="@mipmap/liangdu" />
+                android:src="@mipmap/brightness_white_24dp" />
             
             
             <TextView

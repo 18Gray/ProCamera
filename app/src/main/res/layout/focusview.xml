@@ -18,7 +18,7 @@
         android:layout_height="20dp"
         android:layout_toRightOf="@id/iv_focus_camera"
         android:layout_centerVertical="true"
-        android:src="@mipmap/arrow_awb_white_24dp"
+        android:src="@mipmap/play_arrow_white_24dp"
     />
 
 </RelativeLayout>

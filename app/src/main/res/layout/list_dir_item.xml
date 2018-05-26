@@ -12,7 +12,7 @@
         android:layout_height="100dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:background="@mipmap/pic_dir"
+        android:background="@mipmap/folder_grey_24dp"
         android:paddingBottom="17dp"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
@@ -55,6 +55,6 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="20dp"
-        android:src="@mipmap/dir_choose"/>
+        android:src="@mipmap/done_black_24dp"/>
 
 </RelativeLayout>
