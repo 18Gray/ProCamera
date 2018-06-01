@@ -1,34 +1,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+     android:background="@color/primary"
     >
 
-    <!-- 顶部菜单 -->
-    <RelativeLayout
-        android:id="@+id/rl_topmenu_image_process"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="@color/white"
-        >
-
-        <ImageView
-            android:id="@+id/iv_back_image_process"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:src="@mipmap/back_arrow_black_24dp"
-            />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_margin="10dp"
-            android:src="@mipmap/redo_menu_black_24dp"
-            />
-
-    </RelativeLayout>
+    <!-- top -->
+    <include
+        android:id="@+id/common_title"
+        layout="@layout/layout_common_title"
+        />
 
 
     <!-- 底部菜单 -->
@@ -48,8 +28,8 @@
             android:layout_weight="1"
             android:layout_gravity="center"
             android:gravity="center"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
             android:textColor="@color/primary_text"
             android:textSize="16dp"
             android:text="滤镜"
@@ -62,8 +42,8 @@
             android:layout_weight="1"
             android:layout_gravity="center"
             android:gravity="center"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
             android:textColor="@color/primary_text"
             android:textSize="16dp"
             android:text="工具"
@@ -76,8 +56,8 @@
             android:layout_weight="1"
             android:layout_gravity="center"
             android:gravity="center"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
             android:textColor="@color/primary_text"
             android:textSize="16dp"
             android:text="导出"
@@ -107,7 +87,7 @@
         android:id="@+id/fl_center_imageprocess"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/rl_topmenu_image_process"
+        android:layout_below="@id/common_title"
         android:layout_above="@id/ll_bottommenu_image_process"
         android:background="@color/bg_image_process"
         >
