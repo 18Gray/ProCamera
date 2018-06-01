@@ -14,7 +14,7 @@ import butterknife.ButterKnife;
  */
 public class ImageProcessActivity extends Activity
 {
-
+    private String imagePath;
 
 
     @Override

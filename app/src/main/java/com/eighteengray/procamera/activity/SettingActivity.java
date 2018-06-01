@@ -81,11 +81,13 @@ public class SettingActivity extends BaseActivity implements ISettingContract.IV
             @Override
             public void refreshData()
             {
+                settingPresenter.getSettingsData(SettingActivity.this);
             }
 
             @Override
             public void getMoreData()
             {
+                settingPresenter.getSettingsData(SettingActivity.this);
             }
 
             @Override

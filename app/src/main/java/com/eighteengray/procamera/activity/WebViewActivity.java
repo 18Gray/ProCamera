@@ -18,14 +18,18 @@ public class WebViewActivity extends BaseActivity
 {
     BridgeWebView bridgeWebView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResId());
+
+        initCommonTitle();
+
         bridgeWebView = (BridgeWebView) findViewById(R.id.bridge_web_view);
         bridgeWebView.setDefaultHandler(new DefaultHandler());
-        bridgeWebView.loadUrl("file:///android_asset/TestJsBridge.html");
+        bridgeWebView.loadUrl("file:///android_asset/demo.html");
         registerHandler();
     }
 
@@ -36,14 +40,7 @@ public class WebViewActivity extends BaseActivity
     }
 
     @Override
-    protected void onStart()
-    {
-        super.onStart();
-    }
-
-    @Override
-    protected void onResume()
-    {
+    protected void onResume(){
         super.onResume();
     }
 

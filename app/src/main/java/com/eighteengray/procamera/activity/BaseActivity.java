@@ -65,11 +65,6 @@ public abstract class BaseActivity extends SwipeBackActivity
         return R.layout.activity_base;
     }
 
-    @Override
-    protected void onStart()
-    {
-        super.onStart();
-    }
 
     @Override
     protected void onResume()

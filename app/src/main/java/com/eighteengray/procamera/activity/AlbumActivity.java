@@ -47,7 +47,6 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
     @BindView(R.id.tv_select_album)
     TextView tv_select_album;
 
-    private ContentResolver mContentResolver;
     private ArrayList<ImageFolder> imageFolderArrayList = new ArrayList<>();
 
     ImageFoldersDialogFragment imageFoldersDialogFragment;
@@ -69,7 +68,6 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
         isShowAdd = bundle.getBoolean(Constants.IS_SHOW_ADD);
 
         initCommonTitle();
-        mContentResolver = getContentResolver();
         EventBus.getDefault().register(this);
     }
 

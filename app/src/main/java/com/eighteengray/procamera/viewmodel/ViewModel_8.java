@@ -26,7 +26,7 @@ public class ViewModel_8 implements IViewModel<ImageProcessToolsMenuItem>
     @Override
     public View onCreateView(LayoutInflater layoutInflater)
     {
-        return layoutInflater.inflate(R.layout.view_model7, null);
+        return layoutInflater.inflate(R.layout.view_model8, null);
     }
 
     @Override

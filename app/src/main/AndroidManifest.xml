@@ -53,6 +53,7 @@
         <activity android:name=".activity.AlbumActivity" />
         <activity android:name=".activity.SettingActivity" />
         <activity android:name=".activity.MineActivity"/>
+        <activity android:name=".activity.WebViewActivity"/>
 
         <activity android:name=".imageprocess.activity.ImageProcessActivity"/>
         <activity android:name=".imageprocess.activity.BeautyActivity"/>

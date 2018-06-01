@@ -43,26 +43,26 @@ public class ViewModel_5 implements IViewModel<Settings>
 
         tv_view_model5.setText(settings.funcName);
 
-        String[] items = null;
-        switch (settings.funcName){
-            case "图片质量":
-                items = new String[4];
-                items[0] = "1836p";
-                items[1] = "1152p";
-                items[2] = "1080p";
-                items[3] = "720p";
-                break;
-            case "图片格式":
-                items = new String[4];
-                items[0] = "JPG";
-                items[1] = "PNG";
-                items[2] = "RAW";
-                items[3] = "TIFF";
-                break;
+
+        if(settings.funcName.equals("图片质量")){
+            String[] items1 = new String[4];
+            items1[0] = "1836p";
+            items1[1] = "1152p";
+            items1[2] = "1080p";
+            items1[3] = "720p";
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.row_spn, items1);
+            adapter.setDropDownViewResource(R.layout.row_spn_dropdown);
+            spinner_viewmodel5.setAdapter(adapter);
+        }else if(settings.funcName.equals("图片格式")){
+            String[] items2 = new String[4];
+            items2[0] = "JPG";
+            items2[1] = "PNG";
+            items2[2] = "RAW";
+            items2[3] = "TIFF";
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.row_spn, items2);
+            adapter.setDropDownViewResource(R.layout.row_spn_dropdown);
+            spinner_viewmodel5.setAdapter(adapter);
         }
-        /*ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(context, R.layout.item_text_grid, R.id.tv_item_textgrid, items);
-        spinnerAdapter.setDropDownViewResource(R.layout.item_text_grid);
-        spinner_viewmodel5.setAdapter(spinnerAdapter);*/
     }
 
 
