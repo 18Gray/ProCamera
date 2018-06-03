@@ -15,7 +15,7 @@ public class ImageLoader implements IImageLoader
 {
     private static ImageLoader instance;
 
-    protected int loaderPlan = LOADER_PLAN_GLIDE; //图像加载实现方案
+    private static int loaderPlan = LOADER_PLAN_GLIDE; //图像加载实现方案
 
     protected Context context = null;
     protected Fragment fragment = null;
@@ -33,31 +33,31 @@ public class ImageLoader implements IImageLoader
     protected int placeHolder = 0;
     protected int errorHolder = 0;
 
-    protected DiskCacheMode diskCacheMode = null;
+    protected DiskCacheMode diskCacheMode = DiskCacheMode.ALL;
 
     protected int width, height;
     protected ImageLoadListener imageLoadListener = null;
 
 
-    protected ImageLoader(){
-    }
-
     public static ImageLoader getInstance(){
         if(instance == null){
             synchronized (ImageLoader.class){
                 if(instance == null){
-                    instance = new ImageLoader();
+                    switch (loaderPlan){
+                        case LOADER_PLAN_GLIDE:
+                            instance = new GlideImageLoader();
+                            break;
+                        case LOADER_PLAN_FRESCO:
+                            instance = new FrescoImageLoader();
+                            break;
+                        case LOADER_PLAN_UNIVERSE:
+                            instance = new UniverImageLoader();
+                            break;
+                    }
                 }
             }
         }
         return instance;
-    }
-
-    @Override
-    public IImageLoader setLoaderPlan(int plan)
-    {
-        this.loaderPlan = plan;
-        return this;
     }
 
     @Override
@@ -176,17 +176,7 @@ public class ImageLoader implements IImageLoader
     @Override
     public void execute()
     {
-        switch (loaderPlan){
-            case LOADER_PLAN_GLIDE:
-                GlideImageLoader.getInstance().execute();
-                break;
-            case LOADER_PLAN_FRESCO:
-                FrescoImageLoader.getInstance().execute();
-                break;
-            case LOADER_PLAN_UNIVERSE:
-                UniverImageLoader.getInstance().execute();
-                break;
-        }
+        instance.execute();
     }
 
 }

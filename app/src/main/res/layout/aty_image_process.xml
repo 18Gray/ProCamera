@@ -66,40 +66,14 @@
     </LinearLayout>
     
 
-    <!--中下部-->
-    <LinearLayout 
-        android:id="@+id/ll_gallery_film"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_above="@id/ll_bottommenu_image_process"
-        android:orientation="horizontal"
-        android:background="@color/primary"
-        android:visibility="gone"
-        >
-        
-
-    </LinearLayout>
-    
-
-    
     <!-- 中间部分图像 -->
-    <FrameLayout
-        android:id="@+id/fl_center_imageprocess"
+    <ImageView
+        android:id="@+id/imageview_process"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/common_title"
         android:layout_above="@id/ll_bottommenu_image_process"
         android:background="@color/bg_image_process"
-        >
-
-        <com.eighteengray.procamera.widget.ProcessImageView
-            android:id="@+id/piv_center_imageprocess"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:scaleType="fitXY"
-            />
-
-    </FrameLayout>
+        />
 
 </RelativeLayout>

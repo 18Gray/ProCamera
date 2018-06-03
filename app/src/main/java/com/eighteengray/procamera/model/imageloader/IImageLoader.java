@@ -19,8 +19,6 @@ public interface IImageLoader
     public static int IMAGE_FORMAT_BITMAP = 1;
     public static int IMAGE_FORMAT_GIF = 2;
 
-    public IImageLoader setLoaderPlan(int plan);
-
     public IImageLoader with(Context context);
     public IImageLoader with(Fragment fragment);
     public IImageLoader with(android.support.v4.app.Fragment fragment);

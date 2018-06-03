@@ -14,31 +14,30 @@ import com.eighteengray.cardlibrary.widget.RecyclerLayout;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.ImageFolder;
 import com.eighteengray.procamera.business.GenerateDataUtils;
-import com.eighteengray.procamera.imageprocess.bean.ImageFilterMenuItem;
 import com.eighteengray.procameralibrary.common.Constants;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class FilterMenuDialog extends DialogFragment
+public class RedoMenuDialog extends DialogFragment
 {
     View view;
 
-    @BindView(R.id.rl_filter_menu_dialogfragment)
-    RecyclerLayout rl_filter_menu_dialogfragment;
+    @BindView(R.id.rl_imagefolders_dialogfragment)
+    RecyclerLayout rl_imagefolders_dialogfragment;
 
-    List<ImageFilterMenuItem> imageFilterMenuItems;
+    ArrayList<ImageFolder> imageFolderArrayList;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        imageFilterMenuItems = GenerateDataUtils.generateFilterMenuList();
+        Bundle bundle = getArguments();
+        imageFolderArrayList = (ArrayList<ImageFolder>) bundle.getSerializable(Constants.IMAGEFOLDERS);
     }
 
     @Override
@@ -46,7 +45,7 @@ public class FilterMenuDialog extends DialogFragment
     {
         //全屏显示
         Window window = getDialog().getWindow();
-        view = inflater.inflate(R.layout.dialogfragment_filter_menu, null);
+        view = inflater.inflate(R.layout.dialogfragment_imagefolders, null);
         ButterKnife.bind(this, view);
 
         // 设置宽度为屏宽, 靠近屏幕底部。
@@ -56,7 +55,7 @@ public class FilterMenuDialog extends DialogFragment
         window.setAttributes(lp);
         getDialog().setCancelable(true);
 
-        rl_filter_menu_dialogfragment.showRecyclerView(GenerateDataUtils.generateDataBeanList(4, imageFilterMenuItems), Constants.viewModelPackage);
+        rl_imagefolders_dialogfragment.showRecyclerView(GenerateDataUtils.generateDataBeanList(4, imageFolderArrayList), Constants.viewModelPackage);
         return view;
     }
 

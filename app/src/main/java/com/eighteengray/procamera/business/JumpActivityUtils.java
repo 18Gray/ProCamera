@@ -7,6 +7,7 @@ import android.os.Bundle;
 import com.eighteengray.procamera.activity.AlbumActivity;
 import com.eighteengray.procamera.activity.SettingActivity;
 import com.eighteengray.procamera.activity.WebViewActivity;
+import com.eighteengray.procamera.imageprocess.activity.ImageProcessActivity;
 import com.eighteengray.procameralibrary.common.Constants;
 
 public class JumpActivityUtils
@@ -36,8 +37,12 @@ public class JumpActivityUtils
 
     }
 
-    public static void jump2ImageProcessActivity(){
-
+    public static void jump2ImageProcessActivity(Context context, String imagePath){
+        Intent intent = new Intent(context, ImageProcessActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.IMAGE_PATH, imagePath);
+        intent.putExtras(bundle);
+        context.startActivity(intent);
     }
 
     public static void jump2MineActivity(){

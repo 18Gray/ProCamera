@@ -7,7 +7,9 @@ import com.eighteengray.cardlibrary.bean.BaseDataBean;
 import com.eighteengray.commonutillibrary.SharePreferenceUtils;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.Settings;
+import com.eighteengray.procamera.imageprocess.bean.ImageFilterMenuItem;
 import com.eighteengray.procamera.imageprocess.bean.ImageProcessToolsMenuItem;
+import com.eighteengray.procamera.imageprocess.bean.OutputMenuItem;
 import com.eighteengray.procameralibrary.common.Constants;
 
 import java.util.ArrayList;
@@ -61,11 +63,22 @@ public class GenerateDataUtils
         return baseDataBean;
     }
 
+    public static List<ImageFilterMenuItem> generateFilterMenuList(){
+        List<ImageFilterMenuItem> imageFilterMenuItemList = new ArrayList<>();
+
+        return imageFilterMenuItemList;
+    }
 
     public static List<ImageProcessToolsMenuItem> generateToolMenuItemList(){
         List<ImageProcessToolsMenuItem> imageProcessToolsMenuItemList = new ArrayList<>();
 
         return imageProcessToolsMenuItemList;
+    }
+
+    public static List<OutputMenuItem> generateOutputMenuItemList(){
+        List<OutputMenuItem> outputMenuItemList = new ArrayList<>();
+
+        return outputMenuItemList;
     }
 
 }

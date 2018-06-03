@@ -15,6 +15,7 @@ public class Constants
     public static final String IS_TAKE_CAMERA = "isTakeCamera";
     public static final String IS_SHOW_ADD = "isShowAdd";
 
+	public static final String IMAGE_PATH = "imagePath";
 
 	//Handler Message What
 	public static final int IMAGEPROCESS = 106;
