@@ -56,7 +56,7 @@ public class FilterMenuDialog extends DialogFragment
         window.setAttributes(lp);
         getDialog().setCancelable(true);
 
-        rl_filter_menu_dialogfragment.showRecyclerView(GenerateDataUtils.generateDataBeanList(4, imageFilterMenuItems), Constants.viewModelPackage);
+        rl_filter_menu_dialogfragment.showRecyclerView(GenerateDataUtils.generateDataBeanList(10, imageFilterMenuItems), Constants.viewModelPackage);
         return view;
     }
 

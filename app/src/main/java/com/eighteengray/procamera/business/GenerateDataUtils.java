@@ -66,6 +66,36 @@ public class GenerateDataUtils
     public static List<ImageFilterMenuItem> generateFilterMenuList(){
         List<ImageFilterMenuItem> imageFilterMenuItemList = new ArrayList<>();
 
+        ImageFilterMenuItem imageFilterMenuItem1 = new ImageFilterMenuItem();
+        imageFilterMenuItem1.resourceId = R.mipmap.filter_baohe;
+        imageFilterMenuItem1.filter = "饱和度";
+        imageFilterMenuItemList.add(imageFilterMenuItem1);
+
+        ImageFilterMenuItem imageFilterMenuItem2 = new ImageFilterMenuItem();
+        imageFilterMenuItem2.resourceId = R.mipmap.filter_blackwhite;
+        imageFilterMenuItem2.filter = "白平衡";
+        imageFilterMenuItemList.add(imageFilterMenuItem2);
+
+        ImageFilterMenuItem imageFilterMenuItem3 = new ImageFilterMenuItem();
+        imageFilterMenuItem3.resourceId = R.mipmap.filter_blue;
+        imageFilterMenuItem3.filter = "蓝调";
+        imageFilterMenuItemList.add(imageFilterMenuItem3);
+
+        ImageFilterMenuItem imageFilterMenuItem4 = new ImageFilterMenuItem();
+        imageFilterMenuItem4.resourceId = R.mipmap.filter_feather;
+        imageFilterMenuItem4.filter = "锐化";
+        imageFilterMenuItemList.add(imageFilterMenuItem4);
+
+        ImageFilterMenuItem imageFilterMenuItem5 = new ImageFilterMenuItem();
+        imageFilterMenuItem5.resourceId = R.mipmap.filter_film;
+        imageFilterMenuItem5.filter = "电影";
+        imageFilterMenuItemList.add(imageFilterMenuItem5);
+
+        ImageFilterMenuItem imageFilterMenuItem6 = new ImageFilterMenuItem();
+        imageFilterMenuItem6.resourceId = R.mipmap.filter_lomo;
+        imageFilterMenuItem6.filter = "罗摩";
+        imageFilterMenuItemList.add(imageFilterMenuItem6);
+
         return imageFilterMenuItemList;
     }
 

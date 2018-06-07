@@ -13,6 +13,7 @@ import com.eighteengray.cardlibrary.widget.RecyclerLayout;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.ImageFolder;
 import com.eighteengray.procamera.business.GenerateDataUtils;
+import com.eighteengray.procamera.imageprocess.bean.ImageProcessToolsMenuItem;
 import com.eighteengray.procameralibrary.common.Constants;
 import java.util.ArrayList;
 import butterknife.BindView;
@@ -26,7 +27,7 @@ public class ProcessToolsMenuDialog extends DialogFragment
     @BindView(R.id.rl_imagefolders_dialogfragment)
     RecyclerLayout rl_imagefolders_dialogfragment;
 
-    ArrayList<ImageFolder> imageFolderArrayList;
+    ArrayList<ImageProcessToolsMenuItem> imageProcessToolsMenuItemArrayList;
 
 
     @Override
@@ -34,7 +35,7 @@ public class ProcessToolsMenuDialog extends DialogFragment
     {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
-        imageFolderArrayList = (ArrayList<ImageFolder>) bundle.getSerializable(Constants.IMAGEFOLDERS);
+        imageProcessToolsMenuItemArrayList = (ArrayList<ImageProcessToolsMenuItem>) bundle.getSerializable(Constants.IMAGEFOLDERS);
     }
 
     @Override
@@ -52,7 +53,7 @@ public class ProcessToolsMenuDialog extends DialogFragment
         window.setAttributes(lp);
         getDialog().setCancelable(true);
 
-        rl_imagefolders_dialogfragment.showRecyclerView(GenerateDataUtils.generateDataBeanList(4, imageFolderArrayList), Constants.viewModelPackage);
+        rl_imagefolders_dialogfragment.showRecyclerView(GenerateDataUtils.generateDataBeanList(4, imageProcessToolsMenuItemArrayList), Constants.viewModelPackage);
         return view;
     }
 

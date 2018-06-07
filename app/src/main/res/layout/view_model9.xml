@@ -2,12 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/rl_container_model8"
+                android:id="@+id/rl_container_model9"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" >
 
     <ImageView
-        android:id="@+id/iv_icon_viewmodel8"
+        android:id="@+id/iv_icon_viewmodel9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -15,7 +15,7 @@
         />
 
     <TextView
-        android:id="@+id/tv_name_viewmodel8"
+        android:id="@+id/tv_name_viewmodel9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"

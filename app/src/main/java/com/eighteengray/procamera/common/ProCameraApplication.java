@@ -1,6 +1,9 @@
 package com.eighteengray.procamera.common;
 
 import android.app.Application;
+
+import com.liulishuo.share.ShareLoginSDK;
+import com.liulishuo.share.SlConfig;
 import com.squareup.leakcanary.LeakCanary;
 
 import java.util.concurrent.ExecutorService;
@@ -11,6 +14,7 @@ public class ProCameraApplication extends Application
 {
     private static ProCameraApplication context;
     public static ExecutorService executorService;
+
 
     @Override
     public void onCreate()

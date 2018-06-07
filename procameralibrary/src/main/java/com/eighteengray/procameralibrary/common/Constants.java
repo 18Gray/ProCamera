@@ -17,6 +17,13 @@ public class Constants
 
 	public static final String IMAGE_PATH = "imagePath";
 
+	// 分享相关
+    public static final String SHARE_DIALOG_TYPE = "shareDialogType";
+    public static final String SHARE_TITLE = "shareTitle";
+    public static final String SHARE_CONTENT = "shareContent";
+    public static final String SHARE_URL = "shareUrl";
+    public static final String SHARE_IMAGE_URI = "shareImageUri";
+
 	//Handler Message What
 	public static final int IMAGEPROCESS = 106;
 	public static final int CUTPIC = 112;

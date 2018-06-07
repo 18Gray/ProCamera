@@ -6,6 +6,7 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     defaultConfig {
         applicationId "com.eighteengray.procamera"
+        manifestPlaceholders = ["tencentAuthId": "tencent123456"]   // tencent+你的AppId
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -48,6 +49,7 @@ dependencies {
     apt "com.google.dagger:dagger-compiler:$rootProject.ext.dagger2"
     compile "com.google.dagger:dagger:$rootProject.ext.dagger2"
 
+
     // 图片加载框架
     compile "com.nostra13.universalimageloader:universal-image-loader:$rootProject.ext.universalVersion"
     compile "com.facebook.fresco:fresco:$rootProject.ext.frescoVersion"
@@ -61,6 +63,9 @@ dependencies {
     releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.ext.leakcanary"
     testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.ext.leakcanary"
 
-    // 控件库
+    // Material Design控件库
     compile "com.github.rey5137:material:$rootProject.ext.materialVersion"
+
+    // 第三方社交软件登陆、分享集成库
+    compile 'com.github.tianzhijiexian:ShareLoginLib:1.3.8'
 }
