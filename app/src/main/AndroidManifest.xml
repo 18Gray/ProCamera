@@ -37,6 +37,7 @@
         android:persistent="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:extractNativeLibs="false"
         >
         <activity
             android:name=".MainActivity"
@@ -53,7 +54,6 @@
         <activity android:name=".activity.AlbumActivity" />
         <activity android:name=".activity.SettingActivity" />
         <activity android:name=".activity.MineActivity"/>
-        <activity android:name=".activity.WebViewActivity"/>
 
         <activity android:name=".imageprocess.activity.ImageProcessActivity"/>
         <activity android:name=".imageprocess.activity.BeautyActivity"/>
@@ -65,6 +65,11 @@
         <activity android:name=".imageprocess.activity.RotateActivity"/>
 
         <activity android:name=".circle.CircleEditActivity"/>
+
+        <activity android:name=".activity.WebViewActivity"
+            android:configChanges="orientation|keyboardHidden"
+                  android:process=":remoteWeb"
+            />
 
     </application>
 

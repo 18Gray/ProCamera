@@ -38,22 +38,11 @@
     </style>
 
     <!--CollapsingToolbarLayout向上收缩的字体-->
-    <style name="CollapseTextApperance">
-        <item name="android:textColor">@color/accent</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:gravity">left|bottom</item>
-    </style>
 
     <!--CollapsingToolbarLayout向下打开的字体-->
-    <style name="ExpandTextApperance">
-        <item name="android:textColor">@color/text</item>
-        <item name="android:textSize">20sp</item>
-        <item name="android:gravity">left|center_vertical</item>
-    </style>
 
 
-
-    <style  name="topMenu">
+    <style name="topMenu">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">15dp</item>
@@ -70,12 +59,6 @@
     <style  name="imageViewBtn">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-    </style>
-
-    <style name="ImageFolderDialogFragment" parent="@style/AppTheme">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:windowIsFloating">true</item>
     </style>
 
 </resources>

@@ -255,7 +255,7 @@ public class Camera2TextureView extends BaseCamera2TextureView
         mImageReader.setOnImageAvailableListener(mOnImageAvailableListener, mBackgroundHandler);
     }
 
-    private Size chooseOptimalSize(Size[] choices, int width, int height, Size aspectRatio)
+    private Size chooseOptimalSize(Size[] choices, int width, int height, Size largest)
     {
         List<Size> bigEnough = new ArrayList<Size>();
         for (Size size : choices)
@@ -271,7 +271,7 @@ public class Camera2TextureView extends BaseCamera2TextureView
             return Collections.max(bigEnough, new CompareSizesByArea());
         } else
         {
-            return choices[0];
+            return largest;
         }
     }
 

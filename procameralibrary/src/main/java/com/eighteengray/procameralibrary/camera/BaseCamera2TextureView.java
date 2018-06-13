@@ -51,9 +51,7 @@ public abstract class BaseCamera2TextureView extends TextureView
     protected Surface surface;
     protected CameraCharacteristics mCameraCharacteristics;
 
-    // 权限管理
-    private Rationale mRationale;
-    private PermissionSetting permissionSetting;
+    protected int textureViewWidth, textureViewHeight;
 
 
     //TextureView的状态监听，TextureView好了之后，打开相机
@@ -62,6 +60,8 @@ public abstract class BaseCamera2TextureView extends TextureView
         @Override
         public void onSurfaceTextureAvailable(SurfaceTexture texture, int width, int height)
         {
+            textureViewWidth = width;
+            textureViewHeight = height;
             openCameraReal(width, height, 0);
         }
 
@@ -114,8 +114,6 @@ public abstract class BaseCamera2TextureView extends TextureView
         windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
 
-        mRationale = new DefaultRationale();
-        permissionSetting = new PermissionSetting(context);
     }
 
     protected void setAspectRatio(int width, int height)
@@ -160,7 +158,7 @@ public abstract class BaseCamera2TextureView extends TextureView
         startBackgroundThread();
         if (isAvailable())
         {
-            openCameraReal(getWidth(), getHeight(), cameraNum);
+            openCameraReal(textureViewWidth, textureViewHeight, cameraNum);
         } else
         {
             setSurfaceTextureListener(mSurfaceTextureListener);
@@ -183,7 +181,7 @@ public abstract class BaseCamera2TextureView extends TextureView
             cameraNum = 0;
         }
         closeCameraReal();
-        openCameraReal(getWidth(), getHeight(), cameraNum);
+        openCameraReal(textureViewWidth, textureViewHeight, cameraNum);
     }
 
 
