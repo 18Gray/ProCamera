@@ -70,4 +70,7 @@ dependencies {
 
     // 第三方社交软件登陆、分享集成库
     compile 'com.github.tianzhijiexian:ShareLoginLib:1.3.8'
+
+    // 数据库调试
+    debugCompile 'com.amitshekhar.android:debug-db:1.0.0'
 }

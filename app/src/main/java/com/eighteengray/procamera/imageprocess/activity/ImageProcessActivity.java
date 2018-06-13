@@ -82,20 +82,20 @@ public class ImageProcessActivity extends BaseActivity
         switch (view.getId())
         {
             case R.id.btn_search:
-                RedoMenuDialog redoMenuDialog = new RedoMenuDialog();
-                redoMenuDialog.show(getSupportFragmentManager(), "redo");
+                /*RedoMenuDialog redoMenuDialog = new RedoMenuDialog();
+                redoMenuDialog.show(getSupportFragmentManager(), "redo");*/
                 break;
             case R.id.tv_filter_image_process:
-                FilterMenuDialog filterMenuDialog = new FilterMenuDialog();
-                filterMenuDialog.show(getSupportFragmentManager(), "filter");
+                /*FilterMenuDialog filterMenuDialog = new FilterMenuDialog();
+                filterMenuDialog.show(getSupportFragmentManager(), "filter");*/
                 break;
             case R.id.tv_tools_image_process:
-                ProcessToolsMenuDialog processToolsMenuDialog = new ProcessToolsMenuDialog();
-                processToolsMenuDialog.show(getSupportFragmentManager(), "processtools");
+                /*ProcessToolsMenuDialog processToolsMenuDialog = new ProcessToolsMenuDialog();
+                processToolsMenuDialog.show(getSupportFragmentManager(), "processtools");*/
                 break;
             case R.id.tv_output_image_process:
-                OutputMenuDialog outputMenuDialog = new OutputMenuDialog();
-                outputMenuDialog.show(getSupportFragmentManager(), "output");
+                /*OutputMenuDialog outputMenuDialog = new OutputMenuDialog();
+                outputMenuDialog.show(getSupportFragmentManager(), "output");*/
                 break;
         }
     }
