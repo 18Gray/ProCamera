@@ -1,6 +1,5 @@
 package com.eighteengray.procamera.fragment;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.camera2.CameraAccessException;
@@ -19,14 +18,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
 import com.eighteengray.cardlibrary.bean.BaseDataBean;
 import com.eighteengray.cardlibrary.widget.RecyclerLayout;
 import com.eighteengray.commonutillibrary.FileUtils;
-import com.eighteengray.commonutillibrary.ImageUtils;
 import com.eighteengray.commonutillibrary.SDCardUtils;
 import com.eighteengray.procamera.R;
-import com.eighteengray.procamera.activity.AlbumActivity;
 import com.eighteengray.procamera.business.ImageSaver;
 import com.eighteengray.procamera.business.JumpActivityUtils;
 import com.eighteengray.procamera.widget.FocusView;
@@ -39,7 +35,6 @@ import com.eighteengray.procameralibrary.common.Constants;
 import com.eighteengray.procameralibrary.dataevent.CameraConfigure;
 import com.eighteengray.procameralibrary.dataevent.ImageAvailableEvent;
 import com.eighteengray.procameralibrary.camera.TextureViewTouchEvent;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -93,8 +88,8 @@ public class Camera2Fragment extends BaseCameraFragment
     //中下部
     @BindView(R.id.rl_middle_bottom_menu)
     RelativeLayout rl_middle_bottom_menu;
-    @BindView(R.id.iv_hdr_camera)
-    ImageView iv_hdr_camera;
+    @BindView(R.id.tv_scene_camera)
+    TextView tv_scene_camera;
     @BindView(R.id.tv_mode_select)
     TextView tv_mode_select;
     @BindView(R.id.iv_gpufilter_camera)
@@ -185,22 +180,25 @@ public class Camera2Fragment extends BaseCameraFragment
         List<BaseDataBean<String>> list = new ArrayList<>();
 
         sceneArrayList.add("DISABLED");
-        sceneArrayList.add("FACE_PRIORITY");
         sceneArrayList.add("ACTION");
-        sceneArrayList.add("PORTRAIT");
+        sceneArrayList.add("BARCODE");
+        sceneArrayList.add("BEACH");
+        sceneArrayList.add("CANDLELIGHT");
+        sceneArrayList.add("FACE_PRIORITY");
+
+        sceneArrayList.add("FIREWORKS");
+        sceneArrayList.add("HDR");
         sceneArrayList.add("LANDSCAPE");
         sceneArrayList.add("NIGHT");
-        sceneArrayList.add("PORTRAIT");
-        sceneArrayList.add("THEATRE");
-        sceneArrayList.add("BEACH");
-        sceneArrayList.add("SNOW");
-        sceneArrayList.add("SUNSET");
-        sceneArrayList.add("STEADYPHOTO");
-        sceneArrayList.add("FIREWORKS");
-        sceneArrayList.add("SPORTS");
+        sceneArrayList.add("NIGHTPORTRAIT");
         sceneArrayList.add("PARTY");
-        sceneArrayList.add("CANDLELIGHT");
-        sceneArrayList.add("BARCODE");
+        sceneArrayList.add("PORTRAIT");
+        sceneArrayList.add("SNOW");
+        sceneArrayList.add("SPORTS");
+        sceneArrayList.add("STEADYPHOTO");
+        sceneArrayList.add("SUNSET");
+        sceneArrayList.add("THEATRE");
+
 
         for(int i=0;i < sceneArrayList.size();i++){
             BaseDataBean<String> baseDataBean = new BaseDataBean<>(2, sceneArrayList.get(i));
@@ -249,7 +247,7 @@ public class Camera2Fragment extends BaseCameraFragment
 
 
     @OnClick({R.id.iv_flash_camera, R.id.iv_switch_camera,
-        R.id.iv_hdr_camera, R.id.tv_mode_select, R.id.iv_gpufilter_camera,
+        R.id.tv_scene_camera, R.id.tv_mode_select, R.id.iv_gpufilter_camera,
         R.id.iv_album_camera, R.id.iv_ratio_camera, R.id.iv_shutter_camera, R.id.iv_delay_shutter})
     public void click(View view)
     {
@@ -266,7 +264,7 @@ public class Camera2Fragment extends BaseCameraFragment
                 cameraTextureView.switchCamera();
                 break;
 
-            case R.id.iv_hdr_camera:  //HDR设置
+            case R.id.tv_scene_camera:  //HDR设置
                 if(rl_effect.getVisibility() == View.VISIBLE)
                 {
                     rl_effect.setVisibility(View.GONE);

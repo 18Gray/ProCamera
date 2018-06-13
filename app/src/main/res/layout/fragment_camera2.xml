@@ -114,15 +114,17 @@
                     android:textSize="14sp"
                     />
 
-                <!--HDR-->
-                <ImageView
-                    android:id="@+id/iv_hdr_camera"
+                <!--SCENE-->
+                <TextView
+                    android:id="@+id/tv_scene_camera"
                     style="@style/imageViewBtn"
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="30dp"
                     android:gravity="center"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/hdr_on_white_24dp"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    android:text="Scene"
                     />
 
                 <!--gpufilter-->
