@@ -39,10 +39,10 @@ public class GenerateDataUtils
         List<BaseDataBean<Settings>> settingsDataList = new ArrayList<>();
         settingsDataList.add(createDataSettings(context, Constants.IMAGE_QUALITY, "1920 * 1080", "图片质量", R.mipmap.image_black_24dp, 5));
         settingsDataList.add(createDataSettings(context, Constants.IMAGE_FORMAT, "jpg", "图片格式", R.mipmap.format_black_24dp,5));
-        settingsDataList.add(createDataSettings(context, Constants.IMAGE_SIGN_DATE, "2018-5-25 14:00", "签名日期", R.mipmap.history_black_24dp, 7));
+        settingsDataList.add(createDataSettings(context, Constants.IMAGE_SIGN_DATE, "2018-5-25 14:00", "签名日期", R.mipmap.history_black_24dp, 5));
         settingsDataList.add(createDataSettings(context, Constants.IMAGE_LOCATION, "北京市海淀区中关村", "位置", R.mipmap.location_black_24dp, 7));
         settingsDataList.add(createDataSettings(context, Constants.IMAGE_SIGN_NAME, "EighteenGray", "签名版权", R.mipmap.copyright_black_24dp,7));
-        settingsDataList.add(createDataSettings(context, Constants.IMAGE_SIGN_TEXT_SIZE, "20", "签名字体大小", R.mipmap.text_size_24dp, 7));
+        settingsDataList.add(createDataSettings(context, Constants.IMAGE_SIGN_TEXT_SIZE, "20", "签名字体大小", R.mipmap.text_size_24dp, 5));
         settingsDataList.add(createDataSettings(context, Constants.IMAGE_SIGN_TEXT_COLOR, "#FFFFFF", "签名字体颜色", R.mipmap.palette_black_24dp, 7));
 
         settingsDataList.add(createDataSettings(context, Constants.IMAGE_GRID, "1", "九宫格", R.mipmap.grid_black_24dp, 6));

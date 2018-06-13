@@ -9,10 +9,13 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.eighteengray.cardlibrary.viewmodel.IViewModel;
 import com.eighteengray.cardlibrary.widget.BaseRecyclerViewHolder;
+import com.eighteengray.commonutillibrary.SharePreferenceUtils;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.ImageFolder;
 import com.eighteengray.procamera.bean.Settings;
+import com.eighteengray.procameralibrary.common.Constants;
 import com.eighteengray.procameralibrary.dataevent.ImageFolderEvent;
+import com.rey.material.widget.ImageView;
 import com.rey.material.widget.Switch;
 
 import org.greenrobot.eventbus.EventBus;
@@ -33,13 +36,45 @@ public class ViewModel_6 implements IViewModel<Settings>
     }
 
     @Override
-    public void onBindView(Context context, RecyclerView.ViewHolder holder, Settings settings, final int position)
+    public void onBindView(final Context context, RecyclerView.ViewHolder holder, final Settings settings, final int position)
     {
         BaseRecyclerViewHolder baseRecyclerViewHolder = (BaseRecyclerViewHolder) holder;
+        ImageView iv_icon_model6 = baseRecyclerViewHolder.getViewById(R.id.iv_icon_model6);
         TextView tv_view_model6 = baseRecyclerViewHolder.getViewById(R.id.tv_view_model6);
         Switch switch_viewmodel6 = baseRecyclerViewHolder.getViewById(R.id.switch_viewmodel6);
 
+        iv_icon_model6.setImageResource(settings.resourceId);
         tv_view_model6.setText(settings.funcName);
+
+        switch_viewmodel6.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(Switch aSwitch, boolean b)
+            {
+                String key = null;
+                switch(settings.funcName){
+                    case "九宫格":
+                        key = Constants.IMAGE_GRID;
+                        break;
+                    case "矫衡器":
+                        key = Constants.IMAGE_BALANCE;
+                        break;
+                    case "防手抖":
+                        key = Constants.IMAGE_ANTI_SHAKE;
+                        break;
+                    case "拍摄静音":
+                        key = Constants.IMAGE_MUTE;
+                        break;
+                    case "实时直方图":
+                        key = Constants.IMAGE_HISTOGRAM;
+                        break;
+                    case "开启签名":
+                        key = Constants.IMAGE_SIGN;
+                        break;
+                }
+                SharePreferenceUtils.getInstance(context, Constants.SETTINGS).putBoolean(key, b, false);
+            }
+        });
     }
 
 

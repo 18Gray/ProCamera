@@ -12,11 +12,21 @@
         android:layout_height="wrap_content"
         >
 
+        <com.rey.material.widget.ImageView
+            android:id="@+id/iv_icon_model5"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            tools:src="@drawable/albumset_preselected"
+            />
+
         <TextView
             android:id="@+id/tv_view_model5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@id/iv_icon_model5"
+            android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:textSize="16dp"
@@ -29,6 +39,8 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_toRightOf="@id/tv_view_model5"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp"
             android:minWidth="128dp"
             android:padding="8dp"
             android:gravity="center"

@@ -13,9 +13,12 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.eighteengray.cardlibrary.viewmodel.IViewModel;
 import com.eighteengray.cardlibrary.widget.BaseRecyclerViewHolder;
+import com.eighteengray.commonutillibrary.SharePreferenceUtils;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.Settings;
+import com.eighteengray.procameralibrary.common.Constants;
 import com.eighteengray.procameralibrary.dataevent.ImageFolderEvent;
+import com.rey.material.widget.ImageView;
 import com.rey.material.widget.Spinner;
 
 import org.greenrobot.eventbus.EventBus;
@@ -35,14 +38,16 @@ public class ViewModel_5 implements IViewModel<Settings>
     }
 
     @Override
-    public void onBindView(Context context, RecyclerView.ViewHolder holder, Settings settings, final int position)
+    public void onBindView(final Context context, RecyclerView.ViewHolder holder, Settings settings, final int position)
     {
         BaseRecyclerViewHolder baseRecyclerViewHolder = (BaseRecyclerViewHolder) holder;
+        ImageView iv_icon_model5 = baseRecyclerViewHolder.getViewById(R.id.iv_icon_model5);
         TextView tv_view_model5 = baseRecyclerViewHolder.getViewById(R.id.tv_view_model5);
-        Spinner spinner_viewmodel5 = baseRecyclerViewHolder.getViewById(R.id.spinner_viewmodel5);
+        final Spinner spinner_viewmodel5 = baseRecyclerViewHolder.getViewById(R.id.spinner_viewmodel5);
+
+        iv_icon_model5.setImageResource(settings.resourceId);
 
         tv_view_model5.setText(settings.funcName);
-
 
         if(settings.funcName.equals("图片质量")){
             String[] items1 = new String[4];
@@ -53,6 +58,17 @@ public class ViewModel_5 implements IViewModel<Settings>
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.row_spn, items1);
             adapter.setDropDownViewResource(R.layout.row_spn_dropdown);
             spinner_viewmodel5.setAdapter(adapter);
+
+            spinner_viewmodel5.setOnItemSelectedListener(new Spinner.OnItemSelectedListener()
+            {
+                @Override
+                public void onItemSelected(Spinner spinner, View view, int i, long l)
+                {
+                    String selectedItem = (String) spinner_viewmodel5.getSelectedItem();
+                    SharePreferenceUtils.getInstance(context, Constants.SETTINGS).putString(Constants.IMAGE_QUALITY, selectedItem, true);
+                }
+            });
+
         }else if(settings.funcName.equals("图片格式")){
             String[] items2 = new String[4];
             items2[0] = "JPG";
@@ -62,6 +78,56 @@ public class ViewModel_5 implements IViewModel<Settings>
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.row_spn, items2);
             adapter.setDropDownViewResource(R.layout.row_spn_dropdown);
             spinner_viewmodel5.setAdapter(adapter);
+
+            spinner_viewmodel5.setOnItemSelectedListener(new Spinner.OnItemSelectedListener()
+            {
+                @Override
+                public void onItemSelected(Spinner spinner, View view, int i, long l)
+                {
+                    String selectedItem = (String) spinner_viewmodel5.getSelectedItem();
+                    SharePreferenceUtils.getInstance(context, Constants.SETTINGS).putString(Constants.IMAGE_FORMAT, selectedItem, true);
+                }
+            });
+        }else if(settings.funcName.equals("签名日期")){
+            String[] items3 = new String[4];
+            items3[0] = "年-月-日 时:分:秒";
+            items3[1] = "年-月-日 时:分";
+            items3[2] = "年.月.日 时:分:秒";
+            items3[3] = "年.月.日 时:分";
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.row_spn, items3);
+            adapter.setDropDownViewResource(R.layout.row_spn_dropdown);
+            spinner_viewmodel5.setAdapter(adapter);
+
+            spinner_viewmodel5.setOnItemSelectedListener(new Spinner.OnItemSelectedListener()
+            {
+                @Override
+                public void onItemSelected(Spinner spinner, View view, int i, long l)
+                {
+                    String selectedItem = (String) spinner_viewmodel5.getSelectedItem();
+                    SharePreferenceUtils.getInstance(context, Constants.SETTINGS).putString(Constants.IMAGE_SIGN_DATE, selectedItem, true);
+                }
+            });
+        }else if(settings.funcName.equals("签名字体大小")){
+            String[] items3 = new String[6];
+            items3[0] = "24";
+            items3[1] = "22";
+            items3[2] = "20";
+            items3[3] = "18";
+            items3[4] = "16";
+            items3[5] = "14";
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.row_spn, items3);
+            adapter.setDropDownViewResource(R.layout.row_spn_dropdown);
+            spinner_viewmodel5.setAdapter(adapter);
+
+            spinner_viewmodel5.setOnItemSelectedListener(new Spinner.OnItemSelectedListener()
+            {
+                @Override
+                public void onItemSelected(Spinner spinner, View view, int i, long l)
+                {
+                    String selectedItem = (String) spinner_viewmodel5.getSelectedItem();
+                    SharePreferenceUtils.getInstance(context, Constants.SETTINGS).putString(Constants.IMAGE_SIGN_TEXT_SIZE, selectedItem, true);
+                }
+            });
         }
     }
 

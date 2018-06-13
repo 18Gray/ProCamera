@@ -1,6 +1,7 @@
 package com.eighteengray.procamera.activity;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.eighteengray.cardlibrary.bean.BaseDataBean;
 import com.eighteengray.cardlibrary.widget.RecyclerLayout;
@@ -57,12 +58,6 @@ public class SettingActivity extends BaseActivity implements ISettingContract.IV
     protected int getLayoutResId()
     {
         return R.layout.activity_setting;
-    }
-
-    @Override
-    protected void onStart()
-    {
-        super.onStart();
     }
 
     @Override
