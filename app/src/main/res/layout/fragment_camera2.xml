@@ -41,8 +41,9 @@
         <!--进入相册-->
         <ImageView
             android:id="@+id/iv_album_camera"
-            style="@style/imageViewBtn"
-            android:layout_marginLeft="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="30dp"
             android:scaleType="center"
             android:layout_gravity="right"
             android:layout_marginRight="20dp"
@@ -53,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="15dp"
             >
             <!--延时-->
             <ImageView

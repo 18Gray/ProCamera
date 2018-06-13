@@ -188,7 +188,7 @@ public class Camera2TextureView extends BaseCamera2TextureView
     }
 
     //延时拍摄
-    public void setDalayTime(int nanoseconds)
+    public void setDalayTime(long nanoseconds)
     {
         try
         {
@@ -200,7 +200,16 @@ public class Camera2TextureView extends BaseCamera2TextureView
             }
             else
             {
-                CaptureRequestFactory.setCaptureBuilderDelay(mCaptureStillBuilder);
+                long availableTime = 0;
+                if(nanoseconds >= range.getLower() && nanoseconds <= range.getUpper()){
+                    availableTime = nanoseconds;
+                }else {
+                    availableTime = range.getLower();
+                }
+                if(mCaptureStillBuilder == null){
+                    mCaptureStillBuilder = CaptureRequestFactory.createCaptureStillBuilder(mCameraDevice, mImageReader.getSurface());
+                }
+                CaptureRequestFactory.setCaptureBuilderDelay(mCaptureStillBuilder, availableTime);
             }
 
         } catch (CameraAccessException e)
@@ -444,7 +453,9 @@ public class Camera2TextureView extends BaseCamera2TextureView
     {
         try
         {
-            mCaptureStillBuilder = CaptureRequestFactory.createCaptureStillBuilder(mCameraDevice, mImageReader.getSurface());
+            if(mCaptureStillBuilder == null){
+                mCaptureStillBuilder = CaptureRequestFactory.createCaptureStillBuilder(mCameraDevice, mImageReader.getSurface());
+            }
             CaptureRequestFactory.setCaptureBuilderStill(mCaptureStillBuilder, windowManager);
 
             mCaptureSession.stopRepeating();
