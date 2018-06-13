@@ -59,6 +59,24 @@ public class ViewModel_5 implements IViewModel<Settings>
             adapter.setDropDownViewResource(R.layout.row_spn_dropdown);
             spinner_viewmodel5.setAdapter(adapter);
 
+            int selectedItem = 0;
+            String selected = SharePreferenceUtils.getInstance(context, Constants.SETTINGS).getString(Constants.IMAGE_QUALITY, "1080p");
+            switch (selected){
+                case "1836p":
+                    selectedItem = 0;
+                    break;
+                case "1152p":
+                    selectedItem = 1;
+                    break;
+                case "1080p":
+                    selectedItem = 2;
+                    break;
+                case "720p":
+                    selectedItem = 3;
+                    break;
+            }
+            spinner_viewmodel5.setSelection(selectedItem);
+
             spinner_viewmodel5.setOnItemSelectedListener(new Spinner.OnItemSelectedListener()
             {
                 @Override
@@ -79,6 +97,24 @@ public class ViewModel_5 implements IViewModel<Settings>
             adapter.setDropDownViewResource(R.layout.row_spn_dropdown);
             spinner_viewmodel5.setAdapter(adapter);
 
+            int selectedItem = 0;
+            String selected = SharePreferenceUtils.getInstance(context, Constants.SETTINGS).getString(Constants.IMAGE_FORMAT, "JPG");
+            switch (selected){
+                case "JPG":
+                    selectedItem = 0;
+                    break;
+                case "PNG":
+                    selectedItem = 1;
+                    break;
+                case "RAW":
+                    selectedItem = 2;
+                    break;
+                case "TIFF":
+                    selectedItem = 3;
+                    break;
+            }
+            spinner_viewmodel5.setSelection(selectedItem);
+
             spinner_viewmodel5.setOnItemSelectedListener(new Spinner.OnItemSelectedListener()
             {
                 @Override
@@ -88,6 +124,7 @@ public class ViewModel_5 implements IViewModel<Settings>
                     SharePreferenceUtils.getInstance(context, Constants.SETTINGS).putString(Constants.IMAGE_FORMAT, selectedItem, true);
                 }
             });
+
         }else if(settings.funcName.equals("签名日期")){
             String[] items3 = new String[4];
             items3[0] = "年-月-日 时:分:秒";
@@ -97,6 +134,24 @@ public class ViewModel_5 implements IViewModel<Settings>
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.row_spn, items3);
             adapter.setDropDownViewResource(R.layout.row_spn_dropdown);
             spinner_viewmodel5.setAdapter(adapter);
+
+            int selectedItem = 0;
+            String selected = SharePreferenceUtils.getInstance(context, Constants.SETTINGS).getString(Constants.IMAGE_SIGN_DATE, "年-月-日 时:分:秒");
+            switch (selected){
+                case "年-月-日 时:分:秒":
+                    selectedItem = 0;
+                    break;
+                case "年-月-日 时:分":
+                    selectedItem = 1;
+                    break;
+                case "年.月.日 时:分:秒":
+                    selectedItem = 2;
+                    break;
+                case "年.月.日 时:分":
+                    selectedItem = 3;
+                    break;
+            }
+            spinner_viewmodel5.setSelection(selectedItem);
 
             spinner_viewmodel5.setOnItemSelectedListener(new Spinner.OnItemSelectedListener()
             {
@@ -118,6 +173,30 @@ public class ViewModel_5 implements IViewModel<Settings>
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.row_spn, items3);
             adapter.setDropDownViewResource(R.layout.row_spn_dropdown);
             spinner_viewmodel5.setAdapter(adapter);
+
+            int selectedItem = 0;
+            String selected = SharePreferenceUtils.getInstance(context, Constants.SETTINGS).getString(Constants.IMAGE_SIGN_TEXT_SIZE, "18");
+            switch (selected){
+                case "24":
+                    selectedItem = 0;
+                    break;
+                case "22":
+                    selectedItem = 1;
+                    break;
+                case "20":
+                    selectedItem = 2;
+                    break;
+                case "18":
+                    selectedItem = 3;
+                    break;
+                case "16":
+                    selectedItem = 4;
+                    break;
+                case "14":
+                    selectedItem = 5;
+                    break;
+            }
+            spinner_viewmodel5.setSelection(selectedItem);
 
             spinner_viewmodel5.setOnItemSelectedListener(new Spinner.OnItemSelectedListener()
             {

@@ -46,6 +46,30 @@ public class ViewModel_6 implements IViewModel<Settings>
         iv_icon_model6.setImageResource(settings.resourceId);
         tv_view_model6.setText(settings.funcName);
 
+        String key = null;
+        switch(settings.funcName){
+            case "九宫格":
+                key = Constants.IMAGE_GRID;
+                break;
+            case "矫衡器":
+                key = Constants.IMAGE_BALANCE;
+                break;
+            case "防手抖":
+                key = Constants.IMAGE_ANTI_SHAKE;
+                break;
+            case "拍摄静音":
+                key = Constants.IMAGE_MUTE;
+                break;
+            case "实时直方图":
+                key = Constants.IMAGE_HISTOGRAM;
+                break;
+            case "开启签名":
+                key = Constants.IMAGE_SIGN;
+                break;
+        }
+        boolean isChecked = SharePreferenceUtils.getInstance(context, Constants.SETTINGS).getBoolean(key, false);
+        switch_viewmodel6.setChecked(isChecked);
+
         switch_viewmodel6.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener()
         {
             @Override

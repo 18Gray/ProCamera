@@ -26,6 +26,8 @@ import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.Surface;
 import android.widget.Toast;
+
+import com.eighteengray.commonutillibrary.SharePreferenceUtils;
 import com.eighteengray.procameralibrary.common.Constants;
 import com.eighteengray.procameralibrary.dataevent.ImageAvailableEvent;
 import org.greenrobot.eventbus.EventBus;
@@ -349,8 +351,9 @@ public class Camera2TextureView extends BaseCamera2TextureView
             mCaptureSession = cameraCaptureSession;
             try
             {
+                boolean antiShake = SharePreferenceUtils.getInstance(context, Constants.SETTINGS).getBoolean(Constants.IMAGE_ANTI_SHAKE, false);
                 mPreviewRequestBuilder = CaptureRequestFactory.createPreviewBuilder(mCameraDevice, surface);
-                CaptureRequestFactory.setPreviewBuilderPreview(mPreviewRequestBuilder);
+                CaptureRequestFactory.setPreviewBuilderPreview(mPreviewRequestBuilder, antiShake);
                 updatePreview(mPreviewRequestBuilder.build(), captureSessionCaptureCallback);
             } catch (CameraAccessException e)
             {
@@ -456,7 +459,8 @@ public class Camera2TextureView extends BaseCamera2TextureView
             if(mCaptureStillBuilder == null){
                 mCaptureStillBuilder = CaptureRequestFactory.createCaptureStillBuilder(mCameraDevice, mImageReader.getSurface());
             }
-            CaptureRequestFactory.setCaptureBuilderStill(mCaptureStillBuilder, windowManager);
+            int quality = SharePreferenceUtils.getInstance(context, Constants.SETTINGS).getInt(Constants.IMAGE_QUALITY, 90);
+            CaptureRequestFactory.setCaptureBuilderStill(mCaptureStillBuilder, windowManager, quality);
 
             mCaptureSession.stopRepeating();
             mCaptureSession.capture(mCaptureStillBuilder.build(), captureStillCallback, null);

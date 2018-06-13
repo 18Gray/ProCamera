@@ -28,4 +28,5 @@ dependencies {
     // 权限管理
     compile 'com.yanzhenjie:permission:2.0.0-rc3'
     compile 'com.yanzhenjie.alertdialog:alertdialog:1.0.1'
+    compile "com.github.18Gray:CommonUtils:$rootProject.ext.commonUtilsVersion"
 }

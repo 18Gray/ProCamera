@@ -5,6 +5,7 @@ import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.MeteringRectangle;
+import android.location.Location;
 import android.view.Surface;
 import android.view.WindowManager;
 
@@ -27,9 +28,14 @@ public class CaptureRequestFactory
     }
 
     //设置预览-自动聚焦模式
-    public static void setPreviewBuilderPreview(CaptureRequest.Builder previewBuilder) throws CameraAccessException
+    public static void setPreviewBuilderPreview(CaptureRequest.Builder previewBuilder, boolean antiShake) throws CameraAccessException
     {
         previewBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
+        if(antiShake){
+            previewBuilder.set(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE, CameraMetadata.LENS_OPTICAL_STABILIZATION_MODE_ON);
+        }else {
+            previewBuilder.set(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE, CameraMetadata.LENS_OPTICAL_STABILIZATION_MODE_OFF);
+        }
 
         /*previewBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
         previewBuilder.set(CaptureRequest.CONTROL_AF_MODE, CameraMetadata.CONTROL_AF_MODE_AUTO);
@@ -134,13 +140,13 @@ public class CaptureRequestFactory
     }
 
     //设置拍照模式-拍静态图片
-    public static void setCaptureBuilderStill(CaptureRequest.Builder captureBuilder, WindowManager windowManager) throws CameraAccessException
+    public static void setCaptureBuilderStill(CaptureRequest.Builder captureBuilder, WindowManager windowManager, int quality) throws CameraAccessException
     {
         captureBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
-//        captureBuilder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH);
 
         int rotation = windowManager.getDefaultDisplay().getRotation();
         captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATIONS.get(rotation));
+        captureBuilder.set(CaptureRequest.JPEG_QUALITY, (byte) quality);
     }
 
     //设置拍照模式-连续拍摄

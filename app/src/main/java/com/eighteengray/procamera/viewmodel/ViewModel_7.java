@@ -51,7 +51,8 @@ public class ViewModel_7 implements IViewModel<Settings>
                 tv_content_model7.setText("引入高德地图");
                 break;
             case "签名版权":
-                tv_content_model7.setText("您的版权名称");
+                String signName = SharePreferenceUtils.getInstance(context, Constants.SETTINGS).getString(Constants.IMAGE_SIGN_NAME, "签名版权");
+                tv_content_model7.setText(signName);
                 tv_content_model7.setOnClickListener(new View.OnClickListener()
                 {
                     @Override
