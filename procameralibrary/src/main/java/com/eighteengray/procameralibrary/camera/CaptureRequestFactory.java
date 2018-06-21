@@ -28,24 +28,9 @@ public class CaptureRequestFactory
     }
 
     //设置预览-自动聚焦模式
-    public static void setPreviewBuilderPreview(CaptureRequest.Builder previewBuilder, boolean antiShake) throws CameraAccessException
+    public static void setPreviewBuilderPreview(CaptureRequest.Builder previewBuilder) throws CameraAccessException
     {
         previewBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
-        if(antiShake){
-            previewBuilder.set(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE, CameraMetadata.LENS_OPTICAL_STABILIZATION_MODE_ON);
-        }else {
-            previewBuilder.set(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE, CameraMetadata.LENS_OPTICAL_STABILIZATION_MODE_OFF);
-        }
-
-        /*previewBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
-        previewBuilder.set(CaptureRequest.CONTROL_AF_MODE, CameraMetadata.CONTROL_AF_MODE_AUTO);
-        previewBuilder.set(CaptureRequest.CONTROL_AE_MODE, CameraMetadata.CONTROL_AE_MODE_ON);
-        previewBuilder.set(CaptureRequest.CONTROL_AWB_MODE, CameraMetadata.CONTROL_AWB_MODE_AUTO);
-        previewBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_OFF);
-        previewBuilder.set(CaptureRequest.LENS_FOCUS_DISTANCE, 5.0f);
-        previewBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, (long) ((214735991 - 13231) / 2));
-        previewBuilder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, 0);
-        previewBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, (10000 - 100) / 2);*/
     }
 
     //设置预览-锁定焦点
@@ -120,12 +105,12 @@ public class CaptureRequestFactory
     }
 
     // 设置预览-防手抖
-    public static CaptureRequest setPreviewBuilderSteady(CaptureRequest.Builder previewBuilder, boolean isSteady) throws CameraAccessException
+    public static CaptureRequest setPreviewBuilderSteady(CaptureRequest.Builder previewBuilder, boolean antiShake) throws CameraAccessException
     {
-        if(isSteady){
-            previewBuilder.set(CaptureRequest.CONTROL_SCENE_MODE, CameraMetadata.CONTROL_SCENE_MODE_STEADYPHOTO);
+        if(antiShake){
+            previewBuilder.set(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE, CameraMetadata.LENS_OPTICAL_STABILIZATION_MODE_ON);
         }else {
-            previewBuilder.set(CaptureRequest.CONTROL_SCENE_MODE, CameraMetadata.CONTROL_SCENE_MODE_DISABLED);
+            previewBuilder.set(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE, CameraMetadata.LENS_OPTICAL_STABILIZATION_MODE_OFF);
         }
         return previewBuilder.build();
     }

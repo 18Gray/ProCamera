@@ -353,7 +353,8 @@ public class Camera2TextureView extends BaseCamera2TextureView
             {
                 boolean antiShake = SharePreferenceUtils.getInstance(context, Constants.SETTINGS).getBoolean(Constants.IMAGE_ANTI_SHAKE, false);
                 mPreviewRequestBuilder = CaptureRequestFactory.createPreviewBuilder(mCameraDevice, surface);
-                CaptureRequestFactory.setPreviewBuilderPreview(mPreviewRequestBuilder, antiShake);
+                CaptureRequestFactory.setPreviewBuilderPreview(mPreviewRequestBuilder);
+                CaptureRequestFactory.setPreviewBuilderSteady(mPreviewRequestBuilder, antiShake);
                 updatePreview(mPreviewRequestBuilder.build(), captureSessionCaptureCallback);
             } catch (CameraAccessException e)
             {
