@@ -36,7 +36,7 @@ public class ImageSaver implements Runnable
     @Override
     public void run()
     {
-        Image image = mImageReader.acquireNextImage();
+        Image image = mImageReader.acquireLatestImage();
         try
         {
             ByteBuffer buffer = image.getPlanes()[0].getBuffer();
