@@ -397,15 +397,14 @@ public class Camera2TextureView extends BaseCamera2TextureView
                     {
                         Log.d("Camera2TextureView", "null");
                         return;
-                    }
-                    //这次的值与之前的一样，忽略掉
-                    if (afState.intValue() == mAfState)
+                    }else if (afState != null && afState.intValue() == mAfState)//这次的值与之前的一样，忽略掉
                     {
                         Log.d("Camera2TextureView", "same");
                         return;
+                    }else {
+                        mAfState = afState.intValue();
+                        judgeFocus();  //聚焦视图
                     }
-                    mAfState = afState.intValue();
-                    judgeFocus();  //聚焦视图
                     break;
 
                 case STATE_WAITING_LOCK:
