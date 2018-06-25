@@ -23,7 +23,7 @@ import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by lutao on 2017/3/24.
- * 设置中的是否开启某功能
+ * 设置中的是否开启某功能，Switch
  */
 public class ViewModel_6 implements IViewModel<Settings>
 {

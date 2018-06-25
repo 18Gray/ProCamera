@@ -11,7 +11,6 @@ import com.eighteengray.procamera.presenter.AlbumPresenter;
 import com.eighteengray.procamera.widget.dialogfragment.ImageFoldersDialogFragment;
 import com.eighteengray.procameralibrary.common.Constants;
 import com.eighteengray.procameralibrary.dataevent.ImageFolderEvent;
-import android.content.ContentResolver;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;

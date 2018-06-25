@@ -1,13 +1,11 @@
 package com.eighteengray.procamera.activity;
 
 import android.os.Bundle;
-import android.view.View;
 
 import com.eighteengray.cardlibrary.bean.BaseDataBean;
 import com.eighteengray.cardlibrary.widget.RecyclerLayout;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.Settings;
-import com.eighteengray.procamera.business.GenerateDataUtils;
 import com.eighteengray.procamera.component.DaggerSettingsComponent;
 import com.eighteengray.procamera.contract.ISettingContract;
 import com.eighteengray.procamera.module.PresenterModule;
@@ -57,7 +55,7 @@ public class SettingActivity extends BaseActivity implements ISettingContract.IV
     @Override
     protected int getLayoutResId()
     {
-        return R.layout.activity_setting;
+        return R.layout.layout_common_title_recycler;
     }
 
     @Override

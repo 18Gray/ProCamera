@@ -7,9 +7,8 @@ import com.eighteengray.cardlibrary.bean.BaseDataBean;
 import com.eighteengray.commonutillibrary.SharePreferenceUtils;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.Settings;
-import com.eighteengray.procamera.imageprocess.bean.ImageFilterMenuItem;
-import com.eighteengray.procamera.imageprocess.bean.ImageProcessToolsMenuItem;
-import com.eighteengray.procamera.imageprocess.bean.OutputMenuItem;
+import com.eighteengray.procamera.imageprocess.bean.HorizontalRecyclerItem;
+import com.eighteengray.procamera.imageprocess.bean.VerticalRecyclerItem;
 import com.eighteengray.procameralibrary.common.Constants;
 
 import java.util.ArrayList;
@@ -63,52 +62,123 @@ public class GenerateDataUtils
         return baseDataBean;
     }
 
-    public static List<ImageFilterMenuItem> generateFilterMenuList(){
-        List<ImageFilterMenuItem> imageFilterMenuItemList = new ArrayList<>();
 
-        ImageFilterMenuItem imageFilterMenuItem1 = new ImageFilterMenuItem();
+    public static List<HorizontalRecyclerItem> generateRedoMenuList(){
+        List<HorizontalRecyclerItem> horizontalRecyclerItemList = new ArrayList<>();
+        HorizontalRecyclerItem horizontalRecyclerItem1 = new HorizontalRecyclerItem();
+        horizontalRecyclerItem1.resourceId = R.mipmap.redo_menu_white_24dp;
+        horizontalRecyclerItem1.title = "取消";
+        horizontalRecyclerItem1.content = "取消操作";
+        horizontalRecyclerItemList.add(horizontalRecyclerItem1);
+
+        HorizontalRecyclerItem horizontalRecyclerItem2 = new HorizontalRecyclerItem();
+        horizontalRecyclerItem2.resourceId = R.mipmap.redo_menu_white_24dp;
+        horizontalRecyclerItem2.title = "取消";
+        horizontalRecyclerItem2.content = "取消操作";
+        horizontalRecyclerItemList.add(horizontalRecyclerItem2);
+
+        HorizontalRecyclerItem horizontalRecyclerItem3 = new HorizontalRecyclerItem();
+        horizontalRecyclerItem3.resourceId = R.mipmap.redo_menu_white_24dp;
+        horizontalRecyclerItem3.title = "取消";
+        horizontalRecyclerItem3.content = "取消操作";
+        horizontalRecyclerItemList.add(horizontalRecyclerItem3);
+        return horizontalRecyclerItemList;
+    }
+
+    public static List<HorizontalRecyclerItem> generateOutputMenuList(){
+        List<HorizontalRecyclerItem> horizontalRecyclerItemList = new ArrayList<>();
+        HorizontalRecyclerItem horizontalRecyclerItem1 = new HorizontalRecyclerItem();
+        horizontalRecyclerItem1.resourceId = R.mipmap.redo_menu_white_24dp;
+        horizontalRecyclerItem1.title = "取消";
+        horizontalRecyclerItem1.content = "取消操作";
+        horizontalRecyclerItemList.add(horizontalRecyclerItem1);
+
+        HorizontalRecyclerItem horizontalRecyclerItem2 = new HorizontalRecyclerItem();
+        horizontalRecyclerItem2.resourceId = R.mipmap.redo_menu_white_24dp;
+        horizontalRecyclerItem2.title = "取消";
+        horizontalRecyclerItem2.content = "取消操作";
+        horizontalRecyclerItemList.add(horizontalRecyclerItem2);
+
+        HorizontalRecyclerItem horizontalRecyclerItem3 = new HorizontalRecyclerItem();
+        horizontalRecyclerItem3.resourceId = R.mipmap.redo_menu_white_24dp;
+        horizontalRecyclerItem3.title = "取消";
+        horizontalRecyclerItem3.content = "取消操作";
+        horizontalRecyclerItemList.add(horizontalRecyclerItem3);
+        return horizontalRecyclerItemList;
+    }
+
+
+    public static List<VerticalRecyclerItem> generateFilterMenuList(){
+        List<VerticalRecyclerItem> filterMenuList = new ArrayList<>();
+
+        VerticalRecyclerItem imageFilterMenuItem1 = new VerticalRecyclerItem();
         imageFilterMenuItem1.resourceId = R.mipmap.filter_baohe;
-        imageFilterMenuItem1.filter = "饱和度";
-        imageFilterMenuItemList.add(imageFilterMenuItem1);
+        imageFilterMenuItem1.title = "饱和度";
+        filterMenuList.add(imageFilterMenuItem1);
 
-        ImageFilterMenuItem imageFilterMenuItem2 = new ImageFilterMenuItem();
+        VerticalRecyclerItem imageFilterMenuItem2 = new VerticalRecyclerItem();
         imageFilterMenuItem2.resourceId = R.mipmap.filter_blackwhite;
-        imageFilterMenuItem2.filter = "白平衡";
-        imageFilterMenuItemList.add(imageFilterMenuItem2);
+        imageFilterMenuItem2.title = "白平衡";
+        filterMenuList.add(imageFilterMenuItem2);
 
-        ImageFilterMenuItem imageFilterMenuItem3 = new ImageFilterMenuItem();
+        VerticalRecyclerItem imageFilterMenuItem3 = new VerticalRecyclerItem();
         imageFilterMenuItem3.resourceId = R.mipmap.filter_blue;
-        imageFilterMenuItem3.filter = "蓝调";
-        imageFilterMenuItemList.add(imageFilterMenuItem3);
+        imageFilterMenuItem3.title = "蓝调";
+        filterMenuList.add(imageFilterMenuItem3);
 
-        ImageFilterMenuItem imageFilterMenuItem4 = new ImageFilterMenuItem();
+        VerticalRecyclerItem imageFilterMenuItem4 = new VerticalRecyclerItem();
         imageFilterMenuItem4.resourceId = R.mipmap.filter_feather;
-        imageFilterMenuItem4.filter = "锐化";
-        imageFilterMenuItemList.add(imageFilterMenuItem4);
+        imageFilterMenuItem4.title = "锐化";
+        filterMenuList.add(imageFilterMenuItem4);
 
-        ImageFilterMenuItem imageFilterMenuItem5 = new ImageFilterMenuItem();
+        VerticalRecyclerItem imageFilterMenuItem5 = new VerticalRecyclerItem();
         imageFilterMenuItem5.resourceId = R.mipmap.filter_film;
-        imageFilterMenuItem5.filter = "电影";
-        imageFilterMenuItemList.add(imageFilterMenuItem5);
+        imageFilterMenuItem5.title = "电影";
+        filterMenuList.add(imageFilterMenuItem5);
 
-        ImageFilterMenuItem imageFilterMenuItem6 = new ImageFilterMenuItem();
+        VerticalRecyclerItem imageFilterMenuItem6 = new VerticalRecyclerItem();
         imageFilterMenuItem6.resourceId = R.mipmap.filter_lomo;
-        imageFilterMenuItem6.filter = "罗摩";
-        imageFilterMenuItemList.add(imageFilterMenuItem6);
+        imageFilterMenuItem6.title = "罗摩";
+        filterMenuList.add(imageFilterMenuItem6);
 
-        return imageFilterMenuItemList;
+        return filterMenuList;
     }
 
-    public static List<ImageProcessToolsMenuItem> generateToolMenuItemList(){
-        List<ImageProcessToolsMenuItem> imageProcessToolsMenuItemList = new ArrayList<>();
+    public static List<VerticalRecyclerItem> generateProcessToolsMenuList(){
+        List<VerticalRecyclerItem> filterMenuList = new ArrayList<>();
 
-        return imageProcessToolsMenuItemList;
+        VerticalRecyclerItem imageFilterMenuItem1 = new VerticalRecyclerItem();
+        imageFilterMenuItem1.resourceId = R.mipmap.filter_baohe;
+        imageFilterMenuItem1.title = "饱和度";
+        filterMenuList.add(imageFilterMenuItem1);
+
+        VerticalRecyclerItem imageFilterMenuItem2 = new VerticalRecyclerItem();
+        imageFilterMenuItem2.resourceId = R.mipmap.filter_blackwhite;
+        imageFilterMenuItem2.title = "白平衡";
+        filterMenuList.add(imageFilterMenuItem2);
+
+        VerticalRecyclerItem imageFilterMenuItem3 = new VerticalRecyclerItem();
+        imageFilterMenuItem3.resourceId = R.mipmap.filter_blue;
+        imageFilterMenuItem3.title = "蓝调";
+        filterMenuList.add(imageFilterMenuItem3);
+
+        VerticalRecyclerItem imageFilterMenuItem4 = new VerticalRecyclerItem();
+        imageFilterMenuItem4.resourceId = R.mipmap.filter_feather;
+        imageFilterMenuItem4.title = "锐化";
+        filterMenuList.add(imageFilterMenuItem4);
+
+        VerticalRecyclerItem imageFilterMenuItem5 = new VerticalRecyclerItem();
+        imageFilterMenuItem5.resourceId = R.mipmap.filter_film;
+        imageFilterMenuItem5.title = "电影";
+        filterMenuList.add(imageFilterMenuItem5);
+
+        VerticalRecyclerItem imageFilterMenuItem6 = new VerticalRecyclerItem();
+        imageFilterMenuItem6.resourceId = R.mipmap.filter_lomo;
+        imageFilterMenuItem6.title = "罗摩";
+        filterMenuList.add(imageFilterMenuItem6);
+
+        return filterMenuList;
     }
 
-    public static List<OutputMenuItem> generateOutputMenuItemList(){
-        List<OutputMenuItem> outputMenuItemList = new ArrayList<>();
-
-        return outputMenuItemList;
-    }
 
 }

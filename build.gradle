@@ -42,7 +42,7 @@ ext {
     rxjavaVersion = '1.2.6'
     rxandroidVersion = '1.2.1'
     butterknifeVersion = '8.4.0'
-    leakcanary = '1.5'
+    leakcanary = '1.5.4'
     eventbus = '3.0.0'
     dagger2 ='2.4'
     universalVersion = '1.9.5'

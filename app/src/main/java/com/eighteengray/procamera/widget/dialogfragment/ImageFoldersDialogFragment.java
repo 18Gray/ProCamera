@@ -21,14 +21,9 @@ import butterknife.ButterKnife;
 
 
 
-public class ImageFoldersDialogFragment extends DialogFragment
+public class ImageFoldersDialogFragment extends BaseRecyclerDialogFragment
 {
-    View view;
-
-    @BindView(R.id.rl_imagefolders_dialogfragment)
-    RecyclerLayout rl_imagefolders_dialogfragment;
-
-    ArrayList<ImageFolder> imageFolderArrayList;
+    ArrayList<ImageFolder> imageFolderArrayList = new ArrayList<>();
 
 
     @Override
@@ -39,24 +34,11 @@ public class ImageFoldersDialogFragment extends DialogFragment
         imageFolderArrayList = (ArrayList<ImageFolder>) bundle.getSerializable(Constants.IMAGEFOLDERS);
     }
 
+
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    protected void showRecyclerView()
     {
-        //全屏显示
-        Window window = getDialog().getWindow();
-        view = inflater.inflate(R.layout.dialogfragment_imagefolders, null);
-        ButterKnife.bind(this, view);
-
-        // 设置宽度为屏宽, 靠近屏幕底部。
-        WindowManager.LayoutParams lp = window.getAttributes();
-        lp.gravity = Gravity.BOTTOM; // 紧贴底部
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT; // 宽度持平
-        window.setAttributes(lp);
-        getDialog().setCancelable(true);
-
-        rl_imagefolders_dialogfragment.showRecyclerView(GenerateDataUtils.generateDataBeanList(4, imageFolderArrayList), Constants.viewModelPackage);
-        return view;
+        super.showRecyclerView();
+        recycler_layout.showRecyclerView(GenerateDataUtils.generateDataBeanList(4, imageFolderArrayList), Constants.viewModelPackage);
     }
-
-
 }

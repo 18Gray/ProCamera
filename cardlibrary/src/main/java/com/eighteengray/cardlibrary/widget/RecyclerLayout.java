@@ -79,7 +79,25 @@ public class RecyclerLayout extends RelativeLayout
                 }
             }
         });
+    }
 
+    public void showLoadingView(){
+        swipe_refresh_layout.post(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                swipe_refresh_layout.setRefreshing(true);
+            }
+        });
+
+        swipe_refresh_layout.setVisibility(VISIBLE);
+        recycler_view.setVisibility(GONE);
+        loadmore_progressbar.setVisibility(GONE);
+        rl_error.setVisibility(GONE);
+    }
+
+    public <T> void showRecyclerView(List<BaseDataBean<T>> dataBeanList, String viewModelPackage){
         switch (layoutManagerNum)
         {
             case 1:
@@ -108,9 +126,9 @@ public class RecyclerLayout extends RelativeLayout
 
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == baseRecyclerAdapter.getItemCount())
                 {
-                   if(recyclerViewScroll != null){
-                       recyclerViewScroll.getMoreData();
-                   }
+                    if(recyclerViewScroll != null){
+                        recyclerViewScroll.getMoreData();
+                    }
                 }
             }
 
@@ -135,25 +153,7 @@ public class RecyclerLayout extends RelativeLayout
                 }
             }
         });
-    }
 
-    public void showLoadingView(){
-        swipe_refresh_layout.post(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                swipe_refresh_layout.setRefreshing(true);
-            }
-        });
-
-        swipe_refresh_layout.setVisibility(VISIBLE);
-        recycler_view.setVisibility(GONE);
-        loadmore_progressbar.setVisibility(GONE);
-        rl_error.setVisibility(GONE);
-    }
-
-    public <T> void showRecyclerView(List<BaseDataBean<T>> dataBeanList, String viewModelPackage){
         if(baseRecyclerAdapter == null){
             baseRecyclerAdapter = new BaseRecyclerAdapter(context, viewModelPackage);
             recycler_view.setAdapter(baseRecyclerAdapter);
@@ -235,6 +235,11 @@ public class RecyclerLayout extends RelativeLayout
     public void setRecyclerViewScroll(RecyclerViewScroll rvs)
     {
         this.recyclerViewScroll = rvs;
+    }
+
+    // 如果调用设置LayoutManager，一定要在showRecyclerView之前
+    public void setLayoutManagerNum(int layoutManagerNum){
+        this.layoutManagerNum = layoutManagerNum;
     }
 
 }

@@ -222,7 +222,7 @@ public class Camera2Fragment extends BaseCameraFragment
         effectArrayList.add("OFF");
 
         for(int i=0;i < effectArrayList.size();i++){
-            BaseDataBean<String> baseDataBean = new BaseDataBean<>(3, effectArrayList.get(i));
+            BaseDataBean<String> baseDataBean = new BaseDataBean<>(2, effectArrayList.get(i));
             list.add(baseDataBean);
         }
         return list;

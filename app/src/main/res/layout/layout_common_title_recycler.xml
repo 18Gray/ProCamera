@@ -18,10 +18,8 @@
         android:id="@+id/rl_settings"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/rl_bottom_album"
         android:layout_below="@id/common_title"
         android:background="@color/text"
-        app:LayoutManagerNum="1"
         />
 
 </LinearLayout>

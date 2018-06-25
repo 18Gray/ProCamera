@@ -26,7 +26,7 @@ import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by lutao on 2017/3/24.
- * 设置中的图片质量这类
+ * 设置中的图片质量这类，Spinner
  */
 public class ViewModel_5 implements IViewModel<Settings>
 {

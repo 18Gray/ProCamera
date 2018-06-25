@@ -14,6 +14,7 @@ import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by lutao on 2017/3/24.
+ * 纯TextView
  */
 public class ViewModel_2 implements IViewModel<String>
 {

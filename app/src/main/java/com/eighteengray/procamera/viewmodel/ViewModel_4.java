@@ -21,6 +21,7 @@ import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by lutao on 2017/3/24.
+ * 相册文件夹目录
  */
 public class ViewModel_4 implements IViewModel<ImageFolder>
 {

@@ -1,6 +1,5 @@
 package com.eighteengray.procamera.viewmodel;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
@@ -24,7 +23,7 @@ import com.rey.material.widget.ImageView;
 
 /**
  * Created by lutao on 2017/3/24.
- * 设置中的图片质量这类
+ * 设置中的签名日期这类,TextView
  */
 public class ViewModel_7 implements IViewModel<Settings>
 {

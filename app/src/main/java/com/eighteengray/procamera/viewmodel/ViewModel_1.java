@@ -21,10 +21,10 @@ import com.eighteengray.procamera.imageprocess.activity.ImageProcessActivity;
 
 /**
  * Created by lutao on 2017/3/24.
+ * ImageView + Checkbox
  */
 public class ViewModel_1 implements IViewModel<ImageFolder.ImageItem>
 {
-
 
     @Override
     public View onCreateView(LayoutInflater layoutInflater)

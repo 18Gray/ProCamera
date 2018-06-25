@@ -30,8 +30,8 @@ public class ShareDialogFragment extends DialogFragment
 {
     View view;
 
-    @BindView(R.id.rl_imagefolders_dialogfragment)
-    RecyclerLayout rl_imagefolders_dialogfragment;
+    @BindView(R.id.recycler_view)
+    RecyclerLayout recycler_view;
 
     ArrayList<ShareDialogBean> shareDialogBeanArrayList = new ArrayList<>();
     String title;
@@ -69,7 +69,7 @@ public class ShareDialogFragment extends DialogFragment
     {
         //全屏显示
         Window window = getDialog().getWindow();
-        view = inflater.inflate(R.layout.dialogfragment_imageprocess_tools, null);
+        view = inflater.inflate(R.layout.layout_common_recycler, null);
         ButterKnife.bind(this, view);
 
         // 设置宽度为屏宽, 靠近屏幕底部。
@@ -94,7 +94,7 @@ public class ShareDialogFragment extends DialogFragment
         for(int i=0;i<shareDialogBeanArrayList.size();i++){
             shareDialogBeanArrayList.get(i).shareContent = shareContent;
         }
-        rl_imagefolders_dialogfragment.showRecyclerView(GenerateDataUtils.generateDataBeanList(9, shareDialogBeanArrayList), Constants.viewModelPackage);
+        recycler_view.showRecyclerView(GenerateDataUtils.generateDataBeanList(9, shareDialogBeanArrayList), Constants.viewModelPackage);
         return view;
     }
 
