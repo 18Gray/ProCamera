@@ -11,8 +11,8 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-
 import com.eighteengray.cardlibrary.R;
 import com.eighteengray.cardlibrary.bean.BaseDataBean;
 import java.util.List;
@@ -115,7 +115,7 @@ public class RecyclerLayout extends RelativeLayout
                 layoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
                 break;
         }
-
+        layoutManager.setAutoMeasureEnabled(true);
         recycler_view.setLayoutManager(layoutManager);
         recycler_view.setOnScrollListener(new RecyclerView.OnScrollListener()
         {

@@ -1,6 +1,9 @@
 package com.eighteengray.procamera.imageprocess.widget;
 
 import android.os.Bundle;
+import android.widget.RelativeLayout;
+
+import com.eighteengray.commonutillibrary.DimenUtil;
 import com.eighteengray.procamera.business.GenerateDataUtils;
 import com.eighteengray.procamera.imageprocess.bean.VerticalRecyclerItem;
 import com.eighteengray.procamera.widget.dialogfragment.BaseRecyclerDialogFragment;
@@ -26,6 +29,10 @@ public class ProcessToolsMenuDialog extends BaseRecyclerDialogFragment
     {
         super.showRecyclerView();
         recycler_layout.setLayoutManagerNum(3);
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) recycler_layout.getLayoutParams();
+        layoutParams.width = RelativeLayout.LayoutParams.MATCH_PARENT;
+        layoutParams.height = DimenUtil.dp2px(getActivity(), 500);
+        recycler_layout.setLayoutParams(layoutParams);
         recycler_layout.showRecyclerView(GenerateDataUtils.generateDataBeanList(8, verticalRecyclerItemArrayList), Constants.viewModelPackage);
     }
 

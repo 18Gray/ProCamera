@@ -12,8 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
 
 import com.eighteengray.cardlibrary.widget.RecyclerLayout;
+import com.eighteengray.commonutillibrary.DimenUtil;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.ImageFolder;
 import com.eighteengray.procamera.business.GenerateDataUtils;
@@ -43,6 +45,7 @@ public class BaseRecyclerDialogFragment extends DialogFragment
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         view = inflater.inflate(R.layout.layout_common_recycler, null);
+        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         ButterKnife.bind(this, view);
         showRecyclerView();
         return view;
@@ -56,7 +59,6 @@ public class BaseRecyclerDialogFragment extends DialogFragment
         Dialog dialog = getDialog();
         Window window = dialog.getWindow();
 
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCanceledOnTouchOutside(true);
 
         WindowManager.LayoutParams lp = window.getAttributes();
