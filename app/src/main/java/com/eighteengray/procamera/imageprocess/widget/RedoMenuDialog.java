@@ -1,6 +1,8 @@
 package com.eighteengray.procamera.imageprocess.widget;
 
 import android.os.Bundle;
+import android.widget.RelativeLayout;
+import com.eighteengray.commonutillibrary.DimenUtil;
 import com.eighteengray.procamera.business.GenerateDataUtils;
 import com.eighteengray.procamera.imageprocess.bean.HorizontalRecyclerItem;
 import com.eighteengray.procamera.widget.dialogfragment.BaseRecyclerDialogFragment;
@@ -26,6 +28,10 @@ public class RedoMenuDialog extends BaseRecyclerDialogFragment
     {
         super.showRecyclerView();
         recycler_layout.setLayoutManagerNum(1);
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) recycler_layout.getLayoutParams();
+        layoutParams.width = RelativeLayout.LayoutParams.MATCH_PARENT;
+        layoutParams.height = DimenUtil.dp2px(getActivity(), 300);
+        recycler_layout.setLayoutParams(layoutParams);
         recycler_layout.showRecyclerView(GenerateDataUtils.generateDataBeanList(9, horizontalRecyclerItems), Constants.viewModelPackage);
     }
 

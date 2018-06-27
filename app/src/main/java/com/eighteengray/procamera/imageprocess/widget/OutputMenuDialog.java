@@ -31,7 +31,7 @@ public class OutputMenuDialog extends BaseRecyclerDialogFragment
         recycler_layout.setLayoutManagerNum(1);
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) recycler_layout.getLayoutParams();
         layoutParams.width = RelativeLayout.LayoutParams.MATCH_PARENT;
-        layoutParams.height = DimenUtil.dp2px(getActivity(), 400);
+        layoutParams.height = DimenUtil.dp2px(getActivity(), 300);
         recycler_layout.setLayoutParams(layoutParams);
         recycler_layout.showRecyclerView(GenerateDataUtils.generateDataBeanList(9, horizontalRecyclerItems), Constants.viewModelPackage);
     }

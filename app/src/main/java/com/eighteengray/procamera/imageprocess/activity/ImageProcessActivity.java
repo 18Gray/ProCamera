@@ -2,16 +2,17 @@ package com.eighteengray.procamera.imageprocess.activity;
 
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.activity.BaseActivity;
-import com.eighteengray.procamera.imageprocess.widget.FilterMenuDialog;
 import com.eighteengray.procamera.imageprocess.widget.OutputMenuDialog;
-import com.eighteengray.procamera.imageprocess.widget.ProcessToolsMenuDialog;
 import com.eighteengray.procamera.imageprocess.widget.RedoMenuDialog;
 import com.eighteengray.procamera.model.imageloader.ImageLoader;
+import com.eighteengray.procamera.widget.dialogfragment.PopupWindowFactory;
 import com.eighteengray.procameralibrary.common.Constants;
 import com.eighteengray.procameralibrary.dataevent.ImageFolderEvent;
 import org.greenrobot.eventbus.EventBus;
@@ -34,6 +35,8 @@ public class ImageProcessActivity extends BaseActivity
     @BindView(R.id.imageview_process)
     ImageView imageview_process;
 
+    @BindView(R.id.ll_bottommenu_image_process)
+    LinearLayout ll_bottommenu_image_process;
     @BindView(R.id.tv_filter_image_process)
     TextView tv_filter_image_process;
     @BindView(R.id.tv_tools_image_process)
@@ -85,12 +88,10 @@ public class ImageProcessActivity extends BaseActivity
         switch (view.getId())
         {
             case R.id.tv_filter_image_process:
-                FilterMenuDialog filterMenuDialog = new FilterMenuDialog();
-                filterMenuDialog.show(getSupportFragmentManager(), "filter");
+                PopupWindowFactory.createFilterPopupWindow(ImageProcessActivity.this).showAtLocation(ll_bottommenu_image_process, Gravity.BOTTOM, 0, 288);
                 break;
             case R.id.tv_tools_image_process:
-                ProcessToolsMenuDialog processToolsMenuDialog = new ProcessToolsMenuDialog();
-                processToolsMenuDialog.show(getSupportFragmentManager(), "processtools");
+                PopupWindowFactory.createProcessPopupWindow(ImageProcessActivity.this).showAtLocation(ll_bottommenu_image_process, Gravity.BOTTOM, 0, 288);
                 break;
             case R.id.tv_output_image_process:
                 OutputMenuDialog outputMenuDialog = new OutputMenuDialog();

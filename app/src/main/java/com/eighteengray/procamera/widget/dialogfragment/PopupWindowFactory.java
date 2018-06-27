@@ -8,10 +8,16 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.eighteengray.cardlibrary.widget.RecyclerLayout;
+import com.eighteengray.commonutillibrary.DimenUtil;
 import com.eighteengray.procamera.R;
+import com.eighteengray.procamera.business.GenerateDataUtils;
+import com.eighteengray.procamera.imageprocess.bean.HorizontalRecyclerItem;
+import com.eighteengray.procamera.imageprocess.bean.VerticalRecyclerItem;
 import com.eighteengray.procameralibrary.common.Constants;
 import com.eighteengray.procameralibrary.dataevent.BitmapProcess;
 import com.eighteengray.procameralibrary.dataevent.CameraConfigure;
@@ -86,8 +92,6 @@ public class PopupWindowFactory
         return popupWindow;
     }
 
-
-
     //Ratio的弹出框
     public static PopupWindow createRatioPopupWindow(Context context)
     {
@@ -150,6 +154,48 @@ public class PopupWindowFactory
         return popupWindow;
     }
 
+
+    // 滤镜弹出框
+    public static PopupWindow createFilterPopupWindow(Context context)
+    {
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        View view = layoutInflater.inflate(R.layout.layout_common_recycler, null);
+        RecyclerLayout recycler_layout = (RecyclerLayout) view.findViewById(R.id.recycler_layout);
+        List<VerticalRecyclerItem> verticalRecyclerItemArrayList = GenerateDataUtils.generateFilterMenuList();
+        recycler_layout.setLayoutManagerNum(2);
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) recycler_layout.getLayoutParams();
+        layoutParams.width = RelativeLayout.LayoutParams.MATCH_PARENT;
+        layoutParams.height = DimenUtil.dp2px(context, 120);
+        recycler_layout.setLayoutParams(layoutParams);
+        recycler_layout.showRecyclerView(GenerateDataUtils.generateDataBeanList(8, verticalRecyclerItemArrayList), Constants.viewModelPackage);
+
+        PopupWindow popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        popupWindow.setTouchable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable(context.getResources(), (Bitmap) null));
+        return popupWindow;
+    }
+
+    // 处理弹出框
+    public static PopupWindow createProcessPopupWindow(Context context)
+    {
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        View view = layoutInflater.inflate(R.layout.layout_common_recycler, null);
+        RecyclerLayout recycler_layout = (RecyclerLayout) view.findViewById(R.id.recycler_layout);
+        List<VerticalRecyclerItem> verticalRecyclerItemArrayList = GenerateDataUtils.generateProcessToolsMenuList();
+        recycler_layout.setLayoutManagerNum(3);
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) recycler_layout.getLayoutParams();
+        layoutParams.width = RelativeLayout.LayoutParams.MATCH_PARENT;
+        layoutParams.height = DimenUtil.dp2px(context, 400);
+        recycler_layout.setLayoutParams(layoutParams);
+        recycler_layout.showRecyclerView(GenerateDataUtils.generateDataBeanList(8, verticalRecyclerItemArrayList), Constants.viewModelPackage);
+
+        PopupWindow popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        popupWindow.setTouchable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable(context.getResources(), (Bitmap) null));
+        return popupWindow;
+    }
 
 
     //图像处理中，对比度弹出框

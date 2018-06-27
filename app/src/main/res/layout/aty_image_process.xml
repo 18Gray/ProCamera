@@ -4,7 +4,7 @@
      android:background="@color/primary"
     >
 
-    <!-- top -->
+    <!-- 顶部菜单 -->
     <include
         android:id="@+id/common_title"
         layout="@layout/layout_common_title"
