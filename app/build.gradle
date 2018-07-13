@@ -20,7 +20,14 @@ android {
             shrinkResources true
         }
     }
+
+    repositories{
+        flatDir {
+            dirs 'libs'
+        }
+    }
 }
+
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -60,7 +67,7 @@ dependencies {
     compile "com.github.rey5137:material:$rootProject.ext.materialVersion"
 
     // 动画库Transition和Lottie
-
+    compile(name: 'lottie-android-2.5.5', ext: 'aar')
 
     // 第三方社交软件登陆、分享集成库
     compile 'com.github.tianzhijiexian:ShareLoginLib:1.3.8'
