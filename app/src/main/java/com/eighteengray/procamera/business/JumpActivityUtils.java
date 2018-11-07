@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.eighteengray.procamera.activity.AlbumActivity;
 import com.eighteengray.procamera.activity.SettingActivity;
-import com.eighteengray.procamera.activity.WebViewActivity;
+import com.eighteengray.procamera.webview.WebViewActivity;
 import com.eighteengray.procamera.imageprocess.activity.ImageProcessActivity;
 import com.eighteengray.procameralibrary.common.Constants;
 

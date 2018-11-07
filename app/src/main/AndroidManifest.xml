@@ -25,7 +25,8 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
 
-
+    <!--自定义权限-->
+    <uses-permission android:name="scut.carson_ho.PROVIDER"/>
 
 
     <application
@@ -39,6 +40,9 @@
         android:theme="@style/AppTheme"
         android:extractNativeLibs="false"
         >
+
+        <meta-data android:name="com.google.ar.core" android:value="optional"/>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -66,10 +70,17 @@
 
         <activity android:name=".circle.CircleEditActivity"/>
 
-        <activity android:name=".activity.WebViewActivity"
+        <activity android:name=".webview.WebViewActivity"
             android:configChanges="orientation|keyboardHidden"
                   android:process=":remoteWeb"
             />
+        <provider
+            android:authorities="ImageProcessProvider"
+            android:name=".model.database.ImageProcessRecordProvider"
+            android:permission="scut.carson_ho.PROVIDER"
+            android:exported="true"/>
+
+        <permission android:name="scut.carson_ho.Read" android:protectionLevel="normal"/>
 
     </application>
 

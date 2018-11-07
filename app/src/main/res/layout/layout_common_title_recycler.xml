@@ -20,6 +20,7 @@
         android:layout_height="match_parent"
         android:layout_below="@id/common_title"
         android:background="@color/text"
+        app:LayoutManagerNum="1"
         />
 
 </LinearLayout>

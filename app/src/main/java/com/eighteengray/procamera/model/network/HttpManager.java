@@ -7,4 +7,6 @@ package com.eighteengray.procamera.model.network;
 
 public class HttpManager
 {
+
+
 }
