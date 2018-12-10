@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'android-apt'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -30,56 +29,58 @@ android {
 
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':procameralibrary')
-    compile project(':imageprocesslibrary')
-    compile project(':cardlibrary')
-    compile "com.github.18Gray:CommonUtils:$rootProject.ext.commonUtilsVersion"
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':procameralibrary')
+    implementation project(':imageprocesslibrary')
+    implementation project(':cardlibrary')
+    implementation "com.github.18Gray:CommonUtils:$rootProject.ext.commonUtilsVersion"
 
     //基础库
-    compile "com.android.support:support-v4:$rootProject.ext.supportLibraryVersion"
-    compile "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
-    compile "com.android.support:design:$rootProject.ext.supportLibraryVersion"
-    compile "com.android.support:cardview-v7:$rootProject.ext.supportLibraryVersion"
-    compile "com.android.support:recyclerview-v7:$rootProject.ext.supportLibraryVersion"
+    implementation "com.android.support:support-v4:$rootProject.ext.supportLibraryVersion"
+    implementation "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
+    implementation "com.android.support:design:$rootProject.ext.supportLibraryVersion"
+    implementation "com.android.support:cardview-v7:$rootProject.ext.supportLibraryVersion"
+    implementation "com.android.support:recyclerview-v7:$rootProject.ext.supportLibraryVersion"
 
     // 组织结构库
-    compile "io.reactivex:rxjava:$rootProject.ext.rxjavaVersion"
-    compile "io.reactivex:rxandroid:$rootProject.ext.rxandroidVersion"
-    compile "org.greenrobot:eventbus:$rootProject.ext.eventbus"
-    compile "com.jakewharton:butterknife:$rootProject.ext.butterknifeVersion"
-    apt "com.jakewharton:butterknife-compiler:$rootProject.ext.butterknifeVersion"
-    apt "com.google.dagger:dagger-compiler:$rootProject.ext.dagger2"
-    compile "com.google.dagger:dagger:$rootProject.ext.dagger2"
+    implementation "io.reactivex:rxjava:$rootProject.ext.rxjavaVersion"
+    implementation "io.reactivex:rxandroid:$rootProject.ext.rxandroidVersion"
+    implementation "org.greenrobot:eventbus:$rootProject.ext.eventbus"
+
+    implementation "com.google.dagger:dagger:$rootProject.ext.dagger2"
+    annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.ext.dagger2"
+
+    implementation "com.jakewharton:butterknife:$rootProject.ext.butterknifeVersion"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.ext.butterknifeVersion"
 
     //网络与数据处理库
-    compile "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
-    compile "com.squareup.retrofit2:adapter-rxjava:$rootProject.ext.retrofitVersion"
-    compile "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofitVersion"
-    compile "com.google.code.gson:gson:$rootProject.ext.gsonVersion"
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava:$rootProject.ext.retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofitVersion"
+    implementation "com.google.code.gson:gson:$rootProject.ext.gsonVersion"
 
     // 图片加载框架
-    compile "com.nostra13.universalimageloader:universal-image-loader:$rootProject.ext.universalVersion"
-    compile "com.facebook.fresco:fresco:$rootProject.ext.frescoVersion"
-    compile "com.github.bumptech.glide:glide:$rootProject.ext.glideVersion"
+    implementation "com.nostra13.universalimageloader:universal-image-loader:$rootProject.ext.universalVersion"
+    implementation "com.facebook.fresco:fresco:$rootProject.ext.frescoVersion"
+    implementation "com.github.bumptech.glide:glide:$rootProject.ext.glideVersion"
 
     // Material Design控件库
-    compile "com.github.rey5137:material:$rootProject.ext.materialVersion"
+    implementation "com.github.rey5137:material:$rootProject.ext.materialVersion"
 
     // 动画库Transition和Lottie
-    compile(name: 'lottie-android-2.5.5', ext: 'aar')
+    implementation(name: 'lottie-android-2.5.5', ext: 'aar')
 
     // 第三方社交软件登陆、分享集成库
-    compile 'com.github.tianzhijiexian:ShareLoginLib:1.3.8'
+    implementation 'com.github.tianzhijiexian:ShareLoginLib:1.3.8'
 
     // JSBridge
-    compile "com.github.lzyzsd:jsbridge:$rootProject.ext.jsBridge"
+    implementation "com.github.lzyzsd:jsbridge:$rootProject.ext.jsBridge"
 
     // 测试性能库
-    debugCompile "com.squareup.leakcanary:leakcanary-android:$rootProject.ext.leakcanary"
-    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.ext.leakcanary"
-    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.ext.leakcanary"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$rootProject.ext.leakcanary"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.ext.leakcanary"
+    testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.ext.leakcanary"
 
     // 数据库调试
-    debugCompile 'com.amitshekhar.android:debug-db:1.0.0'
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.0'
 }
