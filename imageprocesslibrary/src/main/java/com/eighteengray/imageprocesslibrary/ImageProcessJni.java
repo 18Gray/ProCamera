@@ -3,6 +3,10 @@ package com.eighteengray.imageprocesslibrary;
 
 public class ImageProcessJni
 {
+    static {
+        System.loadLibrary("imageprocess");
+    }
+
     // 灰度图
     public static native int[] toGray(int[] buf, int width, int height);
     // 黑白图
@@ -27,6 +31,8 @@ public class ImageProcessJni
     public static native int[] blurPixels(int[] img, int w, int h, int r);
 
 
+
+    public static native int[] gray(int[] buf, int w, int h);
 
 
 

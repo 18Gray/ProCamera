@@ -1,12 +1,21 @@
 #include <jni.h>
 #include <string.h>
+#include <iostream>
 #include <android/bitmap.h>
 #include<malloc.h>
 #include <stdio.h>
 #include <setjmp.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <time.h>
+#include <opencv2/opencv.hpp>
 #include "com_eighteengray_imageprocesslibrary_ImageProcessJni.h"
+
+
+using namespace cv;
+using namespace std;
+
+
 
 #define ABS(a) ((a)<(0)?(-a):(a))
 #define MAX(a,b) ((a)>(b)?(a):(b))
@@ -39,9 +48,13 @@ JNIEXPORT jintArray JNICALL Java_com_eighteengray_imageprocesslibrary_ImageProce
 }
 
 
+
+
+
 /**
  * OTSU算法求最适分割阈值
  */
+
 int otsu(jint* colors, int w, int h) {
     unsigned int pixelNum[256]; // 图象灰度直方图[0, 255]
     int color; // 灰度值
@@ -151,20 +164,24 @@ int ARGB(int alpha, int red, int green, int blue) {
     return (alpha << 24) | (red << 16) | (green << 8) | blue;
 }
 
+
 /**
  * 按双线性内插值算法将对应源图像四点颜色某一颜色值混合
  * int(*fun)(int)指向从color中获取某一颜色值的方法
  */
+
 int mixARGB(int *color, int i, int j, float u, float v, int(*fun)(int)) {
     // f(i+u,j+v)=(1-u)(1-v)*f(i,j)+(1-u)v*f(i,j+1)+u(1-v)*f(i+1,j)+uv*f(i+1,j+1)
     return (1 - u) * (1 - v) * (*fun)(color[0]) + (1 - u) * v * (*fun)(color[1])
            + u * (1 - v) * (*fun)(color[2]) + u * v * (*fun)(color[3]);
 }
 
+
 /**
  * 按双线性内插值算法将对应源图像四点颜色值混合
  * color[]需要有四个颜色值，避免越界
  */
+
 int mixColor(int *color, int i, int j, float u, float v) {
     int a = mixARGB(color, i, j, u, v, alpha); // 获取alpha混合值
     int r = mixARGB(color, i, j, u, v, red); // 获取red混合值
@@ -329,6 +346,7 @@ JNIEXPORT jintArray JNICALL Java_com_eighteengray_imageprocesslibrary_ImageProce
      * P7   P6  P5
      */
 
+
     int i, j, m, n; // 循环标记
     unsigned char gray; // 灰度值
     unsigned char grays[3][3]; // 领域各点灰度值
@@ -349,6 +367,7 @@ JNIEXPORT jintArray JNICALL Java_com_eighteengray_imageprocesslibrary_ImageProce
          * N(p1)：p1的非零邻点的个数
          * S(p1)：以p2 ，p3 ，…… ，p9为序时这些点的值从0到1变化的次数
          */
+
 
         memset(mark, 0, sizeof(mark)); // 重置删除标记为false
 
@@ -423,6 +442,7 @@ JNIEXPORT jintArray JNICALL Java_com_eighteengray_imageprocesslibrary_ImageProce
                     /*
                      * 四条件都成立时
                      */
+
                     mark[j][i] = 1; // 删除标记为true
                     modified = 1; // 脏标记为true
                 }
@@ -449,6 +469,7 @@ JNIEXPORT jintArray JNICALL Java_com_eighteengray_imageprocesslibrary_ImageProce
          * (2.3) p2*p4*p8=0
          * (2.4) p2*p6*p8=0
          */
+
         memset(mark, 0, sizeof(mark)); // 重置删除标记为false
 
         // 防止越界，不处理上下左右四边像素
@@ -522,6 +543,7 @@ JNIEXPORT jintArray JNICALL Java_com_eighteengray_imageprocesslibrary_ImageProce
                     /*
                      * 四条件都成立时
                      */
+
                     mark[j][i] = 1; // 删除标记为true
                     modified = 1; // 脏标记为true
                 }
@@ -959,6 +981,33 @@ JNIEXPORT jintArray JNICALL Java_com_eighteengray_imageprocesslibrary_ImageProce
 
 
 
+extern "C"
+JNIEXPORT jintArray JNICALL
+Java_com_eighteengray_imageprocesslibrary_ImageProcessJni_gray(JNIEnv *env, jclass jclazz, jintArray buf, jint w,
+                                           jint h) {
+    jint *cbuf = env->GetIntArrayElements(buf, JNI_FALSE );
+    if (cbuf == NULL) {
+        return 0;
+    }
+
+    Mat imgData(h, w, CV_8UC4, (unsigned char *) cbuf);
+
+    uchar* ptr = imgData.ptr(0);
+    for(int i = 0; i < w*h; i ++){
+        //计算公式：Y(亮度) = 0.299*R + 0.587*G + 0.114*B
+        //对于一个int四字节，其彩色值存储方式为：BGRA
+        int grayScale = (int)(ptr[4*i+2]*0.299 + ptr[4*i+1]*0.587 + ptr[4*i+0]*0.114);
+        ptr[4*i+1] = grayScale;
+        ptr[4*i+2] = grayScale;
+        ptr[4*i+0] = grayScale;
+    }
+
+    int size = w * h;
+    jintArray result = env->NewIntArray(size);
+    env->SetIntArrayRegion(result, 0, size, cbuf);
+    env->ReleaseIntArrayElements(buf, cbuf, 0);
+    return result;
+}
 
 
 

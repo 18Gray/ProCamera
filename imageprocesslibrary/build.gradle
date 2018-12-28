@@ -10,14 +10,21 @@ android {
         versionCode 1
         versionName "1.0"
 
+
         externalNativeBuild {
             cmake {
-                cppFlags ""
-                abiFilters 'arm64-v8a', 'armeabi-v7a', 'x86', 'x86_64'
+                arguments "-DANDROID_ARM_NEON=TRUE", "-DANDROID_TOOLCHAIN=clang","-DCMAKE_BUILD_TYPE=Release"
+                //'-DANDROID_STL=gnustl_static'
+                cppFlags "-std=c++11","-frtti", "-fexceptions"
             }
         }
 
+        ndk{
+            abiFilters 'armeabi-v7a'
+        }
+
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -37,3 +44,4 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
     implementation "com.android.support:support-v4:$rootProject.ext.supportLibraryVersion"
 }
+

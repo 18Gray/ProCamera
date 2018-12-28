@@ -9,11 +9,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.eighteengray.commonutillibrary.FileUtils;
+import com.eighteengray.commonutillibrary.ImageProcessUtils;
 import com.eighteengray.commonutillibrary.ImageUtils;
 import com.eighteengray.commonutillibrary.SDCardUtils;
 import com.eighteengray.commonutillibrary.ScreenUtils;
+import com.eighteengray.imageprocesslibrary.ImageProcessJni;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.activity.BaseActivity;
 import com.eighteengray.procamera.widget.CropImageView;
@@ -28,8 +31,8 @@ import butterknife.OnClick;
 
 public class BeautyActivity extends BaseActivity
 {
-    @BindView(R.id.civ_cut)
-    CropImageView mCropImage;
+    @BindView(R.id.iv_beauty)
+    ImageView iv_beauty;
     private Drawable drawable;
     private Bitmap bitmap = null;
     String path;
@@ -66,19 +69,27 @@ public class BeautyActivity extends BaseActivity
         ButterKnife.bind(this);
 
 
-        width = ScreenUtils.getScreenWidth(BeautyActivity.this);
+        /*width = ScreenUtils.getScreenWidth(BeautyActivity.this);
         path = getIntent().getStringExtra(Constants.CROPIMAGEPATH);
         bitmap = ImageUtils.getBitmapFromPathSimple(path);
-        drawable = new BitmapDrawable(bitmap);
-        mCropImage.setDrawable(drawable, width-100, width-100);
+        drawable = new BitmapDrawable(bitmap);*/
 
         btn_right.setVisibility(View.VISIBLE);
+
+        Bitmap bitmap = ((BitmapDrawable) getResources().getDrawable(R.mipmap.album_black_24dp)).getBitmap();
+        int w = bitmap.getWidth(), h = bitmap.getHeight();
+        int[] pix = new int[w * h];
+        bitmap.getPixels(pix, 0, w, 0, 0, w, h);
+        int [] resultPixes=ImageProcessJni.gray(pix,w,h);
+        Bitmap result = Bitmap.createBitmap(w,h, Bitmap.Config.RGB_565);
+        result.setPixels(resultPixes, 0, w, 0, 0,w, h);
+        iv_beauty.setImageBitmap(result);
     }
 
     @Override
     public int getLayoutResId()
     {
-        return R.layout.aty_cut;
+        return R.layout.aty_beauty;
     }
 
 
@@ -93,11 +104,11 @@ public class BeautyActivity extends BaseActivity
                     @Override
                     public void run()
                     {
-                        Bitmap cutBitmap = mCropImage.getCropImage();
+                       /* Bitmap cutBitmap = mCropImage.getCropImage();
                         File file = FileUtils.createFile(SDCardUtils.getAppFile(BeautyActivity.this).getAbsolutePath(), "cutBitmap.jpg");
                         path = file.getAbsolutePath();
                         ImageUtils.saveBitmap2Album(BeautyActivity.this, cutBitmap);
-                        handler.sendEmptyMessage(Constants.CUTPIC);
+                        handler.sendEmptyMessage(Constants.CUTPIC);*/
                     }
                 }).start();
                 break;

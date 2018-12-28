@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary"
+>
+
+    <!-- top -->
+    <include
+        android:id="@+id/common_title"
+        layout="@layout/layout_common_title"
+        />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/common_title"
+    >
+
+        <ImageView
+            android:id="@+id/iv_beauty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            tools:src="@drawable/albumset_preselected"
+            />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
