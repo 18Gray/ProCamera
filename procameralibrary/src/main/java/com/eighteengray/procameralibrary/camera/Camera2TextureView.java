@@ -456,9 +456,7 @@ public class Camera2TextureView extends BaseCamera2TextureView
     {
         try
         {
-            if(mCaptureStillBuilder == null){
-                mCaptureStillBuilder = CaptureRequestFactory.createCaptureStillBuilder(mCameraDevice, mImageReader.getSurface());
-            }
+            mCaptureStillBuilder = CaptureRequestFactory.createCaptureStillBuilder(mCameraDevice, mImageReader.getSurface());
             int quality = SharePreferenceUtils.getInstance(context, Constants.SETTINGS).getInt(Constants.IMAGE_QUALITY, 90);
             CaptureRequestFactory.setCaptureBuilderStill(mCaptureStillBuilder, windowManager, quality);
 

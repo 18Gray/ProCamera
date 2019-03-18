@@ -141,7 +141,7 @@ public class CaptureRequestFactory
     }
 
 
-    //设置拍照模式-延时拍着
+    //设置拍照模式-延时拍摄
     public static void setCaptureBuilderDelay(CaptureRequest.Builder captureBuilder, long nanoseconds)
     {
         captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, nanoseconds);
