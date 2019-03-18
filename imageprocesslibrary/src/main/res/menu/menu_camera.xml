@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/invert"
+        android:title="取反" />
+    <item android:id="@+id/edge"
+        android:title="边缘" />
+    <item android:id="@+id/sobel"
+        android:title="梯度" />
+    <item android:id="@+id/boxBlur"
+        android:title="盒子模糊" />
+    <item android:id="@+id/faceDetection"
+        android:title="人脸检测" />
+</menu>

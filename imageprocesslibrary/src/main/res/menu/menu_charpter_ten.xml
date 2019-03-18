@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/face_trace_menu_id"
+        android:title="@string/face_trace" />
+    <item android:id="@+id/eye_roi_menu_id"
+        android:title="@string/eye_area" />
+    <item android:id="@+id/eye_location_menu_id"
+        android:title="@string/eye_found" />
+    <item android:id="@+id/location_ball_menu_id"
+        android:title="@string/eye_ball" />
+    <item android:id="@+id/render_ball_menu_id"
+        android:title="@string/render_ball" />
+</menu>

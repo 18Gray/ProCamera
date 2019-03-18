@@ -31,15 +31,16 @@ public class ImageProcessJni
     public static native int[] blurPixels(int[] img, int w, int h, int r);
 
 
-
     public static native int[] gray(int[] buf, int w, int h);
 
 
 
+    // FaceDetection
+    public static native void faceDetection(long frameAddress);
 
+    public static native void initLoad(String haarFilePath);
 
-
-
+    public static native void beautySkinFilter(long srcAddress, long dstAddress, float sigma, boolean blur);
 
 
 

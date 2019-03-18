@@ -13,13 +13,13 @@ android {
 
         externalNativeBuild {
             cmake {
-                arguments "-DANDROID_ARM_NEON=TRUE", "-DANDROID_TOOLCHAIN=clang","-DCMAKE_BUILD_TYPE=Release"
+                arguments "-DANDROID_ARM_NEON=TRUE", "-DANDROID_TOOLCHAIN=clang", "-DCMAKE_BUILD_TYPE=Release"
                 //'-DANDROID_STL=gnustl_static'
-                cppFlags "-std=c++11","-frtti", "-fexceptions"
+                cppFlags "-std=c++11", "-frtti", "-fexceptions"
             }
         }
 
-        ndk{
+        ndk {
             abiFilters 'armeabi-v7a'
         }
 
@@ -37,6 +37,7 @@ android {
             path "CMakeLists.txt"
         }
     }
+    sourceSets { main { res.srcDirs = ['src/main/res', 'src/main/res/layout'] } }
 }
 
 dependencies {
@@ -45,4 +46,3 @@ dependencies {
     implementation "com.android.support:support-v4:$rootProject.ext.supportLibraryVersion"
     implementation project(':openCVLibrary330')
 }
-

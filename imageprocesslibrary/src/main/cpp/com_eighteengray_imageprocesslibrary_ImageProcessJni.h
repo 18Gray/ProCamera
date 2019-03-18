@@ -66,12 +66,42 @@ JNIEXPORT jintArray JNICALL Java_com_eighteengray_imageprocesslibrary_ImageProce
 /*
  * Class:     com_eighteengray_imageprocesslibrary_ImageProcessJni
  * Method:    blurPixels
- * Signature: ([IIII)V
+ * Signature: ([IIII)[I
  */
 JNIEXPORT jintArray JNICALL Java_com_eighteengray_imageprocesslibrary_ImageProcessJni_blurPixels
-        (JNIEnv *, jclass, jintArray, jint, jint, jint);
+  (JNIEnv *, jclass, jintArray, jint, jint, jint);
 
+/*
+ * Class:     com_eighteengray_imageprocesslibrary_ImageProcessJni
+ * Method:    gray
+ * Signature: ([III)[I
+ */
+JNIEXPORT jintArray JNICALL Java_com_eighteengray_imageprocesslibrary_ImageProcessJni_gray
+  (JNIEnv *, jclass, jintArray, jint, jint);
 
+/*
+ * Class:     com_eighteengray_imageprocesslibrary_ImageProcessJni
+ * Method:    faceDetection
+ * Signature: (J)V
+ */
+JNIEXPORT void JNICALL Java_com_eighteengray_imageprocesslibrary_ImageProcessJni_faceDetection
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_eighteengray_imageprocesslibrary_ImageProcessJni
+ * Method:    initLoad
+ * Signature: (Ljava/lang/String;)V
+ */
+JNIEXPORT void JNICALL Java_com_eighteengray_imageprocesslibrary_ImageProcessJni_initLoad
+  (JNIEnv *, jclass, jstring);
+
+/*
+ * Class:     com_eighteengray_imageprocesslibrary_ImageProcessJni
+ * Method:    beautySkinFilter
+ * Signature: (JJFZ)V
+ */
+JNIEXPORT void JNICALL Java_com_eighteengray_imageprocesslibrary_ImageProcessJni_beautySkinFilter
+  (JNIEnv *, jclass, jlong, jlong, jfloat, jboolean);
 
 #ifdef __cplusplus
 }

@@ -6,6 +6,9 @@
                  android:supportsRtl="true"
     >
 
+        <activity android:name=".cvdemo.camera.DisplayModeActivity"/>
+        <activity android:name=".cvdemo.camera.CameraViewActivity"/>
+
     </application>
 
 </manifest>
