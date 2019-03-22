@@ -10,7 +10,6 @@ android {
         versionCode 1
         versionName "1.0"
 
-
         externalNativeBuild {
             cmake {
                 arguments "-DANDROID_ARM_NEON=TRUE", "-DANDROID_TOOLCHAIN=clang", "-DCMAKE_BUILD_TYPE=Release"
@@ -20,7 +19,7 @@ android {
         }
 
         ndk {
-            abiFilters 'armeabi-v7a'
+            abiFilters "armeabi-v7a"
         }
 
     }

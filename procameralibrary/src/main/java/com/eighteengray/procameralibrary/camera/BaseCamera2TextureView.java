@@ -255,15 +255,19 @@ public abstract class BaseCamera2TextureView extends TextureView
         public void onOpened(@NonNull CameraDevice cameraDevice)
         {
             mCameraOpenCloseLock.release();
-            mCameraDevice = cameraDevice;
-            createCameraPreviewSession();
+            if(cameraDevice != null){
+                mCameraDevice = cameraDevice;
+                createCameraPreviewSession();
+            }
         }
 
         @Override
         public void onDisconnected(@NonNull CameraDevice cameraDevice)
         {
             mCameraOpenCloseLock.release();
-            cameraDevice.close();
+            if(cameraDevice != null){
+                cameraDevice.close();
+            }
             mCameraDevice = null;
         }
 
@@ -271,7 +275,9 @@ public abstract class BaseCamera2TextureView extends TextureView
         public void onError(@NonNull CameraDevice cameraDevice, int error)
         {
             mCameraOpenCloseLock.release();
-            cameraDevice.close();
+            if(cameraDevice != null){
+                cameraDevice.close();
+            }
             mCameraDevice = null;
         }
 

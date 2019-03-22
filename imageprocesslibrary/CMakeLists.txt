@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.4.1)
 
 
 set(CMAKE_VERBOSE_MAKEFILE on)
-set(libs "${CMAKE_SOURCE_DIR}/src/main/libs")
+set(libs "${CMAKE_SOURCE_DIR}/src/main/jniLibs")
 include_directories(${CMAKE_SOURCE_DIR}/src/main/cpp/include)
 
 

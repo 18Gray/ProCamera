@@ -52,7 +52,7 @@ import java.util.Random;
 public class ImageProcessOpenCv {
 
     // two
-    public static Bitmap bitmap2MatDemo() {
+    public static Bitmap bitmap2Mat() {
         Bitmap bm = Bitmap.createBitmap(500, 500, Bitmap.Config.ARGB_8888);
         Mat m = new Mat();
         Utils.bitmapToMat(bm, m);

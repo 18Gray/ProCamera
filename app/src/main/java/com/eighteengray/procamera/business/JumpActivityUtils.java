@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.eighteengray.imageprocesslibrary.cvdemo.CVTestActivity;
 import com.eighteengray.procamera.activity.AlbumActivity;
 import com.eighteengray.procamera.activity.SettingActivity;
 import com.eighteengray.procamera.webview.WebViewActivity;
@@ -51,6 +52,11 @@ public class JumpActivityUtils
 
     public static void jump2WebViewActivity(Context context){
         Intent intent = new Intent(context, WebViewActivity.class);
+        context.startActivity(intent);
+    }
+
+    public static void jump2CVTestActivity(Context context){
+        Intent intent = new Intent(context, CVTestActivity.class);
         context.startActivity(intent);
     }
 

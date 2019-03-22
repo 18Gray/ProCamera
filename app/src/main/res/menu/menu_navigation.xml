@@ -10,7 +10,7 @@
         <item
             android:id="@+id/navi_cloudpics"
             android:icon="@mipmap/cloud_black_24dp"
-            android:title="云端相册"/>
+            android:title="Test"/>
 
         <item
             android:id="@+id/navi_settings"
