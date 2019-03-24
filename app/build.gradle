@@ -46,10 +46,8 @@ dependencies {
     implementation "io.reactivex:rxjava:$rootProject.ext.rxjavaVersion"
     implementation "io.reactivex:rxandroid:$rootProject.ext.rxandroidVersion"
     implementation "org.greenrobot:eventbus:$rootProject.ext.eventbus"
-
     implementation "com.google.dagger:dagger:$rootProject.ext.dagger2"
     annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.ext.dagger2"
-
     implementation "com.jakewharton:butterknife:$rootProject.ext.butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.ext.butterknifeVersion"
 
@@ -83,4 +81,5 @@ dependencies {
 
     // 数据库调试
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.0'
+    implementation project(':commonlibrary')
 }

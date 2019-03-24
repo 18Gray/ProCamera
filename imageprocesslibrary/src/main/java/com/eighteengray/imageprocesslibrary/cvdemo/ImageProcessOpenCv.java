@@ -37,8 +37,6 @@ import org.opencv.features2d.Features2d;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
-import org.opencv.xfeatures2d.SIFT;
-import org.opencv.xfeatures2d.SURF;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -51,178 +49,7 @@ import java.util.Random;
 
 public class ImageProcessOpenCv {
 
-    // two
-    public static Bitmap bitmap2Mat() {
-        Bitmap bm = Bitmap.createBitmap(500, 500, Bitmap.Config.ARGB_8888);
-        Mat m = new Mat();
-        Utils.bitmapToMat(bm, m);
-        Imgproc.circle(m, new Point(m.cols()/2, m.rows()/2), 50,
-                new Scalar(255, 0, 0, 255), 2, 8, 0);
-        Utils.matToBitmap(m, bm);
-        return bm;
-    }
-
-    public static Bitmap mat2BitmapDemo(Uri fileUri, int index) {
-        Mat src = Imgcodecs.imread(fileUri.getPath());
-        int width = src.cols();
-        int height = src.rows();
-        Bitmap bm = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-
-        Mat dst = new Mat();
-        Imgproc.cvtColor(src, dst, Imgproc.COLOR_BGR2RGBA);
-        Utils.matToBitmap(dst, bm);
-        dst.release();
-        return bm;
-    }
-
-    public static Bitmap basicDrawOnCanvas() {
-        // 创建Bitmap对象
-        Bitmap bm = Bitmap.createBitmap(500, 500, Bitmap.Config.ARGB_8888);
-
-        // 创建画布与画笔风格
-        Canvas canvas = new Canvas(bm);
-        Paint p = new Paint();
-        p.setColor(Color.BLUE);
-        p.setStyle(Paint.Style.FILL_AND_STROKE);
-
-        // 绘制直线
-        canvas.drawLine(10, 10, 490, 490, p);
-        canvas.drawLine(10, 490, 490, 10, p);
-
-        // 绘制矩形
-        android.graphics.Rect rect = new android.graphics.Rect();
-        rect.set(50, 50, 150, 150); // 矩形左上角点，与右下角点坐标
-        canvas.drawRect(rect, p);
-
-        // 绘制圆
-        p.setColor(Color.GREEN);
-        canvas.drawCircle(400, 400, 50, p);
-
-        // 绘制文本
-        p.setColor(Color.RED);
-        canvas.drawText("Basic Drawing on Canvas", 40, 40, p);
-        return bm;
-    }
-
-    public static Bitmap basicDrawOnMat() {
-        Mat src = Mat.zeros(500, 500, CvType.CV_8UC3);
-
-        Imgproc.ellipse(src, new Point(250, 250), new Size(100, 50),
-                360, 0, 360, new Scalar(0, 0, 255), 2, 8, 0);
-
-        Imgproc.putText(src, "Basic Drawing Demo", new Point(20, 20),
-                Core.FONT_HERSHEY_PLAIN, 1.0, new Scalar(0, 255, 0), 1);
-        Rect rect = new Rect();
-        rect.x = 50;
-        rect.y = 50;
-        rect.width = 100;
-        rect.height = 100;
-        Imgproc.rectangle(src, rect.tl(), rect.br(), //矩形
-                new Scalar(255, 0, 0), 2, 8, 0);
-        Imgproc.circle(src, new Point(400, 400), 50,
-                new Scalar(0, 255, 0), 2, 8, 0);
-        Imgproc.line(src, new Point(10, 10), new Point(490, 490),
-                new Scalar(0, 255, 0), 2, 8, 0);
-        Imgproc.line(src, new Point(10, 490), new Point(490, 10),
-                new Scalar(255, 0, 0), 2, 8, 0);
-
-        Bitmap bm = Bitmap.createBitmap(src.cols(), src.rows(), Bitmap.Config.ARGB_8888);
-        Mat dst = new Mat();
-        Imgproc.cvtColor(src, dst, Imgproc.COLOR_BGR2RGBA);
-        Utils.matToBitmap(dst, bm);
-        return bm;
-    }
-
-    public static void getMatInfo(Uri fileUri) {
-        //Mat src = Imgcodecs.imread(fileUri.getPath());
-        Mat src = Imgcodecs.imread(fileUri.getPath(), Imgcodecs.IMREAD_COLOR);
-        int width = src.cols();
-        int height = src.rows();
-        int dims = src.dims();
-        int channels = src.channels();
-        int depth = src.depth();
-        int type = src.type();
-        // 1
-        Mat m1 = new Mat();
-        m1.create(new Size(3, 3), CvType.CV_8UC3);
-        Mat m2 = new Mat();
-        m2.create(3, 3, CvType.CV_8UC3);
-
-        Mat m3 = Mat.eye(3, 3,CvType.CV_8UC3);
-        Mat m4 = Mat.eye(new Size(3, 3),CvType.CV_8UC3);
-        Mat m5 = Mat.zeros(new Size(3, 3), CvType.CV_8UC3);
-        Mat m6 = Mat.ones(new Size(3, 3), CvType.CV_8UC3);
-
-        Mat m7 = new Mat(3, 3, CvType.CV_8UC3);
-        m7.setTo(new Scalar(255, 255, 255));
-
-        // 创建Mat对象并保存
-        Mat image = new Mat(500, 500, CvType.CV_8UC3);
-        image.setTo(new Scalar(127, 127, 127));
-        ImageSelectUtils.saveImage(image);
-
-        Mat m8 = new Mat(500, 500, CvType.CV_8UC3);
-        m8.setTo(new Scalar(127, 127, 127));
-        Mat result = new Mat();
-        m8.copyTo(result);
-    }
-
-    public static void getBitmapInfo(Bitmap bm) {
-        int width = bm.getWidth();
-        int height = bm.getHeight();
-        Bitmap.Config config = bm.getConfig();
-
-        int a=0, r=0, g=0, b=0;
-        for(int row=0; row<height; row++) {
-            for(int col=0; col<width; col++) {
-                // 读取像素
-                int pixel = bm.getPixel(col, row);
-                a = Color.alpha(pixel);
-                r = Color.red(pixel);
-                g = Color.green(pixel);
-                b = Color.blue(pixel);
-                // 修改像素
-                r = 255 - r;
-                g = 255 - g;
-                b = 255 - b;
-                // 保存到Bitmap中
-                bm.setPixel(col, row, Color.argb(a, r, g, b));
-            }
-        }
-
-        int[] pixels = new int[width*height];
-        bm.getPixels(pixels, 0, width, 0, 0, width, height);
-    }
-
-    public static void scanPixelsDemo(Bitmap bm) {
-        int width = bm.getWidth();
-        int height = bm.getHeight();
-        Bitmap.Config config = bm.getConfig();
-        int[] pixels = new int[width*height];
-        bm.getPixels(pixels, 0, width, 0, 0, width, height);
-        int a=0, r=0, g=0, b=0;
-        int index = 0;
-        for(int row=0; row<height; row++) {
-            for(int col=0; col<width; col++) {
-                // 读取像素
-                index = width*row + col;
-                a=(pixels[index]>>24)&0xff;
-                r=(pixels[index]>>16)&0xff;
-                g=(pixels[index]>>8)&0xff;
-                b=pixels[index]&0xff;
-                // 修改像素
-                r = 255 - r;
-                g = 255 - g;
-                b = 255 - b;
-                // 保存到Bitmap中
-                pixels[index] = (a << 24) | (r << 16) | (g << 8) | b;
-            }
-        }
-        bm.setPixels(pixels, 0, width, 0, 0, width, height);
-    }
-
-
-    // Three
+    /*// Three
     public static Bitmap blendMat(Uri fileUri, double alpha, double gamma) {
         // 加载图像
         Mat src = Imgcodecs.imread(fileUri.getPath());
@@ -1352,6 +1179,6 @@ public class ImageProcessOpenCv {
         gray.release();
         response.release();
     }
-
+*/
 
 }

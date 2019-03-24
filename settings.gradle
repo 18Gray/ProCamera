@@ -1,2 +1,2 @@
-include ':app', ':procameralibrary', ':imageprocesslibrary', ':cardlibrary'
+include ':app', ':procameralibrary', ':imageprocesslibrary', ':cardlibrary',  ':commonlibrary'
 include ':openCVLibrary345'

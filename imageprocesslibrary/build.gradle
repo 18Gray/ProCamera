@@ -10,7 +10,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        externalNativeBuild {
+        /*externalNativeBuild {
             cmake {
                 arguments "-DANDROID_ARM_NEON=TRUE", "-DANDROID_TOOLCHAIN=clang", "-DCMAKE_BUILD_TYPE=Release"
                 //'-DANDROID_STL=gnustl_static'
@@ -20,7 +20,7 @@ android {
 
         ndk {
             abiFilters "armeabi-v7a"
-        }
+        }*/
 
     }
 
@@ -31,12 +31,12 @@ android {
         }
     }
 
-    externalNativeBuild {
+    /*externalNativeBuild {
         cmake {
             path "CMakeLists.txt"
         }
     }
-    sourceSets { main { res.srcDirs = ['src/main/res', 'src/main/res/layout'] } }
+    sourceSets { main { res.srcDirs = ['src/main/res', 'src/main/res/layout'] } }*/
 }
 
 dependencies {
@@ -44,4 +44,5 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
     implementation "com.android.support:support-v4:$rootProject.ext.supportLibraryVersion"
     implementation project(':openCVLibrary345')
+    implementation project(':commonlibrary')
 }

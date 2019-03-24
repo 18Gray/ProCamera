@@ -3,9 +3,7 @@ package com.eighteengray.procamera.audio;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-
-import com.eighteengray.procamera.activity.BaseActivity;
-
+import com.eighteengray.commonlibrary.BaseActivity;
 import java.io.IOException;
 
 

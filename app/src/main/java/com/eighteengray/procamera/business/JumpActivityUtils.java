@@ -3,13 +3,14 @@ package com.eighteengray.procamera.business;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.eighteengray.imageprocesslibrary.cvdemo.CVTestActivity;
 import com.eighteengray.procamera.activity.AlbumActivity;
 import com.eighteengray.procamera.activity.SettingActivity;
+import com.eighteengray.procamera.imageprocess.activity.FilterActivity;
 import com.eighteengray.procamera.webview.WebViewActivity;
 import com.eighteengray.procamera.imageprocess.activity.ImageProcessActivity;
 import com.eighteengray.procameralibrary.common.Constants;
+
+
 
 public class JumpActivityUtils
 {
@@ -55,8 +56,8 @@ public class JumpActivityUtils
         context.startActivity(intent);
     }
 
-    public static void jump2CVTestActivity(Context context){
-        Intent intent = new Intent(context, CVTestActivity.class);
+    public static void jump2FilterActivity(Context context){
+        Intent intent = new Intent(context, FilterActivity.class);
         context.startActivity(intent);
     }
 

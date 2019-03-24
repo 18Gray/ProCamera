@@ -7,8 +7,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.eighteengray.commonlibrary.BaseActivity;
 import com.eighteengray.procamera.R;
-import com.eighteengray.procamera.activity.BaseActivity;
+import com.eighteengray.procamera.business.JumpActivityUtils;
 import com.eighteengray.procamera.imageprocess.widget.OutputMenuDialog;
 import com.eighteengray.procamera.imageprocess.widget.RedoMenuDialog;
 import com.eighteengray.procamera.model.imageloader.ImageLoader;
@@ -88,7 +90,8 @@ public class ImageProcessActivity extends BaseActivity
         switch (view.getId())
         {
             case R.id.tv_filter_image_process:
-                PopupWindowFactory.createFilterPopupWindow(ImageProcessActivity.this).showAtLocation(ll_bottommenu_image_process, Gravity.BOTTOM, 0, 288);
+//                PopupWindowFactory.createFilterPopupWindow(ImageProcessActivity.this).showAtLocation(ll_bottommenu_image_process, Gravity.BOTTOM, 0, 288);
+                JumpActivityUtils.jump2FilterActivity(this);
                 break;
             case R.id.tv_tools_image_process:
                 PopupWindowFactory.createProcessPopupWindow(ImageProcessActivity.this).showAtLocation(ll_bottommenu_image_process, Gravity.BOTTOM, 0, 288);

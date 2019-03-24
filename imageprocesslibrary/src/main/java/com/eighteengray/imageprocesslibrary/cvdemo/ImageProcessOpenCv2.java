@@ -8,7 +8,6 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.eighteengray.imageprocesslibrary.ImageProcessJni;
 import com.eighteengray.imageprocesslibrary.R;
 
 import org.opencv.android.Utils;
@@ -31,10 +30,13 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
+
 public class ImageProcessOpenCv2 {
 
     // Eight
-    public static Bitmap extractNumberROI(Bitmap input, Bitmap template) {
+   /* public static Bitmap extractNumberROI(Bitmap input, Bitmap template) {
         Mat src = new Mat();
         Mat tpl = new Mat();
         Mat dst = new Mat();
@@ -386,7 +388,7 @@ public class ImageProcessOpenCv2 {
         }
         dst.put(0, 0, data);
     }
-
+*/
 
     // Ten
 //    EyeRenderActivity

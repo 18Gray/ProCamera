@@ -11,19 +11,9 @@ import android.os.Message;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.eighteengray.commonutillibrary.FileUtils;
-import com.eighteengray.commonutillibrary.ImageProcessUtils;
-import com.eighteengray.commonutillibrary.ImageUtils;
-import com.eighteengray.commonutillibrary.SDCardUtils;
-import com.eighteengray.commonutillibrary.ScreenUtils;
-import com.eighteengray.imageprocesslibrary.ImageProcessJni;
+import com.eighteengray.commonlibrary.BaseActivity;
 import com.eighteengray.procamera.R;
-import com.eighteengray.procamera.activity.BaseActivity;
-import com.eighteengray.procamera.widget.CropImageView;
 import com.eighteengray.procameralibrary.common.Constants;
-
-import java.io.File;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -80,10 +70,10 @@ public class BeautyActivity extends BaseActivity
         int w = bitmap.getWidth(), h = bitmap.getHeight();
         int[] pix = new int[w * h];
         bitmap.getPixels(pix, 0, w, 0, 0, w, h);
-        int [] resultPixes=ImageProcessJni.gray(pix,w,h);
-        Bitmap result = Bitmap.createBitmap(w,h, Bitmap.Config.RGB_565);
-        result.setPixels(resultPixes, 0, w, 0, 0,w, h);
-        iv_beauty.setImageBitmap(result);
+//        int [] resultPixes=ImageProcessJni.gray(pix,w,h);
+//        Bitmap result = Bitmap.createBitmap(w,h, Bitmap.Config.RGB_565);
+//        result.setPixels(resultPixes, 0, w, 0, 0,w, h);
+//        iv_beauty.setImageBitmap(result);
     }
 
     @Override

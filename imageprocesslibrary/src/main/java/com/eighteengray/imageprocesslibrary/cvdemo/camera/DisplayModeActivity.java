@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 
-import com.eighteengray.imageprocesslibrary.ImageProcessJni;
 import com.eighteengray.imageprocesslibrary.R;
 
 import org.opencv.android.CameraBridgeViewBase;
@@ -82,7 +81,7 @@ public class DisplayModeActivity extends AppCompatActivity implements CameraBrid
         }
         input.close();
         output.close();
-        ImageProcessJni.initLoad(file.getAbsolutePath());
+//        ImageProcessJni.initLoad(file.getAbsolutePath());
         //faceDetector = new CascadeClassifier(file.getAbsolutePath());
         file.delete();
         cascadeDir.delete();
@@ -169,7 +168,7 @@ public class DisplayModeActivity extends AppCompatActivity implements CameraBrid
                 break;
             case 5:
                 //haarFaceDetection(frame);
-               ImageProcessJni.faceDetection(frame.getNativeObjAddr());
+//               ImageProcessJni.faceDetection(frame.getNativeObjAddr());
                 break;
             default:
                 break;

@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.eighteengray.cardlibrary.bean.BaseDataBean;
 import com.eighteengray.cardlibrary.widget.RecyclerLayout;
+import com.eighteengray.commonlibrary.BaseActivity;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.Settings;
 import com.eighteengray.procamera.component.DaggerSettingsComponent;
@@ -12,15 +13,11 @@ import com.eighteengray.procamera.module.PresenterModule;
 import com.eighteengray.procamera.presenter.SettingPresenter;
 import com.eighteengray.procameralibrary.common.Constants;
 import com.eighteengray.procameralibrary.dataevent.ImageFolderEvent;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
 import java.util.List;
-
 import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

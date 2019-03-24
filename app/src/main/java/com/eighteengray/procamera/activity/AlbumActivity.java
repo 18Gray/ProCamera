@@ -1,6 +1,7 @@
 package com.eighteengray.procamera.activity;
 
 import com.eighteengray.cardlibrary.widget.RecyclerLayout;
+import com.eighteengray.commonlibrary.BaseActivity;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.ImageFolder;
 import com.eighteengray.procamera.business.GenerateDataUtils;

@@ -3,16 +3,14 @@ package com.eighteengray.procamera.circle;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
-import com.eighteengray.procamera.activity.BaseActivity;
-import com.eighteengray.procamera.model.network.retrointerface.ICloudAlbum;
 
+import com.eighteengray.commonlibrary.BaseActivity;
+import com.eighteengray.procamera.model.network.retrointerface.ICloudAlbum;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
-
 import okhttp3.Cache;
 import okhttp3.FormBody;
 import okhttp3.MediaType;

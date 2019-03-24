@@ -8,17 +8,18 @@ import android.webkit.WebSettings;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import com.eighteengray.commonlibrary.BaseActivity;
 import com.eighteengray.procamera.R;
-import com.eighteengray.procamera.activity.BaseActivity;
 import com.github.lzyzsd.jsbridge.BridgeHandler;
 import com.github.lzyzsd.jsbridge.BridgeWebView;
 import com.github.lzyzsd.jsbridge.CallBackFunction;
 import com.github.lzyzsd.jsbridge.DefaultHandler;
 
+
+
 /**
  * Created by Administrator on 2018/5/19.
  */
-
 public class WebViewActivity extends BaseActivity implements View.OnClickListener
 {
     BridgeWebView bridgeWebView;
