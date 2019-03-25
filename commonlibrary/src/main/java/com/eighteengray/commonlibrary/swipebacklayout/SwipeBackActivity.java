@@ -9,7 +9,7 @@ import android.view.View;
 
 public class SwipeBackActivity extends FragmentActivity implements SwipeBackActivityBase {
 
-    private SwipeBackActivityHelper mHelper;
+    protected SwipeBackActivityHelper mHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.eighteengray.commonlibrary.BaseActivity;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.widget.SnackbarUtil;
 
@@ -21,7 +23,7 @@ import butterknife.ButterKnife;
 /**
  * Created by lutao on 2016/7/20.
  */
-public class MineActivity extends Activity
+public class MineActivity extends BaseActivity
 {
     Context context;
     View snackBarView;

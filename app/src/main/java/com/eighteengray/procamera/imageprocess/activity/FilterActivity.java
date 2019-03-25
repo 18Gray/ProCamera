@@ -7,10 +7,7 @@ import android.widget.ImageView;
 
 import com.eighteengray.imageprocesslibrary.ImageProcessBaseActivity;
 import com.eighteengray.imageprocesslibrary.ImageProcessByOpenCv;
-import com.eighteengray.imageprocesslibrary.ImageProcessJni;
 import com.eighteengray.procamera.R;
-
-import java.io.ByteArrayOutputStream;
 
 
 public class FilterActivity extends ImageProcessBaseActivity
