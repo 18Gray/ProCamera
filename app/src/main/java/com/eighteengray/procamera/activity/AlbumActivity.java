@@ -59,7 +59,6 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(getLayoutResId());
         ButterKnife.bind(this);
 
         Bundle bundle = getIntent().getExtras();
@@ -67,7 +66,6 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
         isTakeCamera = bundle.getBoolean(Constants.IS_TAKE_CAMERA);
         isShowAdd = bundle.getBoolean(Constants.IS_SHOW_ADD);
 
-        initCommonTitle();
         EventBus.getDefault().register(this);
     }
 

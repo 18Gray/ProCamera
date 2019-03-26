@@ -6,6 +6,11 @@
     android:layout_height="match_parent"
 >
 
+    <include
+        android:id="@+id/common_title"
+        layout="@layout/layout_common_title"
+        />
+
     <ImageView
         android:id="@+id/image_view"
         android:layout_width="300dp"

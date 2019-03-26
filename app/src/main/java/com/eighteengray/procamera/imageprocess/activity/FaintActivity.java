@@ -60,7 +60,6 @@ public class FaintActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(getLayoutResId());
         ButterKnife.bind(this);
 
 

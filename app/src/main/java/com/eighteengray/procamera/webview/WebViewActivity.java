@@ -32,10 +32,6 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(getLayoutResId());
-
-        initCommonTitle();
-
         bridgeWebView = (BridgeWebView) findViewById(R.id.bridge_web_view);
         bridgeWebView.setDefaultHandler(new DefaultHandler());
         bridgeWebView.loadUrl("file:///android_asset/demo.html");

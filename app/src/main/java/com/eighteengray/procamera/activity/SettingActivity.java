@@ -42,10 +42,7 @@ public class SettingActivity extends BaseActivity implements ISettingContract.IV
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(getLayoutResId());
         ButterKnife.bind(this);
-
-        initCommonTitle();
         EventBus.getDefault().register(this);
     }
 

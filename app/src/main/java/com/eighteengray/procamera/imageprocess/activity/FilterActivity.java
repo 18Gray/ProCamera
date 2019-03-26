@@ -18,7 +18,11 @@ public class FilterActivity extends ImageProcessBaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.aty_filter);
+    }
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.aty_filter;
     }
 
     @Override

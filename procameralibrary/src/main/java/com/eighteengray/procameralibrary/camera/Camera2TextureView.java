@@ -418,7 +418,7 @@ public class Camera2TextureView extends BaseCamera2TextureView
                         else if (CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED == afState
                                || CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED == afState)
                         {
-                            aeState = result.get(CaptureResult.CONTROL_AE_STATE);
+//                            aeState = result.get(CaptureResult.CONTROL_AE_STATE);
                             if (aeState == null || aeState == CaptureResult.CONTROL_AE_STATE_CONVERGED)
                             {
                                 mState = STATE_PICTURE_TAKEN;

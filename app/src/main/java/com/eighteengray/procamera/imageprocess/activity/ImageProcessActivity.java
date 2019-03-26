@@ -52,7 +52,6 @@ public class ImageProcessActivity extends BaseActivity
     public void onCreate(final Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.aty_image_process);
         ButterKnife.bind(this);
 
         Bundle bundle = getIntent().getExtras();
@@ -76,6 +75,10 @@ public class ImageProcessActivity extends BaseActivity
         EventBus.getDefault().register(this);
     }
 
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.aty_image_process;
+    }
 
     @Override
     protected void onDestroy()

@@ -47,7 +47,6 @@ public class MineActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.aty_mine);
         ButterKnife.bind(this);
         context = this;
 
@@ -67,6 +66,10 @@ public class MineActivity extends BaseActivity
         });
     }
 
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.aty_mine;
+    }
 
     private void showSnackBar()
     {
