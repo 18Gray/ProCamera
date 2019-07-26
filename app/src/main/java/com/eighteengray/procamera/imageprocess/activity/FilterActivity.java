@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 
 import com.eighteengray.imageprocesslibrary.ImageProcessBaseActivity;
-import com.eighteengray.imageprocesslibrary.ImageProcessByOpenCv;
+import com.eighteengray.imageprocesslibrary.cvdemo.ImageProcessByOpenCv;
 import com.eighteengray.procamera.R;
 
 

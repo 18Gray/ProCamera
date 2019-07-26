@@ -1,4 +1,4 @@
-package com.eighteengray.imageprocesslibrary;
+package com.eighteengray.imageprocesslibrary.cvdemo;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;

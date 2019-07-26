@@ -1,14 +1,11 @@
 package com.eighteengray.imageprocesslibrary.cvdemo;
 
+
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.net.Uri;
 import android.util.Log;
-import android.widget.ImageView;
-import com.eighteengray.imageprocesslibrary.R;
+
 import org.opencv.android.Utils;
 import org.opencv.calib3d.Calib3d;
 import org.opencv.core.Core;
@@ -29,7 +26,6 @@ import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.RotatedRect;
 import org.opencv.core.Scalar;
-import org.opencv.core.Size;
 import org.opencv.features2d.DescriptorExtractor;
 import org.opencv.features2d.DescriptorMatcher;
 import org.opencv.features2d.FeatureDetector;
@@ -37,6 +33,7 @@ import org.opencv.features2d.Features2d;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -47,9 +44,10 @@ import java.util.List;
 import java.util.Random;
 
 
+
 public class ImageProcessOpenCv {
 
-    /*// Three
+    // Three
     public static Bitmap blendMat(Uri fileUri, double alpha, double gamma) {
         // 加载图像
         Mat src = Imgcodecs.imread(fileUri.getPath());
@@ -1179,6 +1177,5 @@ public class ImageProcessOpenCv {
         gray.release();
         response.release();
     }
-*/
 
 }

@@ -20,6 +20,7 @@ import java.util.Date;
  */
 
 public class ImageSelectUtils {
+
     private static String TAG = "ImageSelectUtils";
     public static File getSaveFilePath() {
         String status = Environment.getExternalStorageState();
