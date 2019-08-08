@@ -1,14 +1,8 @@
 package com.eighteengray.imageprocesslibrary.cvdemo;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Environment;
-import android.util.Log;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.eighteengray.imageprocesslibrary.R;
+import com.eighteengray.imageprocesslibrary.ImageProcessJni;
 
 import org.opencv.android.Utils;
 import org.opencv.core.Core;
@@ -22,21 +16,16 @@ import org.opencv.core.RotatedRect;
 import org.opencv.core.Size;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 
 
 
-public class ImageProcessOpenCv2 {
+public class OpenCv89 {
 
     // Eight
-   /* public static Bitmap extractNumberROI(Bitmap input, Bitmap template) {
+    public static Bitmap extractNumberROI(Bitmap input, Bitmap template) {
         Mat src = new Mat();
         Mat tpl = new Mat();
         Mat dst = new Mat();
@@ -159,6 +148,7 @@ public class ImageProcessOpenCv2 {
     }
 
 
+
     // Nine
     public static Bitmap Integral_Image_Demo(Uri fileUri, int option) {
         float sigma = 30.0f;
@@ -186,7 +176,7 @@ public class ImageProcessOpenCv2 {
             generateMask(src, mask);
             Core.bitwise_and(src, src, dst, mask);
         } else if(option == 4) {
-            ImageProcessJni.beautySkinFilter(src.getNativeObjAddr(), dst.getNativeObjAddr(),sigma, false);
+//            ImageProcessJni.beautySkinFilter(src.getNativeObjAddr(), dst.getNativeObjAddr(),sigma, false);
             //generateMask(src, mask);
             //FastEPFilter(src, data1, data2, dst);
             //blendImage(src, dst, mask);
@@ -388,10 +378,7 @@ public class ImageProcessOpenCv2 {
         }
         dst.put(0, 0, data);
     }
-*/
 
-    // Ten
-//    EyeRenderActivity
 
 
 }

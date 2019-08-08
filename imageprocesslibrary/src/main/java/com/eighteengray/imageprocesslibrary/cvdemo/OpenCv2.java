@@ -19,7 +19,7 @@ import org.opencv.imgproc.Imgproc;
 
 
 
-public class ImageProcessByOpenCv {
+public class OpenCv2 {
 
     // two
     public static Bitmap bitmap2Mat() {
