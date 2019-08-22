@@ -74,6 +74,9 @@
             android:configChanges="orientation|keyboardHidden"
                   android:process=":remoteWeb"
             />
+
+        <service android:name=".common.LeakUploadService"/>
+
         <provider
             android:authorities="ImageProcessProvider"
             android:name=".model.database.ImageProcessRecordProvider"

@@ -1184,7 +1184,7 @@ public class ImageProcessUtils
         Canvas cv = new Canvas(newb);
         cv.drawBitmap(bitmap, 0, 0, null);
         cv.drawBitmap(mark, x, y, null);  //系需要先画一幅图，再画另一幅图就可以
-        cv.save(Canvas.ALL_SAVE_FLAG);
+        cv.save();
         cv.restore();//存储
         return newb;
     }
@@ -1213,7 +1213,7 @@ public class ImageProcessUtils
         p.setFilterBitmap(true);//对位图进行滤波处理
         p.setTextSize(size);
         cv.drawText(text, x, y, p);  //也是先画原图，再画文字
-        cv.save(Canvas.ALL_SAVE_FLAG);
+        cv.save();
         cv.restore();
         return newb;
     }

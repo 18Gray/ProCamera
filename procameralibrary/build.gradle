@@ -1,32 +1,10 @@
 apply plugin: 'com.android.library'
+apply from:"../default.gradle"
 
-android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
-
-    defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-}
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "com.android.support:support-v4:$rootProject.ext.supportLibraryVersion"
-    implementation "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
-    implementation "com.android.support:support-v13:$rootProject.ext.supportLibraryVersion"
-    implementation "org.greenrobot:eventbus:$rootProject.ext.eventbus"
+    implementation rootProject.ext.dependencies["eventbus"]
     // 权限管理
-    implementation 'com.yanzhenjie:permission:2.0.0-rc3'
-    implementation 'com.yanzhenjie.alertdialog:alertdialog:1.0.1'
-    implementation "com.github.18Gray:CommonUtils:$rootProject.ext.commonUtilsVersion"
+    implementation rootProject.ext.dependencies["permission"]
+    implementation rootProject.ext.dependencies["alertdialog"]
 }

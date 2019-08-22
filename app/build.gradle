@@ -1,21 +1,15 @@
 apply plugin: 'com.android.application'
+apply from:"../default.gradle"
+
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
     defaultConfig {
         applicationId "com.eighteengray.procamera"
         manifestPlaceholders = ["tencentAuthId": "tencent123456"]   // tencent+你的AppId
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
         resConfigs "zh"
     }
     buildTypes {
         release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             shrinkResources true
         }
     }
@@ -25,61 +19,42 @@ android {
             dirs 'libs'
         }
     }
+
 }
 
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':procameralibrary')
     implementation project(':imageprocesslibrary')
     implementation project(':cardlibrary')
-    implementation "com.github.18Gray:CommonUtils:$rootProject.ext.commonUtilsVersion"
-
-    //基础库
-    implementation "com.android.support:support-v4:$rootProject.ext.supportLibraryVersion"
-    implementation "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
-    implementation "com.android.support:design:$rootProject.ext.supportLibraryVersion"
-    implementation "com.android.support:cardview-v7:$rootProject.ext.supportLibraryVersion"
-    implementation "com.android.support:recyclerview-v7:$rootProject.ext.supportLibraryVersion"
-
-    // 组织结构库
-    implementation "io.reactivex:rxjava:$rootProject.ext.rxjavaVersion"
-    implementation "io.reactivex:rxandroid:$rootProject.ext.rxandroidVersion"
-    implementation "org.greenrobot:eventbus:$rootProject.ext.eventbus"
-    implementation "com.google.dagger:dagger:$rootProject.ext.dagger2"
-    annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.ext.dagger2"
-    implementation "com.jakewharton:butterknife:$rootProject.ext.butterknifeVersion"
-    annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.ext.butterknifeVersion"
-
-    //网络与数据处理库
-    implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
-    implementation "com.squareup.retrofit2:adapter-rxjava:$rootProject.ext.retrofitVersion"
-    implementation "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofitVersion"
-    implementation "com.google.code.gson:gson:$rootProject.ext.gsonVersion"
-
-    // 图片加载框架
-    implementation "com.nostra13.universalimageloader:universal-image-loader:$rootProject.ext.universalVersion"
-    implementation "com.facebook.fresco:fresco:$rootProject.ext.frescoVersion"
-    implementation "com.github.bumptech.glide:glide:$rootProject.ext.glideVersion"
-
-    // Material Design控件库
-    implementation "com.github.rey5137:material:$rootProject.ext.materialVersion"
-
-    // 动画库Transition和Lottie
-    implementation(name: 'lottie-android-2.5.5', ext: 'aar')
-
-    // 第三方社交软件登陆、分享集成库
-    implementation 'com.github.tianzhijiexian:ShareLoginLib:1.3.8'
-
-    // JSBridge
-    implementation "com.github.lzyzsd:jsbridge:$rootProject.ext.jsBridge"
-
-    // 测试性能库
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:$rootProject.ext.leakcanary"
-    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.ext.leakcanary"
-    testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.ext.leakcanary"
-
-    // 数据库调试
-    debugImplementation 'com.amitshekhar.android:debug-db:1.0.0'
     implementation project(':commonlibrary')
+    // 组织结构库
+    implementation rootProject.ext.dependencies["rxjava"]
+    implementation rootProject.ext.dependencies["rxandroid"]
+    implementation rootProject.ext.dependencies["eventbus"]
+    implementation rootProject.ext.dependencies["dagger"]
+    annotationProcessor rootProject.ext.dependencies["dagger-compiler"]
+    implementation rootProject.ext.dependencies["butterknife"]
+    annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
+    //网络与数据处理库
+    implementation rootProject.ext.dependencies["retrofit"]
+    implementation rootProject.ext.dependencies["adapter-rxjava"]
+    implementation rootProject.ext.dependencies["converter-gson"]
+    implementation rootProject.ext.dependencies["gson"]
+    // 图片加载框架
+    implementation rootProject.ext.dependencies["image-loader"]
+    implementation rootProject.ext.dependencies["fresco"]
+    implementation rootProject.ext.dependencies["glide"]
+    // Material Design控件库
+    implementation rootProject.ext.dependencies["material"]
+    // 动画库Transition和Lottie
+    implementation rootProject.ext.dependencies["lottie"]
+    // 第三方社交软件登陆、分享集成库
+    implementation rootProject.ext.dependencies["ShareLoginLib"]
+    // JSBridge
+    implementation rootProject.ext.dependencies["jsbridge"]
+    // 测试性能库
+    debugCompile rootProject.ext.dependencies["leakcanary-android"]
+    releaseCompile rootProject.ext.dependencies["leakcanary-android-no-op"]
+
 }

@@ -119,8 +119,11 @@ public class CaptureRequestFactory
     //创建拍照请求
     public static CaptureRequest.Builder createCaptureStillBuilder(CameraDevice cameraDevice, Surface surface) throws CameraAccessException
     {
-        CaptureRequest.Builder captureBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
-        captureBuilder.addTarget(surface);
+        CaptureRequest.Builder captureBuilder = null;
+        if(cameraDevice != null){
+            captureBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
+            captureBuilder.addTarget(surface);
+        }
         return captureBuilder;
     }
 

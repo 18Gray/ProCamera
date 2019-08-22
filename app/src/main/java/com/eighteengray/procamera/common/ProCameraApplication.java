@@ -1,11 +1,7 @@
 package com.eighteengray.procamera.common;
 
 import android.app.Application;
-
-import com.liulishuo.share.ShareLoginSDK;
-import com.liulishuo.share.SlConfig;
 import com.squareup.leakcanary.LeakCanary;
-
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -20,11 +16,7 @@ public class ProCameraApplication extends Application
     public void onCreate()
     {
         super.onCreate();
-        if(LeakCanary.isInAnalyzerProcess(this))
-        {
-            return;
-        }
-        LeakCanary.install(this);
+        LeakCanary.refWatcher(this).listenerServiceClass(LeakUploadService.class).buildAndInstall();
         context = this;
         executorService = Executors.newSingleThreadExecutor();
 

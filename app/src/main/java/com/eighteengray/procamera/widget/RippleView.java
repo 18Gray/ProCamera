@@ -248,7 +248,7 @@ public class RippleView extends Button
 			return;
 		}
 
-		canvas.save(Canvas.CLIP_SAVE_FLAG);
+		canvas.save();
 
 		mPath.reset();
 		mPath.addCircle(mDownX, mDownY, mRadius, Path.Direction.CW);

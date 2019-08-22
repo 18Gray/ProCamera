@@ -1,29 +1,4 @@
 apply plugin: 'com.android.library'
+apply from:"../default.gradle"
 
 
-android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
-
-    defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField 'boolean','isShowLog',isShowLog
-        }
-    }
-
-}
-
-dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "com.android.support:recyclerview-v7:$rootProject.ext.supportLibraryVersion"
-}

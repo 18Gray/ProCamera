@@ -206,7 +206,7 @@ public class MyTouchImageView extends ImageView
 				Config.ARGB_8888); // ����ͼƬ
 		Canvas canvas = new Canvas(bitmap); // �½�����
 		canvas.drawBitmap(gintama, matrix, null); // ��ͼƬ
-		canvas.save(Canvas.ALL_SAVE_FLAG); // ���滭��
+		canvas.save(); // ���滭��
 		canvas.restore();
 		return bitmap;
 	}
