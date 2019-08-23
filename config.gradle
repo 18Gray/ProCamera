@@ -34,7 +34,7 @@ ext {
             materialVersion : "1.2.4",
             shareLoginVersion:"1.3.8",
             lottieVersion:"2.5.5",
-            permissionVersion:"2.0.0-rc3",
+            permissionVersion:"2.0.1",
             alertDialogVersion:"1.0.1",
 
             leakcanary : "1.6.3",
@@ -69,7 +69,7 @@ ext {
             "ShareLoginLib" : "com.github.tianzhijiexian:ShareLoginLib:${version["shareLoginVersion"]}",
             "jsbridge" : "com.github.lzyzsd:jsbridge:${version["jsBridge"]}",
             "lottie" : "com.airbnb.android:lottie:${version["lottieVersion"]}",
-            "permission" : "com.yanzhenjie:permission:${version["permissionVersion"]}",
+            "permission" : "com.yanzhenjie.permission:support:${version["permissionVersion"]}",
             "alertdialog" : "com.yanzhenjie.alertdialog:alertdialog:${version["alertDialogVersion"]}",
 
             "leakcanary-android" : "com.squareup.leakcanary:leakcanary-android:${version["leakcanary"]}",
