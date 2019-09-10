@@ -17,12 +17,9 @@ import android.util.Size;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.WindowManager;
-import com.eighteengray.procameralibrary.permission.DefaultRationale;
-import com.eighteengray.procameralibrary.permission.PermissionSetting;
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
-import com.yanzhenjie.permission.Rationale;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
@@ -222,12 +219,12 @@ public abstract class BaseCamera2TextureView extends TextureView
         configureTransform(width, height);
 
         AndPermission.with(context)
+                .runtime()
                 .permission(new String[]{Permission.CAMERA, Permission.RECORD_AUDIO, Permission.WRITE_EXTERNAL_STORAGE})
-                .rationale(new DefaultRationale())
-                .onGranted(new Action() {
+                .onGranted(new Action<List<String>>() {
                     @SuppressLint("MissingPermission")
                     @Override
-                    public void onAction(List<String> permissions) {
+                    public void onAction(List<String> data) {
                         try
                         {
                             manager.openCamera(mCameraId, deviceStateCallback, mBackgroundHandler);
@@ -237,12 +234,10 @@ public abstract class BaseCamera2TextureView extends TextureView
                         }
                     }
                 })
-                .onDenied(new Action() {
+                .onDenied(new Action<List<String>>() {
                     @Override
-                    public void onAction(@NonNull List<String> permissions) {
-                        if (AndPermission.hasAlwaysDeniedPermission(context, permissions)) {
-                            new PermissionSetting(context).showSetting(permissions);
-                        }
+                    public void onAction(List<String> data) {
+
                     }
                 })
                 .start();
