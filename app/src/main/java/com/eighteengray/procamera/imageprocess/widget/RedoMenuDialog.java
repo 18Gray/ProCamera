@@ -2,7 +2,8 @@ package com.eighteengray.procamera.imageprocess.widget;
 
 import android.os.Bundle;
 import android.widget.RelativeLayout;
-import com.eighteengray.commonutillibrary.DimenUtil;
+
+import com.eighteengray.commonutils.DimenUtil;
 import com.eighteengray.procamera.business.GenerateDataUtils;
 import com.eighteengray.procamera.imageprocess.bean.HorizontalRecyclerItem;
 import com.eighteengray.procamera.widget.dialogfragment.BaseRecyclerDialogFragment;

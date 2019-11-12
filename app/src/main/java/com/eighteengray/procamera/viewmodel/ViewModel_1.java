@@ -11,12 +11,11 @@ import android.widget.RelativeLayout;
 import com.bumptech.glide.Glide;
 import com.eighteengray.cardlibrary.viewmodel.IViewModel;
 import com.eighteengray.cardlibrary.widget.BaseRecyclerViewHolder;
-import com.eighteengray.commonutillibrary.ScreenUtils;
+import com.eighteengray.commonutils.ScreenUtils;
 import com.eighteengray.procamera.MainActivity;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.ImageFolder;
 import com.eighteengray.procamera.business.JumpActivityUtils;
-import com.eighteengray.procamera.imageprocess.activity.ImageProcessActivity;
 
 
 /**

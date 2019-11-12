@@ -10,8 +10,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.ImageView;
-
-import com.eighteengray.commonlibrary.BaseActivity;
+import com.eighteengray.basecomponent.baseactivity.BaseActivity;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procameralibrary.common.Constants;
 import butterknife.BindView;

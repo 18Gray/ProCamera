@@ -7,8 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.eighteengray.commonlibrary.BaseActivity;
+import com.eighteengray.basecomponent.baseactivity.BaseActivity;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.business.JumpActivityUtils;
 import com.eighteengray.procamera.imageprocess.widget.OutputMenuDialog;

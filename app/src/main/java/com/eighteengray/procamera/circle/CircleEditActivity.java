@@ -3,8 +3,7 @@ package com.eighteengray.procamera.circle;
 
 import android.os.Bundle;
 import android.util.Log;
-
-import com.eighteengray.commonlibrary.BaseActivity;
+import com.eighteengray.basecomponent.baseactivity.BaseActivity;
 import com.eighteengray.procamera.model.network.retrointerface.ICloudAlbum;
 import java.io.File;
 import java.io.FileOutputStream;

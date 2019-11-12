@@ -37,7 +37,6 @@
         android:largeHeap="true"
         android:persistent="true"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
         android:extractNativeLibs="false"
         >
 

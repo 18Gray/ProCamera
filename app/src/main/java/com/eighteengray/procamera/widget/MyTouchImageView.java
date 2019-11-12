@@ -11,7 +11,8 @@ import android.graphics.PointF;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.widget.ImageView;
-import com.eighteengray.commonutillibrary.DataConvertUtil;
+
+import com.eighteengray.commonutils.DataConvertUtil;
 
 
 @SuppressLint("DrawAllocation")

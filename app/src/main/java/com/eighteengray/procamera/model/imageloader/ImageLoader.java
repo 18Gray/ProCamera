@@ -48,10 +48,8 @@ public class ImageLoader implements IImageLoader
                             instance = new GlideImageLoader();
                             break;
                         case LOADER_PLAN_FRESCO:
-                            instance = new FrescoImageLoader();
                             break;
                         case LOADER_PLAN_UNIVERSE:
-                            instance = new UniverImageLoader();
                             break;
                     }
                 }

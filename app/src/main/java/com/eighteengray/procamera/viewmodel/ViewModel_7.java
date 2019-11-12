@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.eighteengray.cardlibrary.viewmodel.IViewModel;
 import com.eighteengray.cardlibrary.widget.BaseRecyclerViewHolder;
-import com.eighteengray.commonutillibrary.SharePreferenceUtils;
+import com.eighteengray.commonutils.SharePreferenceUtils;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.Settings;
 import com.eighteengray.procameralibrary.common.Constants;

@@ -1,10 +1,4 @@
 apply plugin: 'com.android.library'
 apply from:"../default.gradle"
+apply plugin: 'com.jakewharton.butterknife'
 
-
-dependencies {
-    implementation rootProject.ext.dependencies["eventbus"]
-    // 权限管理
-    implementation rootProject.ext.dependencies["permission"]
-    implementation rootProject.ext.dependencies["alertdialog"]
-}

@@ -8,6 +8,7 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
     buildTypes {
         release {
             minifyEnabled true
@@ -20,13 +21,43 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.github.18Gray:BaseProject:v0.4'
 
     //基础库
-    implementation rootProject.ext.dependencies["CommonUtils"]
     implementation rootProject.ext.dependencies["support-v4"]
     implementation rootProject.ext.dependencies["appcompat-v7"]
-    implementation rootProject.ext.dependencies["design"]
     implementation rootProject.ext.dependencies["cardview-v7"]
     implementation rootProject.ext.dependencies["recyclerview-v7"]
+    implementation rootProject.ext.dependencies["design"]
 
+    // 组织结构库
+    implementation rootProject.ext.dependencies["butterknife"]
+    annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
+    implementation rootProject.ext.dependencies["rxjava"]
+    implementation rootProject.ext.dependencies["rxandroid"]
+    implementation rootProject.ext.dependencies["eventbus"]
+    implementation rootProject.ext.dependencies["dagger"]
+    annotationProcessor rootProject.ext.dependencies["dagger-compiler"]
+
+    //网络与数据处理库
+    implementation rootProject.ext.dependencies["retrofit"]
+    implementation rootProject.ext.dependencies["adapter-rxjava"]
+    implementation rootProject.ext.dependencies["converter-gson"]
+    implementation rootProject.ext.dependencies["gson"]
+    // 图片加载框架
+    implementation rootProject.ext.dependencies["glide"]
+    // Material Design控件库
+    implementation rootProject.ext.dependencies["material"]
+    // 动画库Transition和Lottie
+    implementation rootProject.ext.dependencies["lottie"]
+    // 第三方社交软件登陆、分享集成库
+    implementation rootProject.ext.dependencies["ShareLoginLib"]
+    // JSBridge
+    implementation rootProject.ext.dependencies["jsbridge"]
+    // 测试性能库
+    debugCompile rootProject.ext.dependencies["leakcanary-android"]
+    releaseCompile rootProject.ext.dependencies["leakcanary-android-no-op"]
+    // 权限管理
+    implementation rootProject.ext.dependencies["permission"]
+    implementation rootProject.ext.dependencies["alertdialog"]
 }

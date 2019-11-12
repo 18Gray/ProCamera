@@ -27,7 +27,7 @@ import android.util.SparseIntArray;
 import android.view.Surface;
 import android.widget.Toast;
 
-import com.eighteengray.commonutillibrary.SharePreferenceUtils;
+import com.eighteengray.commonutils.SharePreferenceUtils;
 import com.eighteengray.procameralibrary.common.Constants;
 import com.eighteengray.procameralibrary.dataevent.ImageAvailableEvent;
 import org.greenrobot.eventbus.EventBus;

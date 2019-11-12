@@ -5,20 +5,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
 import com.eighteengray.cardlibrary.viewmodel.IViewModel;
 import com.eighteengray.cardlibrary.widget.BaseRecyclerViewHolder;
-import com.eighteengray.commonutillibrary.SharePreferenceUtils;
+import com.eighteengray.commonutils.SharePreferenceUtils;
 import com.eighteengray.procamera.R;
-import com.eighteengray.procamera.bean.ImageFolder;
 import com.eighteengray.procamera.bean.Settings;
 import com.eighteengray.procameralibrary.common.Constants;
-import com.eighteengray.procameralibrary.dataevent.ImageFolderEvent;
 import com.rey.material.widget.ImageView;
 import com.rey.material.widget.Switch;
 
-import org.greenrobot.eventbus.EventBus;
 
 
 /**

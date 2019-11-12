@@ -11,12 +11,10 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
 import com.eighteengray.cardlibrary.widget.RecyclerLayout;
-import com.eighteengray.commonutillibrary.DimenUtil;
+import com.eighteengray.commonutils.DimenUtil;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.business.GenerateDataUtils;
-import com.eighteengray.procamera.imageprocess.bean.HorizontalRecyclerItem;
 import com.eighteengray.procamera.imageprocess.bean.VerticalRecyclerItem;
 import com.eighteengray.procameralibrary.common.Constants;
 import com.eighteengray.procameralibrary.dataevent.BitmapProcess;

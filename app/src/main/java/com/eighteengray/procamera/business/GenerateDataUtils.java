@@ -4,7 +4,7 @@ package com.eighteengray.procamera.business;
 import android.content.Context;
 
 import com.eighteengray.cardlibrary.bean.BaseDataBean;
-import com.eighteengray.commonutillibrary.SharePreferenceUtils;
+import com.eighteengray.commonutils.SharePreferenceUtils;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.Settings;
 import com.eighteengray.procamera.imageprocess.bean.HorizontalRecyclerItem;

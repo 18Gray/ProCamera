@@ -2,9 +2,9 @@ package com.eighteengray.procamera.activity;
 
 import android.os.Bundle;
 
+import com.eighteengray.basecomponent.baseactivity.BaseActivity;
 import com.eighteengray.cardlibrary.bean.BaseDataBean;
 import com.eighteengray.cardlibrary.widget.RecyclerLayout;
-import com.eighteengray.commonlibrary.BaseActivity;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.Settings;
 import com.eighteengray.procamera.component.DaggerSettingsComponent;

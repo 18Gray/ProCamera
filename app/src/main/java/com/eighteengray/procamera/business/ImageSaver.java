@@ -5,10 +5,8 @@ import android.graphics.Bitmap;
 import android.media.Image;
 import android.media.ImageReader;
 import android.util.Log;
-
-import com.eighteengray.commonutillibrary.DataConvertUtil;
-import com.eighteengray.commonutillibrary.ImageProcessUtils;
-import com.eighteengray.commonutillibrary.ImageUtils;
+import com.eighteengray.commonutils.DataConvertUtil;
+import com.eighteengray.commonutils.ImageUtils;
 import com.eighteengray.procameralibrary.dataevent.ImageAvailableEvent;
 
 import org.greenrobot.eventbus.EventBus;

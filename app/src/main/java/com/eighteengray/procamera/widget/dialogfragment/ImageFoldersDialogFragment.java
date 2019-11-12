@@ -1,25 +1,13 @@
 package com.eighteengray.procamera.widget.dialogfragment;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
-import com.eighteengray.cardlibrary.widget.RecyclerLayout;
-import com.eighteengray.commonutillibrary.DimenUtil;
-import com.eighteengray.procamera.R;
+import com.eighteengray.commonutils.DimenUtil;
 import com.eighteengray.procamera.bean.ImageFolder;
 import com.eighteengray.procamera.business.GenerateDataUtils;
 import com.eighteengray.procameralibrary.common.Constants;
 import java.util.ArrayList;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 
 

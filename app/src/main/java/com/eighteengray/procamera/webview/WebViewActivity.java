@@ -7,8 +7,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
-
-import com.eighteengray.commonlibrary.BaseActivity;
+import com.eighteengray.basecomponent.baseactivity.BaseActivity;
 import com.eighteengray.procamera.R;
 import com.github.lzyzsd.jsbridge.BridgeHandler;
 import com.github.lzyzsd.jsbridge.BridgeWebView;

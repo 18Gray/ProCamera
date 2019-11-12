@@ -1,6 +1,5 @@
 package com.eighteengray.procamera.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,8 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
-import com.eighteengray.commonlibrary.BaseActivity;
+import com.eighteengray.basecomponent.baseactivity.BaseActivity;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.widget.SnackbarUtil;
 

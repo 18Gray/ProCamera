@@ -2,8 +2,7 @@ package com.eighteengray.imageprocesslibrary;
 
 
 import android.os.Bundle;
-
-import com.eighteengray.commonlibrary.BaseActivity;
+import com.eighteengray.basecomponent.baseactivity.BaseActivity;
 import org.opencv.android.OpenCVLoader;
 
 
@@ -16,11 +15,6 @@ public class ImageProcessBaseActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    protected int getLayoutResId() {
-        return super.getLayoutResId();
     }
 
     @Override

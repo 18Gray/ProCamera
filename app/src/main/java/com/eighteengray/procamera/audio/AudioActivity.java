@@ -3,14 +3,15 @@ package com.eighteengray.procamera.audio;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import com.eighteengray.commonlibrary.BaseActivity;
+
+import com.eighteengray.basecomponent.baseactivity.BaseActivity;
+
 import java.io.IOException;
 
 
 public class AudioActivity extends BaseActivity
 {
     MediaPlayer mediaPlayer;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

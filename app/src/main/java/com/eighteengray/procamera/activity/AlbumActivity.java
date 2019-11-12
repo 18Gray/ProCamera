@@ -1,7 +1,7 @@
 package com.eighteengray.procamera.activity;
 
+import com.eighteengray.basecomponent.baseactivity.BaseActivity;
 import com.eighteengray.cardlibrary.widget.RecyclerLayout;
-import com.eighteengray.commonlibrary.BaseActivity;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.bean.ImageFolder;
 import com.eighteengray.procamera.business.GenerateDataUtils;
@@ -69,7 +69,6 @@ public class AlbumActivity extends BaseActivity implements IAlbumContract.IView
         EventBus.getDefault().register(this);
     }
 
-    @Override
     public int getLayoutResId()
     {
         return R.layout.activity_album;

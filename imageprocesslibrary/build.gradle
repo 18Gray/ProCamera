@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
 apply from:"../default.gradle"
-
+apply plugin: 'com.jakewharton.butterknife'
 
 android {
 
@@ -30,7 +30,4 @@ android {
 
 dependencies {
     implementation project(':openCVLibrary345')
-    implementation project(':commonlibrary')
-
-    implementation 'com.rmtheis:tess-two:8.0.0'
 }

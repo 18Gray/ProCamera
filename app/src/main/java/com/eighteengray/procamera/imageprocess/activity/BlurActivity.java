@@ -10,11 +10,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 
-import com.eighteengray.commonlibrary.BaseActivity;
-import com.eighteengray.commonutillibrary.FileUtils;
-import com.eighteengray.commonutillibrary.ImageUtils;
-import com.eighteengray.commonutillibrary.SDCardUtils;
-import com.eighteengray.commonutillibrary.ScreenUtils;
+import com.eighteengray.basecomponent.baseactivity.BaseActivity;
+import com.eighteengray.commonutils.FileUtils;
+import com.eighteengray.commonutils.ImageUtils;
+import com.eighteengray.commonutils.SDCardUtils;
+import com.eighteengray.commonutils.ScreenUtils;
 import com.eighteengray.procamera.R;
 import com.eighteengray.procamera.widget.CropImageView;
 import com.eighteengray.procameralibrary.common.Constants;
