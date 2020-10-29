@@ -12,7 +12,7 @@ ext {
             constraintVersion:"2.0.0-alpha2",
             rxjavaVersion : "1.2.6",
             rxandroidVersion : "1.2.1",
-            butterknifeVersion : "8.5.1",
+            butterknifeVersion : "9.0.0",
             eventbus : "3.0.0",
             dagger2 :"2.10",
 
