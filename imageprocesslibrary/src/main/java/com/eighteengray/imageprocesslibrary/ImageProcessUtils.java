@@ -1,5 +1,6 @@
 package com.eighteengray.imageprocesslibrary;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
@@ -14,6 +15,11 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
+import android.support.v8.renderscript.Allocation;
+import android.support.v8.renderscript.Element;
+import android.support.v8.renderscript.RenderScript;
+import android.support.v8.renderscript.ScriptIntrinsicBlur;
+import android.support.v8.renderscript.Type;
 
 import java.util.Random;
 
@@ -1217,6 +1223,51 @@ public class ImageProcessUtils
         cv.restore();
         return newb;
     }
+
+
+    /**
+     * RenderScript
+     * radius 模糊程度
+     */
+    public static Bitmap blurBitmap(Bitmap bitmap, float radius, Context context) {
+        //Create renderscript
+        RenderScript rs = RenderScript.create(context);
+
+        // 存放Bitmap的Allocation
+        Allocation allocation = Allocation.createFromBitmap(rs, bitmap);
+
+        Type t = allocation.getType();
+
+        // 存放处理过的图像数据的Allocation
+        Allocation blurredAllocation = Allocation.createTyped(rs, t);
+
+        //Create blur script
+        ScriptIntrinsicBlur blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+        //Set blur radius (maximum 25.0)
+        blurScript.setRadius(radius);
+        //Set input for script
+        blurScript.setInput(allocation);
+        //Call script for output allocation开启渲染
+        blurScript.forEach(blurredAllocation);
+
+        //Copy script result into bitmap 将Allocation产品输出到Bitmap
+        blurredAllocation.copyTo(bitmap);
+
+        //Destroy everything to free memory回收资源
+        allocation.destroy();
+        blurredAllocation.destroy();
+        blurScript.destroy();
+        t.destroy();
+        rs.destroy();
+        return bitmap;
+    }
+
+
+
+
+
+
+
 
 
 }
