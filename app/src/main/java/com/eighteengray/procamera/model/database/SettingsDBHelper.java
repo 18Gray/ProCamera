@@ -5,8 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 
-public class SettingsDBHelper extends SQLiteOpenHelper
-{
+public class SettingsDBHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "settings.db"; // 数据库名称
 	private static final int DATABASE_VERSION = 1;// 数据库版本
@@ -18,16 +17,14 @@ public class SettingsDBHelper extends SQLiteOpenHelper
 	}
 
 	@Override
-	public void onCreate(SQLiteDatabase db)
-	{
+	public void onCreate(SQLiteDatabase db) {
 		String sql = "CREATE TABLE settings " +
 				"(_id integer primary key autoincrement, name varchar(20), age varchar(10))";
 		db.execSQL(sql);
 	}
 
 	@Override
-	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
-	{
+	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		update(db, oldVersion, newVersion);
 	}
 

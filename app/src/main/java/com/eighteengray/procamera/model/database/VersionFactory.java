@@ -1,7 +1,6 @@
 package com.eighteengray.procamera.model.database;
 
-public class VersionFactory
-{
+public class VersionFactory {
     public static Upgrade getUpgrade(int i) {
         Upgrade upgrade = null;
         switch (i) {

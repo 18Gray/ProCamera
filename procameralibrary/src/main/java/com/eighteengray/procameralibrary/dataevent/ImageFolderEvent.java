@@ -1,16 +1,13 @@
 package com.eighteengray.procameralibrary.dataevent;
 
-public class ImageFolderEvent
-{
+public class ImageFolderEvent {
     private int currentImageFolderNum;
 
-    public int getCurrentImageFolderNum()
-    {
+    public int getCurrentImageFolderNum() {
         return currentImageFolderNum;
     }
 
-    public void setCurrentImageFolderNum(int currentImageFolderNum)
-    {
+    public void setCurrentImageFolderNum(int currentImageFolderNum) {
         this.currentImageFolderNum = currentImageFolderNum;
     }
 }

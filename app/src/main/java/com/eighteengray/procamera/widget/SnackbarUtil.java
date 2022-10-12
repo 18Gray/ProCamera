@@ -1,21 +1,19 @@
 package com.eighteengray.procamera.widget;
 
 import android.graphics.Color;
-import android.support.design.widget.Snackbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.eighteengray.procamera.R;
+import com.google.android.material.snackbar.Snackbar;
 
 
 /**
  * Created by lutao on 2016/8/1.
  */
-public class SnackbarUtil
-{
+public class SnackbarUtil {
     public static final int Info = 1;
     public static final int Confirm = 2;
     public static final int Warning = 3;
@@ -35,8 +33,7 @@ public class SnackbarUtil
      * @param backgroundColor
      * @return
      */
-    public static Snackbar ShortSnackbar(View view, String message, int messageColor, int backgroundColor)
-    {
+    public static Snackbar ShortSnackbar(View view, String message, int messageColor, int backgroundColor) {
         Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT);
         setSnackbarColor(snackbar, messageColor, backgroundColor);
         return snackbar;
@@ -51,8 +48,7 @@ public class SnackbarUtil
      * @param backgroundColor
      * @return
      */
-    public static Snackbar LongSnackbar(View view, String message, int messageColor, int backgroundColor)
-    {
+    public static Snackbar LongSnackbar(View view, String message, int messageColor, int backgroundColor) {
         Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
         setSnackbarColor(snackbar, messageColor, backgroundColor);
         return snackbar;
@@ -67,8 +63,7 @@ public class SnackbarUtil
      * @param backgroundColor
      * @return
      */
-    public static Snackbar IndefiniteSnackbar(View view, String message, int duration, int messageColor, int backgroundColor)
-    {
+    public static Snackbar IndefiniteSnackbar(View view, String message, int duration, int messageColor, int backgroundColor) {
         Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE).setDuration(duration);
         setSnackbarColor(snackbar, messageColor, backgroundColor);
         return snackbar;
@@ -82,8 +77,7 @@ public class SnackbarUtil
      * @param type
      * @return
      */
-    public static Snackbar ShortSnackbar(View view, String message, int type)
-    {
+    public static Snackbar ShortSnackbar(View view, String message, int type) {
         Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT);
         switchType(snackbar, type);
         return snackbar;
@@ -97,8 +91,7 @@ public class SnackbarUtil
      * @param type
      * @return
      */
-    public static Snackbar LongSnackbar(View view, String message, int type)
-    {
+    public static Snackbar LongSnackbar(View view, String message, int type) {
         Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
         switchType(snackbar, type);
         return snackbar;
@@ -112,18 +105,15 @@ public class SnackbarUtil
      * @param type
      * @return
      */
-    public static Snackbar IndefiniteSnackbar(View view, String message, int duration, int type)
-    {
+    public static Snackbar IndefiniteSnackbar(View view, String message, int duration, int type) {
         Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE).setDuration(duration);
         switchType(snackbar, type);
         return snackbar;
     }
 
     //选择预设类型
-    private static void switchType(Snackbar snackbar, int type)
-    {
-        switch (type)
-        {
+    private static void switchType(Snackbar snackbar, int type) {
+        switch (type) {
             case Info:
                 setSnackbarColor(snackbar, blue);
                 break;
@@ -145,11 +135,9 @@ public class SnackbarUtil
      * @param snackbar
      * @param backgroundColor
      */
-    public static void setSnackbarColor(Snackbar snackbar, int backgroundColor)
-    {
+    public static void setSnackbarColor(Snackbar snackbar, int backgroundColor) {
         View view = snackbar.getView();
-        if (view != null)
-        {
+        if (view != null) {
             view.setBackgroundColor(backgroundColor);
         }
     }
@@ -161,11 +149,9 @@ public class SnackbarUtil
      * @param messageColor
      * @param backgroundColor
      */
-    public static void setSnackbarColor(Snackbar snackbar, int messageColor, int backgroundColor)
-    {
+    public static void setSnackbarColor(Snackbar snackbar, int messageColor, int backgroundColor) {
         View view = snackbar.getView();
-        if (view != null)
-        {
+        if (view != null) {
             view.setBackgroundColor(backgroundColor);
             ((TextView) view.findViewById(R.id.snackbar_text)).setTextColor(messageColor);
         }
@@ -178,8 +164,7 @@ public class SnackbarUtil
      * @param layoutId
      * @param index    新加布局在Snackbar中的位置
      */
-    public static void SnackbarAddView(Snackbar snackbar, int layoutId, int index)
-    {
+    public static void SnackbarAddView(Snackbar snackbar, int layoutId, int index) {
         View snackbarview = snackbar.getView();
         Snackbar.SnackbarLayout snackbarLayout = (Snackbar.SnackbarLayout) snackbarview;
 

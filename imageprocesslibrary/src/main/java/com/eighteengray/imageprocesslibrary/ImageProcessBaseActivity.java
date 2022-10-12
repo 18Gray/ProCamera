@@ -2,15 +2,10 @@ package com.eighteengray.imageprocesslibrary;
 
 
 import android.os.Bundle;
-import com.eighteengray.basecomponent.baseactivity.BaseActivity;
-import org.opencv.android.OpenCVLoader;
+import com.supaur.baseactivity.baseactivity.BaseActivity;
 
 
-
-public class ImageProcessBaseActivity extends BaseActivity {
-    static {
-        System.loadLibrary("opencv_java3");
-    }
+public abstract class ImageProcessBaseActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +15,6 @@ public class ImageProcessBaseActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        OpenCVLoader.initDebug();
     }
 
     @Override

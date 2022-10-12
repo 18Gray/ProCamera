@@ -10,15 +10,12 @@ import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
-import android.widget.ImageView;
 
-import com.eighteengray.commonutils.DataConvertUtil;
+import com.eighteengray.commonutillibrary.DataConvertUtil;
 
 
 @SuppressLint("DrawAllocation")
-public class MyTouchImageView extends ImageView
-{
-	Activity activity;
+public class MyTouchImageView extends androidx.appcompat.widget.AppCompatImageView {
 	Bitmap gintama;
 	Bitmap resultBitmap;
 	public float x_down = 0;
@@ -43,8 +40,7 @@ public class MyTouchImageView extends ImageView
 
 	
 
-	public MyTouchImageView(Activity myActivity)
-	{
+	public MyTouchImageView(Activity myActivity) {
 		super(myActivity);
 		
 		DisplayMetrics dm = new DisplayMetrics();
@@ -56,8 +52,7 @@ public class MyTouchImageView extends ImageView
 
 	
 	
-	protected void onDraw(Canvas canvas)
-	{
+	protected void onDraw(Canvas canvas) {
 		canvas.save();
 		canvas.drawBitmap(gintama, matrix, null);
 		
@@ -68,10 +63,8 @@ public class MyTouchImageView extends ImageView
 
 	
 	
-	public boolean onTouchEvent(MotionEvent event)
-	{
-		switch (event.getAction() & MotionEvent.ACTION_MASK)
-		{
+	public boolean onTouchEvent(MotionEvent event) {
+		switch (event.getAction() & MotionEvent.ACTION_MASK) {
 		case MotionEvent.ACTION_DOWN:
 			mode = DRAG;
 			x_down = event.getX();
@@ -88,8 +81,7 @@ public class MyTouchImageView extends ImageView
 			break;
 			
 		case MotionEvent.ACTION_MOVE:
-			if (mode == ZOOM)
-			{
+			if (mode == ZOOM) {
 				matrix1.set(savedMatrix);
 				float rotation = rotation(event) - oldRotation;
 				float newDist = spacing(event);
@@ -97,20 +89,17 @@ public class MyTouchImageView extends ImageView
 				matrix1.postScale(scale, scale, mid.x, mid.y);// �s��
 				matrix1.postRotate(rotation, mid.x, mid.y);// ���D
 				matrixCheck = matrixCheck();
-				if (matrixCheck == false)
-				{
+				if (matrixCheck == false) {
 					matrix.set(matrix1);
 					invalidate();
 				}
 			} 
-			else if (mode == DRAG)
-			{
+			else if (mode == DRAG) {
 				matrix1.set(savedMatrix);
 				matrix1.postTranslate(event.getX() - x_down, event.getY() - y_down);// ƽ��
 				matrixCheck = matrixCheck();
 				matrixCheck = matrixCheck();
-				if (matrixCheck == false)
-				{
+				if (matrixCheck == false) {
 					matrix.set(matrix1);
 					invalidate();
 				}
@@ -129,8 +118,7 @@ public class MyTouchImageView extends ImageView
 
 	
 	
-	private boolean matrixCheck()
-	{
+	private boolean matrixCheck() {
 		float[] f = new float[9];
 		matrix1.getValues(f);
 		// ͼƬ4����������
@@ -140,18 +128,12 @@ public class MyTouchImageView extends ImageView
 		float y2 = f[3] * gintama.getWidth() + f[4] * 0 + f[5];
 		float x3 = f[0] * 0 + f[1] * gintama.getHeight() + f[2];
 		float y3 = f[3] * 0 + f[4] * gintama.getHeight() + f[5];
-		float x4 = f[0] * gintama.getWidth() + f[1] * gintama.getHeight()
-				+ f[2];
-		float y4 = f[3] * gintama.getWidth() + f[4] * gintama.getHeight()
-				+ f[5];
-		// ͼƬ�ֿ��
+		float x4 = f[0] * gintama.getWidth() + f[1] * gintama.getHeight() + f[2];
+		float y4 = f[3] * gintama.getWidth() + f[4] * gintama.getHeight() + f[5];
 		double width = Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
-		// ���ű����ж�
-		if (width < widthScreen / 3 || width > widthScreen * 3)
-		{
+		if (width < widthScreen / 3 || width > widthScreen * 3) {
 			return true;
 		}
-		// �����ж�
 		if ((x1 < widthScreen / 3 && x2 < widthScreen / 3
 				&& x3 < widthScreen / 3 && x4 < widthScreen / 3)
 				|| (x1 > widthScreen * 2 / 3 && x2 > widthScreen * 2 / 3
@@ -159,50 +141,36 @@ public class MyTouchImageView extends ImageView
 				|| (y1 < heightScreen / 3 && y2 < heightScreen / 3
 						&& y3 < heightScreen / 3 && y4 < heightScreen / 3)
 				|| (y1 > heightScreen * 2 / 3 && y2 > heightScreen * 2 / 3
-						&& y3 > heightScreen * 2 / 3 && y4 > heightScreen * 2 / 3))
-		{
+						&& y3 > heightScreen * 2 / 3 && y4 > heightScreen * 2 / 3)) {
 			return true;
 		}
 		return false;
 	}
 
-	
-	
-	// ������������
-	private float spacing(MotionEvent event)
-	{
+
+	private float spacing(MotionEvent event) {
 		float x = event.getX(0) - event.getX(1);
 		float y = event.getY(0) - event.getY(1);
 		return (float) Math.sqrt(x * x + y * y);
 	}
 
-	
-	
-	// ȡ�������ĵ�
-	private void midPoint(PointF point, MotionEvent event)
-	{
+
+	private void midPoint(PointF point, MotionEvent event) {
 		float x = event.getX(0) + event.getX(1);
 		float y = event.getY(0) + event.getY(1);
 		point.set(x / 2, y / 2);
 	}
 
-	
-	
-	// ȡ��ת�Ƕ�
-	private float rotation(MotionEvent event)
-	{
+
+	private float rotation(MotionEvent event) {
 		double delta_x = (event.getX(0) - event.getX(1));
 		double delta_y = (event.getY(0) - event.getY(1));
 		double radians = Math.atan2(delta_y, delta_x);
 		return (float) Math.toDegrees(radians);
 	}
 
-	
-	
-	// ���ƶ��������Լ���ת���ͼ�㱣��Ϊ��ͼƬ
-	// �����Л]���õ�ԓ��������Ҫ����DƬ�Ŀ��ԅ���
-	public Bitmap CreatNewPhoto()
-	{
+
+	public Bitmap CreatNewPhoto() {
 		Bitmap bitmap = Bitmap.createBitmap(widthScreen, heightScreen,
 				Config.ARGB_8888); // ����ͼƬ
 		Canvas canvas = new Canvas(bitmap); // �½�����
@@ -212,11 +180,9 @@ public class MyTouchImageView extends ImageView
 		return bitmap;
 	}
 
-	
-	
+
 	@Override
-	public void setImageBitmap(Bitmap bm)
-	{
+	public void setImageBitmap(Bitmap bm) {
 		// TODO Auto-generated method stub
 		super.setImageBitmap(bm);
 		
@@ -224,11 +190,9 @@ public class MyTouchImageView extends ImageView
 		
 	}
 
-	
-	
+
 	@Override
-	public void setImageResource(int resId)
-	{
+	public void setImageResource(int resId) {
 		// TODO Auto-generated method stub
 		super.setImageResource(resId);
 		
@@ -238,35 +202,29 @@ public class MyTouchImageView extends ImageView
 	}
 
 	
-	
-	
-	public Bitmap getResultBitmap()
-	{
+
+	public Bitmap getResultBitmap() {
 		return resultBitmap;
 	}
 	
 	
-	public float getX()
-	{
+	public float getX() {
 		return mid.x;
 	}
 	
 	
 	
-	public float getY()
-	{
+	public float getY() {
 		return mid.y;
 	}
 	
 	
-	public float getStartX()
-	{
+	public float getStartX() {
 		return start.x;
 	}
 	
 	
-	public float getStartY()
-	{
+	public float getStartY() {
 		return start.y;
 	}
 	

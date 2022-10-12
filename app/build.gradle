@@ -17,7 +17,44 @@ android {
 
 
 dependencies {
+    implementation project(':baseactivity')
     implementation project(':procameralibrary')
     implementation project(':imageprocesslibrary')
     implementation project(':cardlibrary')
+
+    // Network
+    implementation rootProject.ext.dependencies["okhttp"]
+    implementation rootProject.ext.dependencies["retrofit"]
+    implementation rootProject.ext.dependencies["gson"]
+    implementation rootProject.ext.dependencies["sonic"]
+    implementation rootProject.ext.dependencies["jsbridge"]
+
+    // Image
+    implementation rootProject.ext.dependencies["glide"]
+
+    // IOC
+    implementation rootProject.ext.dependencies["rxjava"]
+    implementation rootProject.ext.dependencies["rxandroid"]
+    implementation rootProject.ext.dependencies["eventbus"]
+    implementation rootProject.ext.dependencies["permission"]
+    implementation rootProject.ext.dependencies["arouter-api"]
+    kapt rootProject.ext.dependencies["arouter-compiler"]
+
+    // UI库
+    implementation rootProject.ext.dependencies["bottom-navigation-bar"]
+    implementation rootProject.ext.dependencies["immersionbar"]
+    implementation rootProject.ext.dependencies["immersionbar-components"]
+    implementation rootProject.ext.dependencies["immersionbar-ktx"]
+    implementation rootProject.ext.dependencies["lottie"]
+    implementation rootProject.ext.dependencies["rey-material"]
+
+    // 换肤
+    implementation rootProject.ext.dependencies["skin-support"]
+    implementation rootProject.ext.dependencies["skin-support-appcompat"]
+    implementation rootProject.ext.dependencies["skin-support-design"]
+    implementation rootProject.ext.dependencies["skin-support-cardview"]
+    implementation rootProject.ext.dependencies["skin-support-constraint-layout"]
+
+    // 性能监控
+    implementation rootProject.ext.dependencies["leakcanary"]
 }

@@ -1,0 +1,9 @@
+apply plugin: 'com.android.library'
+apply from: "../default.gradle"
+
+
+dependencies {
+    implementation rootProject.ext.dependencies["immersionbar"]
+    implementation rootProject.ext.dependencies["immersionbar-components"]
+    implementation rootProject.ext.dependencies["immersionbar-ktx"]
+}

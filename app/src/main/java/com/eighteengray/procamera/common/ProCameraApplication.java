@@ -1,22 +1,19 @@
 package com.eighteengray.procamera.common;
 
 import android.app.Application;
-import com.squareup.leakcanary.LeakCanary;
+import com.eighteengray.procamera.performance.CrashHandler;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
-public class ProCameraApplication extends Application
-{
+public class ProCameraApplication extends Application {
     private static ProCameraApplication context;
     public static ExecutorService executorService;
 
 
     @Override
-    public void onCreate()
-    {
+    public void onCreate() {
         super.onCreate();
-        LeakCanary.refWatcher(this).listenerServiceClass(LeakUploadService.class).buildAndInstall();
         context = this;
         executorService = Executors.newSingleThreadExecutor();
 
@@ -27,8 +24,7 @@ public class ProCameraApplication extends Application
 
 
     @Override
-    public void onLowMemory()
-    {
+    public void onLowMemory() {
         super.onLowMemory();
         System.gc();
     }

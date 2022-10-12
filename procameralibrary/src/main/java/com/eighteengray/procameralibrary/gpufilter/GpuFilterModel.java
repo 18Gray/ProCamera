@@ -6,16 +6,13 @@ import java.util.HashMap;
 
 
 
-public class GpuFilterModel
-{
+public class GpuFilterModel {
     private static HashMap<String, Integer> sceneHashMap;
     private static HashMap<String, Integer> effectHashMap;
 
 
-    public static Integer getSceneMode(String key)
-    {
-        if(sceneHashMap == null || sceneHashMap.size() == 0)
-        {
+    public static Integer getSceneMode(String key) {
+        if(sceneHashMap == null || sceneHashMap.size() == 0) {
             sceneHashMap = new HashMap<>();
             sceneHashMap.put("ACTION", CameraMetadata.CONTROL_SCENE_MODE_ACTION);
             sceneHashMap.put("BARCODE", CameraMetadata.CONTROL_SCENE_MODE_BARCODE);
@@ -41,10 +38,8 @@ public class GpuFilterModel
     }
 
 
-    public static Integer getEffectMode(String key)
-    {
-        if(effectHashMap == null || effectHashMap.size() == 0)
-        {
+    public static Integer getEffectMode(String key) {
+        if(effectHashMap == null || effectHashMap.size() == 0) {
             effectHashMap = new HashMap<>();
             effectHashMap.put("AQUA", CameraMetadata.CONTROL_EFFECT_MODE_AQUA);
             effectHashMap.put("BLACKBOARD", CameraMetadata.CONTROL_EFFECT_MODE_BLACKBOARD);

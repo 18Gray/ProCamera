@@ -4,14 +4,6 @@
     android:layout_height="86dip"
     android:background="@android:color/transparent" >
 
-    <com.linj.album.view.FilterImageView
-        android:id="@+id/imgThumbnail"
-        android:layout_width="fill_parent"
-        android:layout_height="86dip"
-        android:adjustViewBounds="true"
-        android:background="@null"
-        android:scaleType="centerCrop" />
-
     <ImageView
         android:id="@+id/videoicon"
         android:layout_width="40dip"

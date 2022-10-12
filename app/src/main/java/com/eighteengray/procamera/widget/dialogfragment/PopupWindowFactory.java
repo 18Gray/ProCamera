@@ -12,25 +12,22 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import com.eighteengray.cardlibrary.widget.RecyclerLayout;
-import com.eighteengray.commonutils.DimenUtil;
+import com.eighteengray.commonutillibrary.DimenUtil;
 import com.eighteengray.procamera.R;
-import com.eighteengray.procamera.business.GenerateDataUtils;
+import com.eighteengray.procamera.common.GenerateDataUtils;
 import com.eighteengray.procamera.imageprocess.bean.VerticalRecyclerItem;
 import com.eighteengray.procameralibrary.common.Constants;
 import com.eighteengray.procameralibrary.dataevent.BitmapProcess;
 import com.eighteengray.procameralibrary.dataevent.CameraConfigure;
 import org.greenrobot.eventbus.EventBus;
-
 import java.util.ArrayList;
 import java.util.List;
 
 
 
-public class PopupWindowFactory
-{
+public class PopupWindowFactory {
     //Flash的弹出框
-    public static PopupWindow createFlashPopupWindow(Context context)
-    {
+    public static PopupWindow createFlashPopupWindow(Context context) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.dialogfragment_flashselect, null);
 
@@ -42,44 +39,36 @@ public class PopupWindowFactory
         popupWindow.setBackgroundDrawable(new BitmapDrawable(context.getResources(), (Bitmap) null));
 
         //点击事件
-        view.findViewById(R.id.iv_flash_auto).setOnClickListener(new View.OnClickListener()
-        {
+        view.findViewById(R.id.iv_flash_auto).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 CameraConfigure.Flash flash1 = new CameraConfigure.Flash();
                 flash1.setFlash(Constants.FLASH_AUTO);
                 EventBus.getDefault().post(flash1);
                 popupWindow.dismiss();
             }
         });
-        view.findViewById(R.id.iv_flash_on).setOnClickListener(new View.OnClickListener()
-        {
+        view.findViewById(R.id.iv_flash_on).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 CameraConfigure.Flash flash2 = new CameraConfigure.Flash();
                 flash2.setFlash(Constants.FLASH_ON);
                 EventBus.getDefault().post(flash2);
                 popupWindow.dismiss();
             }
         });
-        view.findViewById(R.id.iv_flash_off).setOnClickListener(new View.OnClickListener()
-        {
+        view.findViewById(R.id.iv_flash_off).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 CameraConfigure.Flash flash3 = new CameraConfigure.Flash();
                 flash3.setFlash(Constants.FLASH_OFF);
                 EventBus.getDefault().post(flash3);
                 popupWindow.dismiss();
             }
         });
-        view.findViewById(R.id.iv_flash_flare).setOnClickListener(new View.OnClickListener()
-        {
+        view.findViewById(R.id.iv_flash_flare).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 CameraConfigure.Flash flash4 = new CameraConfigure.Flash();
                 flash4.setFlash(Constants.FLASH_FLARE);
                 EventBus.getDefault().post(flash4);
@@ -91,8 +80,7 @@ public class PopupWindowFactory
     }
 
     //Ratio的弹出框
-    public static PopupWindow createRatioPopupWindow(Context context)
-    {
+    public static PopupWindow createRatioPopupWindow(Context context) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.dialogfragment_ratioselect, null);
 
@@ -104,8 +92,7 @@ public class PopupWindowFactory
         popupWindow.setBackgroundDrawable(new BitmapDrawable(context.getResources(), (Bitmap) null));
 
         //点击事件
-        view.findViewById(R.id.ll_ratio_normal).setOnClickListener(new View.OnClickListener()
-        {
+        view.findViewById(R.id.ll_ratio_normal).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
@@ -115,8 +102,7 @@ public class PopupWindowFactory
                 popupWindow.dismiss();
             }
         });
-        view.findViewById(R.id.ll_ratio_square).setOnClickListener(new View.OnClickListener()
-        {
+        view.findViewById(R.id.ll_ratio_square).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
@@ -129,19 +115,16 @@ public class PopupWindowFactory
         view.findViewById(R.id.ll_ratio_4v3).setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 CameraConfigure.Ratio ratio3 = new CameraConfigure.Ratio();
                 ratio3.setRatio(Constants.RATIO_4V3);
                 EventBus.getDefault().post(ratio3);
                 popupWindow.dismiss();
             }
         });
-        view.findViewById(R.id.ll_ratio_16v9).setOnClickListener(new View.OnClickListener()
-        {
+        view.findViewById(R.id.ll_ratio_16v9).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 CameraConfigure.Ratio ratio4 = new CameraConfigure.Ratio();
                 ratio4.setRatio(Constants.RATIO_16V9);
                 EventBus.getDefault().post(ratio4);
@@ -154,8 +137,7 @@ public class PopupWindowFactory
 
 
     // 滤镜弹出框
-    public static PopupWindow createFilterPopupWindow(Context context)
-    {
+    public static PopupWindow createFilterPopupWindow(Context context) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.layout_common_recycler, null);
         RecyclerLayout recycler_layout = (RecyclerLayout) view.findViewById(R.id.recycler_layout);
@@ -175,8 +157,7 @@ public class PopupWindowFactory
     }
 
     // 处理弹出框
-    public static PopupWindow createProcessPopupWindow(Context context)
-    {
+    public static PopupWindow createProcessPopupWindow(Context context) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.layout_common_recycler, null);
         RecyclerLayout recycler_layout = (RecyclerLayout) view.findViewById(R.id.recycler_layout);
@@ -197,8 +178,7 @@ public class PopupWindowFactory
 
 
     //图像处理中，对比度弹出框
-    public static PopupWindow createContrastPopupWindow(final Context context)
-    {
+    public static PopupWindow createContrastPopupWindow(final Context context) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View popView = inflater.inflate(R.layout.popupwindow_strength, null);
 
@@ -215,11 +195,9 @@ public class PopupWindowFactory
         textViewList.add(tv_duibidu_strength);
         textViewList.add(tv_liangdu_strength);
 
-        tv_baohedu_strength.setOnClickListener(new View.OnClickListener()
-        {
+        tv_baohedu_strength.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 seekBarSaturation.setVisibility(View.VISIBLE);
                 seekBarDuibidu.setVisibility(View.GONE);
                 seekBarLight.setVisibility(View.GONE);
@@ -227,11 +205,9 @@ public class PopupWindowFactory
             }
         });
 
-        tv_duibidu_strength.setOnClickListener(new View.OnClickListener()
-        {
+        tv_duibidu_strength.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 seekBarSaturation.setVisibility(View.GONE);
                 seekBarDuibidu.setVisibility(View.VISIBLE);
                 seekBarLight.setVisibility(View.GONE);
@@ -239,11 +215,9 @@ public class PopupWindowFactory
             }
         });
 
-        tv_liangdu_strength.setOnClickListener(new View.OnClickListener()
-        {
+        tv_liangdu_strength.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 seekBarSaturation.setVisibility(View.GONE);
                 seekBarDuibidu.setVisibility(View.GONE);
                 seekBarLight.setVisibility(View.VISIBLE);
@@ -251,11 +225,9 @@ public class PopupWindowFactory
             }
         });
 
-        seekBarSaturation.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
-        {
+        seekBarSaturation.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
-            {
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 BitmapProcess.ContrastEvent contrastEvent = new BitmapProcess.ContrastEvent();
                 contrastEvent.setSeekBarNum(0);
                 contrastEvent.setProgress(progress);
@@ -263,23 +235,19 @@ public class PopupWindowFactory
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar)
-            {
+            public void onStartTrackingTouch(SeekBar seekBar) {
 
             }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar)
-            {
+            public void onStopTrackingTouch(SeekBar seekBar) {
 
             }
         });
 
-        seekBarDuibidu.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
-        {
+        seekBarDuibidu.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
-            {
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 BitmapProcess.ContrastEvent contrastEvent = new BitmapProcess.ContrastEvent();
                 contrastEvent.setSeekBarNum(1);
                 contrastEvent.setProgress(progress);
@@ -287,23 +255,19 @@ public class PopupWindowFactory
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar)
-            {
+            public void onStartTrackingTouch(SeekBar seekBar) {
 
             }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar)
-            {
+            public void onStopTrackingTouch(SeekBar seekBar) {
 
             }
         });
 
-        seekBarLight.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
-        {
+        seekBarLight.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
-            {
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 BitmapProcess.ContrastEvent contrastEvent = new BitmapProcess.ContrastEvent();
                 contrastEvent.setSeekBarNum(2);
                 contrastEvent.setProgress(progress);
@@ -311,14 +275,12 @@ public class PopupWindowFactory
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar)
-            {
+            public void onStartTrackingTouch(SeekBar seekBar) {
 
             }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar)
-            {
+            public void onStopTrackingTouch(SeekBar seekBar) {
 
             }
         });
@@ -329,13 +291,10 @@ public class PopupWindowFactory
         popupWindow.setTouchable(true);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
-        popupWindow.setTouchInterceptor(new View.OnTouchListener()
-        {
+        popupWindow.setTouchInterceptor(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event)
-            {
-                if (event.getAction() == MotionEvent.ACTION_OUTSIDE)
-                {
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
                     popupWindow.dismiss();
                     return true;
                 }
@@ -345,17 +304,13 @@ public class PopupWindowFactory
         return popupWindow;
     }
 
-    private static void updateTextView(List<TextView>textViewList, int current, Context context)
-    {
-        for(int i=0;i<textViewList.size();i++)
-        {
+    private static void updateTextView(List<TextView>textViewList, int current, Context context) {
+        for(int i=0;i<textViewList.size();i++) {
             TextView currentTextView = textViewList.get(i);
-            if(current == i)
-            {
+            if(current == i) {
                 currentTextView.setTextColor(context.getResources().getColor(R.color.accent));
             }
-            else
-            {
+            else {
                 currentTextView.setTextColor(context.getResources().getColor(R.color.text));
             }
         }

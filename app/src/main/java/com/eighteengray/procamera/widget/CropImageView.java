@@ -13,8 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 
-public class CropImageView extends View
-{
+public class CropImageView extends View {
     // 在touch重要用到的点，
     private float mX_1 = 0;
     private float mY_1 = 0;
@@ -53,43 +52,35 @@ public class CropImageView extends View
 
     protected Context mContext;
 
-    public CropImageView(Context context)
-    {
+    public CropImageView(Context context) {
         super(context);
         init(context);
     }
 
-    public CropImageView(Context context, AttributeSet attrs)
-    {
+    public CropImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public CropImageView(Context context, AttributeSet attrs, int defStyle)
-    {
+    public CropImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context);
 
     }
 
-    private void init(Context context)
-    {
+    private void init(Context context) {
         this.mContext = context;
-        try
-        {
-            if (android.os.Build.VERSION.SDK_INT >= 11)
-            {
+        try {
+            if (android.os.Build.VERSION.SDK_INT >= 11) {
                 this.setLayerType(LAYER_TYPE_SOFTWARE, null);
             }
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         mFloatDrawable = new FloatDrawable(context);
     }
 
-    public void setDrawable(Drawable mDrawable, int cropWidth, int cropHeight)
-    {
+    public void setDrawable(Drawable mDrawable, int cropWidth, int cropHeight) {
         this.mDrawable = mDrawable;
         this.cropWidth = cropWidth;
         this.cropHeight = cropHeight;
@@ -98,23 +89,16 @@ public class CropImageView extends View
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event)
-    {
+    public boolean onTouchEvent(MotionEvent event) {
 
-        if (event.getPointerCount() > 1)
-        {
-            if (mStatus == STATUS_SINGLE)
-            {
+        if (event.getPointerCount() > 1) {
+            if (mStatus == STATUS_SINGLE) {
                 mStatus = STATUS_MULTI_START;
-            } else if (mStatus == STATUS_MULTI_START)
-            {
+            } else if (mStatus == STATUS_MULTI_START) {
                 mStatus = STATUS_MULTI_TOUCHING;
             }
-        } else
-        {
-            if (mStatus == STATUS_MULTI_START
-                    || mStatus == STATUS_MULTI_TOUCHING)
-            {
+        } else {
+            if (mStatus == STATUS_MULTI_START || mStatus == STATUS_MULTI_TOUCHING) {
                 mX_1 = event.getX();
                 mY_1 = event.getY();
             }
@@ -122,14 +106,12 @@ public class CropImageView extends View
             mStatus = STATUS_SINGLE;
         }
 
-        switch (event.getAction())
-        {
+        switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 mX_1 = event.getX();
                 mY_1 = event.getY();
                 currentEdge = getTouch((int) mX_1, (int) mY_1);
-                isTouchInSquare = mDrawableFloat.contains((int) event.getX(),
-                        (int) event.getY());
+                isTouchInSquare = mDrawableFloat.contains((int) event.getX(), (int) event.getY());
 
                 break;
 
@@ -142,21 +124,17 @@ public class CropImageView extends View
                 break;
 
             case MotionEvent.ACTION_MOVE:
-                if (mStatus == STATUS_MULTI_TOUCHING)
-                {
+                if (mStatus == STATUS_MULTI_TOUCHING) {
 
-                } else if (mStatus == STATUS_SINGLE)
-                {
+                } else if (mStatus == STATUS_SINGLE) {
                     int dx = (int) (event.getX() - mX_1);
                     int dy = (int) (event.getY() - mY_1);
 
                     mX_1 = event.getX();
                     mY_1 = event.getY();
                     // 根據得到的那一个角，并且变换Rect
-                    if (!(dx == 0 && dy == 0))
-                    {
-                        switch (currentEdge)
-                        {
+                    if (!(dx == 0 && dy == 0)) {
+                        switch (currentEdge) {
                             case EDGE_LT:
                                 mDrawableFloat.set(mDrawableFloat.left + dx,
                                         mDrawableFloat.top + dy, mDrawableFloat.right,
@@ -202,59 +180,50 @@ public class CropImageView extends View
     }
 
     // 根据初触摸点判断是触摸的Rect哪一个角
-    public int getTouch(int eventX, int eventY)
-    {
+    public int getTouch(int eventX, int eventY) {
         if (mFloatDrawable.getBounds().left <= eventX
                 && eventX < (mFloatDrawable.getBounds().left + mFloatDrawable
                 .getBorderWidth())
                 && mFloatDrawable.getBounds().top <= eventY
                 && eventY < (mFloatDrawable.getBounds().top + mFloatDrawable
-                .getBorderHeight()))
-        {
+                .getBorderHeight())) {
             return EDGE_LT;
         } else if ((mFloatDrawable.getBounds().right - mFloatDrawable
                 .getBorderWidth()) <= eventX
                 && eventX < mFloatDrawable.getBounds().right
                 && mFloatDrawable.getBounds().top <= eventY
                 && eventY < (mFloatDrawable.getBounds().top + mFloatDrawable
-                .getBorderHeight()))
-        {
+                .getBorderHeight())) {
             return EDGE_RT;
         } else if (mFloatDrawable.getBounds().left <= eventX
                 && eventX < (mFloatDrawable.getBounds().left + mFloatDrawable
                 .getBorderWidth())
                 && (mFloatDrawable.getBounds().bottom - mFloatDrawable
                 .getBorderHeight()) <= eventY
-                && eventY < mFloatDrawable.getBounds().bottom)
-        {
+                && eventY < mFloatDrawable.getBounds().bottom) {
             return EDGE_LB;
         } else if ((mFloatDrawable.getBounds().right - mFloatDrawable
                 .getBorderWidth()) <= eventX
                 && eventX < mFloatDrawable.getBounds().right
                 && (mFloatDrawable.getBounds().bottom - mFloatDrawable
                 .getBorderHeight()) <= eventY
-                && eventY < mFloatDrawable.getBounds().bottom)
-        {
+                && eventY < mFloatDrawable.getBounds().bottom) {
             return EDGE_RB;
-        } else if (mFloatDrawable.getBounds().contains(eventX, eventY))
-        {
+        } else if (mFloatDrawable.getBounds().contains(eventX, eventY)) {
             return EDGE_MOVE_IN;
         }
         return EDGE_MOVE_OUT;
     }
 
     @Override
-    protected void onDraw(Canvas canvas)
-    {
+    protected void onDraw(Canvas canvas) {
 
-        if (mDrawable == null)
-        {
+        if (mDrawable == null) {
             return;
         }
 
         if (mDrawable.getIntrinsicWidth() == 0
-                || mDrawable.getIntrinsicHeight() == 0)
-        {
+                || mDrawable.getIntrinsicHeight() == 0) {
             return;
         }
 
@@ -271,13 +240,11 @@ public class CropImageView extends View
         mFloatDrawable.draw(canvas);
     }
 
-    protected void configureBounds()
-    {
+    protected void configureBounds() {
         // configureBounds在onDraw方法中调用
         // isFirst的目的是下面对mDrawableSrc和mDrawableFloat只初始化一次，
         // 之后的变化是根据touch事件来变化的，而不是每次执行重新对mDrawableSrc和mDrawableFloat进行设置
-        if (isFrist)
-        {
+        if (isFrist) {
             oriRationWH = ((float) mDrawable.getIntrinsicWidth())
                     / ((float) mDrawable.getIntrinsicHeight());
 
@@ -297,14 +264,12 @@ public class CropImageView extends View
             int floatWidth = dipTopx(mContext, cropWidth);
             int floatHeight = dipTopx(mContext, cropHeight);
 
-            if (floatWidth > getWidth())
-            {
+            if (floatWidth > getWidth()) {
                 floatWidth = getWidth();
                 floatHeight = cropHeight * floatWidth / cropWidth;
             }
 
-            if (floatHeight > getHeight())
-            {
+            if (floatHeight > getHeight()) {
                 floatHeight = getHeight();
                 floatWidth = cropWidth * floatHeight / cropHeight;
             }
@@ -322,53 +287,45 @@ public class CropImageView extends View
     }
 
     // 在up事件中调用了该方法，目的是检查是否把浮层拖出了屏幕
-    protected void checkBounds()
-    {
+    protected void checkBounds() {
         int newLeft = mDrawableFloat.left;
         int newTop = mDrawableFloat.top;
 
         boolean isChange = false;
-        if (mDrawableFloat.left < getLeft())
-        {
+        if (mDrawableFloat.left < getLeft()) {
             newLeft = getLeft();
             isChange = true;
         }
 
-        if (mDrawableFloat.top < getTop())
-        {
+        if (mDrawableFloat.top < getTop()) {
             newTop = getTop();
             isChange = true;
         }
 
-        if (mDrawableFloat.right > getRight())
-        {
+        if (mDrawableFloat.right > getRight()) {
             newLeft = getRight() - mDrawableFloat.width();
             isChange = true;
         }
 
-        if (mDrawableFloat.bottom > getBottom())
-        {
+        if (mDrawableFloat.bottom > getBottom()) {
             newTop = getBottom() - mDrawableFloat.height();
             isChange = true;
         }
 
         mDrawableFloat.offsetTo(newLeft, newTop);
-        if (isChange)
-        {
+        if (isChange) {
             invalidate();
         }
     }
 
     // 进行图片的裁剪，所谓的裁剪就是根据Drawable的新的坐标在画布上创建一张新的图片
-    public Bitmap getCropImage()
-    {
+    public Bitmap getCropImage() {
         Bitmap tmpBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.RGB_565);
         Canvas canvas = new Canvas(tmpBitmap);
         mDrawable.draw(canvas);
 
         Matrix matrix = new Matrix();
-        float scale = (float) (mDrawableSrc.width())
-                / (float) (mDrawableDst.width());
+        float scale = (float) (mDrawableSrc.width()) / (float) (mDrawableDst.width());
         matrix.postScale(scale, scale);
 
         Bitmap ret = Bitmap.createBitmap(tmpBitmap, mDrawableFloat.left,
@@ -380,9 +337,9 @@ public class CropImageView extends View
         return ret;
     }
 
-    public int dipTopx(Context context, float dpValue)
-    {
+    public int dipTopx(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
+
 }

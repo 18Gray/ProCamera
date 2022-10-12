@@ -18,7 +18,6 @@ import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.MeteringRectangle;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.ImageReader;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Range;
@@ -27,7 +26,7 @@ import android.util.SparseIntArray;
 import android.view.Surface;
 import android.widget.Toast;
 
-import com.eighteengray.commonutils.SharePreferenceUtils;
+import com.eighteengray.commonutillibrary.SharePreferenceUtils;
 import com.eighteengray.procameralibrary.common.Constants;
 import com.eighteengray.procameralibrary.dataevent.ImageAvailableEvent;
 import org.greenrobot.eventbus.EventBus;
@@ -38,9 +37,7 @@ import java.util.List;
 
 
 
-
-public class Camera2TextureView extends BaseCamera2TextureView
-{
+public class Camera2TextureView extends BaseCamera2TextureView {
     private int mState = STATE_PREVIEW;
     private static final int STATE_PREVIEW = 0;
     private static final int STATE_WAITING_LOCK = 1;
@@ -53,8 +50,7 @@ public class Camera2TextureView extends BaseCamera2TextureView
     private int mAfState = CameraMetadata.CONTROL_AF_STATE_INACTIVE;
 
     public static final SparseIntArray ORIENTATIONS = new SparseIntArray();
-    static
-    {
+    static {
         ORIENTATIONS.append(Surface.ROTATION_0, 90);
         ORIENTATIONS.append(Surface.ROTATION_90, 0);
         ORIENTATIONS.append(Surface.ROTATION_180, 270);
@@ -65,18 +61,15 @@ public class Camera2TextureView extends BaseCamera2TextureView
     //  初始化方法
     //********************************************************************************************
 
-    public Camera2TextureView(Context context)
-    {
+    public Camera2TextureView(Context context) {
         super(context);
     }
 
-    public Camera2TextureView(Context context, AttributeSet attrs)
-    {
+    public Camera2TextureView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public Camera2TextureView(Context context, AttributeSet attrs, int defStyle)
-    {
+    public Camera2TextureView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
@@ -85,27 +78,22 @@ public class Camera2TextureView extends BaseCamera2TextureView
     //  public 方法，供外部调用
     //********************************************************************************************
 
-    public void takePicture()
-    {
+    public void takePicture() {
         lockFocus();
     }
 
 
     //设置闪光灯模式
-    public void setFlashMode(int flashMode) throws CameraAccessException
-    {
+    public void setFlashMode(int flashMode) throws CameraAccessException {
         CaptureRequestFactory.setPreviewBuilderFlash(mPreviewRequestBuilder, flashMode);
         updatePreview(mPreviewRequestBuilder.build(), captureSessionCaptureCallback);
     }
 
     //设置预览区域
-    public void focusRegion(float x, float y) throws CameraAccessException
-    {
-        try
-        {
+    public void focusRegion(float x, float y) throws CameraAccessException {
+        try {
             mCameraCharacteristics = manager.getCameraCharacteristics(mCameraId);
-        } catch (CameraAccessException e)
-        {
+        } catch (CameraAccessException e) {
             e.printStackTrace();
         }
         Rect rect = mCameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
@@ -132,22 +120,19 @@ public class Camera2TextureView extends BaseCamera2TextureView
     }
 
     //设置Scene模式，即设置HDR的模式
-    public void setSceneMode(String sceneMode) throws CameraAccessException
-    {
+    public void setSceneMode(String sceneMode) throws CameraAccessException {
         CaptureRequestFactory.setPreviewBuilderScene(mPreviewRequestBuilder, sceneMode);
         updatePreview(mPreviewRequestBuilder.build(), captureSessionCaptureCallback);
     }
 
     //设置Effect模式，即设置滤镜的模式
-    public void setEffectMode(String effectMode) throws CameraAccessException
-    {
+    public void setEffectMode(String effectMode) throws CameraAccessException {
         CaptureRequestFactory.setPreviewBuilderEffect(mPreviewRequestBuilder, effectMode);
         updatePreview(mPreviewRequestBuilder.build(), captureSessionCaptureCallback);
     }
 
     //拉长、缩小焦距
-    public void changeFocusDistance(int distance) throws CameraAccessException
-    {
+    public void changeFocusDistance(int distance) throws CameraAccessException {
         mCameraCharacteristics = manager.getCameraCharacteristics(mCameraId);
         Rect rect = mCameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
         int radio = mCameraCharacteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM).intValue() / 2;
@@ -156,8 +141,7 @@ public class Camera2TextureView extends BaseCamera2TextureView
         int centerY = rect.centerY();
         int minMidth = (rect.right - ((distance * centerX) / 100 / radio) - 1) - ((distance * centerX / radio) / 100 + 8);
         int minHeight = (rect.bottom - ((distance * centerY) / 100 / radio) - 1) - ((distance * centerY / radio) / 100 + 16);
-        if (minMidth < rect.right / realRadio || minHeight < rect.bottom / realRadio)
-        {
+        if (minMidth < rect.right / realRadio || minHeight < rect.bottom / realRadio) {
             Log.i("sb_zoom", "sb_zoomsb_zoomsb_zoom");
             return;
         }
@@ -167,10 +151,8 @@ public class Camera2TextureView extends BaseCamera2TextureView
     }
 
     //修改TextureView比例，即调节拍照比例
-    public void setRatioMode(int ratio)
-    {
-        switch (ratio)
-        {
+    public void setRatioMode(int ratio) {
+        switch (ratio) {
             case Constants.RATIO_NORMAL:
                 configureCamera(mPreviewSize.getWidth(), mPreviewSize.getHeight(), cameraNum);
                 break;
@@ -190,22 +172,18 @@ public class Camera2TextureView extends BaseCamera2TextureView
     }
 
     //延时拍摄
-    public void setDalayTime(long nanoseconds)
-    {
-        try
-        {
+    public void setDalayTime(long nanoseconds) {
+        try {
             mCameraCharacteristics = manager.getCameraCharacteristics(mCameraId);
             Range<Long> range = mCameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE);
-            if(range == null)
-            {
+            if(range == null) {
                 Toast.makeText(context, "您的相机不支持全功能", Toast.LENGTH_SHORT).show();
             }
-            else
-            {
+            else {
                 long availableTime = 0;
-                if(nanoseconds >= range.getLower() && nanoseconds <= range.getUpper()){
+                if (nanoseconds >= range.getLower() && nanoseconds <= range.getUpper()){
                     availableTime = nanoseconds;
-                }else {
+                } else {
                     availableTime = range.getLower();
                 }
                 if(mCaptureStillBuilder == null){
@@ -214,15 +192,13 @@ public class Camera2TextureView extends BaseCamera2TextureView
                 CaptureRequestFactory.setCaptureBuilderDelay(mCaptureStillBuilder, availableTime);
             }
 
-        } catch (CameraAccessException e)
-        {
+        } catch (CameraAccessException e) {
             e.printStackTrace();
         }
     }
 
     // 设置防手抖功能
-    public void setSteadyPhoto(boolean isSteady) throws CameraAccessException
-    {
+    public void setSteadyPhoto(boolean isSteady) throws CameraAccessException {
         CaptureRequestFactory.setPreviewBuilderSteady(mPreviewRequestBuilder, isSteady);
         updatePreview(mPreviewRequestBuilder.build(), captureSessionCaptureCallback);
     }
@@ -231,10 +207,8 @@ public class Camera2TextureView extends BaseCamera2TextureView
     //  预览方法，内部调用
     //********************************************************************************************
     @Override
-    public void configureCamera(int width, int height, int cameraNum)
-    {
-        try
-        {
+    public void configureCamera(int width, int height, int cameraNum) {
+        try {
             mCameraId = manager.getCameraIdList()[cameraNum];
             CameraCharacteristics characteristics = manager.getCameraCharacteristics(mCameraId);
 
@@ -244,59 +218,47 @@ public class Camera2TextureView extends BaseCamera2TextureView
             initImageReader(largest);
             mPreviewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class), width, height, largest);
             int orientation = getResources().getConfiguration().orientation;
-            if (orientation == Configuration.ORIENTATION_LANDSCAPE)
-            {
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 setAspectRatio(mPreviewSize.getWidth(), mPreviewSize.getHeight());
-            } else
-            {
+            } else {
                 setAspectRatio(mPreviewSize.getHeight(), mPreviewSize.getWidth());
             }
-        } catch (CameraAccessException e)
-        {
+        } catch (CameraAccessException e) {
             e.printStackTrace();
-        } catch (NullPointerException e)
-        {
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
     }
 
-    private void initImageReader(Size largest)
-    {
+    private void initImageReader(Size largest) {
         mImageReader = ImageReader.newInstance(largest.getWidth(), largest.getHeight(), ImageFormat.JPEG, /*maxImages*/5);
         mImageReader.setOnImageAvailableListener(mOnImageAvailableListener, mBackgroundHandler);
     }
 
-    private Size chooseOptimalSize(Size[] choices, int width, int height, Size largest)
-    {
+    private Size chooseOptimalSize(Size[] choices, int width, int height, Size largest) {
         List<Size> bigEnough = new ArrayList<Size>();
-        for (Size size : choices)
-        {
-            if (size.getHeight() == size.getWidth() * height / width)
-            {
+        for (Size size : choices) {
+            if (size.getHeight() == size.getWidth() * height / width) {
                 bigEnough.add(size);
             }
         }
 
-        if (bigEnough.size() > 0)
-        {
+        if (bigEnough.size() > 0) {
             return Collections.max(bigEnough, new CompareSizesByArea());
-        } else
-        {
+        } else {
             return largest;
         }
     }
 
     @Override
-    public void configureTransform(int width, int height)
-    {
+    public void configureTransform(int width, int height) {
         int rotation = windowManager.getDefaultDisplay().getRotation();
         final Matrix matrix = new Matrix();
         RectF viewRect = new RectF(0, 0, width, height);
         RectF bufferRect = new RectF(0, 0, mPreviewSize.getHeight(), mPreviewSize.getWidth());
         float centerX = viewRect.centerX();
         float centerY = viewRect.centerY();
-        if (Surface.ROTATION_90 == rotation || Surface.ROTATION_270 == rotation)
-        {
+        if (Surface.ROTATION_90 == rotation || Surface.ROTATION_270 == rotation) {
             bufferRect.offset(centerX - bufferRect.centerX(), centerY - bufferRect.centerY());
             matrix.setRectToRect(viewRect, bufferRect, Matrix.ScaleToFit.FILL);
             float scale = Math.max(
@@ -304,67 +266,47 @@ public class Camera2TextureView extends BaseCamera2TextureView
                     (float) width / mPreviewSize.getWidth());
             matrix.postScale(scale, scale, centerX, centerY);
             matrix.postRotate(90 * (rotation - 2), centerX, centerY);
-        } else if (Surface.ROTATION_180 == rotation)
-        {
+        } else if (Surface.ROTATION_180 == rotation) {
             matrix.postRotate(180, centerX, centerY);
         }
-        if(mMainHandler != null)
-        {
-            mMainHandler.post(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    setTransform(matrix);
-                }
-            });
+        if(mMainHandler != null) {
+            mMainHandler.post(() -> setTransform(matrix));
         }
     }
 
     @Override
-    public void createCameraPreviewSession()
-    {
-        try
-        {
+    public void createCameraPreviewSession() {
+        try {
             initSurface();
             mState = STATE_PREVIEW;
             mCameraDevice.createCaptureSession(Arrays.asList(surface, mImageReader.getSurface()), captureSessionStateCallback, mBackgroundHandler);
-        } catch (CameraAccessException e)
-        {
+        } catch (CameraAccessException e) {
             e.printStackTrace();
         }
     }
 
 
-
-
     //CaptureSession的状态监听
-    protected CameraCaptureSession.StateCallback captureSessionStateCallback = new CameraCaptureSession.StateCallback()
-    {
+    protected CameraCaptureSession.StateCallback captureSessionStateCallback = new CameraCaptureSession.StateCallback() {
         @Override
-        public void onConfigured(@NonNull CameraCaptureSession cameraCaptureSession)
-        {
-            if (null == mCameraDevice)
-            {
+        public void onConfigured(CameraCaptureSession cameraCaptureSession) {
+            if (null == mCameraDevice) {
                 return;
             }
             mCaptureSession = cameraCaptureSession;
-            try
-            {
+            try {
                 boolean antiShake = SharePreferenceUtils.getInstance(context, Constants.SETTINGS).getBoolean(Constants.IMAGE_ANTI_SHAKE, false);
                 mPreviewRequestBuilder = CaptureRequestFactory.createPreviewBuilder(mCameraDevice, surface);
                 CaptureRequestFactory.setPreviewBuilderPreview(mPreviewRequestBuilder);
                 CaptureRequestFactory.setPreviewBuilderSteady(mPreviewRequestBuilder, antiShake);
                 updatePreview(mPreviewRequestBuilder.build(), captureSessionCaptureCallback);
-            } catch (CameraAccessException e)
-            {
+            } catch (CameraAccessException e) {
                 e.printStackTrace();
             }
         }
 
         @Override
-        public void onConfigureFailed(@NonNull CameraCaptureSession cameraCaptureSession)
-        {
+        public void onConfigureFailed(CameraCaptureSession cameraCaptureSession) {
         }
     };
 
@@ -372,36 +314,29 @@ public class Camera2TextureView extends BaseCamera2TextureView
 
 
     //预览和拍照数据获取监听，获取到原始数据后做进一步处理
-    CameraCaptureSession.CaptureCallback captureSessionCaptureCallback = new CameraCaptureSession.CaptureCallback()
-    {
+    CameraCaptureSession.CaptureCallback captureSessionCaptureCallback = new CameraCaptureSession.CaptureCallback() {
         @Override
-        public void onCaptureProgressed(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull CaptureResult partialResult)
-        {
+        public void onCaptureProgressed(CameraCaptureSession session, CaptureRequest request, CaptureResult partialResult) {
             checkState(request, partialResult);
         }
 
         @Override
-        public void onCaptureCompleted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull TotalCaptureResult result)
-        {
+        public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
             checkState(request, result);
         }
 
-        private void checkState(CaptureRequest request, CaptureResult result)
-        {
+        private void checkState(CaptureRequest request, CaptureResult result) {
             Integer afState = result.get(CaptureResult.CONTROL_AF_STATE);
             Integer aeState = result.get(CaptureResult.CONTROL_AE_STATE);
-            switch (mState)
-            {
+            switch (mState) {
                 case STATE_PREVIEW:  //对预览数据处理，根据afState即聚焦状态，如果为空、跟上次一样不做处理
-                    if (afState == null)
-                    {
+                    if (afState == null) {
                         Log.d("Camera2TextureView", "null");
                         return;
-                    }else if (afState != null && afState.intValue() == mAfState)//这次的值与之前的一样，忽略掉
-                    {
+                    } else if (afState != null && afState.intValue() == mAfState) {
                         Log.d("Camera2TextureView", "same");
                         return;
-                    }else {
+                    } else {
                         mAfState = afState.intValue();
                         judgeFocus();  //聚焦视图
                     }
@@ -409,22 +344,17 @@ public class Camera2TextureView extends BaseCamera2TextureView
 
                 case STATE_WAITING_LOCK:
                     if (CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED == afState || CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED == afState
-                            || CaptureResult.CONTROL_AF_STATE_PASSIVE_FOCUSED == afState || CaptureResult.CONTROL_AF_STATE_PASSIVE_UNFOCUSED == afState)
-                    {
-                        if (afState == null)
-                        {
+                            || CaptureResult.CONTROL_AF_STATE_PASSIVE_FOCUSED == afState || CaptureResult.CONTROL_AF_STATE_PASSIVE_UNFOCUSED == afState) {
+                        if (afState == null) {
                             doStillCapture();
                         }
                         else if (CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED == afState
-                               || CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED == afState)
-                        {
+                               || CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED == afState) {
 //                            aeState = result.get(CaptureResult.CONTROL_AE_STATE);
-                            if (aeState == null || aeState == CaptureResult.CONTROL_AE_STATE_CONVERGED)
-                            {
+                            if (aeState == null || aeState == CaptureResult.CONTROL_AE_STATE_CONVERGED) {
                                 mState = STATE_PICTURE_TAKEN;
                                 doStillCapture();
-                            } else
-                            {
+                            } else {
                                 tryCaptureAgain();
                             }
                         }
@@ -433,16 +363,14 @@ public class Camera2TextureView extends BaseCamera2TextureView
 
                 case STATE_WAITING_PRECAPTURE:
                     if (aeState == null || aeState == CaptureResult.CONTROL_AE_STATE_PRECAPTURE ||
-                            aeState == CaptureRequest.CONTROL_AE_STATE_FLASH_REQUIRED)
-                    {
+                            aeState == CaptureRequest.CONTROL_AE_STATE_FLASH_REQUIRED) {
                         mState = STATE_WAITING_NON_PRECAPTURE;
                     }
                     break;
 
                 case STATE_WAITING_NON_PRECAPTURE:
                     aeState = result.get(CaptureResult.CONTROL_AE_STATE);
-                    if (aeState == null || aeState != CaptureResult.CONTROL_AE_STATE_PRECAPTURE)
-                    {
+                    if (aeState == null || aeState != CaptureResult.CONTROL_AE_STATE_PRECAPTURE) {
                         mState = STATE_PICTURE_TAKEN;
                         doStillCapture();
                     }
@@ -452,51 +380,41 @@ public class Camera2TextureView extends BaseCamera2TextureView
 
     };
 
-    private void doStillCapture()
-    {
-        try
-        {
+    private void doStillCapture() {
+        try {
             mCaptureStillBuilder = CaptureRequestFactory.createCaptureStillBuilder(mCameraDevice, mImageReader.getSurface());
             int quality = SharePreferenceUtils.getInstance(context, Constants.SETTINGS).getInt(Constants.IMAGE_QUALITY, 90);
             CaptureRequestFactory.setCaptureBuilderStill(mCaptureStillBuilder, windowManager, quality);
 
             mCaptureSession.stopRepeating();
             mCaptureSession.capture(mCaptureStillBuilder.build(), captureStillCallback, null);
-        } catch (CameraAccessException e)
-        {
+        } catch (CameraAccessException e) {
             e.printStackTrace();
         }
     }
 
-    private CameraCaptureSession.CaptureCallback captureStillCallback = new CameraCaptureSession.CaptureCallback()
-    {
+    private CameraCaptureSession.CaptureCallback captureStillCallback = new CameraCaptureSession.CaptureCallback() {
         @Override
-        public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result)
-        {
+        public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
             unlockFocus();
         }
     };
 
-    private void tryCaptureAgain()
-    {
-        try
-        {
-            if(mCaptureStillBuilder != null){
+    private void tryCaptureAgain() {
+        try {
+            if(mCaptureStillBuilder != null) {
                 CaptureRequestFactory.setCaptureBuilderPrecapture(mCaptureStillBuilder);
                 mCaptureSession.capture(mCaptureStillBuilder.build(), captureSessionCaptureCallback, mBackgroundHandler);
             }
-        } catch (CameraAccessException e)
-        {
+        } catch (CameraAccessException e) {
             e.printStackTrace();
         }
     }
 
     protected ImageReader mImageReader;
-    protected final ImageReader.OnImageAvailableListener mOnImageAvailableListener = new ImageReader.OnImageAvailableListener()
-    {
+    protected final ImageReader.OnImageAvailableListener mOnImageAvailableListener = new ImageReader.OnImageAvailableListener() {
         @Override
-        public void onImageAvailable(ImageReader reader)
-        {
+        public void onImageAvailable(ImageReader reader) {
             ImageAvailableEvent.ImageReaderAvailable imageReaderAvailable = new ImageAvailableEvent.ImageReaderAvailable();
             imageReaderAvailable.setImageReader(reader);
             EventBus.getDefault().post(imageReaderAvailable);
@@ -504,25 +422,19 @@ public class Camera2TextureView extends BaseCamera2TextureView
     };
 
 
-
-
     //拍照，要先发锁定焦点的preview请求，待captureSessionCaptureCallback回调，进入STATE_WAITING_CAPTURE从而可以调用真的拍照请求。
-    private void lockFocus()
-    {
-        try
-        {
+    private void lockFocus() {
+        try {
             CaptureRequestFactory.setPreviewBuilderLockfocus(mPreviewRequestBuilder);
             mState = STATE_WAITING_LOCK;
             mCaptureSession.capture(mPreviewRequestBuilder.build(), captureSessionCaptureCallback, mBackgroundHandler);
-        } catch (CameraAccessException e)
-        {
+        } catch (CameraAccessException e) {
             e.printStackTrace();
         }
     }
 
     //解除焦点锁定，进入预览状态
-    public void unlockFocus()
-    {
+    public void unlockFocus() {
         try {
             if(mCaptureSession != null && mPreviewRequestBuilder != null && captureSessionCaptureCallback != null && mBackgroundHandler != null){
                 CaptureRequestFactory.setPreviewBuilderUnlockfocus(mPreviewRequestBuilder);
@@ -538,50 +450,38 @@ public class Camera2TextureView extends BaseCamera2TextureView
 
 
     @Override
-    public void closeCameraReal()
-    {
-        try
-        {
+    public void closeCameraReal() {
+        try {
             mCameraOpenCloseLock.acquire();
-            if (null != mCaptureSession)
-            {
+            if (null != mCaptureSession) {
                 mCaptureSession.close();
                 mCaptureSession = null;
             }
-            if (null != mCameraDevice)
-            {
+            if (null != mCameraDevice) {
                 mCameraDevice.close();
                 mCameraDevice = null;
             }
-        } catch (InterruptedException e)
-        {
+        } catch (InterruptedException e) {
             throw new RuntimeException("Interrupted while trying to lock camera closing.", e);
-        } finally
-        {
+        } finally {
             mCameraOpenCloseLock.release();
         }
     }
 
 
-    private int clamp(int x, int min, int max)
-    {
-        if (x < min)
-        {
+    private int clamp(int x, int min, int max) {
+        if (x < min) {
             return min;
-        } else if (x > max)
-        {
+        } else if (x > max) {
             return max;
-        } else
-        {
+        } else {
             return x;
         }
     }
 
     //根据聚焦状态显示图像
-    private void judgeFocus()
-    {
-        switch (mAfState)
-        {
+    private void judgeFocus() {
+        switch (mAfState) {
             case CameraMetadata.CONTROL_AF_STATE_INACTIVE:
                 TextureViewTouchEvent.FocusState focusState0 = new TextureViewTouchEvent.FocusState();
                 focusState0.setFocusState(Constants.FOCUS_INACTIVE);
@@ -589,6 +489,8 @@ public class Camera2TextureView extends BaseCamera2TextureView
                 break;
 
             case CameraMetadata.CONTROL_AF_STATE_PASSIVE_SCAN:
+
+            case CameraMetadata.CONTROL_AF_STATE_ACTIVE_SCAN:
                 TextureViewTouchEvent.FocusState focusState1 = new TextureViewTouchEvent.FocusState();
                 focusState1.setFocusState(Constants.FOCUS_FOCUSING);
                 EventBus.getDefault().post(focusState1);
@@ -600,12 +502,6 @@ public class Camera2TextureView extends BaseCamera2TextureView
                 EventBus.getDefault().post(focusState2);
                 break;
 
-            case CameraMetadata.CONTROL_AF_STATE_ACTIVE_SCAN:
-                TextureViewTouchEvent.FocusState focusState3 = new TextureViewTouchEvent.FocusState();
-                focusState3.setFocusState(Constants.FOCUS_FOCUSING);
-                EventBus.getDefault().post(focusState3);
-                break;
-
             case CameraMetadata.CONTROL_AF_STATE_FOCUSED_LOCKED:
                 TextureViewTouchEvent.FocusState focusState4 = new TextureViewTouchEvent.FocusState();
                 focusState4.setFocusState(Constants.FOCUS_SUCCEED);
@@ -614,15 +510,11 @@ public class Camera2TextureView extends BaseCamera2TextureView
                 break;
 
             case CameraMetadata.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED:
+
+            case CameraMetadata.CONTROL_AF_STATE_PASSIVE_UNFOCUSED:
                 TextureViewTouchEvent.FocusState focusState5 = new TextureViewTouchEvent.FocusState();
                 focusState5.setFocusState(Constants.FOCUS_FAILED);
                 EventBus.getDefault().post(focusState5);
-                break;
-
-            case CameraMetadata.CONTROL_AF_STATE_PASSIVE_UNFOCUSED:
-                TextureViewTouchEvent.FocusState focusState6 = new TextureViewTouchEvent.FocusState();
-                focusState6.setFocusState(Constants.FOCUS_FAILED);
-                EventBus.getDefault().post(focusState6);
                 break;
         }
     }

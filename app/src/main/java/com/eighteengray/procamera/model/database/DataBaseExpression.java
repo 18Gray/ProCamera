@@ -20,8 +20,7 @@ package com.eighteengray.procamera.model.database;
  c.getColumnIndex(String columnName);//返回某列名对应的列索引值
  c.getString(int columnIndex);   //返回当前行指定列的值
  */
-public class DataBaseExpression
-{
+public class DataBaseExpression {
     //数据库字段名
     public static final String IMAGEPATH = "imagepath";
 
@@ -34,12 +33,6 @@ public class DataBaseExpression
     String stu_sql="insert into stu_table(sname,snumber) values('xiaoming','01005')";
     String sql = "delete from stu_table where _id = 6";
     String sql2 = "update stu_table set snumber = 654321 where id = 1";
-
-
-
-
-
-
 
 
 

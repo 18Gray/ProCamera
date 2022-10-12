@@ -5,19 +5,16 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 
 
-public class ExplationDialogFragment extends DialogFragment
-{
+public class ExplationDialogFragment extends DialogFragment {
     private static final String PERMISSIONS = "permissions";
     private static final String REQUESTCODE = "requestCode";
 
 
-    public static ExplationDialogFragment newInstance(String[] permissions, int requestCode)
-    {
+    public static ExplationDialogFragment newInstance(String[] permissions, int requestCode) {
         ExplationDialogFragment dialog = new ExplationDialogFragment();
         Bundle args = new Bundle();
         args.putStringArray(PERMISSIONS, permissions);
@@ -28,8 +25,7 @@ public class ExplationDialogFragment extends DialogFragment
 
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState)
-    {
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
         final Fragment parent = getParentFragment();
         final String[] permissions = getArguments().getStringArray(PERMISSIONS);
         final int requestCode = getArguments().getInt(REQUESTCODE);

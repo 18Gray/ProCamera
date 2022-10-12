@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="110dp"
     android:orientation="vertical" >
@@ -51,8 +52,7 @@
         android:layout_height="30dp"
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-         >
+        android:layout_marginBottom="10dp">
 
         <!-- 饱和度 -->
         <LinearLayout

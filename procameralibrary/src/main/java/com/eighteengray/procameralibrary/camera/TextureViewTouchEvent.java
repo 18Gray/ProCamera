@@ -2,111 +2,88 @@ package com.eighteengray.procameralibrary.camera;
 
 
 
-public class TextureViewTouchEvent
-{
+public class TextureViewTouchEvent {
 
-    public static class TextureClick
-    {
+    public static class TextureClick {
         private float x, y;
         private float rawX, rawY;
 
-        public float getRawX()
-        {
+        public float getRawX() {
             return rawX;
         }
 
-        public void setRawX(float rawX)
-        {
+        public void setRawX(float rawX) {
             this.rawX = rawX;
         }
 
-        public float getRawY()
-        {
+        public float getRawY() {
             return rawY;
         }
 
-        public void setRawY(float rawY)
-        {
+        public void setRawY(float rawY) {
             this.rawY = rawY;
         }
 
-
-
-        public float getX()
-        {
+        public float getX() {
             return x;
         }
 
-        public void setX(float x)
-        {
+        public void setX(float x) {
             this.x = x;
         }
 
-        public float getY()
-        {
+        public float getY() {
             return y;
         }
 
-        public void setY(float y)
-        {
+        public void setY(float y) {
             this.y = y;
         }
     }
 
 
-    public static class TextureLongClick
-    {
+    public static class TextureLongClick {
         private float x, y;
 
-        public float getX()
-        {
+        public float getX() {
             return x;
         }
 
-        public void setX(float x)
-        {
+        public void setX(float x) {
             this.x = x;
         }
 
-        public float getY()
-        {
+        public float getY() {
             return y;
         }
 
-        public void setY(float y)
-        {
+        public void setY(float y) {
             this.y = y;
         }
     }
 
 
-    public static class TextureOneDrag
-    {
+    public static class TextureOneDrag {
         private float distance;
 
-        public float getDistance()
-        {
+        public float getDistance() {
             return distance;
         }
 
-        public void setDistance(float distance)
-        {
+        public void setDistance(float distance) {
             this.distance = distance;
         }
     }
 
 
-    public static class FocusState
-    {
+    public static class FocusState {
         private int focusState;
 
-        public int getFocusState()
-        {
+        public int getFocusState() {
             return focusState;
         }
 
-        public void setFocusState(int focusState)
-        {
+        public void setFocusState(int focusState) {
             this.focusState = focusState;
         }
     }

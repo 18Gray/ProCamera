@@ -3,12 +3,6 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
-    <com.linj.album.view.MatrixImageView
-        android:id="@+id/image"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_gravity="center" />
-
     <ImageButton
         android:id="@+id/videoicon"
         android:layout_width="80dip"

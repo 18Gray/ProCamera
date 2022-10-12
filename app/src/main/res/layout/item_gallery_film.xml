@@ -4,16 +4,14 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@android:color/transparent"
-     >
+    android:background="@android:color/transparent">
     
     
     <ImageView 
         android:id="@+id/iv_item_gallery_film"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="2dp"
-        />
+        android:layout_margin="2dp" />
     
     <TextView 
         android:id="@+id/tv_item_gallery_film"
@@ -23,7 +21,6 @@
         android:gravity="center_horizontal"
         android:layout_centerHorizontal="true"
         android:textColor="@color/text"
-        android:textSize="14sp"
-        />
+        android:textSize="14sp" />
     
 </RelativeLayout>

@@ -58,8 +58,6 @@
             android:textColor="@color/text"
             />
 
-
     </LinearLayout>
-
 
 </LinearLayout>

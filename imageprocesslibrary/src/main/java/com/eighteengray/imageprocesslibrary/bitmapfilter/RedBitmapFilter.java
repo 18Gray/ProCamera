@@ -4,11 +4,9 @@ package com.eighteengray.imageprocesslibrary.bitmapfilter;
 import android.graphics.ColorMatrix;
 
 
-public class RedBitmapFilter implements IBitmapFilter
-{
+public class RedBitmapFilter implements IBitmapFilter {
     @Override
-    public ColorMatrix createColorMatrix(int count)
-    {
+    public ColorMatrix createColorMatrix(int count) {
         float[] floats = new float[]{
                 1, 0, 0, 0, 0, //red
                 0, 0, 0, 0, 0, //green

@@ -1,55 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/primary"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary"
 >
 
-    <!-- top -->
-    <include
-        android:id="@+id/common_title"
-        layout="@layout/layout_common_title"
+    <TextView
+        android:id="@+id/tv_select_album"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="图片和视频"
+        android:textColor="@color/text"
+        android:textSize="16sp"
         />
 
-    <!-- bottom -->
-    <RelativeLayout
-        android:id="@+id/rl_bottom_album"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_common_title"
-        android:layout_alignParentBottom="true"
-        android:background="@color/primary"
-    >
-
-        <TextView
-            android:id="@+id/tv_select_album"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:text="图片和视频"
-            android:textColor="@color/text"
-            android:textSize="16sp"
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/tv_select_album"
+        android:src="@mipmap/triangle_white_24dp"
         />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/tv_select_album"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/triangle_white_24dp"
-        />
-
-    </RelativeLayout>
-
 
     <!-- middle -->
     <com.eighteengray.cardlibrary.widget.RecyclerLayout
         android:id="@+id/rl_pics_album"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/rl_bottom_album"
-        android:layout_below="@id/common_title"
+        android:layout_below="@id/tv_select_album"
         android:background="@color/text"
         app:LayoutManagerNum="3"
     />

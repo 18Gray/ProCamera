@@ -5,10 +5,36 @@
     >
 
     <!-- 顶部菜单 -->
-    <include
-        android:id="@+id/common_title"
-        layout="@layout/layout_common_title"
-        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/balance_black_24dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="title"
+            />
+
+        <ImageView
+            android:id="@+id/iv_right"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/filter_blue"
+            />
+
+    </RelativeLayout>
 
 
     <!-- 底部菜单 -->
@@ -71,9 +97,7 @@
         android:id="@+id/imageview_process"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/common_title"
         android:layout_above="@id/ll_bottommenu_image_process"
-        android:background="@color/bg_image_process"
         />
 
 </RelativeLayout>

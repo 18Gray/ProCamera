@@ -8,8 +8,7 @@ import org.greenrobot.eventbus.EventBus;
 
 
 
-public class TextureViewTouchListener implements View.OnTouchListener
-{
+public class TextureViewTouchListener implements View.OnTouchListener {
     View parentView;
     Runnable runnable_short, runnable_long; //两个延时任务，第一个时间短，代表单击事件； 第二个时间长，代表长按事件
 
@@ -28,11 +27,9 @@ public class TextureViewTouchListener implements View.OnTouchListener
     float maxChangeDistance;
 
 
-    public TextureViewTouchListener(View parent)
-    {
+    public TextureViewTouchListener(View parent) {
         this.parentView = parent;
-        runnable_short = new Runnable()
-        {
+        runnable_short = new Runnable() {
             @Override
             public void run()
             {
@@ -42,8 +39,7 @@ public class TextureViewTouchListener implements View.OnTouchListener
                 }
             }
         };
-        runnable_long = new Runnable()
-        {
+        runnable_long = new Runnable() {
             @Override
             public void run()
             {
@@ -58,12 +54,10 @@ public class TextureViewTouchListener implements View.OnTouchListener
 
 
     @Override
-    public boolean onTouch(View v, MotionEvent event)
-    {
+    public boolean onTouch(View v, MotionEvent event) {
         isMoved = false;
         isUp = false;
-        switch (event.getAction() & MotionEvent.ACTION_MASK)
-        {
+        switch (event.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
                 downX = event.getX();
                 downY = event.getY();
@@ -77,22 +71,18 @@ public class TextureViewTouchListener implements View.OnTouchListener
                 moveX = event.getX();
                 moveY = event.getY();
 
-                if(moveX != downX || moveY != downY)
-                {
+                if(moveX != downX || moveY != downY) {
                     float absX = Math.abs(moveX - downX);
                     float abxY = Math.abs(moveY - downY);
-                    if((absX - abxY > 0) && absX > touchSlop)
-                    {
+                    if((absX - abxY > 0) && absX > touchSlop) {
                         maxChangeDistance = moveX - downX;
                         isMoved = true;
                     }
-                    else if((absX - abxY < 0) && abxY > touchSlop)
-                    {
+                    else if((absX - abxY < 0) && abxY > touchSlop) {
                         maxChangeDistance = moveY - downY;
                         isMoved = true;
                     }
-                    if(isFocused)
-                    {
+                    if(isFocused) {
                         postDragEvent(maxChangeDistance);
                     }
                 }
@@ -106,11 +96,7 @@ public class TextureViewTouchListener implements View.OnTouchListener
     }
 
 
-
-
-
-    private void postClickEvent(float x, float y, float rawX, float rawY)
-    {
+    private void postClickEvent(float x, float y, float rawX, float rawY) {
         TextureViewTouchEvent.TextureClick textureClick = new TextureViewTouchEvent.TextureClick();
         textureClick.setX(x);
         textureClick.setY(y);
@@ -120,8 +106,7 @@ public class TextureViewTouchListener implements View.OnTouchListener
     }
 
 
-    private void postLongClickEvent(float x, float y)
-    {
+    private void postLongClickEvent(float x, float y) {
         TextureViewTouchEvent.TextureLongClick textureLongClick = new TextureViewTouchEvent.TextureLongClick();
         textureLongClick.setX(x);
         textureLongClick.setY(y);
@@ -129,8 +114,7 @@ public class TextureViewTouchListener implements View.OnTouchListener
     }
 
 
-    private void postDragEvent(float distance)
-    {
+    private void postDragEvent(float distance) {
         TextureViewTouchEvent.TextureOneDrag textureOneDrag = new TextureViewTouchEvent.TextureOneDrag();
         textureOneDrag.setDistance(distance);
         EventBus.getDefault().post(textureOneDrag);

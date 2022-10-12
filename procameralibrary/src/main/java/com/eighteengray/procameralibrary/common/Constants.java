@@ -3,8 +3,7 @@ package com.eighteengray.procameralibrary.common;
 
 
 
-public class Constants
-{
+public class Constants {
 	//Intent Bundle Key
 	public static final String CROPIMAGEPATH = "cropimagepath";
 	public static final String IMAGEFOLDERS = "imagefolders";

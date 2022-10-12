@@ -2,17 +2,14 @@ package com.eighteengray.procameralibrary.dataevent;
 
 
 
-public class RecordVideoEvent
-{
+public class RecordVideoEvent {
     private boolean isRecording;
 
-    public boolean isRecording()
-    {
+    public boolean isRecording() {
         return isRecording;
     }
 
-    public void setRecording(boolean recording)
-    {
+    public void setRecording(boolean recording) {
         isRecording = recording;
     }
 

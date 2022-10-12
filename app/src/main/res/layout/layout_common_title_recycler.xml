@@ -4,21 +4,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
               android:orientation="vertical"
-              android:background="@color/primary"
->
-
-    <!-- top -->
-    <include
-        android:id="@+id/common_title"
-        layout="@layout/layout_common_title"
-        />
+              android:background="@color/primary">
 
 
     <com.eighteengray.cardlibrary.widget.RecyclerLayout
         android:id="@+id/rl_settings"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/common_title"
         android:background="@color/text"
         app:LayoutManagerNum="1"
         />

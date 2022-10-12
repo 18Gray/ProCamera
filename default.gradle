@@ -1,63 +1,107 @@
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
-    buildToolsVersion rootProject.ext.android["buildToolsVersion"]
     defaultConfig {
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
         versionCode 1
         versionName "1.0"
+
+        kapt {
+            arguments {
+                arg("AROUTER_MODULE_NAME", project.getName())
+            }
+        }
+
+        multiDexEnabled true
     }
 
-    buildTypes {
-        release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    dexOptions {
+        incremental true
+    }
+
+    viewBinding{
+        enabled = true
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
         }
     }
+
+//    signingConfigs {
+//        release {
+//            storeFile file("../keystore/jetour.keystore")
+//            storePassword "makecherygreat"
+//            keyAlias "chery"
+//            keyPassword "chery+1s"
+//        }
+//    }
+
+    buildTypes {
+        debug {
+            ndk {
+                abiFilters "armeabi-v7a", "arm64-v8a"
+            }
+//            shrinkResources false
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//            signingConfig signingConfigs.release
+        }
+        release {
+            ndk {
+                abiFilters "armeabi-v7a", "arm64-v8a"
+            }
+//            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//            signingConfig signingConfigs.release
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    ndkVersion '25.1.8937393'
 
 }
 
 
 dependencies {
+    // 系统库，libs
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.github.18Gray:BaseProject:v0.4'
+    implementation 'com.github.18Gray:CommonUtils:v0.8'
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+    // kotlin扩展
+    implementation rootProject.ext.dependencies["kotlin-stdlib-jdk8"]
+    implementation rootProject.ext.dependencies["activity-ktx"]
+    implementation rootProject.ext.dependencies["lifecycle-viewmodel-ktx"]
+    implementation rootProject.ext.dependencies["lifecycle-livedata-ktx"]
+    implementation rootProject.ext.dependencies["kotlinx-coroutines-core"]
+    implementation rootProject.ext.dependencies["kotlinx-coroutines-android"]
+    implementation rootProject.ext.dependencies["navigation-fragment-ktx"]
+    implementation rootProject.ext.dependencies["navigation-ui-ktx"]
+    implementation rootProject.ext.dependencies["coroutines-android"]
+    implementation rootProject.ext.dependencies["coroutines-core"]
 
     //基础库
-    implementation rootProject.ext.dependencies["support-v4"]
-    implementation rootProject.ext.dependencies["appcompat-v7"]
-    implementation rootProject.ext.dependencies["cardview-v7"]
-    implementation rootProject.ext.dependencies["recyclerview-v7"]
-    implementation rootProject.ext.dependencies["design"]
-
-    // 组织结构库
-    implementation rootProject.ext.dependencies["butterknife"]
-    annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
-    implementation rootProject.ext.dependencies["rxjava"]
-    implementation rootProject.ext.dependencies["rxandroid"]
-    implementation rootProject.ext.dependencies["eventbus"]
-    implementation rootProject.ext.dependencies["dagger"]
-    annotationProcessor rootProject.ext.dependencies["dagger-compiler"]
-
-    //网络与数据处理库
-    implementation rootProject.ext.dependencies["retrofit"]
-    implementation rootProject.ext.dependencies["adapter-rxjava"]
-    implementation rootProject.ext.dependencies["converter-gson"]
-    implementation rootProject.ext.dependencies["gson"]
-    // 图片加载框架
-    implementation rootProject.ext.dependencies["glide"]
-    // Material Design控件库
+    implementation rootProject.ext.dependencies["appcompat"]
     implementation rootProject.ext.dependencies["material"]
-    // 动画库Transition和Lottie
-    implementation rootProject.ext.dependencies["lottie"]
-    // 第三方社交软件登陆、分享集成库
-    implementation rootProject.ext.dependencies["ShareLoginLib"]
-    // JSBridge
-    implementation rootProject.ext.dependencies["jsbridge"]
-    // 测试性能库
-    debugCompile rootProject.ext.dependencies["leakcanary-android"]
-    releaseCompile rootProject.ext.dependencies["leakcanary-android-no-op"]
-    // 权限管理
-    implementation rootProject.ext.dependencies["permission"]
-    implementation rootProject.ext.dependencies["alertdialog"]
+    implementation rootProject.ext.dependencies["coordinatorlayout"]
+    implementation rootProject.ext.dependencies["drawerlayout"]
+    implementation rootProject.ext.dependencies["swiperefreshlayout"]
+    implementation rootProject.ext.dependencies["recyclerview"]
+
 }

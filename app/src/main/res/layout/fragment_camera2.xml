@@ -3,12 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primary"
->
+    android:background="@color/primary">
 
     <!-- 下部菜单 -->
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_camera2"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         style="@style/bottomMenu"
         android:background="@color/primary"
         app:popupTheme="@style/Theme.DesignDemo"
@@ -16,8 +15,7 @@
         app:navigationIcon="@mipmap/menu_white_24dp"
         app:layout_scrollFlags="scroll|enterAlways"
         app:contentInsetStart="0dp"
-        android:layout_alignParentBottom="true"
-        >
+        android:layout_alignParentBottom="true">
 
         <!--比例调节-->
         <ImageView
@@ -26,8 +24,7 @@
             android:scaleType="center"
             android:layout_marginLeft="30dp"
             android:layout_centerVertical="true"
-            android:src="@mipmap/crop_white_24dp"
-            />
+            android:src="@mipmap/crop_white_24dp" />
 
         <!--拍照按钮-->
         <ImageView
@@ -35,8 +32,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            android:src="@drawable/btn_shutter_camera"
-            />
+            android:src="@drawable/btn_shutter_camera" />
 
         <!--进入相册-->
         <ImageView
@@ -47,22 +43,20 @@
             android:scaleType="center"
             android:layout_gravity="right"
             android:layout_marginRight="20dp"
-            android:src="@mipmap/album_white_24dp"
-            />
+            android:src="@mipmap/album_white_24dp" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:layout_marginRight="15dp"
-            >
+            android:layout_marginRight="15dp">
+
             <!--延时-->
             <ImageView
                 android:id="@+id/iv_delay_shutter"
                 style="@style/imageViewBtn"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/delay_white_24dp"
-                />
+                android:src="@mipmap/delay_white_24dp" />
 
             <!--延时时间秒数-->
             <TextView
@@ -73,23 +67,21 @@
                 android:layout_alignBottom="@id/iv_delay_shutter"
                 android:text="0"
                 android:textColor="@color/text"
-                android:textSize="14sp"
-                />
+                android:textSize="14sp" />
 
         </RelativeLayout>
 
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
 
     <!--导航抽屉-->
-    <android.support.v4.widget.DrawerLayout
+    <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawerLayout_camera2"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        android:layout_above="@id/toolbar_camera2"
-        >
+        android:layout_above="@id/toolbar">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -101,8 +93,7 @@
                 style="@style/bottomMenu"
                 android:layout_alignParentBottom="true"
                 android:paddingBottom="10dp"
-                android:paddingTop="10dp"
-                >
+                android:paddingTop="10dp">
 
                 <!--模式切换-->
                 <TextView
@@ -112,8 +103,7 @@
                     android:layout_centerInParent="true"
                     android:text="模式选择"
                     android:textColor="@color/text"
-                    android:textSize="14sp"
-                    />
+                    android:textSize="14sp" />
 
                 <!--SCENE-->
                 <TextView
@@ -125,8 +115,7 @@
                     android:layout_centerVertical="true"
                     android:textColor="@color/white"
                     android:textSize="16dp"
-                    android:text="Scene"
-                    />
+                    android:text="Scene" />
 
                 <!--gpufilter-->
                 <ImageView
@@ -136,8 +125,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="30dp"
-                    android:src="@mipmap/gpu_filter_white_24dp"
-                    />
+                    android:src="@mipmap/gpu_filter_white_24dp" />
 
             </RelativeLayout>
 
@@ -146,16 +134,14 @@
                 android:id="@+id/rl_camera_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@id/rl_middle_bottom_menu"
-                >
+                android:layout_above="@id/rl_middle_bottom_menu">
 
                 <com.eighteengray.procameralibrary.camera.Camera2TextureView
                     android:id="@+id/cameraTextureView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    />
+                    android:layout_centerHorizontal="true" />
 
             </RelativeLayout>
 
@@ -166,8 +152,7 @@
                 android:layout_height="50dp"
                 android:layout_alignBottom="@id/rl_camera_image"
                 app:LayoutManagerNum="2"
-                android:visibility="gone"
-                />
+                android:visibility="gone" />
 
             <com.eighteengray.cardlibrary.widget.RecyclerLayout
                 android:id="@+id/rl_effect"
@@ -175,23 +160,20 @@
                 android:layout_height="50dp"
                 android:layout_alignBottom="@id/rl_camera_image"
                 app:LayoutManagerNum="2"
-                android:visibility="gone"
-                />
+                android:visibility="gone" />
 
             <!--聚焦图标-->
             <com.eighteengray.procamera.widget.FocusView
                 android:id="@+id/focusview_camera2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                />
+                android:visibility="gone" />
 
             <!-- 上部菜单 -->
             <RelativeLayout
                 android:id="@+id/rl_topmenu"
                 style="@style/topMenu"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
 
                 <!--GPU滤镜已选效果-->
 
@@ -201,8 +183,7 @@
                     style="@style/imageViewBtn"
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="30dp"
-                    android:src="@mipmap/flash_auto_white_24dp"
-                    />
+                    android:src="@mipmap/flash_auto_white_24dp" />
 
                 <!--前后摄像头切换-->
                 <ImageView
@@ -210,8 +191,7 @@
                     style="@style/imageViewBtn"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="30dp"
-                    android:src="@mipmap/switch_camera_white_24dp"
-                    />
+                    android:src="@mipmap/switch_camera_white_24dp" />
 
                 <TextView
                     android:id="@+id/tv_mode_gpufileter"
@@ -236,8 +216,7 @@
                 android:layout_above="@id/rl_middle_bottom_menu"
                 android:layout_margin="30dp"
                 style="@android:style/Widget.Holo.Light.SeekBar"
-                android:thumb="@mipmap/focal_length_change_24dp"
-                />
+                android:thumb="@mipmap/focal_length_change_24dp" />
 
             <!--拍照时的遮挡区域-->
             <ImageView
@@ -246,20 +225,18 @@
                 android:layout_height="match_parent"
                 android:layout_above="@id/rl_middle_bottom_menu"
                 android:src="@color/primary_dark"
-                android:visibility="gone"
-                />
+                android:visibility="gone" />
 
         </RelativeLayout>
 
-        <android.support.design.widget.NavigationView
+        <com.google.android.material.navigation.NavigationView
             android:id="@+id/navigation"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
             app:headerLayout="@layout/navigation_header"
-            app:menu="@menu/menu_navigation"
-            />
+            app:menu="@menu/menu_navigation" />
 
-    </android.support.v4.widget.DrawerLayout>
+    </androidx.drawerlayout.widget.DrawerLayout>
 
 </RelativeLayout>

@@ -1,48 +1,46 @@
 package com.eighteengray.procamera.viewmodel;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
 import com.eighteengray.cardlibrary.viewmodel.IViewModel;
 import com.eighteengray.cardlibrary.widget.BaseRecyclerViewHolder;
-import com.eighteengray.commonutils.SharePreferenceUtils;
+import com.eighteengray.commonutillibrary.SharePreferenceUtils;
 import com.eighteengray.procamera.R;
-import com.eighteengray.procamera.bean.Settings;
+import com.eighteengray.procamera.settings.Settings;
 import com.eighteengray.procameralibrary.common.Constants;
 import com.rey.material.widget.ImageView;
 import com.rey.material.widget.Spinner;
 
+import androidx.recyclerview.widget.RecyclerView;
 
 
 /**
  * Created by lutao on 2017/3/24.
  * 设置中的图片质量这类，Spinner
  */
-public class ViewModel_5 implements IViewModel<Settings>
-{
+public class ViewModel_5 implements IViewModel<Settings> {
 
     @Override
-    public View onCreateView(LayoutInflater layoutInflater)
-    {
+    public View onCreateView(LayoutInflater layoutInflater) {
         return layoutInflater.inflate(R.layout.view_model5, null);
     }
 
     @Override
-    public void onBindView(final Context context, RecyclerView.ViewHolder holder, Settings settings, final int position)
-    {
+    public void onBindView(final Context context, RecyclerView.ViewHolder holder, Settings settings, final int position) {
         BaseRecyclerViewHolder baseRecyclerViewHolder = (BaseRecyclerViewHolder) holder;
         ImageView iv_icon_model5 = baseRecyclerViewHolder.getViewById(R.id.iv_icon_model5);
         TextView tv_view_model5 = baseRecyclerViewHolder.getViewById(R.id.tv_view_model5);
         final Spinner spinner_viewmodel5 = baseRecyclerViewHolder.getViewById(R.id.spinner_viewmodel5);
 
-        iv_icon_model5.setImageResource(settings.resourceId);
+        iv_icon_model5.setImageResource(settings.getResourceId());
 
-        tv_view_model5.setText(settings.funcName);
+        tv_view_model5.setText(settings.getFuncName());
 
-        if(settings.funcName.equals("图片质量")){
+        if(settings.getFuncName().equals("图片质量")){
             String[] items1 = new String[4];
             items1[0] = "1836p";
             items1[1] = "1152p";
@@ -70,17 +68,15 @@ public class ViewModel_5 implements IViewModel<Settings>
             }
             spinner_viewmodel5.setSelection(selectedItem);
 
-            spinner_viewmodel5.setOnItemSelectedListener(new Spinner.OnItemSelectedListener()
-            {
+            spinner_viewmodel5.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
                 @Override
-                public void onItemSelected(Spinner spinner, View view, int i, long l)
-                {
+                public void onItemSelected(Spinner spinner, View view, int i, long l) {
                     String selectedItem = (String) spinner_viewmodel5.getSelectedItem();
                     SharePreferenceUtils.getInstance(context, Constants.SETTINGS).putString(Constants.IMAGE_QUALITY, selectedItem, true);
                 }
             });
 
-        }else if(settings.funcName.equals("图片格式")){
+        } else if (settings.getFuncName().equals("图片格式")) {
             String[] items2 = new String[4];
             items2[0] = "JPG";
             items2[1] = "PNG";
@@ -92,7 +88,7 @@ public class ViewModel_5 implements IViewModel<Settings>
 
             int selectedItem = 0;
             String selected = SharePreferenceUtils.getInstance(context, Constants.SETTINGS).getString(Constants.IMAGE_FORMAT, "JPG");
-            switch (selected){
+            switch (selected) {
                 case "JPG":
                     selectedItem = 0;
                     break;
@@ -108,17 +104,15 @@ public class ViewModel_5 implements IViewModel<Settings>
             }
             spinner_viewmodel5.setSelection(selectedItem);
 
-            spinner_viewmodel5.setOnItemSelectedListener(new Spinner.OnItemSelectedListener()
-            {
+            spinner_viewmodel5.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
                 @Override
-                public void onItemSelected(Spinner spinner, View view, int i, long l)
-                {
+                public void onItemSelected(Spinner spinner, View view, int i, long l) {
                     String selectedItem = (String) spinner_viewmodel5.getSelectedItem();
                     SharePreferenceUtils.getInstance(context, Constants.SETTINGS).putString(Constants.IMAGE_FORMAT, selectedItem, true);
                 }
             });
 
-        }else if(settings.funcName.equals("签名日期")){
+        } else if (settings.getFuncName().equals("签名日期")) {
             String[] items3 = new String[4];
             items3[0] = "年-月-日 时:分:秒";
             items3[1] = "年-月-日 时:分";
@@ -130,7 +124,7 @@ public class ViewModel_5 implements IViewModel<Settings>
 
             int selectedItem = 0;
             String selected = SharePreferenceUtils.getInstance(context, Constants.SETTINGS).getString(Constants.IMAGE_SIGN_DATE, "年-月-日 时:分:秒");
-            switch (selected){
+            switch (selected) {
                 case "年-月-日 时:分:秒":
                     selectedItem = 0;
                     break;
@@ -146,16 +140,14 @@ public class ViewModel_5 implements IViewModel<Settings>
             }
             spinner_viewmodel5.setSelection(selectedItem);
 
-            spinner_viewmodel5.setOnItemSelectedListener(new Spinner.OnItemSelectedListener()
-            {
+            spinner_viewmodel5.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
                 @Override
-                public void onItemSelected(Spinner spinner, View view, int i, long l)
-                {
+                public void onItemSelected(Spinner spinner, View view, int i, long l) {
                     String selectedItem = (String) spinner_viewmodel5.getSelectedItem();
                     SharePreferenceUtils.getInstance(context, Constants.SETTINGS).putString(Constants.IMAGE_SIGN_DATE, selectedItem, true);
                 }
             });
-        }else if(settings.funcName.equals("签名字体大小")){
+        } else if (settings.getFuncName().equals("签名字体大小")) {
             String[] items3 = new String[6];
             items3[0] = "24";
             items3[1] = "22";
@@ -169,7 +161,7 @@ public class ViewModel_5 implements IViewModel<Settings>
 
             int selectedItem = 0;
             String selected = SharePreferenceUtils.getInstance(context, Constants.SETTINGS).getString(Constants.IMAGE_SIGN_TEXT_SIZE, "18");
-            switch (selected){
+            switch (selected) {
                 case "24":
                     selectedItem = 0;
                     break;
@@ -191,11 +183,9 @@ public class ViewModel_5 implements IViewModel<Settings>
             }
             spinner_viewmodel5.setSelection(selectedItem);
 
-            spinner_viewmodel5.setOnItemSelectedListener(new Spinner.OnItemSelectedListener()
-            {
+            spinner_viewmodel5.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
                 @Override
-                public void onItemSelected(Spinner spinner, View view, int i, long l)
-                {
+                public void onItemSelected(Spinner spinner, View view, int i, long l) {
                     String selectedItem = (String) spinner_viewmodel5.getSelectedItem();
                     SharePreferenceUtils.getInstance(context, Constants.SETTINGS).putString(Constants.IMAGE_SIGN_TEXT_SIZE, selectedItem, true);
                 }

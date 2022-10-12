@@ -2,15 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@android:color/transparent"
-     >
+    android:background="@android:color/transparent">
 
     <ImageView
         android:id="@+id/iv_focus_camera"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:src="@mipmap/focusing"
-    />
+        android:src="@mipmap/focusing" />
 
     <ImageView
         android:id="@+id/iv_arraw_awb"
@@ -18,7 +16,6 @@
         android:layout_height="20dp"
         android:layout_toRightOf="@id/iv_focus_camera"
         android:layout_centerVertical="true"
-        android:src="@mipmap/play_arrow_white_24dp"
-    />
+        android:src="@mipmap/play_arrow_white_24dp" />
 
 </RelativeLayout>

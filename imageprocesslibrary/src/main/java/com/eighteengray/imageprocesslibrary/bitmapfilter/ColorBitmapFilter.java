@@ -7,13 +7,10 @@ import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 
 
-
-public class ColorBitmapFilter
-{
+public class ColorBitmapFilter {
     private Bitmap mBitmap;
 
-    public ColorBitmapFilter(Bitmap bmp)
-    {
+    public ColorBitmapFilter(Bitmap bmp) {
         mBitmap = bmp;
     }
 
@@ -30,57 +27,46 @@ public class ColorBitmapFilter
     private static final int MAX_VALUE = 255;
 
 
-    public void setSaturation(int value)
-    {
+    public void setSaturation(int value) {
         mSaturationValue = value * 1.0F / MIDDLE_VALUE;
     }
 
-    public void SetHue(int value)
-    {
+    public void SetHue(int value) {
         mHueValue = (value - MIDDLE_VALUE) * 1.0F / MIDDLE_VALUE * 180;
     }
 
-    public void SetLum(int value)
-    {
+    public void SetLum(int value) {
         mLumValue = value * 1.0F / MIDDLE_VALUE;
     }
 
 
-    public Bitmap process(Bitmap bmp, int flag)
-    {
+    public Bitmap process(Bitmap bmp, int flag) {
         Bitmap bitmap = Bitmap.createBitmap(bmp.getWidth(), bmp.getHeight(),
                 Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         Paint paint = new Paint();
         paint.setAntiAlias(true);
-        if (mAllMatrix == null)
-        {
+        if (mAllMatrix == null) {
             mAllMatrix = new ColorMatrix();
         }
-        if (mSaturationMatrix == null)
-        {
+        if (mSaturationMatrix == null) {
             mSaturationMatrix = new ColorMatrix();
         }
-        if (mHueMatrix == null)
-        {
+        if (mHueMatrix == null) {
             mHueMatrix = new ColorMatrix();
         }
-        if (mLumMatrix == null)
-        {
+        if (mLumMatrix == null) {
             mLumMatrix = new ColorMatrix();
         }
-        if (flag == 0)
-        {
+        if (flag == 0) {
             mSaturationMatrix.reset();
             mSaturationMatrix.setSaturation(mSaturationValue);
-        } else if (flag == 1)
-        {
+        } else if (flag == 1) {
             mHueMatrix.reset();
             mHueMatrix.setRotate(0, mHueValue);
             mHueMatrix.setRotate(1, mHueValue);
             mHueMatrix.setRotate(2, mHueValue);
-        } else if (flag == 2)
-        {
+        } else if (flag == 2) {
             mLumMatrix.reset();
             mLumMatrix.setScale(mLumValue, mLumValue, mLumValue, 1);
         }

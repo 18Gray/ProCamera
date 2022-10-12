@@ -3,35 +3,29 @@ package com.eighteengray.procameralibrary.dataevent;
 
 import android.media.ImageReader;
 
-public class ImageAvailableEvent
-{
-    public static class ImageReaderAvailable
-    {
+
+public class ImageAvailableEvent {
+    public static class ImageReaderAvailable {
         private ImageReader imageReader;
 
-        public ImageReader getImageReader()
-        {
+        public ImageReader getImageReader() {
             return imageReader;
         }
 
-        public void setImageReader(ImageReader imageReader)
-        {
+        public void setImageReader(ImageReader imageReader) {
             this.imageReader = imageReader;
         }
     }
 
 
-    public static class ImagePathAvailable
-    {
+    public static class ImagePathAvailable {
         private String imagePath;
 
-        public String getImagePath()
-        {
+        public String getImagePath() {
             return imagePath;
         }
 
-        public void setImagePath(String imagePath)
-        {
+        public void setImagePath(String imagePath) {
             this.imagePath = imagePath;
         }
     }

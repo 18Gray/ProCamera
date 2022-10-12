@@ -12,16 +12,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:orientation="vertical"
-    >
+        android:orientation="vertical">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_gravity="center"
-            android:src="@mipmap/crop_white_24dp"
-        />
+            android:src="@mipmap/crop_white_24dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -29,8 +27,7 @@
             android:layout_gravity="center"
             android:text="normal"
             android:textColor="@color/text"
-            android:textSize="18sp"
-        />
+            android:textSize="18sp" />
 
     </LinearLayout>
 
@@ -40,16 +37,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:orientation="vertical"
-    >
+        android:orientation="vertical">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_gravity="center"
-            android:src="@mipmap/crop_white_24dp"
-        />
+            android:src="@mipmap/crop_white_24dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -57,8 +52,7 @@
             android:layout_gravity="center"
             android:text="square"
             android:textColor="@color/text"
-            android:textSize="18sp"
-        />
+            android:textSize="18sp" />
 
     </LinearLayout>
 
@@ -67,16 +61,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:orientation="vertical"
-    >
+        android:orientation="vertical">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_gravity="center"
-            android:src="@mipmap/crop_white_24dp"
-        />
+            android:src="@mipmap/crop_white_24dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -84,8 +76,7 @@
             android:layout_gravity="center"
             android:text="4:3"
             android:textColor="@color/text"
-            android:textSize="18sp"
-        />
+            android:textSize="18sp" />
 
     </LinearLayout>
 
@@ -94,16 +85,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:orientation="vertical"
-    >
+        android:orientation="vertical">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_gravity="center"
-            android:src="@mipmap/crop_white_24dp"
-        />
+            android:src="@mipmap/crop_white_24dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -111,10 +100,8 @@
             android:layout_gravity="center"
             android:text="16:9"
             android:textColor="@color/text"
-            android:textSize="18sp"
-        />
+            android:textSize="18sp" />
 
     </LinearLayout>
-
 
 </LinearLayout>

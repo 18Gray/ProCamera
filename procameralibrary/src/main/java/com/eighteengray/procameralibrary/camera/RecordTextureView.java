@@ -13,7 +13,6 @@ import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.MediaRecorder;
 import android.os.Environment;
 import android.os.SystemClock;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Size;
@@ -30,8 +29,7 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class RecordTextureView extends BaseCamera2TextureView
-{
+public class RecordTextureView extends BaseCamera2TextureView {
     private Size mVideoSize;
     private MediaRecorder mMediaRecorder;
     private String mNextVideoAbsolutePath;
@@ -43,15 +41,13 @@ public class RecordTextureView extends BaseCamera2TextureView
     private static final int SENSOR_ORIENTATION_INVERSE_DEGREES = 270;
     private static final SparseIntArray DEFAULT_ORIENTATIONS = new SparseIntArray();
     private static final SparseIntArray INVERSE_ORIENTATIONS = new SparseIntArray();
-    static
-    {
+    static {
         DEFAULT_ORIENTATIONS.append(Surface.ROTATION_0, 90);
         DEFAULT_ORIENTATIONS.append(Surface.ROTATION_90, 0);
         DEFAULT_ORIENTATIONS.append(Surface.ROTATION_180, 270);
         DEFAULT_ORIENTATIONS.append(Surface.ROTATION_270, 180);
     }
-    static
-    {
+    static {
         INVERSE_ORIENTATIONS.append(Surface.ROTATION_0, 270);
         INVERSE_ORIENTATIONS.append(Surface.ROTATION_90, 180);
         INVERSE_ORIENTATIONS.append(Surface.ROTATION_180, 90);
@@ -63,18 +59,15 @@ public class RecordTextureView extends BaseCamera2TextureView
     //  初始化方法
     //********************************************************************************************
 
-    public RecordTextureView(Context context)
-    {
+    public RecordTextureView(Context context) {
         super(context);
     }
 
-    public RecordTextureView(Context context, AttributeSet attrs)
-    {
+    public RecordTextureView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public RecordTextureView(Context context, AttributeSet attrs, int defStyle)
-    {
+    public RecordTextureView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
@@ -83,14 +76,11 @@ public class RecordTextureView extends BaseCamera2TextureView
     //******************************************************************************************
     //  public 方法，供外部调用
     //********************************************************************************************
-    public void startRecordVideo()
-    {
-        if (null == mCameraDevice || !isAvailable() || null == mPreviewSize)
-        {
+    public void startRecordVideo() {
+        if (null == mCameraDevice || !isAvailable() || null == mPreviewSize) {
             return;
         }
-        try
-        {
+        try {
             isRecording = true;
             closePreviewSession();
             configureMediaRecorder();
@@ -100,44 +90,37 @@ public class RecordTextureView extends BaseCamera2TextureView
             surfaces.add(mMediaRecorder.getSurface());
             mRecordVideoBuilder = CaptureRequestFactory.createRecordBuilder(mCameraDevice, surfaces);
             mCameraDevice.createCaptureSession(surfaces, recordSessionStateCallback, mBackgroundHandler);
-        } catch (CameraAccessException e)
-        {
+        } catch (CameraAccessException e) {
             e.printStackTrace();
         }
     }
 
-    public void stopRecordVideo()
-    {
+    public void stopRecordVideo() {
         isRecording = false;
         //EventBus发送消息，更新UI
         RecordVideoEvent recordVideoEvent = new RecordVideoEvent();
         recordVideoEvent.setRecording(false);
         EventBus.getDefault().post(recordVideoEvent);
 
-        try
-        {
+        try {
             //下面三个参数必须加，不加的话会奔溃，在mediarecorder.stop();  报错为：RuntimeException:stop failed
             mMediaRecorder.setOnErrorListener(null);
             mMediaRecorder.setOnInfoListener(null);
             mMediaRecorder.setPreviewDisplay(null);
             mMediaRecorder.stop();
             mMediaRecorder.reset();
-        } catch (IllegalStateException e)
-        {
+        } catch (IllegalStateException e) {
             Log.i("Exception", Log.getStackTraceString(e));
-        } catch (RuntimeException e)
-        {
+        } catch (RuntimeException e) {
             Log.i("Exception", Log.getStackTraceString(e));
         } catch (Exception e)
         {
             Log.i("Exception", Log.getStackTraceString(e));
         }
 
-        mMainHandler.post(new Runnable()
-        {
+        mMainHandler.post(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 Toast.makeText(context, "Video saved: " + mNextVideoAbsolutePath, Toast.LENGTH_SHORT).show();
             }
         });
@@ -145,8 +128,7 @@ public class RecordTextureView extends BaseCamera2TextureView
     }
 
     //点击事件的处理方法
-    public void setFlashMode(int flashMode) throws CameraAccessException
-    {
+    public void setFlashMode(int flashMode) throws CameraAccessException {
         CaptureRequestFactory.setPreviewBuilderFlash(mPreviewRequestBuilder, flashMode);
         updatePreview(mPreviewRequestBuilder.build(), null);
     }
@@ -157,10 +139,8 @@ public class RecordTextureView extends BaseCamera2TextureView
     //********************************************************************************************
 
     @Override
-    public void configureCamera(int width, int height, int cameraNum)
-    {
-        try
-        {
+    public void configureCamera(int width, int height, int cameraNum) {
+        try {
             mCameraId = manager.getCameraIdList()[cameraNum];
             CameraCharacteristics characteristics = manager.getCameraCharacteristics(mCameraId);
 
@@ -173,67 +153,54 @@ public class RecordTextureView extends BaseCamera2TextureView
 
             //如果屏幕旋转需要调整
             int orientation = getResources().getConfiguration().orientation;
-            if (orientation == Configuration.ORIENTATION_LANDSCAPE)
-            {
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 setAspectRatio(mPreviewSize.getHeight(), mPreviewSize.getWidth());
-            } else
-            {
+            } else {
                 setAspectRatio(mPreviewSize.getWidth(), mPreviewSize.getHeight());
             }
 
-        } catch (CameraAccessException e)
-        {
+        } catch (CameraAccessException e) {
         }
     }
 
-    private static Size chooseVideoSize(Size[] choices)
-    {
-        for (Size size : choices)
-        {
-            if (size.getWidth() == size.getHeight() * 4 / 3 && size.getWidth() <= 1080)
-            {
+    private static Size chooseVideoSize(Size[] choices) {
+        for (Size size : choices) {
+            if (size.getWidth() == size.getHeight() * 4 / 3 && size.getWidth() <= 1080) {
                 return size;
             }
         }
         return choices[choices.length - 1];
     }
 
-    private static Size chooseOptimalSize(Size[] choices, int width, int height, Size aspectRatio)
-    {
+    private static Size chooseOptimalSize(Size[] choices, int width, int height, Size aspectRatio) {
         // Collect the supported resolutions that are at least as big as the preview Surface
         List<Size> bigEnough = new ArrayList<Size>();
         int w = aspectRatio.getWidth();
         int h = aspectRatio.getHeight();
-        for (Size option : choices)
-        {
+        for (Size option : choices) {
             if (option.getHeight() == option.getWidth() * h / w &&
-                    option.getWidth() >= width && option.getHeight() >= height)
-            {
+                    option.getWidth() >= width && option.getHeight() >= height) {
                 bigEnough.add(option);
             }
         }
 
         // Pick the smallest of those, assuming we found any
-        if (bigEnough.size() > 0)
-        {
+        if (bigEnough.size() > 0) {
             return Collections.min(bigEnough, new CompareSizesByArea());
-        } else
-        {
+        } else {
             return choices[0];
         }
     }
 
     @Override
-    public void configureTransform(int width, int height)
-    {
+    public void configureTransform(int width, int height) {
         int rotation = windowManager.getDefaultDisplay().getRotation();
         final Matrix matrix = new Matrix();
         RectF viewRect = new RectF(0, 0, width, height);
         RectF bufferRect = new RectF(0, 0, mPreviewSize.getHeight(), mPreviewSize.getWidth());
         float centerX = viewRect.centerX();
         float centerY = viewRect.centerY();
-        if (Surface.ROTATION_90 == rotation || Surface.ROTATION_270 == rotation)
-        {
+        if (Surface.ROTATION_90 == rotation || Surface.ROTATION_270 == rotation) {
             bufferRect.offset(centerX - bufferRect.centerX(), centerY - bufferRect.centerY());
             matrix.setRectToRect(viewRect, bufferRect, Matrix.ScaleToFit.FILL);
             float scale = Math.max(
@@ -242,35 +209,23 @@ public class RecordTextureView extends BaseCamera2TextureView
             matrix.postScale(scale, scale, centerX, centerY);
             matrix.postRotate(90 * (rotation - 2), centerX, centerY);
         }
-        if(mMainHandler != null)
-        {
-            mMainHandler.post(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    setTransform(matrix);
-                }
-            });
+        if(mMainHandler != null) {
+            mMainHandler.post(() -> setTransform(matrix));
         }
     }
 
     @Override
-    public void createCameraPreviewSession()
-    {
-        try
-        {
+    public void createCameraPreviewSession() {
+        try {
             closePreviewSession();
             initSurface();
             mCameraDevice.createCaptureSession(Arrays.asList(surface), recordSessionStateCallback, mBackgroundHandler);
-        } catch (CameraAccessException e)
-        {
+        } catch (CameraAccessException e) {
             e.printStackTrace();
         }
     }
 
-    private void configureMediaRecorder()
-    {
+    private void configureMediaRecorder() {
         mMediaRecorder = new MediaRecorder();
         mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE);
@@ -283,8 +238,7 @@ public class RecordTextureView extends BaseCamera2TextureView
         mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
         mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
         int rotation = windowManager.getDefaultDisplay().getRotation();
-        switch (mSensorOrientation)
-        {
+        switch (mSensorOrientation) {
             case SENSOR_ORIENTATION_DEFAULT_DEGREES:
                 mMediaRecorder.setOrientationHint(DEFAULT_ORIENTATIONS.get(rotation));
                 break;
@@ -292,45 +246,36 @@ public class RecordTextureView extends BaseCamera2TextureView
                 mMediaRecorder.setOrientationHint(INVERSE_ORIENTATIONS.get(rotation));
                 break;
         }
-        try
-        {
+        try {
             mMediaRecorder.prepare();
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private String getVideoFilePath(Context context)
-    {
+    private String getVideoFilePath(Context context) {
         String picName = SystemClock.currentThreadTimeMillis() + ".mp4";
         File file = new File(getSystemPicFile(context), picName);
         return file.getAbsolutePath();
     }
 
-    public static String getSystemPicFile(Context context)
-    {
+    public static String getSystemPicFile(Context context) {
         return Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + File.separator + "DCIM" + File.separator +"Camera";
     }
 
-    CameraCaptureSession.StateCallback recordSessionStateCallback = new CameraCaptureSession.StateCallback()
-    {
+    CameraCaptureSession.StateCallback recordSessionStateCallback = new CameraCaptureSession.StateCallback() {
         @Override
-        public void onConfigured(@NonNull CameraCaptureSession cameraCaptureSession)
-        {
-            if (null == mCameraDevice)
-            {
+        public void onConfigured(CameraCaptureSession cameraCaptureSession) {
+            if (null == mCameraDevice) {
                 return;
             }
             mCaptureSession = cameraCaptureSession;
-            try
-            {
+            try {
                 mPreviewRequestBuilder = CaptureRequestFactory.createPreviewBuilder(mCameraDevice, surface);
                 CaptureRequestFactory.setPreviewBuilderRecordPreview(mPreviewRequestBuilder);
                 updatePreview(mPreviewRequestBuilder.build(), null);
 
-                if(isRecording)
-                {
+                if(isRecording) {
                     //EventBus给UI发消息，更新按钮。更新完成后，开始录像。
                     RecordVideoEvent recordVideoEvent = new RecordVideoEvent();
                     recordVideoEvent.setRecording(true);
@@ -338,40 +283,32 @@ public class RecordTextureView extends BaseCamera2TextureView
                     mMediaRecorder.start();
                 }
 
-            } catch (CameraAccessException e)
-            {
+            } catch (CameraAccessException e) {
                 e.printStackTrace();
             }
         }
 
         @Override
-        public void onConfigureFailed(@NonNull CameraCaptureSession cameraCaptureSession)
-        {
+        public void onConfigureFailed(CameraCaptureSession cameraCaptureSession) {
         }
     };
 
     @Override
-    public void closeCameraReal()
-    {
-        try
-        {
+    public void closeCameraReal() {
+        try {
             mCameraOpenCloseLock.acquire();
             closePreviewSession();
-            if (null != mCameraDevice)
-            {
+            if (null != mCameraDevice) {
                 mCameraDevice.close();
                 mCameraDevice = null;
             }
-            if (null != mMediaRecorder)
-            {
+            if (null != mMediaRecorder) {
                 mMediaRecorder.release();
                 mMediaRecorder = null;
             }
-        } catch (InterruptedException e)
-        {
+        } catch (InterruptedException e) {
             throw new RuntimeException("Interrupted while trying to lock camera closing.");
-        } finally
-        {
+        } finally {
             mCameraOpenCloseLock.release();
         }
     }

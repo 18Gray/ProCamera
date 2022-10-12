@@ -2,12 +2,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
->
+    android:layout_height="match_parent">
 
     <!-- 下部菜单 -->
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_record"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         style="@style/bottomMenu"
         android:background="@color/primary"
         app:popupTheme="@style/Theme.DesignDemo"
@@ -15,8 +14,7 @@
         app:navigationIcon="@mipmap/menu_white_24dp"
         app:layout_scrollFlags="scroll|enterAlways"
         app:contentInsetStart="0dp"
-        android:layout_alignParentBottom="true"
-        >
+        android:layout_alignParentBottom="true">
 
         <!--拍照按钮-->
         <ImageView
@@ -25,8 +23,7 @@
             android:layout_height="40dp"
             android:layout_margin="10dp"
             android:layout_gravity="center"
-            android:src="@drawable/btn_shutter_record"
-            />
+            android:src="@drawable/btn_shutter_record" />
 
         <!--进入相册-->
         <ImageView
@@ -34,21 +31,19 @@
             style="@style/imageViewBtn"
             android:layout_gravity="right"
             android:layout_marginRight="20dp"
-            android:src="@mipmap/album_white_24dp"
-            />
+            android:src="@mipmap/album_white_24dp" />
 
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
 
     <!--导航抽屉-->
-    <android.support.v4.widget.DrawerLayout
+    <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawerLayout_record"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        android:layout_above="@id/toolbar_record"
-        >
+        android:layout_above="@id/toolbar">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -60,8 +55,7 @@
                 style="@style/bottomMenu"
                 android:paddingBottom="6dp"
                 android:paddingTop="6dp"
-                android:layout_alignParentBottom="true"
-                >
+                android:layout_alignParentBottom="true">
 
                 <!--模式切换-->
                 <TextView
@@ -72,8 +66,7 @@
                     android:padding="10dp"
                     android:text="模式选择"
                     android:textColor="@color/text"
-                    android:textSize="14sp"
-                    />
+                    android:textSize="14sp" />
 
             </RelativeLayout>
 
@@ -82,8 +75,7 @@
                 android:id="@+id/recordTextureView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@id/rl_middle_bottom_menu"
-                />
+                android:layout_above="@id/rl_middle_bottom_menu" />
 
 
             <!-- 上部菜单 -->
@@ -93,8 +85,7 @@
                 android:orientation="horizontal"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="10dp"
-                >
+                android:layout_marginTop="10dp">
 
                 <!--闪光灯-->
                 <ImageView
@@ -102,8 +93,7 @@
                     style="@style/imageViewBtn"
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="30dp"
-                    android:src="@mipmap/flash_auto_white_24dp"
-                    />
+                    android:src="@mipmap/flash_auto_white_24dp" />
 
                 <!--前后摄像头切换-->
                 <ImageView
@@ -111,22 +101,20 @@
                     style="@style/imageViewBtn"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="30dp"
-                    android:src="@mipmap/switch_video_white_24dp"
-                    />
+                    android:src="@mipmap/switch_video_white_24dp" />
 
             </RelativeLayout>
 
         </RelativeLayout>
 
-        <android.support.design.widget.NavigationView
+        <com.google.android.material.navigation.NavigationView
             android:id="@+id/navigation"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
             app:headerLayout="@layout/navigation_header"
-            app:menu="@menu/menu_navigation"
-            />
+            app:menu="@menu/menu_navigation" />
 
-    </android.support.v4.widget.DrawerLayout>
+    </androidx.drawerlayout.widget.DrawerLayout>
 
 </RelativeLayout>

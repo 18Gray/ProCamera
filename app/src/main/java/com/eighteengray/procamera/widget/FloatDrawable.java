@@ -11,8 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 
-public class FloatDrawable extends Drawable
-{
+public class FloatDrawable extends Drawable {
 
     private Context mContext;
     private int offset = 50;
@@ -33,26 +32,21 @@ public class FloatDrawable extends Drawable
         mLinePaint2.setColor(Color.WHITE);
     }
 
-    public FloatDrawable(Context context)
-    {
+    public FloatDrawable(Context context) {
         super();
         this.mContext = context;
-
     }
 
-    public int getBorderWidth()
-    {
+    public int getBorderWidth() {
         return dipTopx(mContext, offset);//根据dip计算的像素值，做适配用的
     }
 
-    public int getBorderHeight()
-    {
+    public int getBorderHeight() {
         return dipTopx(mContext, offset);
     }
 
     @Override
-    public void draw(Canvas canvas)
-    {
+    public void draw(Canvas canvas) {
 
         int left = getBounds().left;
         int top = getBounds().top;
@@ -102,8 +96,7 @@ public class FloatDrawable extends Drawable
     }
 
     @Override
-    public void setBounds(Rect bounds)
-    {
+    public void setBounds(Rect bounds) {
         super.setBounds(new Rect(bounds.left - dipTopx(mContext, offset) / 2,
                 bounds.top - dipTopx(mContext, offset) / 2, bounds.right
                 + dipTopx(mContext, offset) / 2, bounds.bottom
@@ -111,25 +104,21 @@ public class FloatDrawable extends Drawable
     }
 
     @Override
-    public void setAlpha(int alpha)
-    {
+    public void setAlpha(int alpha) {
 
     }
 
     @Override
-    public void setColorFilter(ColorFilter cf)
-    {
+    public void setColorFilter(ColorFilter cf) {
 
     }
 
     @Override
-    public int getOpacity()
-    {
+    public int getOpacity() {
         return PixelFormat.UNKNOWN;
     }
 
-    public int dipTopx(Context context, float dpValue)
-    {
+    public int dipTopx(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }

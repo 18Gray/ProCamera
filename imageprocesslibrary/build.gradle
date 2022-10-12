@@ -1,36 +1,6 @@
 apply plugin: 'com.android.library'
 apply from:"../default.gradle"
-apply plugin: 'com.jakewharton.butterknife'
-
-android {
-
-    defaultConfig {
-
-        externalNativeBuild {
-            cmake {
-                arguments "-DANDROID_ARM_NEON=TRUE", "-DANDROID_TOOLCHAIN=clang", "-DCMAKE_BUILD_TYPE=Release"
-                //'-DANDROID_STL=gnustl_static'
-                cppFlags "-std=c++11", "-frtti", "-fexceptions"
-            }
-        }
-
-        ndk {
-            abiFilters "armeabi-v7a"
-        }
-
-        renderscriptTargetApi 18
-        renderscriptSupportModeEnabled true
-
-    }
-
-    externalNativeBuild {
-        cmake {
-            path "CMakeLists.txt"
-        }
-    }
-    sourceSets { main { res.srcDirs = ['src/main/res', 'src/main/res/layout'] } }
-}
 
 dependencies {
-    implementation project(':openCVLibrary345')
+    implementation project(':baseactivity')
 }

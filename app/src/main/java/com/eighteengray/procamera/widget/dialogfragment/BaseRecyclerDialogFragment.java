@@ -4,26 +4,18 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import com.eighteengray.cardlibrary.widget.RecyclerLayout;
-import com.eighteengray.procamera.R;
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import com.eighteengray.procamera.databinding.LayoutCommonRecyclerBinding;
+import androidx.fragment.app.DialogFragment;
 
 
-public class BaseRecyclerDialogFragment extends DialogFragment
-{
-    View view;
-
-    @BindView(R.id.recycler_layout)
-    public RecyclerLayout recycler_layout;
+public class BaseRecyclerDialogFragment extends DialogFragment {
+    protected LayoutCommonRecyclerBinding binding;
 
 
     @Override
@@ -33,18 +25,15 @@ public class BaseRecyclerDialogFragment extends DialogFragment
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-    {
-        view = inflater.inflate(R.layout.layout_common_recycler, null);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = LayoutCommonRecyclerBinding.inflate(inflater);
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-        ButterKnife.bind(this, view);
         showRecyclerView();
-        return view;
+        return binding.getRoot();
     }
 
     @Override
-    public void onStart()
-    {
+    public void onStart() {
         super.onStart();
         //全屏显示，设置宽度为屏宽, 靠近屏幕底部
         Dialog dialog = getDialog();
@@ -59,8 +48,7 @@ public class BaseRecyclerDialogFragment extends DialogFragment
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
-    protected void showRecyclerView(){
-
+    protected void showRecyclerView() {
     }
 
 }

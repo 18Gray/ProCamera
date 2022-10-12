@@ -16,37 +16,32 @@ import com.eighteengray.procamera.R;
 
 
 
-public class FocusView extends RelativeLayout
-{
+public class FocusView extends RelativeLayout {
     Context context;
     LayoutInflater layoutInflater;
     ImageView iv_focus_camera, iv_arraw_awb;
 
 
-    public FocusView(Context context)
-    {
+    public FocusView(Context context) {
         super(context);
         this.context = context;
         init();
     }
 
-    public FocusView(Context context, AttributeSet attrs)
-    {
+    public FocusView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
         init();
     }
 
-    public FocusView(Context context, AttributeSet attrs, int defStyleAttr)
-    {
+    public FocusView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
         init();
     }
 
 
-    private void init()
-    {
+    private void init() {
         layoutInflater = LayoutInflater.from(context);
         layoutInflater.inflate(R.layout.focusview, this);
         iv_focus_camera = (ImageView) findViewById(R.id.iv_focus_camera);
@@ -54,16 +49,13 @@ public class FocusView extends RelativeLayout
     }
 
 
-    public void showFocusing(float mRawX, float mRawY, final TextureViewTouchListener textureViewTouchListener)
-    {
+    public void showFocusing(float mRawX, float mRawY, final TextureViewTouchListener textureViewTouchListener) {
         int width = getMeasuredWidth();
         int height = getMeasuredHeight();
-        if(width == 0)
-        {
+        if(width == 0) {
             width = 168;
         }
-        if(height == 0)
-        {
+        if(height == 0) {
             height = 168;
         }
 
@@ -82,8 +74,7 @@ public class FocusView extends RelativeLayout
         ScaleAnimation scaleAnimation = new ScaleAnimation(2.0f, 1.0f, 2.0f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         scaleAnimation.setDuration(200);
         iv_focus_camera.startAnimation(scaleAnimation);
-        postDelayed(new Runnable()
-        {
+        postDelayed(new Runnable() {
             @Override
             public void run()
             {
@@ -94,17 +85,14 @@ public class FocusView extends RelativeLayout
     }
 
 
-    public void showFocusSucceed(final TextureViewTouchListener textureViewTouchListener)
-    {
+    public void showFocusSucceed(final TextureViewTouchListener textureViewTouchListener) {
         setVisibility(VISIBLE);
         iv_arraw_awb.setVisibility(VISIBLE);
         iv_focus_camera.setVisibility(View.VISIBLE);
         iv_focus_camera.setImageResource(R.mipmap.focus_succeed);
-        postDelayed(new Runnable()
-        {
+        postDelayed(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 setVisibility(GONE);
                 textureViewTouchListener.isFocused = true;
             }
@@ -112,14 +100,12 @@ public class FocusView extends RelativeLayout
     }
 
 
-    public void showFocusFailed()
-    {
+    public void showFocusFailed() {
         setVisibility(VISIBLE);
         iv_arraw_awb.setVisibility(GONE);
         iv_focus_camera.setVisibility(View.VISIBLE);
         iv_focus_camera.setImageResource(R.mipmap.focus_failed);
-        postDelayed(new Runnable()
-        {
+        postDelayed(new Runnable() {
             @Override
             public void run()
             {
@@ -129,8 +115,7 @@ public class FocusView extends RelativeLayout
     }
 
 
-    public void dragChangeAWB(float degree)
-    {
+    public void dragChangeAWB(float degree) {
         setVisibility(VISIBLE);
         iv_arraw_awb.setVisibility(VISIBLE);
         iv_focus_camera.setVisibility(View.VISIBLE);
@@ -143,18 +128,14 @@ public class FocusView extends RelativeLayout
         iv_arraw_awb.setPivotY(pivotY);
         objectAnimator.setDuration(1000);
 
-        objectAnimator.addListener(new Animator.AnimatorListener()
-        {
+        objectAnimator.addListener(new Animator.AnimatorListener() {
             @Override
-            public void onAnimationStart(Animator animation)
-            {
+            public void onAnimationStart(Animator animation) {
             }
 
             @Override
-            public void onAnimationEnd(Animator animation)
-            {
-                postDelayed(new Runnable()
-                {
+            public void onAnimationEnd(Animator animation) {
+                postDelayed(new Runnable() {
                     @Override
                     public void run()
                     {
@@ -164,13 +145,11 @@ public class FocusView extends RelativeLayout
             }
 
             @Override
-            public void onAnimationCancel(Animator animation)
-            {
+            public void onAnimationCancel(Animator animation) {
             }
 
             @Override
-            public void onAnimationRepeat(Animator animation)
-            {
+            public void onAnimationRepeat(Animator animation) {
             }
         });
 

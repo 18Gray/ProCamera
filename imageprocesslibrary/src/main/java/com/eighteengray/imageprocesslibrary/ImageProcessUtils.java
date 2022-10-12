@@ -1,6 +1,5 @@
 package com.eighteengray.imageprocesslibrary;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
@@ -15,20 +14,13 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
-import android.support.v8.renderscript.Allocation;
-import android.support.v8.renderscript.Element;
-import android.support.v8.renderscript.RenderScript;
-import android.support.v8.renderscript.ScriptIntrinsicBlur;
-import android.support.v8.renderscript.Type;
-
 import java.util.Random;
 
 
 /**
  * 图像处理相关工具类
  */
-public class ImageProcessUtils
-{
+public class ImageProcessUtils {
 
     /**
      * 图像旋转
@@ -36,8 +28,7 @@ public class ImageProcessUtils
      * @param rotateAngle  旋转角度
      * @return
      */
-    public static Bitmap bitmapRotate(Bitmap bitmap, int rotateAngle)
-    {
+    public static Bitmap bitmapRotate(Bitmap bitmap, int rotateAngle) {
         Matrix matrix = new Matrix();
         matrix.setRotate(rotateAngle, (float) bitmap.getWidth(), (float) bitmap.getHeight());
         float targetX, targetY;
@@ -71,8 +62,7 @@ public class ImageProcessUtils
      * @param pixels 圆角大小
      * @return
      */
-    public static Bitmap bitmapRoundCorner(Bitmap bitmap, int pixels)
-    {
+    public static Bitmap bitmapRoundCorner(Bitmap bitmap, int pixels) {
         Bitmap roundCornerBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Config.ARGB_8888);
         Canvas canvas = new Canvas(roundCornerBitmap);
         final int color = 0xff424242;
@@ -95,8 +85,7 @@ public class ImageProcessUtils
      * @param bitmap
      * @return
      */
-    public static Bitmap grayBitmap(Bitmap bitmap)
-    {
+    public static Bitmap grayBitmap(Bitmap bitmap) {
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
         Bitmap grayBitmap = Bitmap.createBitmap(width, height, Config.RGB_565);
@@ -399,8 +388,7 @@ public class ImageProcessUtils
         return 0;
     }
 
-    private static void transferGaussPixels(double[] src1, double[] src2,
-                                            int[] dest, int bytes, int width) {
+    private static void transferGaussPixels(double[] src1, double[] src2, int[] dest, int bytes, int width) {
         int i, j, k, b;
         int bend = bytes * width;
         double sum;
@@ -415,8 +403,7 @@ public class ImageProcessUtils
         }
     }
 
-    private static void findConstants(double[] n_p, double[] n_m, double[] d_p,
-                                      double[] d_m, double[] bd_p, double[] bd_m, double std_dev) {
+    private static void findConstants(double[] n_p, double[] n_m, double[] d_p, double[] d_m, double[] bd_p, double[] bd_m, double std_dev) {
         double div = Math.sqrt(2 * 3.141593) * std_dev;
         double x0 = -1.783 / std_dev;
         double x1 = -1.723 / std_dev;
@@ -485,8 +472,7 @@ public class ImageProcessUtils
         int[] laplacian = new int[] { -1, -1, -1, -1, 9, -1, -1, -1, -1 };
         int width = bmp.getWidth();
         int height = bmp.getHeight();
-        Bitmap bitmap = Bitmap.createBitmap(width, height,
-                Config.RGB_565);
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Config.RGB_565);
         int pixR = 0;
         int pixG = 0;
         int pixB = 0;
@@ -531,8 +517,7 @@ public class ImageProcessUtils
      * @param bmp
      * @return
      */
-    private Bitmap OldRemeberImage(Bitmap bmp)
-    {
+    private Bitmap OldRemeberImage(Bitmap bmp) {
         /*
          * 怀旧处理算法即设置新的RGB
          * R=0.393r+0.769g+0.189b
@@ -551,10 +536,8 @@ public class ImageProcessUtils
         int newB = 0;
         int[] pixels = new int[width * height];
         bmp.getPixels(pixels, 0, width, 0, 0, width, height);
-        for (int i = 0; i < height; i++)
-        {
-            for (int k = 0; k < width; k++)
-            {
+        for (int i = 0; i < height; i++) {
+            for (int k = 0; k < width; k++) {
                 pixColor = pixels[width * i + k];
                 pixR = Color.red(pixColor);
                 pixG = Color.green(pixColor);
@@ -577,8 +560,7 @@ public class ImageProcessUtils
      * @param bmp
      * @return
      */
-    private Bitmap ReliefImage(Bitmap bmp)
-    {
+    private Bitmap ReliefImage(Bitmap bmp) {
         /*
          * 算法原理：(前一个像素点RGB-当前像素点RGB+127)作为当前像素点RGB值
          * 在ABC中计算B点浮雕效果(RGB值在0~255)
@@ -598,10 +580,8 @@ public class ImageProcessUtils
         int newB = 0;
         int[] pixels = new int[width * height];
         bmp.getPixels(pixels, 0, width, 0, 0, width, height);
-        for (int i = 1; i < height-1; i++)
-        {
-            for (int k = 1; k < width-1; k++)
-            {
+        for (int i = 1; i < height-1; i++) {
+            for (int k = 1; k < width-1; k++) {
                 //获取前一个像素颜色
                 pixColor = pixels[width * i + k];
                 pixR = Color.red(pixColor);
@@ -628,8 +608,7 @@ public class ImageProcessUtils
      * @param bmp
      * @return
      */
-    private Bitmap SunshineImage(Bitmap bmp)
-    {
+    private Bitmap SunshineImage(Bitmap bmp) {
         /*
          * 算法原理：(前一个像素点RGB-当前像素点RGB+127)作为当前像素点RGB值
          * 在ABC中计算B点浮雕效果(RGB值在0~255)
@@ -655,10 +634,8 @@ public class ImageProcessUtils
         float strength = 150F;  //光照强度100-150
         int[] pixels = new int[width * height];
         bmp.getPixels(pixels, 0, width, 0, 0, width, height);
-        for (int i = 1; i < height-1; i++)
-        {
-            for (int k = 1; k < width-1; k++)
-            {
+        for (int i = 1; i < height-1; i++) {
+            for (int k = 1; k < width-1; k++) {
                 //获取前一个像素颜色
                 pixColor = pixels[width * i + k];
                 pixR = Color.red(pixColor);
@@ -669,8 +646,7 @@ public class ImageProcessUtils
                 newB = pixB;
                 //计算当前点到光照中心的距离,平面坐标系中两点之间的距离
                 int distance = (int) (Math.pow((centerY-i), 2) + Math.pow((centerX-k), 2));
-                if(distance < radius*radius)
-                {
+                if(distance < radius*radius) {
                     //按照距离大小计算增强的光照值
                     int result = (int)(strength*( 1.0-Math.sqrt(distance) / radius ));
                     newR = pixR + result;
@@ -692,8 +668,7 @@ public class ImageProcessUtils
      * @param bmp
      * @return
      */
-    private Bitmap IceImage(Bitmap bmp)
-    {
+    private Bitmap IceImage(Bitmap bmp) {
         int width = bmp.getWidth();
         int height = bmp.getHeight();
         Bitmap bitmap = Bitmap.createBitmap(width, height, Config.RGB_565);
@@ -707,10 +682,8 @@ public class ImageProcessUtils
         int newB =0;
         int[] pixels = new int[width * height];
         bmp.getPixels(pixels, 0, width, 0, 0, width, height);
-        for (int i = 0; i < height; i++)
-        {
-            for (int k = 0; k < width; k++)
-            {
+        for (int i = 0; i < height; i++) {
+            for (int k = 0; k < width; k++) {
                 //获取前一个像素颜色
                 pixColor = pixels[width * i + k];
                 pixR = Color.red(pixColor);
@@ -764,10 +737,8 @@ public class ImageProcessUtils
         int height = mBitmapSrc.getHeight();
         Matrix matrix = new Matrix();
         matrix.preScale(1, -1);
-        Bitmap reflectionImage = Bitmap.createBitmap(mBitmapSrc, 0,
-                height / 2, width, height / 2, matrix, false);
-        Bitmap bitmap = Bitmap.createBitmap(width,
-                (height + height / 2), Config.ARGB_8888);
+        Bitmap reflectionImage = Bitmap.createBitmap(mBitmapSrc, 0, height / 2, width, height / 2, matrix, false);
+        Bitmap bitmap = Bitmap.createBitmap(width, (height + height / 2), Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         canvas.drawBitmap(mBitmapSrc, 0, 0, null);
         Paint defaultPaint = new Paint();
@@ -780,8 +751,7 @@ public class ImageProcessUtils
                 Shader.TileMode.MIRROR);
         paint.setShader(shader);
         paint.setXfermode(new PorterDuffXfermode(Mode.DST_IN));
-        canvas.drawRect(0, height, width, bitmap.getHeight()
-                + reflectionGap, paint);
+        canvas.drawRect(0, height, width, bitmap.getHeight() + reflectionGap, paint);
         return bitmap;
     }
 
@@ -796,8 +766,7 @@ public class ImageProcessUtils
 
         mBitmapWidth = mBitmapSrc.getWidth();
         mBitmapHeight = mBitmapSrc.getHeight();
-        Bitmap bitmap = Bitmap.createBitmap(mBitmapWidth, mBitmapHeight,
-                Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(mBitmapWidth, mBitmapHeight, Config.ARGB_8888);
         int iPixel;
         for (int i = 0; i < mBitmapWidth; i++) {
             for (int j = 0; j < mBitmapHeight; j++) {
@@ -1182,8 +1151,7 @@ public class ImageProcessUtils
      * @param y
      * @return
      */
-    public static Bitmap watermarkWithBmp(Bitmap bitmap, Bitmap mark, int x, int y)
-    {
+    public static Bitmap watermarkWithBmp(Bitmap bitmap, Bitmap mark, int x, int y) {
         int w = bitmap.getWidth();
         int h = bitmap.getHeight();
         Bitmap newb = Bitmap.createBitmap(w, h, Config.RGB_565);
@@ -1206,8 +1174,7 @@ public class ImageProcessUtils
      * @param color
      * @return
      */
-    public static Bitmap watermarkWithText(Bitmap bitmap, String text, int x, int y, int size, int color)
-    {
+    public static Bitmap watermarkWithText(Bitmap bitmap, String text, int x, int y, int size, int color) {
         int w = bitmap.getWidth();
         int h = bitmap.getHeight();
         Bitmap newb = Bitmap.createBitmap(w, h, Config.RGB_565);
@@ -1223,51 +1190,6 @@ public class ImageProcessUtils
         cv.restore();
         return newb;
     }
-
-
-    /**
-     * RenderScript
-     * radius 模糊程度
-     */
-    public static Bitmap blurBitmap(Bitmap bitmap, float radius, Context context) {
-        //Create renderscript
-        RenderScript rs = RenderScript.create(context);
-
-        // 存放Bitmap的Allocation
-        Allocation allocation = Allocation.createFromBitmap(rs, bitmap);
-
-        Type t = allocation.getType();
-
-        // 存放处理过的图像数据的Allocation
-        Allocation blurredAllocation = Allocation.createTyped(rs, t);
-
-        //Create blur script
-        ScriptIntrinsicBlur blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
-        //Set blur radius (maximum 25.0)
-        blurScript.setRadius(radius);
-        //Set input for script
-        blurScript.setInput(allocation);
-        //Call script for output allocation开启渲染
-        blurScript.forEach(blurredAllocation);
-
-        //Copy script result into bitmap 将Allocation产品输出到Bitmap
-        blurredAllocation.copyTo(bitmap);
-
-        //Destroy everything to free memory回收资源
-        allocation.destroy();
-        blurredAllocation.destroy();
-        blurScript.destroy();
-        t.destroy();
-        rs.destroy();
-        return bitmap;
-    }
-
-
-
-
-
-
-
 
 
 }

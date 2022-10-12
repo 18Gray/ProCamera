@@ -12,15 +12,13 @@ import android.net.Uri;
 /**
  * 把处理过的图片信息存入数据库
  */
-public class ImageProcessRecordProvider extends ContentProvider
-{
+public class ImageProcessRecordProvider extends ContentProvider {
 	private ImageProcessDBHelper dbOpenHelper;
 
 	private static final UriMatcher MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
 	private static final int PERSONS = 1;
 	private static final int PERSON = 2;
-	static
-	{
+	static {
 		// 如果match()方法匹配content://cn.com.karl.personProvider/person路径，返回匹配码1
 		MATCHER.addURI("cn.com.personProvider", "person", PERSONS);
 		// 如果match()方法匹配content://cn.com.karl.personProvider/person/230路径，返回匹配码2，#号为通配符?
@@ -28,21 +26,18 @@ public class ImageProcessRecordProvider extends ContentProvider
 	}
 
 	@Override
-	public boolean onCreate()
-	{
+	public boolean onCreate() {
 		this.dbOpenHelper = new ImageProcessDBHelper(this.getContext());
 		return false;
 	}
 
 	@Override
-	public String getType(Uri uri)
-	{
+	public String getType(Uri uri) {
 		uri = Uri.parse("content://cn.scu.myprovider/user");
 		Uri resultUri = ContentUris.withAppendedId(uri, 7);
 		long personid = ContentUris.parseId(uri);
 
-		switch (MATCHER.match(uri))
-		{
+		switch (MATCHER.match(uri)) {
 			case PERSONS:
 				return "vnd.android.cursor.dir/person";
 			case PERSON:
@@ -53,12 +48,9 @@ public class ImageProcessRecordProvider extends ContentProvider
 	}
 
 	@Override
-	public Cursor query(Uri uri, String[] projection, String selection,
-			String[] selectionArgs, String sortOrder)
-	{
+	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 		SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
-		switch (MATCHER.match(uri))
-		{
+		switch (MATCHER.match(uri)) {
 		// 查询所有person信息，参数分别为：
 		// 参数table:表名称，参数columns:列名称数组，参数selection:条件字句，相当于where，参数selectionArgs:条件字句，参数数组
 		//参数groupBy:分组列，参数having:分组条件，参数orderBy:排序列，参数limit:分页查询限制，参数Cursor:返回值，相当于结果集ResultSet
@@ -99,11 +91,9 @@ public class ImageProcessRecordProvider extends ContentProvider
 	}
 
 	@Override
-	public Uri insert(Uri uri, ContentValues values)
-	{
+	public Uri insert(Uri uri, ContentValues values) {
 		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
-		switch (MATCHER.match(uri))
-		{
+		switch (MATCHER.match(uri)) {
 		case PERSONS:
 			// 第一个参数person是数据库中的表，第二个参数是指当name字段为空时，将自动插入一个NULL?
 			long rowid = db.insert("person", "name", values);
@@ -116,20 +106,17 @@ public class ImageProcessRecordProvider extends ContentProvider
 	}
 
 	@Override
-	public int delete(Uri uri, String selection, String[] selectionArgs)
-	{
+	public int delete(Uri uri, String selection, String[] selectionArgs) {
 		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
 		int count = 0;
-		switch (MATCHER.match(uri))
-		{
+		switch (MATCHER.match(uri)) {
 		case PERSONS:
 			count = db.delete("person", selection, selectionArgs);
 			return count;
 		case PERSON:
 			long id = ContentUris.parseId(uri);// 得到uri中的id
 			String where = "_id=" + id;
-			if (selection != null && !"".equals(selection))
-			{
+			if (selection != null && !"".equals(selection)) {
 				where = selection + " and " + where;
 			}
 			count = db.delete("person", where, selectionArgs);
@@ -140,13 +127,10 @@ public class ImageProcessRecordProvider extends ContentProvider
 	}
 
 	@Override
-	public int update(Uri uri, ContentValues values, String selection,
-			String[] selectionArgs)
-	{
+	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
 		int count = 0;
-		switch (MATCHER.match(uri))
-		{
+		switch (MATCHER.match(uri)) {
 		case PERSONS:
 			count = db.update("person", values, selection, selectionArgs);
 			return count;
@@ -155,8 +139,7 @@ public class ImageProcessRecordProvider extends ContentProvider
 			db.beginTransaction();
 			long id = ContentUris.parseId(uri);
 			String where = "_id=" + id;
-			if (selection != null && !"".equals(selection))
-			{
+			if (selection != null && !"".equals(selection)) {
 				where = selection + " and " + where;
 			}
 			count = db.update("person", values, where, selectionArgs);

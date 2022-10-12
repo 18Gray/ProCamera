@@ -4,29 +4,26 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Debug;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
-import com.eighteengray.procamera.fragment.Camera2Fragment;
-import com.eighteengray.procamera.fragment.RecordVideoFragment;
+import com.eighteengray.procamera.camera.Camera2Fragment;
+import com.eighteengray.procamera.camera.RecordVideoFragment;
 import com.eighteengray.procameralibrary.common.Constants;
 import com.eighteengray.procameralibrary.dataevent.ModeSelectEvent;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 
-
-public class MainActivity extends AppCompatActivity
-{
+public class MainActivity extends AppCompatActivity {
     Camera2Fragment camera2Fragment;
     RecordVideoFragment recordVideoFragment;
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Debug.startMethodTracing("ProCamera");
         //去掉status bar
@@ -49,16 +46,14 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    private void initFragment()
-    {
+    private void initFragment() {
         camera2Fragment = new Camera2Fragment();
         recordVideoFragment = new RecordVideoFragment();
         replaceFragment(camera2Fragment);
     }
 
 
-    private void replaceFragment(Fragment fragment)
-    {
+    private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.rl_aty_main, fragment);
@@ -67,8 +62,7 @@ public class MainActivity extends AppCompatActivity
 
 
     @Override
-    protected void onDestroy()
-    {
+    protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
         Debug.stopMethodTracing();
@@ -76,10 +70,8 @@ public class MainActivity extends AppCompatActivity
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onModeSwitch(ModeSelectEvent modeSelectEvent)
-    {
-        switch (modeSelectEvent.getMode())
-        {
+    public void onModeSwitch(ModeSelectEvent modeSelectEvent) {
+        switch (modeSelectEvent.getMode()) {
             case Constants.MODE_CAMERA:
                 replaceFragment(camera2Fragment);
                 break;
@@ -91,14 +83,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState)
-    {
+    protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         camera2Fragment.actionBarDrawerToggle.syncState();
     }
+
     @Override
-    public void onConfigurationChanged(Configuration newConfig)
-    {
+    public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         camera2Fragment.actionBarDrawerToggle.onConfigurationChanged(newConfig);
     }
