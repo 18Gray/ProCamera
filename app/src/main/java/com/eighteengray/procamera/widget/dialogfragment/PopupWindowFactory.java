@@ -135,7 +135,6 @@ public class PopupWindowFactory {
         return popupWindow;
     }
 
-
     // 滤镜弹出框
     public static PopupWindow createFilterPopupWindow(Context context) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
@@ -175,7 +174,6 @@ public class PopupWindowFactory {
         popupWindow.setBackgroundDrawable(new BitmapDrawable(context.getResources(), (Bitmap) null));
         return popupWindow;
     }
-
 
     //图像处理中，对比度弹出框
     public static PopupWindow createContrastPopupWindow(final Context context) {

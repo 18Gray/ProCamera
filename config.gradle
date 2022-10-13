@@ -2,16 +2,16 @@
 ext {
     android = [
             minSdkVersion : 24,
-            targetSdkVersion : 31,
-            compileSdkVersion : 31,
+            targetSdkVersion : 30,
+            compileSdkVersion : 30,
     ]
 
     dependencies = [
             //  kotlin扩展
             "kotlin-stdlib-jdk8" : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.72",
             "activity-ktx" : "androidx.activity:activity-ktx:1.3.1",
-            "lifecycle-viewmodel-ktx" : "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1",
-            "lifecycle-livedata-ktx" : "androidx.lifecycle:lifecycle-livedata-ktx:2.4.1",
+//            "lifecycle-viewmodel-ktx" : "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1",
+//            "lifecycle-livedata-ktx" : "androidx.lifecycle:lifecycle-livedata-ktx:2.4.1",
             "kotlinx-coroutines-core" : "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1",
             "kotlinx-coroutines-android" : "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1",
             "navigation-fragment-ktx" : "androidx.navigation:navigation-fragment-ktx:2.3.0",

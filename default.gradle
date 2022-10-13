@@ -87,8 +87,8 @@ dependencies {
     // kotlin扩展
     implementation rootProject.ext.dependencies["kotlin-stdlib-jdk8"]
     implementation rootProject.ext.dependencies["activity-ktx"]
-    implementation rootProject.ext.dependencies["lifecycle-viewmodel-ktx"]
-    implementation rootProject.ext.dependencies["lifecycle-livedata-ktx"]
+//    implementation rootProject.ext.dependencies["lifecycle-viewmodel-ktx"]
+//    implementation rootProject.ext.dependencies["lifecycle-livedata-ktx"]
     implementation rootProject.ext.dependencies["kotlinx-coroutines-core"]
     implementation rootProject.ext.dependencies["kotlinx-coroutines-android"]
     implementation rootProject.ext.dependencies["navigation-fragment-ktx"]

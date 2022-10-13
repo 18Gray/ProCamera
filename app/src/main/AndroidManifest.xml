@@ -30,24 +30,18 @@
 
 
     <application
-        android:name=".common.ProCameraApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:allowBackup="true"
-        android:largeHeap="true"
-        android:persistent="true"
         android:supportsRtl="true"
-        android:extractNativeLibs="false"
+        android:theme="@style/AppTheme"
         >
-
-        <meta-data android:name="com.google.ar.core" android:value="optional"/>
 
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"
+            android:exported="true"
             android:theme="@style/AppTheme"
-            android:launchMode="singleTask"
-            android:exported="true">
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -67,11 +61,11 @@
 
 <!--        <service android:name=".common.LeakUploadService"/>-->
 
-        <provider
-            android:authorities="ImageProcessProvider"
-            android:name=".model.database.ImageProcessRecordProvider"
-            android:permission="scut.carson_ho.PROVIDER"
-            android:exported="true"/>
+<!--        <provider-->
+<!--            android:authorities="ImageProcessProvider"-->
+<!--            android:name=".model.database.ImageProcessRecordProvider"-->
+<!--            android:permission="scut.carson_ho.PROVIDER"-->
+<!--            android:exported="true"/>-->
 
     </application>
 

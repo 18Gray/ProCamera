@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
+import androidx.fragment.app.Fragment
 import com.eighteengray.cardlibrary.bean.BaseDataBean
 import com.eighteengray.commonutillibrary.FileUtils
 import com.eighteengray.commonutillibrary.SDCardUtils
@@ -22,14 +23,14 @@ import com.eighteengray.procameralibrary.common.Constants
 import com.eighteengray.procameralibrary.dataevent.CameraConfigure.*
 import com.eighteengray.procameralibrary.dataevent.ImageAvailableEvent.ImagePathAvailable
 import com.eighteengray.procameralibrary.dataevent.ImageAvailableEvent.ImageReaderAvailable
-import kotlinx.android.synthetic.main.fragment_camera2.*
+import kotlinx.android.synthetic.main.layout_fragment_camera2.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.io.File
 
 
-class Camera2Fragment: BaseCameraFragment() {
+class Camera2Fragment: Fragment() {
     var mFile: File? = null
     var textureViewTouchListener: TextureViewTouchListener? = null
     var sceneArrayList: MutableList<String> = mutableListOf()
@@ -40,27 +41,21 @@ class Camera2Fragment: BaseCameraFragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var view = inflater.inflate(R.layout.fragment_camera2, null)
-
-        mFile = FileUtils.createFile(SDCardUtils.getAppFile(getActivity()).absolutePath, "saveImg")
-
-        initView()
+        mFile = FileUtils.createFile(SDCardUtils.getAppFile(activity).absolutePath, "saveImg")
 
         EventBus.getDefault().register(this)
-        return view
+        return inflater.inflate(R.layout.layout_fragment_camera2, null)
     }
 
     override fun onResume() {
         super.onResume()
-
-        cameraTextureView.openCamera()
-        textureViewTouchListener = TextureViewTouchListener(cameraTextureView)
-        cameraTextureView.setOnTouchListener(textureViewTouchListener)
+        initView()
     }
 
     private fun initView() {
         rl_scene.showRecyclerView(generateSceneData(), Constants.viewModelPackage)
         rl_effect.showRecyclerView(generateEffectData(), Constants.viewModelPackage)
+
         seekbar_camera2.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 try {
@@ -128,7 +123,7 @@ class Camera2Fragment: BaseCameraFragment() {
         iv_ratio_camera.setOnClickListener {
             val location = IntArray(2)
             iv_ratio_camera.getLocationOnScreen(location)
-            PopupWindowFactory.createRatioPopupWindow(getActivity()).showAtLocation(iv_ratio_camera, Gravity.BOTTOM, 0, toolbar.measuredHeight + 350)
+            PopupWindowFactory.createRatioPopupWindow(activity).showAtLocation(iv_ratio_camera, Gravity.BOTTOM, 0, 500)
         }
 
         iv_shutter_camera.setOnClickListener {
@@ -142,10 +137,13 @@ class Camera2Fragment: BaseCameraFragment() {
                 3 -> delayTime = 10
                 10 -> delayTime = 0
             }
-            tv_delay_second.setText(delayTime.toString() + "")
+            tv_delay_second.text = delayTime.toString() + ""
             cameraTextureView.setDalayTime((delayTime * 1000).toLong())
         }
 
+        cameraTextureView.openCamera()
+        textureViewTouchListener = TextureViewTouchListener(cameraTextureView)
+        cameraTextureView.setOnTouchListener(textureViewTouchListener)
     }
 
     private fun generateSceneData(): List<BaseDataBean<String>>? {
@@ -203,7 +201,6 @@ class Camera2Fragment: BaseCameraFragment() {
             cameraTextureView.closeCamera()
         }
         super.onPause()
-
     }
 
     override fun onDestroy() {

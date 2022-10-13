@@ -18,24 +18,20 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 
 
-public class ImageSaver implements Runnable
-{
+public class ImageSaver implements Runnable {
     private ImageReader mImageReader;
     private Context context;
 
 
-    public ImageSaver(ImageReader mImageReader, Context c)
-    {
+    public ImageSaver(ImageReader mImageReader, Context c) {
         this.mImageReader = mImageReader;
         this.context = c;
     }
 
     @Override
-    public void run()
-    {
+    public void run() {
         Image image = mImageReader.acquireLatestImage();
-        try
-        {
+        try {
             ByteBuffer buffer = image.getPlanes()[0].getBuffer();
             byte[] bytes = new byte[buffer.remaining()];
             buffer.get(bytes);
@@ -46,13 +42,10 @@ public class ImageSaver implements Runnable
             ImageAvailableEvent.ImagePathAvailable imagePathAvailable = new ImageAvailableEvent.ImagePathAvailable();
             imagePathAvailable.setImagePath(imagePath);
             EventBus.getDefault().post(imagePathAvailable);
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             e.getStackTrace();
         }
     }
-
-
 
     /**
      * 保存
@@ -60,24 +53,18 @@ public class ImageSaver implements Runnable
      * @param file
      * @throws IOException
      */
-    private void save(byte[] bytes, File file) throws IOException
-    {
+    private void save(byte[] bytes, File file) throws IOException {
         Log.i("JpegSaver", "save");
         OutputStream os = null;
-        try
-        {
+        try {
             os = new FileOutputStream(file);
             os.write(bytes);
-        } catch (FileNotFoundException e)
-        {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
-        } finally
-        {
-            if (os != null)
-            {
+        } finally {
+            if (os != null) {
                 os.close();
             }
         }

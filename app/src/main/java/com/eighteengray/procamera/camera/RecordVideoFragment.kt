@@ -6,27 +6,25 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.eighteengray.procamera.R
 import com.eighteengray.procamera.common.JumpActivityUtils
 import com.eighteengray.procamera.widget.dialogfragment.ModeSelectDialogFragment
 import com.eighteengray.procamera.widget.dialogfragment.PopupWindowFactory
 import com.eighteengray.procameralibrary.dataevent.CameraConfigure.Flash
 import com.eighteengray.procameralibrary.dataevent.RecordVideoEvent
-import kotlinx.android.synthetic.main.fragment_recordvideo.*
+import kotlinx.android.synthetic.main.layout_fragment_video.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 
-class RecordVideoFragment: BaseCameraFragment() {
+class RecordVideoFragment: Fragment() {
     private var isRecording = false
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var view = inflater.inflate(R.layout.fragment_recordvideo, null)
-
+        var view = inflater.inflate(R.layout.layout_fragment_video, null)
         initView()
-
         EventBus.getDefault().register(this)
         return view
     }
@@ -66,7 +64,6 @@ class RecordVideoFragment: BaseCameraFragment() {
         }
 
         recordTextureView.setOnClickListener {
-
         }
 
         tv_mode_select.setOnClickListener {
@@ -95,7 +92,6 @@ class RecordVideoFragment: BaseCameraFragment() {
     fun onFlashSelect(flash: Flash) {
         recordTextureView.setFlashMode(flash.flash)
     }
-
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     @Throws(CameraAccessException::class)

@@ -1,64 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Base application theme. Theme.AppCompat.Light.NoActionBar-->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primary_dark</item>
-        <item name="colorAccent">@color/accent</item>
-
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:colorPrimary">@color/primary</item>
+        <item name="android:colorPrimaryDark">@color/primary_dark</item>
+        <item name="android:colorAccent">@color/accent</item>
     </style>
-
 
     <style name="SwipeBackLayout">
         <item name="edge_size">50dip</item>
         <item name="shadow_left">@mipmap/shadow_left</item>
         <item name="shadow_right">@mipmap/shadow_right</item>
         <item name="shadow_bottom">@mipmap/shadow_bottom</item>
-    </style>
-
-    <style name="Theme.DesignDemo" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:textSize">20sp</item>
-        <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
-        <item name="android:statusBarColor">@color/primary_dark</item>
-        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
-    </style>
-
-    <!--Toolbar右边三个点图像更换-->
-    <style name="OverFlow" parent="Widget.AppCompat.ActionButton.Overflow">
-        <item name="android:src">@mipmap/album_white_24dp</item>
-    </style>
-
-    <!--添加DrawerToggle后修改左边按钮颜色-->
-    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
-        <item name="spinBars">true</item>
-        <item name="color">@android:color/white</item>
-    </style>
-
-    <!--CollapsingToolbarLayout向上收缩的字体-->
-
-    <!--CollapsingToolbarLayout向下打开的字体-->
-
-
-    <style name="topMenu">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">15dp</item>
-        <item name="android:background">@color/primary_transparent_main</item>
-    </style>
-
-
-    <style  name="bottomMenu">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/primary</item>
-    </style>
-
-    <style  name="imageViewBtn">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
     </style>
 
 </resources>
