@@ -7,15 +7,8 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
-        versionCode 1
-        versionName "1.0"
-
-        kapt {
-            arguments {
-                arg("AROUTER_MODULE_NAME", project.getName())
-            }
-        }
-
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
         multiDexEnabled true
     }
 
@@ -50,7 +43,7 @@ android {
     buildTypes {
         debug {
             ndk {
-                abiFilters "armeabi-v7a", "arm64-v8a"
+                abiFilters "armeabi-v7a", "x86"
             }
 //            shrinkResources false
             minifyEnabled false
@@ -87,14 +80,13 @@ dependencies {
     // kotlin扩展
     implementation rootProject.ext.dependencies["kotlin-stdlib-jdk8"]
     implementation rootProject.ext.dependencies["activity-ktx"]
-//    implementation rootProject.ext.dependencies["lifecycle-viewmodel-ktx"]
-//    implementation rootProject.ext.dependencies["lifecycle-livedata-ktx"]
-    implementation rootProject.ext.dependencies["kotlinx-coroutines-core"]
-    implementation rootProject.ext.dependencies["kotlinx-coroutines-android"]
+    implementation rootProject.ext.dependencies["lifecycle-viewmodel-ktx"]
+    implementation rootProject.ext.dependencies["lifecycle-livedata-ktx"]
+    implementation rootProject.ext.dependencies["lifecycle-runtime-ktx"]
     implementation rootProject.ext.dependencies["navigation-fragment-ktx"]
     implementation rootProject.ext.dependencies["navigation-ui-ktx"]
-    implementation rootProject.ext.dependencies["coroutines-android"]
-    implementation rootProject.ext.dependencies["coroutines-core"]
+    implementation rootProject.ext.dependencies["kotlinx-coroutines-core"]
+    implementation rootProject.ext.dependencies["kotlinx-coroutines-android"]
 
     //基础库
     implementation rootProject.ext.dependencies["appcompat"]

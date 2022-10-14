@@ -59,14 +59,6 @@
                   android:process=":remoteWeb"
             />
 
-<!--        <service android:name=".common.LeakUploadService"/>-->
-
-<!--        <provider-->
-<!--            android:authorities="ImageProcessProvider"-->
-<!--            android:name=".model.database.ImageProcessRecordProvider"-->
-<!--            android:permission="scut.carson_ho.PROVIDER"-->
-<!--            android:exported="true"/>-->
-
     </application>
 
 </manifest>

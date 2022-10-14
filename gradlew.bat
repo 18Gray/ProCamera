@@ -63,7 +63,7 @@ set CMD_LINE_ARGS=%*
 goto execute
 
 :4NT_args
-@rem Get arguments from the 4NT Shell from JP Software
+@rem Get arguments from the 4NT Shell
 set CMD_LINE_ARGS=%$
 
 :execute

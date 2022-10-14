@@ -5,14 +5,62 @@ apply from:"../default.gradle"
 android {
     defaultConfig {
         applicationId "com.eighteengray.procamera"
-        manifestPlaceholders = ["tencentAuthId": "tencent123456"]   // tencent+你的AppId
-        resConfigs "zh"
     }
     buildTypes {
         release {
             shrinkResources true
         }
     }
+}
+
+apply plugin: 'AndResGuard'
+andResGuard {
+    // mappingFile = file("./resource_mapping.txt")
+    mappingFile = null
+    use7zip = true
+    useSign = true
+    // 打开这个开关，会keep住所有资源的原始路径，只混淆资源的名字
+    keepRoot = false
+    // 设置这个值，会把arsc name列混淆成相同的名字，减少string常量池的大小
+    fixedResName = "arg"
+    // 打开这个开关会合并所有哈希值相同的资源，但请不要过度依赖这个功能去除去冗余资源
+    mergeDuplicatedRes = true
+    whiteList = [
+            // for your icon
+            "R.drawable.icon",
+            // for fabric
+            "R.string.com.crashlytics.*",
+            // for google-services
+            "R.string.google_app_id",
+            "R.string.gcm_defaultSenderId",
+            "R.string.default_web_client_id",
+            "R.string.ga_trackingId",
+            "R.string.firebase_database_url",
+            "R.string.google_api_key",
+            "R.string.google_crash_reporting_api_key"
+    ]
+    compressFilePattern = [
+            "*.png",
+            "*.jpg",
+            "*.jpeg",
+            "*.gif",
+            "*.webp",
+    ]
+    sevenzip {
+        artifact = 'com.tencent.mm:SevenZip:1.2.21'
+        path = "./src/main/res/"
+    }
+
+    /**
+     * 可选： 如果不设置则会默认覆盖assemble输出的apk
+     **/
+    finalApkBackupPath = "${project.rootDir}/final.apk"
+
+    /**
+     * 可选: 指定v1签名时生成jar文件的摘要算法
+     * 默认值为“SHA-1”
+     **/
+    digestalg = "SHA-256"
 }
 
 
@@ -31,14 +79,13 @@ dependencies {
 
     // Image
     implementation rootProject.ext.dependencies["glide"]
+    annotationProcessor rootProject.ext.dependencies["glide-compiler"]
 
     // IOC
     implementation rootProject.ext.dependencies["rxjava"]
     implementation rootProject.ext.dependencies["rxandroid"]
     implementation rootProject.ext.dependencies["eventbus"]
     implementation rootProject.ext.dependencies["permission"]
-    implementation rootProject.ext.dependencies["arouter-api"]
-    kapt rootProject.ext.dependencies["arouter-compiler"]
 
     // UI库
     implementation rootProject.ext.dependencies["bottom-navigation-bar"]
@@ -56,5 +103,6 @@ dependencies {
     implementation rootProject.ext.dependencies["skin-support-constraint-layout"]
 
     // 性能监控
-    implementation rootProject.ext.dependencies["leakcanary"]
+    debugImplementation rootProject.ext.dependencies["leakcanary"]
+    debugImplementation rootProject.ext.dependencies["bugly"]
 }
